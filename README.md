@@ -13,6 +13,8 @@ Attach the project
 
 Add (drag&drop) the "Tesseract-OCR-iOS" XCode Project under your project
 <br />
+Add the framework "libTesseract OCR iOS.a" to your target
+<br />
 Import UIKit with: <code>#import &lt;UIKit/UIKit.h&gt;</code>
 <br />
 Import libTesseract OCR iOS with: <code>#import &lt;Tesseract OCR iOS/Tesseract.h&gt;</code> 
