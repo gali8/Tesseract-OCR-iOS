@@ -11,13 +11,25 @@ Tesseract.h
 Usage
 =================
 
-<code>#import &lt;UIKit/UIKit.h&gt;</code>
-<br />
 Copy <strong>libTesseract OCR iOS.a</strong> and <strong>Tesseract.h</strong> under your project
 <br />
-<code>#import &lt;libTesseract OCR iOS/Tesseract.h&gt;</code>
+Import UIKit with: <code>#import &lt;UIKit/UIKit.h&gt;</code>
 <br />
-Use Tesseract like explain here: https://github.com/ldiqual/tesseract-ios
+Import libTesseract OCR iOS with: <code>#import &lt;Tesseract OCR iOS/Tesseract.h&gt;</code>
+<br />
+Use Tesseract class like explained here: https://github.com/ldiqual/tesseract-ios
+
+ex. from https://github.com/ldiqual/tesseract-ios
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+#import &lt;Tesseract OCR iOS/Tesseract.h&gt;
+
+Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>grc</strong>"];
+[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"];
+[tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]];
+[tesseract recognize];
+
+NSLog(@"%@", [tesseract recognizedText]);
+</code></pre>
 
 License
 =================
