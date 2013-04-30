@@ -11,7 +11,7 @@ Tesseract.h
 Usage
 =================
 
-<code>#import <UIKit/UIKit.h></code>
+<code>#import &gt;UIKit/UIKit.h&lt;</code>
 <br />
 Copy <strong>libTesseract OCR iOS.a</strong> and <strong>Tesseract.h</strong> under your project
 <br />
