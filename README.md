@@ -23,7 +23,7 @@ ex. from https://github.com/ldiqual/tesseract-ios
 <pre><code>#import &lt;UIKit/UIKit.h&gt;
 #import &lt;Tesseract OCR iOS/Tesseract.h&gt;
 
-Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"grc"];
+Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>grc</strong>"];
 [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"];
 [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]];
 [tesseract recognize];
