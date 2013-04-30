@@ -4,7 +4,7 @@ Tesseract OCR iOS
 Tesseract OCR iOS is a static library compiled for iOS5+, compiled also for armv7s.
 <br />
 <br />
-It's only two files:
+It will produces only two files:
 libTesseract OCR iOS.a
 Tesseract.h
 
