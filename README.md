@@ -15,7 +15,7 @@ Copy <strong>libTesseract OCR iOS.a</strong> and <strong>Tesseract.h</strong> un
 <br />
 Import UIKit with: <code>#import &lt;UIKit/UIKit.h&gt;</code>
 <br />
-Import libTesseract OCR iOS with: <code>#import &lt;libTesseract OCR iOS/Tesseract.h&gt;</code>
+Import libTesseract OCR iOS with: <code>#import &lt;Tesseract OCR iOS/Tesseract.h&gt;</code>
 <br />
 Use Tesseract class like explained here: https://github.com/ldiqual/tesseract-ios
 
