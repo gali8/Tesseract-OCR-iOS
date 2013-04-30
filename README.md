@@ -25,8 +25,7 @@ ex. from https://github.com/ldiqual/tesseract-ios
 
 Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>grc</strong>"];
 //language are used for recognition. Ex: grc. Tesseract will search for a grc.traineddata file in the dataPath directory. 
-<br />
-//grc.traineddata is already avaliable in the libTesseract OCR iOS static library.
+//grc.traineddata is already available in the libTesseract OCR iOS static library.
 
 [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"];
 [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]];
