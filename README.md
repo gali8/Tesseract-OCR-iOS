@@ -12,7 +12,7 @@ Usage
 =================
 
 <br />
-#import <UIKit/UIKit.h>
+##import <UIKit/UIKit.h>
 <br />
 Copy <strong>libTesseract OCR iOS.a</strong> and <strong>Tesseract.h</strong> under your project
 <br />
