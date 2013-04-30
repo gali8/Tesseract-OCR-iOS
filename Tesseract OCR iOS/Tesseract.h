@@ -8,7 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import <UIKit/UIKit.h> 
 
 @interface Tesseract : NSObject {    
     NSString* _dataPath;
