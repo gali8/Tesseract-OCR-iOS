@@ -20,7 +20,9 @@ Import libTesseract OCR iOS with: <code>#import &lt;Tesseract OCR iOS/Tesseract.
 Use Tesseract class like explained here: https://github.com/ldiqual/tesseract-ios
 
 ex. from https://github.com/ldiqual/tesseract-ios
-<pre><code>#import "Tesseract.h"
+<pre><code>
+#import &lt;UIKit/UIKit.h&gt;
+#import &lt;Tesseract OCR iOS/Tesseract.h&gt;
 
 Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"grc"];
 [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"];
