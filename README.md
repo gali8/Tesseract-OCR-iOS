@@ -34,6 +34,10 @@ Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:
 NSLog(@"%@", [tesseract recognizedText]);
 </code></pre>
 
+<br />
+Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr-en-variables for a complete (but not up-to-date) list.
+<br />
+For instance, use tessedit_char_whitelist to restrict characters to a specific set.
 
 License
 =================
