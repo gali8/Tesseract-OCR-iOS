@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'Tesseract OCR iOS' target in the 'Tesseract OCR iOS' project
-//
-
-#ifdef __OBJC__
-	#import <Foundation/Foundation.h>
-#endif

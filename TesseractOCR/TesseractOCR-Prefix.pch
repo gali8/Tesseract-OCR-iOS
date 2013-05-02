@@ -1,0 +1,6 @@
+//
+// Prefix header for all source files of the 'TesseractOCR' target in the 'TesseractOCR' project
+//
+
+#ifdef __OBJC__
+#endif
