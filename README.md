@@ -1,36 +1,31 @@
 Tesseract OCR iOS
 =================
 
-<h2>PLEASE WAIT I'M UNDER CONSTRUCTION!</h2>
-
-<del>
-Tesseract OCR iOS is a static library compiled for iOS5+, compiled also for armv7s.
+Tesseract OCR iOS is a Framework for iOS5+, compiled also for armv7s.
 <br />
 <br />
-It will produces only two files:
-libTesseract OCR iOS.a
-Tesseract.h
+It will help you to use OCR in a iOS project. Easy and fast.
 
 Attach the project
 =================
 
-Add (drag&drop) the "Tesseract-OCR-iOS" XCode Project under your project
+Add the framework "TesseractOCR.framework" (you can drag&drop it) from the <strong>Products</strong> folder in this repo, to your XCode Project under your project
 <br />
-Add the framework "libTesseract OCR iOS.a" to your target
+If you are masochist :) you can generate your TesseractOCR.framework building the TesseractOCRAggregate target. 
 <br />
-Import UIKit with: <code>#import &lt;UIKit/UIKit.h&gt;</code>
 <br />
-Import libTesseract OCR iOS with: <code>#import &lt;Tesseract OCR iOS/Tesseract.h&gt;</code> 
+Finally go to your project, click on the project and in the Build Settings tab add <code>-lstdc++</code> to all the "Other Linker Flags" keys.
 <br />
-Use Tesseract class like explained here: https://github.com/ldiqual/tesseract-ios
+Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
+<br />
+Now you can use Tesseract class like explained here: https://github.com/ldiqual/tesseract-ios
 
-ex. from https://github.com/ldiqual/tesseract-ios but using the <strong>"Tesseract-OCR-iOS" XCode Project</strong>
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-#import &lt;Tesseract OCR iOS/Tesseract.h&gt;
+ex. from https://github.com/ldiqual/tesseract-ios but using the <strong>"TesseractOCR.framework"</strong>
+<pre><code>#import &lt;TesseractOCR/TesseractOCR.h&gt;
 
 Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>grc</strong>"];
 //language are used for recognition. Ex: grc. Tesseract will search for a grc.traineddata file in the dataPath directory. 
-//grc.traineddata is already available in the libTesseract OCR iOS static library.
+//grc.traineddata is already available in the TesseractOCR.framework.
 
 [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"];
 [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]];
@@ -44,12 +39,15 @@ Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr
 <br />
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
 
-</del>
+Dependencies
+=================
+
+Tesseract OCR iOS use UIKit, Foundation and CoreFoundation. They are already included in standard iOS Projects.
 
 License
 =================
 
-Tesseract OCR iOS (this repo) is under MIT License.
+Tesseract OCR iOS and TesseractOCR.framework are under MIT License.
 <br />
 Tesseract-ios, powered by ldiqual https://github.com/ldiqual/tesseract-ios, is under MIT License.
 <br />
@@ -59,3 +57,8 @@ Thanks
 =================
 
 Thanks to ldiqual for the good wrapper for Tesseract.
+
+Contacts
+=================
+
+www.g8production.com
