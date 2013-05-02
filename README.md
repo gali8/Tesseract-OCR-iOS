@@ -1,6 +1,9 @@
 Tesseract OCR iOS
 =================
 
+<h2>PLEASE WAIT I'M UNDER CONSTRUCTION!</h2>
+
+<del>
 Tesseract OCR iOS is a static library compiled for iOS5+, compiled also for armv7s.
 <br />
 <br />
@@ -40,6 +43,8 @@ NSLog(@"%@", [tesseract recognizedText]);
 Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr-en-variables for a complete (but not up-to-date) list.
 <br />
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
+
+</del>
 
 License
 =================
