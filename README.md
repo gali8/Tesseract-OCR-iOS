@@ -58,7 +58,8 @@ Thanks
 
 Thanks to ldiqual for the good wrapper for Tesseract.
 
-Contacts
+Author Infos
 =================
 
-www.g8production.com
+Daniele Galiotto www.g8production.com
+
