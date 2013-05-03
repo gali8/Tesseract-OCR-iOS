@@ -1,7 +1,7 @@
 Tesseract OCR iOS
 =================
 
-Tesseract OCR iOS is a Framework for iOS5+, compiled also for armv7s.
+Tesseract OCR iOS is a Framework for iOS5+, also for armv7s.
 <br />
 <br />
 It will help you to use OCR in a iOS project. Easy and fast.
