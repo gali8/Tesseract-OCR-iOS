@@ -14,7 +14,9 @@ Add the framework "TesseractOCR.framework" (you can drag&drop it) from the <stro
 If you are masochist :) you can generate your TesseractOCR.framework building the TesseractOCRAggregate target. 
 <br />
 <br />
-Finally go to your project, click on the project and in the Build Settings tab add <code>-lstdc++</code> to all the "Other Linker Flags" keys.
+Go to your project, click on the project and in the Build Settings tab add <code>-lstdc++</code> to all the "Other Linker Flags" keys.
+<br />
+Import the <code>tessdata</code> folder under the root of your project. It contains the "tessdata" files. You can add more tessdata files copyng them here.
 <br />
 Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
 <br />
