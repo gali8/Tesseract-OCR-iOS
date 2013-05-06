@@ -173,6 +173,8 @@
 		64A02A7417307D72002B12E7 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029DD17307CED002B12E7 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64A5F304173856A7001622C1 /* equ.traineddata in CopyFiles */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
 		64A5F305173856A7001622C1 /* grc.traineddata in CopyFiles */ = {isa = PBXBuildFile; fileRef = 64A029D517307CD0002B12E7 /* grc.traineddata */; };
+		64A5F313173867FC001622C1 /* eng.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A5F311173867FC001622C1 /* eng.traineddata */; };
+		64A5F314173867FC001622C1 /* ita.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A5F312173867FC001622C1 /* ita.traineddata */; };
 		64F63F87173258890077B9CC /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D117307CD0002B12E7 /* liblept.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
@@ -348,6 +350,8 @@
 		64A029D617307CD0002B12E7 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		64A029D717307CD0002B12E7 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
 		64A029DD17307CED002B12E7 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
+		64A5F311173867FC001622C1 /* eng.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = eng.traineddata; sourceTree = "<group>"; };
+		64A5F312173867FC001622C1 /* ita.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = ita.traineddata; sourceTree = "<group>"; };
 		64F63F891732591A0077B9CC /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		64F74CCC172FD75F0068E657 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -569,6 +573,8 @@
 		64A029D417307CD0002B12E7 /* tessdata */ = {
 			isa = PBXGroup;
 			children = (
+				64A5F311173867FC001622C1 /* eng.traineddata */,
+				64A5F312173867FC001622C1 /* ita.traineddata */,
 				644EBBE417384A0B009A0759 /* equ.traineddata */,
 				64A029D517307CD0002B12E7 /* grc.traineddata */,
 			);
@@ -816,6 +822,8 @@
 				64A029DA17307CD0002B12E7 /* README.md in Resources */,
 				64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */,
 				644EBBE517384A0B009A0759 /* equ.traineddata in Resources */,
+				64A5F313173867FC001622C1 /* eng.traineddata in Resources */,
+				64A5F314173867FC001622C1 /* ita.traineddata in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
