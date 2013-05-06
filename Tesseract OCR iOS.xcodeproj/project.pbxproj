@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		644EBBE517384A0B009A0759 /* equ.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
 		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
 		64A029DA17307CD0002B12E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D317307CD0002B12E7 /* README.md */; };
 		64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D517307CD0002B12E7 /* grc.traineddata */; };
@@ -170,11 +171,28 @@
 		64A02A7217307D66002B12E7 /* werdit.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CF17307CD0002B12E7 /* werdit.h */; settings = {ATTRIBUTES = (); }; };
 		64A02A7317307D70002B12E7 /* Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64A02A7417307D72002B12E7 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029DD17307CED002B12E7 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		64A5F304173856A7001622C1 /* equ.traineddata in CopyFiles */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
+		64A5F305173856A7001622C1 /* grc.traineddata in CopyFiles */ = {isa = PBXBuildFile; fileRef = 64A029D517307CD0002B12E7 /* grc.traineddata */; };
 		64F63F87173258890077B9CC /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D117307CD0002B12E7 /* liblept.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		64A5F30317385698001622C1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				64A5F304173856A7001622C1 /* equ.traineddata in CopyFiles */,
+				64A5F305173856A7001622C1 /* grc.traineddata in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		644EBBE417384A0B009A0759 /* equ.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = equ.traineddata; sourceTree = "<group>"; };
 		64A0292C17307C1D002B12E7 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A0292D17307C1D002B12E7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64A0293117307C1D002B12E7 /* TesseractOCR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesseractOCR-Info.plist"; sourceTree = "<group>"; };
@@ -551,6 +569,7 @@
 		64A029D417307CD0002B12E7 /* tessdata */ = {
 			isa = PBXGroup;
 			children = (
+				644EBBE417384A0B009A0759 /* equ.traineddata */,
 				64A029D517307CD0002B12E7 /* grc.traineddata */,
 			);
 			path = tessdata;
@@ -750,6 +769,7 @@
 				64A029E317307D38002B12E7 /* Headers */,
 				64A0292917307C1C002B12E7 /* Frameworks */,
 				64A0292A17307C1C002B12E7 /* Resources */,
+				64A5F30317385698001622C1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -795,6 +815,7 @@
 				64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */,
 				64A029DA17307CD0002B12E7 /* README.md in Resources */,
 				64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */,
+				644EBBE517384A0B009A0759 /* equ.traineddata in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

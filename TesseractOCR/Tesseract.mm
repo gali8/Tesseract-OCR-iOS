@@ -14,12 +14,12 @@
 #import "pix.h"
 
 namespace tesseract {
-    class TessBaseAPI;
+	class TessBaseAPI;
 };
 
 @interface Tesseract () {
-    tesseract::TessBaseAPI* _tesseract;
-    uint32_t* _pixels;
+	tesseract::TessBaseAPI* _tesseract;
+	uint32_t* _pixels;
 }
 
 @end
@@ -27,126 +27,145 @@ namespace tesseract {
 @implementation Tesseract
 
 + (NSString *)version {
-    return [NSString stringWithFormat:@"%s", tesseract::TessBaseAPI::Version()];
+	return [NSString stringWithFormat:@"%s", tesseract::TessBaseAPI::Version()];
 }
 
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language {
-    self = [super init];
-    if (self) {
-        _dataPath = dataPath;
-        _language = language;
-        _variables = [[NSMutableDictionary alloc] init];
-        
-        [self copyDataToDocumentsDirectory];
-        _tesseract = new tesseract::TessBaseAPI();
-        
-        BOOL success = [self initEngine];
-        if (!success) {
-            return NO;
-        }
-    }
-    return self;
+	self = [super init];
+	if (self) {
+		_dataPath = dataPath;
+		_language = language;
+		_variables = [[NSMutableDictionary alloc] init];
+		
+		[self copyDataToDocumentsDirectory];
+		_tesseract = new tesseract::TessBaseAPI();
+		
+		BOOL success = [self initEngine];
+		if (!success) {
+			return NO;
+		}
+	}
+	return self;
 }
 
 - (BOOL)initEngine {
-    int returnCode = _tesseract->Init([_dataPath UTF8String], [_language UTF8String]);
-    return (returnCode == 0) ? YES : NO;
+	int returnCode = _tesseract->Init([_dataPath UTF8String], [_language UTF8String]);
+	return (returnCode == 0) ? YES : NO;
 }
 
 - (void)copyDataToDocumentsDirectory {
-    
-    // Useful paths
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentPath = ([documentPaths count] > 0) ? [documentPaths objectAtIndex:0] : nil;
-    NSString *dataPath = [documentPath stringByAppendingPathComponent:_dataPath];
-    
-    // Copy data in Doc Directory
-    if (![fileManager fileExistsAtPath:dataPath]) {
-        NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-        NSString *tessdataPath = [bundlePath stringByAppendingPathComponent:_dataPath];
-        if (tessdataPath) {
-            [fileManager createDirectoryAtPath:documentPath withIntermediateDirectories:YES attributes:nil error:NULL];
-            [fileManager copyItemAtPath:tessdataPath toPath:dataPath error:nil];
-        }
-    }
-    
-    setenv("TESSDATA_PREFIX", [[documentPath stringByAppendingString:@"/"] UTF8String], 1);
+	
+	// Useful paths
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentPath = ([documentPaths count] > 0) ? [documentPaths objectAtIndex:0] : nil;
+	NSString *dataPath = [documentPath stringByAppendingPathComponent:_dataPath];
+	
+	//	NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"grc" ofType:@"traineddata"];
+	//
+	NSLog(@"DATAPATH %@", dataPath);
+	
+	// Copy data in Doc Directory
+	if (![fileManager fileExistsAtPath:dataPath])
+	{
+		[fileManager createDirectoryAtPath:dataPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	}
+
+	NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+	NSString *tessdataPath = [bundle pathForResource:_language ofType:@"traineddata"];
+
+	NSString *destinationPath = [dataPath stringByAppendingPathComponent:[tessdataPath lastPathComponent]];
+
+	if(![fileManager fileExistsAtPath:destinationPath])
+	{
+		if (tessdataPath)
+		{
+			NSError *error = nil;
+			NSLog(@"trovato a %@", tessdataPath);
+			NSLog(@"lo copio in %@", destinationPath);
+			[fileManager copyItemAtPath:tessdataPath toPath:destinationPath error:&error];
+			
+			if(error)
+				NSLog(@"ERRORE! %@", error.description);
+		}
+	}
+	
+	setenv("TESSDATA_PREFIX", [[documentPath stringByAppendingString:@"/"] UTF8String], 1);
 }
 
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key {
-    /*
-     * Example:
-     * _tesseract->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-     * _tesseract->SetVariable("language_model_penalty_non_freq_dict_word", "0");
-     * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
-     */
-    
-    [_variables setValue:value forKey:key];
-    _tesseract->SetVariable([key UTF8String], [value UTF8String]);
+	/*
+	 * Example:
+	 * _tesseract->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	 * _tesseract->SetVariable("language_model_penalty_non_freq_dict_word", "0");
+	 * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
+	 */
+	
+	[_variables setValue:value forKey:key];
+	_tesseract->SetVariable([key UTF8String], [value UTF8String]);
 }
 
 - (void)loadVariables {
-    for (NSString* key in _variables) {
-        NSString* value = [_variables objectForKey:key];
-        _tesseract->SetVariable([key UTF8String], [value UTF8String]);
-    }
+	for (NSString* key in _variables) {
+		NSString* value = [_variables objectForKey:key];
+		_tesseract->SetVariable([key UTF8String], [value UTF8String]);
+	}
 }
 
 - (BOOL)setLanguage:(NSString *)language {
-    _language = language;
-    int returnCode = [self initEngine];
-    if (returnCode != 0) return NO;
-    
-    /*
-     * "WARNING: On changing languages, all Tesseract parameters
-     * are reset back to their default values."
-     */
-    [self loadVariables];
-    return YES;
+	_language = language;
+	int returnCode = [self initEngine];
+	if (returnCode != 0) return NO;
+	
+	/*
+	 * "WARNING: On changing languages, all Tesseract parameters
+	 * are reset back to their default values."
+	 */
+	[self loadVariables];
+	return YES;
 }
 
 - (BOOL)recognize {
-    int returnCode = _tesseract->Recognize(NULL);
-    return (returnCode == 0) ? YES : NO;
+	int returnCode = _tesseract->Recognize(NULL);
+	return (returnCode == 0) ? YES : NO;
 }
 
 - (NSString *)recognizedText {
-    char* utf8Text = _tesseract->GetUTF8Text();
-    return [NSString stringWithUTF8String:utf8Text];
+	char* utf8Text = _tesseract->GetUTF8Text();
+	return [NSString stringWithUTF8String:utf8Text];
 }
 
 - (void)setImage:(UIImage *)image
 {
-    free(_pixels);
-    
-    CGSize size = [image size];
-    int width = size.width;
-    int height = size.height;
+	free(_pixels);
+	
+	CGSize size = [image size];
+	int width = size.width;
+	int height = size.height;
 	
 	if (width <= 0 || height <= 0) {
 		return;
-    }
+	}
 	
-    _pixels = (uint32_t *) malloc(width * height * sizeof(uint32_t));
-    
-    // Clear the pixels so any transparency is preserved
-    memset(_pixels, 0, width * height * sizeof(uint32_t));
+	_pixels = (uint32_t *) malloc(width * height * sizeof(uint32_t));
 	
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	// Clear the pixels so any transparency is preserved
+	memset(_pixels, 0, width * height * sizeof(uint32_t));
 	
-    // Create a context with RGBA _pixels
-    CGContextRef context = CGBitmapContextCreate(_pixels, width, height, 8, width * sizeof(uint32_t), colorSpace,
-                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	
-    // Paint the bitmap to our context which will fill in the _pixels array
-    CGContextDrawImage(context, CGRectMake(0, 0, width, height), [image CGImage]);
+	// Create a context with RGBA _pixels
+	CGContextRef context = CGBitmapContextCreate(_pixels, width, height, 8, width * sizeof(uint32_t), colorSpace,
+								   kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
+	
+	// Paint the bitmap to our context which will fill in the _pixels array
+	CGContextDrawImage(context, CGRectMake(0, 0, width, height), [image CGImage]);
 	
 	// We're done with the context and color space
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    
-    _tesseract->SetImage((const unsigned char *) _pixels, width, height, sizeof(uint32_t), width * sizeof(uint32_t));
+	CGContextRelease(context);
+	CGColorSpaceRelease(colorSpace);
+	
+	_tesseract->SetImage((const unsigned char *) _pixels, width, height, sizeof(uint32_t), width * sizeof(uint32_t));
 }
 
 @end
