@@ -25,12 +25,12 @@ Now you can use Tesseract class like explained here: https://github.com/ldiqual/
 ex. from https://github.com/ldiqual/tesseract-ios but using the <strong>"TesseractOCR.framework"</strong>
 <pre><code>#import &lt;TesseractOCR/TesseractOCR.h&gt;
 
-Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>grc</strong>"];
-//language are used for recognition. Ex: grc. Tesseract will search for a grc.traineddata file in the dataPath directory. 
-//grc.traineddata is already available in the TesseractOCR.framework.
+Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>eng</strong>"];
+//language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory. 
+//eng.traineddata is in your "tessdata" folder.
 
-[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"];
-[tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]];
+[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
+[tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
 [tesseract recognize];
 
 NSLog(@"%@", [tesseract recognizedText]);
