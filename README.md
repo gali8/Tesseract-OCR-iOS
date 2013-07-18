@@ -16,6 +16,8 @@ If you are masochist :) you can generate your TesseractOCR.framework building th
 <br />
 Go to your project, click on the project and in the Build Settings tab add <code>-lstdc++</code> to all the "Other Linker Flags" keys.
 <br />
+Go to your project settings, and ensure that C++ Standard Library => Compiler Default. (thanks to https://github.com/trein)
+<br />
 Import the <code>tessdata</code> folder under the root of your project. It contains the "tessdata" files. You can add more tessdata files copyng them here.
 <br />
 Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
