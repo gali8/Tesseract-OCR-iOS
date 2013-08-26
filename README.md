@@ -43,6 +43,11 @@ Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr
 <br />
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
 
+<br />
+<strong>updates in version 1.1</strong>
+<pre><code>[myTesseract tesseract]; //get tesseract instance</code></pre>
+<pre><code>[myTesseract clear]; //will call Clear() function</code></pre>
+
 Dependencies
 =================
 
