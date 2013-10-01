@@ -42,7 +42,16 @@ NSLog(@"%@", [tesseract recognizedText]);
 Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr-en-variables for a complete (but not up-to-date) list.
 <br />
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
-
+<br />
+<br />
+<strong>updates in version 1.2</strong>
+<br />
+XCode 5 ready!
+<br />
+Framework builded with the new Xcode 5.
+<br />
+If you use the new framework, use it in a clean project. There is a issue between tesseract and XCode5 (baseapi.h not founded). I will resolve in few days!
+<br />
 <br />
 <strong>updates in version 1.1</strong>
 
