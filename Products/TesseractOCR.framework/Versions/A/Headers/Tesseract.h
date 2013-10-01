@@ -10,10 +10,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h> 
 
-#import "baseapi.h"
-#import "environ.h"
-#import "pix.h"
-
 @interface Tesseract : NSObject {    
     NSString* _dataPath;
     NSString* _language;
@@ -29,7 +25,6 @@
 - (BOOL)recognize;
 - (NSString *)recognizedText;
 
-- (tesseract::TessBaseAPI* )tesseract;
 - (void)clear;
 
 @end
