@@ -1,4 +1,4 @@
-Tesseract OCR iOS 1.3 (XCode5 ready)
+Tesseract OCR iOS 1.31 (XCode5 ready)
 =================
 
 Tesseract OCR iOS is a Framework for iOS5+, also for armv7s.
