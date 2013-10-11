@@ -171,6 +171,7 @@ namespace tesseract {
 -(void)clear
 {
 	_tesseract->Clear();
+	_tesseract->End();
 }
 
 @end
