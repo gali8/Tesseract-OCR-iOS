@@ -1,80 +1,106 @@
-Tesseract OCR iOS 1.31 (XCode5 ready)
+Tesseract for iOS
 =================
 
-Tesseract OCR iOS is a Framework for iOS5+, also for armv7s.
-<br />
-<br />
-It will help you to use OCR in a iOS project. Easy and fast.
 
-Attach the project
-=================
+About
+-----
 
-Add the framework "TesseractOCR.framework" (you can drag&drop it) from the <strong>Products</strong> folder in this repo, to your XCode Project under your project
-<br />
-If you are masochist :) you can generate your TesseractOCR.framework building the TesseractOCRAggregate target. 
-<br />
-<br />
-Go to your project, click on the project and in the Build Settings tab add <code>-lstdc++</code> to all the "Other Linker Flags" keys.
-<br />
-Go to your project settings, and ensure that C++ Standard Library => Compiler Default. (thanks to https://github.com/trein)
-<br />
-Import the <code>tessdata</code> folder under the root of your project. It contains the "tessdata" files. You can add more tessdata files copyng them here.
-<br />
-Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
-<br />
-Now you can use Tesseract class like explained here: https://github.com/ldiqual/tesseract-ios
+Tesseract-ios is an Objective-C wrapper for [Tesseract OCR](http://code.google.com/p/tesseract-ocr/).
 
-ex. from https://github.com/ldiqual/tesseract-ios but using the <strong>"TesseractOCR.framework"</strong>
-<pre><code>#import &lt;TesseractOCR/TesseractOCR.h&gt;
+This project couldn't exist without the [Ângelo Suzuki's blog post](http://tinsuke.wordpress.com/2011/11/01/how-to-compile-and-use-tesseract-3-01-on-ios-sdk-5/). A lot of code came from his article.
 
-Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>eng</strong>"];
-//language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory. 
-//eng.traineddata is in your "tessdata" folder.
 
-[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
-[tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
-[tesseract recognize];
+Requirements
+------------
 
-NSLog(@"%@", [tesseract recognizedText]);
-</code></pre>
+ - iOS SDK 6.0, iOS 5.0+ (there is no support for armv6)
+ - Tesseract and Leptonica libraries from the [tesseract-ios-lib](https://github.com/ldiqual/tesseract-ios-lib) repo.
+ 
 
-<br />
-Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr-en-variables for a complete (but not up-to-date) list.
-<br />
-For instance, use tessedit_char_whitelist to restrict characters to a specific set.
-<br />
-<br />
-<strong>updates in version 1.31</strong>  (11 october 2013, up to date with last https://github.com/ldiqual/tesseract-ios)
-<br />
-<br />
-XCode 5 ready!
-<br />
-Framework builded with the new Xcode 5.
-<br />
-<br />
-<pre><code>[tesseract clear]; //call Clear() end End() functions</code></pre>
+Installation
+------------
 
-Dependencies
-=================
+ - Download [tesseract-ios-lib](https://github.com/ldiqual/tesseract-ios-lib) and put it somewhere in your project.
+ - Put the `Classes` content (from this repo) somewhere in your project.
+ - Go to your project settings, and ensure that `C++ Standard Library => Compiler Default`.
+ 
 
-Tesseract OCR iOS use UIKit, Foundation and CoreFoundation. They are already included in standard iOS Projects.
+Usage
+-----
 
-License
-=================
+Here is the default workflow to extract text from an image:
 
-Tesseract OCR iOS and TesseractOCR.framework are under MIT License.
-<br />
-Tesseract-ios, powered by ldiqual https://github.com/ldiqual/tesseract-ios, is under MIT License.
-<br />
-Tesseract, powered by Google http://code.google.com/p/tesseract-ocr/, is under Apache License.
+ - Instantiate Tesseract with data path and language
+ - Set variables (character set, …)
+ - Set the image to analyze
+ - Start recognition
+ - Get recognized text
+ - Clear
+ 
+ 
+Code Sample
+-----------
 
-Thanks
-=================
+    #import "Tesseract.h"
+    
+    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
+    [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"];
+    [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]];
+    [tesseract recognize];
+    
+    NSLog(@"%@", [tesseract recognizedText]);
+    [tesseract clear];
+ 
+ 
+Method reference
+----------------
 
-Thanks to ldiqual for the good wrapper for Tesseract.
+### -initWithDataPath:language: ###
 
-Author Infos
-=================
+`- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language`
 
-Daniele Galiotto www.g8production.com
+Initialize a new `Tesseract` instance.
 
+ - `dataPath`: a relative path from the application bundle to the `.traineddata` files. You can find these files from [the tesseract downloads section](http://code.google.com/p/tesseract-ocr/downloads/list).
+ - `language`: language used for recognition. Ex: `eng`. Tesseract will search for a `eng.traineddata` file in the `dataPath` directory.
+ 
+Returns `nil` if instanciation failed.
+ 
+
+### -setVariableValue:forKey: ###
+
+`- (void)setVariableValue:(NSString *)value forKey:(NSString *)key`
+
+Set Tesseract variable `key` to `value`. See <http://www.sk-spell.sk.cx/tesseract-ocr-en-variables> for a complete (but not up-to-date) list.
+
+For instance, use `tessedit_char_whitelist` to restrict characters to a specific set.
+
+### -setImage: ###
+
+`- (void)setImage:(UIImage *)image`
+
+Set the image to recognize.
+
+### -setLanguage: ###
+
+`- (BOOL)setLanguage:(NSString *)language`
+
+Override the language defined with `-initWithDataPath:language:`.
+
+### -recognize ###
+
+`- (BOOL)recognize`
+
+Start text recognition. You might want to launch this process in background with `NSObject`'s `-performSelectorInBackground:withObject:`. 
+
+### -recognizedText ###
+
+`- (NSString *)recognizedText`
+
+Get the text extracted from the image.
+
+### -clear ###
+
+`- (void) clear`
+
+Clears Tesseract object after text has been recognized from image. Preventing memory leaks.

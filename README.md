@@ -1,4 +1,4 @@
-Tesseract OCR iOS 1.3 (XCode5 ready)
+Tesseract OCR iOS 1.31 (XCode5 ready)
 =================
 
 Tesseract OCR iOS is a Framework for iOS5+, also for armv7s.
@@ -44,18 +44,15 @@ Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
 <br />
 <br />
-<strong>updates in version 1.3</strong>
+<strong>updates in version 1.31</strong>  (11 october 2013, up to date with last https://github.com/ldiqual/tesseract-ios)
 <br />
-1.2 issue resolved.
 <br />
 XCode 5 ready!
 <br />
 Framework builded with the new Xcode 5.
 <br />
 <br />
-<strong>updates in version 1.1</strong>
-
-<pre><code>[tesseract clear]; //call Clear() function</code></pre>
+<pre><code>[tesseract clear]; //call Clear() end End() functions</code></pre>
 
 Dependencies
 =================

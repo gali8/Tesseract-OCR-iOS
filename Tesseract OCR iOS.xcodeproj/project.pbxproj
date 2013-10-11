@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		644EBBE517384A0B009A0759 /* equ.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
+		646772C418083B5600C85662 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 646772C318083B5600C85662 /* README.md */; };
 		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
 		64A029DA17307CD0002B12E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D317307CD0002B12E7 /* README.md */; };
 		64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D517307CD0002B12E7 /* grc.traineddata */; };
@@ -195,6 +196,7 @@
 
 /* Begin PBXFileReference section */
 		644EBBE417384A0B009A0759 /* equ.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = equ.traineddata; sourceTree = "<group>"; };
+		646772C318083B5600C85662 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		64A0292C17307C1D002B12E7 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A0292D17307C1D002B12E7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64A0293117307C1D002B12E7 /* TesseractOCR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesseractOCR-Info.plist"; sourceTree = "<group>"; };
@@ -584,6 +586,7 @@
 		64F74CC0172FD75F0068E657 = {
 			isa = PBXGroup;
 			children = (
+				646772C318083B5600C85662 /* README.md */,
 				64A0292F17307C1D002B12E7 /* TesseractOCR */,
 				64F74CCB172FD75F0068E657 /* Frameworks */,
 				64F74CCA172FD75F0068E657 /* Products */,
@@ -821,6 +824,7 @@
 				64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */,
 				64A029DA17307CD0002B12E7 /* README.md in Resources */,
 				64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */,
+				646772C418083B5600C85662 /* README.md in Resources */,
 				644EBBE517384A0B009A0759 /* equ.traineddata in Resources */,
 				64A5F313173867FC001622C1 /* eng.traineddata in Resources */,
 				64A5F314173867FC001622C1 /* ita.traineddata in Resources */,
