@@ -44,15 +44,17 @@ Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
 <br />
 <br />
-<strong>updates in version 1.31</strong>  (11 october 2013, up to date with last https://github.com/ldiqual/tesseract-ios)
-<br />
-<br />
-XCode 5 ready!
-<br />
-Framework builded with the new Xcode 5.
-<br />
-<br />
-<pre><code>[tesseract clear]; //call Clear() end End() functions</code></pre>
+Updates in this version 
+=================
+- 11 october 2013, tesseract is up to date with last https://github.com/ldiqual/tesseract-ios version available.
+
+- Clear method updated:<pre><code>[tesseract clear]; //call Clear() end End() functions</code></pre>
+
+- XCode 5 ready!
+
+- Framework builded with the new Xcode 5.
+
+
 
 Dependencies
 =================
