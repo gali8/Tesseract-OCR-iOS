@@ -9,7 +9,7 @@ It will help you to use OCR in a iOS project. Easy and fast.
 Attach the project
 =================
 
-Add the framework "TesseractOCR.framework" (you can drag&drop it) from the <strong>Products</strong> folder in this repo, to your XCode Project under your project
+Add the framework "TesseractOCR.framework" (you can drag&drop it) from the <strong>Products</strong> folder in this repo, to your XCode Project under the frameworks folder.
 <br />
 If you are masochist :) you can generate your TesseractOCR.framework building the TesseractOCRAggregate target. 
 <br />
