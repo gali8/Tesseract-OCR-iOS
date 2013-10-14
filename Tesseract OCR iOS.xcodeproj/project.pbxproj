@@ -24,7 +24,7 @@
 		644EBBE517384A0B009A0759 /* equ.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
 		646772C418083B5600C85662 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 646772C318083B5600C85662 /* README.md */; };
 		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
-		64A029DA17307CD0002B12E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D317307CD0002B12E7 /* README.md */; };
+		64A029DA17307CD0002B12E7 /* README_tesseract.md in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D317307CD0002B12E7 /* README_tesseract.md */; };
 		64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D517307CD0002B12E7 /* grc.traineddata */; };
 		64A029DC17307CD0002B12E7 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* Tesseract.mm */; };
 		64A029E417307D65002B12E7 /* allheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294017307CCF002B12E7 /* allheaders.h */; settings = {ATTRIBUTES = (); }; };
@@ -180,6 +180,16 @@
 		64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		64E40AA7180C6AA400C36DDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6400DDD5180C5DE000443362;
+			remoteInfo = "Template Framework Project";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		64A5F30317385698001622C1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -196,7 +206,7 @@
 
 /* Begin PBXFileReference section */
 		644EBBE417384A0B009A0759 /* equ.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = equ.traineddata; sourceTree = "<group>"; };
-		646772C318083B5600C85662 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		646772C318083B5600C85662 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		64A0292C17307C1D002B12E7 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A0292D17307C1D002B12E7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64A0293117307C1D002B12E7 /* TesseractOCR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesseractOCR-Info.plist"; sourceTree = "<group>"; };
@@ -347,14 +357,15 @@
 		64A029CF17307CD0002B12E7 /* werdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = werdit.h; sourceTree = "<group>"; };
 		64A029D117307CD0002B12E7 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		64A029D217307CD0002B12E7 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_all.a; sourceTree = "<group>"; };
-		64A029D317307CD0002B12E7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		64A029D317307CD0002B12E7 /* README_tesseract.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_tesseract.md; sourceTree = "<group>"; };
 		64A029D517307CD0002B12E7 /* grc.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = grc.traineddata; sourceTree = "<group>"; };
 		64A029D617307CD0002B12E7 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		64A029D717307CD0002B12E7 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
 		64A029DD17307CED002B12E7 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
 		64A5F311173867FC001622C1 /* eng.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = eng.traineddata; sourceTree = "<group>"; };
 		64A5F312173867FC001622C1 /* ita.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = ita.traineddata; sourceTree = "<group>"; };
-		64F63F891732591A0077B9CC /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Template Framework Project.xcodeproj"; path = "Template Framework Project/Template Framework Project.xcodeproj"; sourceTree = "<group>"; };
+		64E40AAB180C6B0700C36DDE /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		64F74CCC172FD75F0068E657 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -375,12 +386,13 @@
 		64A0292F17307C1D002B12E7 /* TesseractOCR */ = {
 			isa = PBXGroup;
 			children = (
+				646772C318083B5600C85662 /* README.md */,
 				64A029DD17307CED002B12E7 /* TesseractOCR.h */,
 				64A029D617307CD0002B12E7 /* Tesseract.h */,
 				64A029D717307CD0002B12E7 /* Tesseract.mm */,
 				64A0293E17307CCF002B12E7 /* include */,
 				64A029D017307CD0002B12E7 /* lib */,
-				64A029D317307CD0002B12E7 /* README.md */,
+				64A029D317307CD0002B12E7 /* README_tesseract.md */,
 				64A029D417307CD0002B12E7 /* tessdata */,
 				64A0293017307C1D002B12E7 /* Supporting Files */,
 			);
@@ -583,10 +595,18 @@
 			path = tessdata;
 			sourceTree = "<group>";
 		};
+		64E40AA4180C6AA400C36DDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				64E40AA8180C6AA400C36DDE /* Template Framework Project.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		64F74CC0172FD75F0068E657 = {
 			isa = PBXGroup;
 			children = (
-				646772C318083B5600C85662 /* README.md */,
+				64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */,
 				64A0292F17307C1D002B12E7 /* TesseractOCR */,
 				64F74CCB172FD75F0068E657 /* Frameworks */,
 				64F74CCA172FD75F0068E657 /* Products */,
@@ -604,7 +624,7 @@
 		64F74CCB172FD75F0068E657 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				64F63F891732591A0077B9CC /* libstdc++.dylib */,
+				64E40AAB180C6B0700C36DDE /* libstdc++.dylib */,
 				64F74D77172FD8E90068E657 /* UIKit.framework */,
 				64F74CCC172FD75F0068E657 /* Foundation.framework */,
 				64A0292D17307C1D002B12E7 /* CoreFoundation.framework */,
@@ -808,6 +828,12 @@
 			mainGroup = 64F74CC0172FD75F0068E657;
 			productRefGroup = 64F74CCA172FD75F0068E657 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 64E40AA4180C6AA400C36DDE /* Products */;
+					ProjectRef = 64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				64A0292B17307C1C002B12E7 /* TesseractOCR */,
@@ -816,13 +842,23 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		64E40AA8180C6AA400C36DDE /* Template Framework Project.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Template Framework Project.app";
+			remoteRef = 64E40AA7180C6AA400C36DDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		64A0292A17307C1C002B12E7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */,
-				64A029DA17307CD0002B12E7 /* README.md in Resources */,
+				64A029DA17307CD0002B12E7 /* README_tesseract.md in Resources */,
 				64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */,
 				646772C418083B5600C85662 /* README.md in Resources */,
 				644EBBE517384A0B009A0759 /* equ.traineddata in Resources */,
