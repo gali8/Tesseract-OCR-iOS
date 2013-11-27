@@ -7,15 +7,9 @@
 //  Under MIT License. See 'LICENCE' for more informations.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h> 
+#import <UIKit/UIKit.h>
 
-@interface Tesseract : NSObject {    
-    NSString* _dataPath;
-    NSString* _language;
-    NSMutableDictionary* _variables;
-}
-
+@interface Tesseract : NSObject
 + (NSString *)version;
 
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language;
