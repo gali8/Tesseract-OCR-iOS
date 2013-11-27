@@ -18,6 +18,9 @@ namespace tesseract {
 };
 
 @interface Tesseract () {
+    NSString* _dataPath;
+    NSString* _language;
+    NSMutableDictionary* _variables;
 	tesseract::TessBaseAPI* _tesseract;
 	uint32_t* _pixels;
 }
