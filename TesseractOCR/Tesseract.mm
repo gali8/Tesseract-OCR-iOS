@@ -132,6 +132,10 @@ namespace tesseract {
 
 - (NSString *)recognizedText {
 	char* utf8Text = _tesseract->GetUTF8Text();
+	if (!utf8Text) {
+		NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
+		return nil;
+	}
 	return [NSString stringWithUTF8String:utf8Text];
 }
 
