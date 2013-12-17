@@ -65,7 +65,7 @@ create_outdir_lipo()
         lib_arm7=`echo $lib_i386 | sed "s/i386/arm7/g"`
         lib_arm7s=`echo $lib_i386 | sed "s/i386/arm7s/g"`
         lib=`echo $lib_i386 | sed "s/i386//g"`
-        xcrun -sdk iphoneos lipo -arch armv7 $lib_arm7-arch armv7s $lib_arm7s -arch i386 $lib_i386 -create -output $lib
+        xcrun -sdk iphoneos lipo -arch armv7 $lib_arm7 -arch armv7s $lib_arm7s -arch i386 $lib_i386 -create -output $lib
     done
 }
 
@@ -83,7 +83,7 @@ merge_libfiles()
         cd -
 }
 
-run_it_all()
+build_leptonica()
 {
 	#######################
 	# LEPTONLIB
@@ -117,10 +117,12 @@ run_it_all()
 	mkdir -p $GLOBAL_OUTDIR/include/leptonica && cp -rvf src/*.h $GLOBAL_OUTDIR/include/leptonica
 	mkdir -p $GLOBAL_OUTDIR/lib && cp -rvf $LOCAL_OUTDIR/lib*.a $GLOBAL_OUTDIR/lib
 	cd ..
+}
 
-
+build_tesseract()
+{
 	#######################
-	# TESSERACT-OCR (v3)
+	# TESSERACT-OCR
 	#######################
 	cd $TESSERACT_LIB
 	rm -rf $LOCAL_OUTDIR
@@ -166,8 +168,9 @@ run_it_all()
 	make distclean 2> /dev/null
 	rm -rf $LOCAL_OUTDIR
 	cd ..
-
-	echo "Finished!"
 }
 
-run_it_all
+build_leptonica
+build_tesseract
+
+echo "Finished!"
