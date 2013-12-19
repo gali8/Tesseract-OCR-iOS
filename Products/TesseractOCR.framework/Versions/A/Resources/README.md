@@ -1,4 +1,4 @@
-Tesseract OCR iOS 1.4 (iOS7 ready)
+Tesseract OCR iOS 1.5 (iOS7 ready)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
@@ -58,6 +58,10 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- Framework updated
+
+- Bugs fixed. Thanks to Simon Strangbaard
+
 - iOS7 libstdc++ issue solved (using libstdc++.6.0.9). 
 
 - **Template Framework Project added.** It's the start point for use the Tesseract Framework. It's **iOS7** ready!

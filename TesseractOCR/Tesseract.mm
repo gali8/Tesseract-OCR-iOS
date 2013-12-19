@@ -75,23 +75,25 @@ namespace tesseract {
 	}
 
 	NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-	NSString *tessdataPath = [bundle pathForResource:_language ofType:@"traineddata"];
-
-	NSString *destinationPath = [dataPath stringByAppendingPathComponent:[tessdataPath lastPathComponent]];
-
-	if(![fileManager fileExistsAtPath:destinationPath])
-	{
-		if (tessdataPath)
-		{
-			NSError *error = nil;
-			NSLog(@"trovato a %@", tessdataPath);
-			NSLog(@"lo copio in %@", destinationPath);
-			[fileManager copyItemAtPath:tessdataPath toPath:destinationPath error:&error];
-			
-			if(error)
-				NSLog(@"ERRORE! %@", error.description);
-		}
-	}
+    for (NSString *l in [_language componentsSeparatedByString:@"+"]) {
+        NSString *tessdataPath = [bundle pathForResource:l ofType:@"traineddata"];
+        
+        NSString *destinationPath = [dataPath stringByAppendingPathComponent:[tessdataPath lastPathComponent]];
+        
+        if(![fileManager fileExistsAtPath:destinationPath])
+        {
+            if (tessdataPath)
+            {
+                NSError *error = nil;
+                NSLog(@"trovato a %@", tessdataPath);
+                NSLog(@"lo copio in %@", destinationPath);
+                [fileManager copyItemAtPath:tessdataPath toPath:destinationPath error:&error];
+                
+                if(error)
+                    NSLog(@"ERRORE! %@", error.description);
+            }
+        }
+    }
 	
 	setenv("TESSDATA_PREFIX", [[documentPath stringByAppendingString:@"/"] UTF8String], 1);
 }
