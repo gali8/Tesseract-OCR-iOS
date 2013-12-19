@@ -32,9 +32,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
+	Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng+ita"];
 	//language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory.
 	//eng.traineddata is in your "tessdata" folder.
+    //use multiple language with language:@"eng+equ+ita"
 	
 	[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
 	[tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
