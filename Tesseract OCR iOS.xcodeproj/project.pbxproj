@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		644EBBE517384A0B009A0759 /* equ.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
+		645C864B18698EBA00B27B19 /* README_howto_compile_libaries.md in Resources */ = {isa = PBXBuildFile; fileRef = 645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */; };
+		645C864E18698ECE00B27B19 /* build_dependencies.sh in Resources */ = {isa = PBXBuildFile; fileRef = 645C864D18698ECE00B27B19 /* build_dependencies.sh */; };
 		646772C418083B5600C85662 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 646772C318083B5600C85662 /* README.md */; };
 		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
 		64A029DA17307CD0002B12E7 /* README_tesseract.md in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D317307CD0002B12E7 /* README_tesseract.md */; };
@@ -206,6 +208,8 @@
 
 /* Begin PBXFileReference section */
 		644EBBE417384A0B009A0759 /* equ.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = equ.traineddata; sourceTree = "<group>"; };
+		645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_howto_compile_libaries.md; sourceTree = "<group>"; };
+		645C864D18698ECE00B27B19 /* build_dependencies.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build_dependencies.sh; sourceTree = "<group>"; };
 		646772C318083B5600C85662 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		64A0292C17307C1D002B12E7 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A0292D17307C1D002B12E7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -387,6 +391,8 @@
 			isa = PBXGroup;
 			children = (
 				646772C318083B5600C85662 /* README.md */,
+				645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */,
+				645C864D18698ECE00B27B19 /* build_dependencies.sh */,
 				64A029DD17307CED002B12E7 /* TesseractOCR.h */,
 				64A029D617307CD0002B12E7 /* Tesseract.h */,
 				64A029D717307CD0002B12E7 /* Tesseract.mm */,
@@ -859,10 +865,12 @@
 			files = (
 				64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */,
 				64A029DA17307CD0002B12E7 /* README_tesseract.md in Resources */,
+				645C864E18698ECE00B27B19 /* build_dependencies.sh in Resources */,
 				64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */,
 				646772C418083B5600C85662 /* README.md in Resources */,
 				644EBBE517384A0B009A0759 /* equ.traineddata in Resources */,
 				64A5F313173867FC001622C1 /* eng.traineddata in Resources */,
+				645C864B18698EBA00B27B19 /* README_howto_compile_libaries.md in Resources */,
 				64A5F314173867FC001622C1 /* ita.traineddata in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

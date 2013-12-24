@@ -39,7 +39,7 @@ How to use
 ex. from https://github.com/ldiqual/tesseract-ios but using the **"TesseractOCR.framework"**
 <pre><code>#import &lt;TesseractOCR/TesseractOCR.h&gt;
 
-Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>eng</strong>"];
+Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>eng+ita</strong>"];
 //language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory. 
 //eng.traineddata is in your "tessdata" folder.
 

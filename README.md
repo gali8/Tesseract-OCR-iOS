@@ -1,9 +1,9 @@
-Tesseract OCR iOS 1.5 (iOS7 ready)
+Tesseract OCR iOS 1.51 (iOS7 ready)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
 
-It will help you to use OCR in a iOS project. Easy and fast.
+It will help you to use OCR in iOS projects. Easy and fast.
 
 <br/>
 Template Framework Project
@@ -58,6 +58,8 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- Now you can compile yours libraries. Follow the README_howto_compile_libaries.md inside. Thanks to Simon Strangbaard
+
 - Framework updated
 
 - Bugs fixed. Thanks to Simon Strangbaard
