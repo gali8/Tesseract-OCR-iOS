@@ -21,13 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		644EBBE517384A0B009A0759 /* equ.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
-		645C864B18698EBA00B27B19 /* README_howto_compile_libaries.md in Resources */ = {isa = PBXBuildFile; fileRef = 645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */; };
-		645C864E18698ECE00B27B19 /* build_dependencies.sh in Resources */ = {isa = PBXBuildFile; fileRef = 645C864D18698ECE00B27B19 /* build_dependencies.sh */; };
-		646772C418083B5600C85662 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 646772C318083B5600C85662 /* README.md */; };
 		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
-		64A029DA17307CD0002B12E7 /* README_tesseract.md in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D317307CD0002B12E7 /* README_tesseract.md */; };
-		64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A029D517307CD0002B12E7 /* grc.traineddata */; };
 		64A029DC17307CD0002B12E7 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* Tesseract.mm */; };
 		64A029E417307D65002B12E7 /* allheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294017307CCF002B12E7 /* allheaders.h */; settings = {ATTRIBUTES = (); }; };
 		64A029E517307D65002B12E7 /* alltypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294117307CCF002B12E7 /* alltypes.h */; settings = {ATTRIBUTES = (); }; };
@@ -174,10 +168,6 @@
 		64A02A7217307D66002B12E7 /* werdit.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CF17307CD0002B12E7 /* werdit.h */; settings = {ATTRIBUTES = (); }; };
 		64A02A7317307D70002B12E7 /* Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64A02A7417307D72002B12E7 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029DD17307CED002B12E7 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		64A5F304173856A7001622C1 /* equ.traineddata in CopyFiles */ = {isa = PBXBuildFile; fileRef = 644EBBE417384A0B009A0759 /* equ.traineddata */; };
-		64A5F305173856A7001622C1 /* grc.traineddata in CopyFiles */ = {isa = PBXBuildFile; fileRef = 64A029D517307CD0002B12E7 /* grc.traineddata */; };
-		64A5F313173867FC001622C1 /* eng.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A5F311173867FC001622C1 /* eng.traineddata */; };
-		64A5F314173867FC001622C1 /* ita.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 64A5F312173867FC001622C1 /* ita.traineddata */; };
 		64F63F87173258890077B9CC /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D117307CD0002B12E7 /* liblept.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
@@ -191,20 +181,6 @@
 			remoteInfo = "Template Framework Project";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		64A5F30317385698001622C1 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				64A5F304173856A7001622C1 /* equ.traineddata in CopyFiles */,
-				64A5F305173856A7001622C1 /* grc.traineddata in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		644EBBE417384A0B009A0759 /* equ.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = equ.traineddata; sourceTree = "<group>"; };
@@ -369,7 +345,6 @@
 		64A5F311173867FC001622C1 /* eng.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = eng.traineddata; sourceTree = "<group>"; };
 		64A5F312173867FC001622C1 /* ita.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = ita.traineddata; sourceTree = "<group>"; };
 		64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Template Framework Project.xcodeproj"; path = "Template Framework Project/Template Framework Project.xcodeproj"; sourceTree = "<group>"; };
-		64E40AAB180C6B0700C36DDE /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		64F74CCC172FD75F0068E657 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -630,7 +605,6 @@
 		64F74CCB172FD75F0068E657 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				64E40AAB180C6B0700C36DDE /* libstdc++.dylib */,
 				64F74D77172FD8E90068E657 /* UIKit.framework */,
 				64F74CCC172FD75F0068E657 /* Foundation.framework */,
 				64A0292D17307C1D002B12E7 /* CoreFoundation.framework */,
@@ -804,7 +778,6 @@
 				64A029E317307D38002B12E7 /* Headers */,
 				64A0292917307C1C002B12E7 /* Frameworks */,
 				64A0292A17307C1C002B12E7 /* Resources */,
-				64A5F30317385698001622C1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -864,14 +837,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */,
-				64A029DA17307CD0002B12E7 /* README_tesseract.md in Resources */,
-				645C864E18698ECE00B27B19 /* build_dependencies.sh in Resources */,
-				64A029DB17307CD0002B12E7 /* grc.traineddata in Resources */,
-				646772C418083B5600C85662 /* README.md in Resources */,
-				644EBBE517384A0B009A0759 /* equ.traineddata in Resources */,
-				64A5F313173867FC001622C1 /* eng.traineddata in Resources */,
-				645C864B18698EBA00B27B19 /* README_howto_compile_libaries.md in Resources */,
-				64A5F314173867FC001622C1 /* ita.traineddata in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -920,7 +885,11 @@
 		64A0293617307C1D002B12E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_INCLUDING_64_BIT)",
+					x86_64,
+					i386,
+				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -942,14 +911,11 @@
 				MACH_O_TYPE = mh_object;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lstdc++",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				VALID_ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT) x86_64 i386";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -957,7 +923,11 @@
 		64A0293717307C1D002B12E7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_INCLUDING_64_BIT)",
+					x86_64,
+					i386,
+				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -979,14 +949,11 @@
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lstdc++",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				VALID_ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT) x86_64 i386";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
