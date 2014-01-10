@@ -9,15 +9,31 @@
 
 #import <UIKit/UIKit.h>
 
+@class Tesseract;
+
+@protocol TesseractDelegate <NSObject>
+@optional
+- (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract;
+@end
+
 @interface Tesseract : NSObject
 + (NSString *)version;
 
-- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language;
+@property (nonatomic, strong) NSString* language;
+
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, assign) CGRect rect;
+
+@property (nonatomic, readonly) short progress; // from 0 to 100
+@property (nonatomic, readonly) NSString *recognizedText;
+
+@property (nonatomic, weak) id<TesseractDelegate> delegate;
+
+- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language;  //designed
+- (id)initWithLanguage:(NSString*)language;
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
-- (void)setImage:(UIImage *)image;
-- (BOOL)setLanguage:(NSString *)language;
+
 - (BOOL)recognize;
-- (NSString *)recognizedText;
 - (void)clear;
 
 @end
