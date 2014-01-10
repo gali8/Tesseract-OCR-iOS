@@ -12,6 +12,7 @@
 #import "baseapi.h"
 #import "environ.h"
 #import "pix.h"
+#import "ocrclass.h"
 
 namespace tesseract {
 	class TessBaseAPI;
@@ -23,6 +24,7 @@ namespace tesseract {
     NSMutableDictionary* _variables;
 	tesseract::TessBaseAPI* _tesseract;
 	uint32_t* _pixels;
+    ETEXT_DESC *_monitor;
 }
 
 @end
@@ -33,22 +35,61 @@ namespace tesseract {
 	return [NSString stringWithFormat:@"%s", tesseract::TessBaseAPI::Version()];
 }
 
+- (id)init {
+    
+    self = [self initWithLanguage:nil];
+    if (self) {
+    }
+    return self;
+}
+
+- (id)initWithLanguage:(NSString*)language {
+    
+    self = [self initWithDataPath:nil language:language];
+    if (self) {
+    }
+    return self;
+}
+
+- (void)dealloc {
+    
+    [self clear];
+    free(_monitor);
+}
+
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language {
+    
 	self = [super init];
 	if (self) {
 		_dataPath = dataPath;
 		_language = language;
+        
+        _monitor = new ETEXT_DESC();
+        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesserackCallbackFunction:words:)];
+        _monitor->cancel_this = (__bridge void*)self;
+
 		_variables = [[NSMutableDictionary alloc] init];
 		
-		[self copyDataToDocumentsDirectory];
+        if (dataPath)
+            [self copyDataToDocumentsDirectory];
+        else
+            [self setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle];
+
 		_tesseract = new tesseract::TessBaseAPI();
 		
 		BOOL success = [self initEngine];
-		if (!success) {
-			return NO;
-		}
+		if (!success)
+            self = nil;
 	}
 	return self;
+}
+
+- (void)setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle {
+    
+    NSString *datapath = [NSString stringWithFormat:@"%@/",
+                          [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]
+                          ];
+    setenv("TESSDATA_PREFIX", datapath.UTF8String, 1);
 }
 
 - (BOOL)initEngine {
@@ -117,35 +158,23 @@ namespace tesseract {
 	}
 }
 
-- (BOOL)setLanguage:(NSString *)language {
+#pragma mark - Getters and setters
+
+- (void)setLanguage:(NSString *)language {
+    
 	_language = language;
-	int returnCode = [self initEngine];
-	if (returnCode != 0) return NO;
+	BOOL result = [self initEngine];
 	
 	/*
 	 * "WARNING: On changing languages, all Tesseract parameters
 	 * are reset back to their default values."
 	 */
-	[self loadVariables];
-	return YES;
+	if (result)
+        [self loadVariables];
 }
 
-- (BOOL)recognize {
-	int returnCode = _tesseract->Recognize(NULL);
-	return (returnCode == 0) ? YES : NO;
-}
-
-- (NSString *)recognizedText {
-	char* utf8Text = _tesseract->GetUTF8Text();
-	if (!utf8Text) {
-		NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
-		return nil;
-	}
-	return [NSString stringWithUTF8String:utf8Text];
-}
-
-- (void)setImage:(UIImage *)image
-{
+- (void)setImage:(UIImage *)image {
+    
 	free(_pixels);
 	
 	CGSize size = [image size];
@@ -177,10 +206,45 @@ namespace tesseract {
 	_tesseract->SetImage((const unsigned char *) _pixels, width, height, sizeof(uint32_t), width * sizeof(uint32_t));
 }
 
--(void)clear
-{
+- (void)setRect:(CGRect)rect {
+    
+	_tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+}
+
+- (NSString *)recognizedText {
+	char* utf8Text = _tesseract->GetUTF8Text();
+	if (!utf8Text) {
+		NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
+		return nil;
+	}
+	return [NSString stringWithUTF8String:utf8Text];
+}
+
+- (short)progress {
+    
+    return _monitor->progress;
+}
+
+#pragma mark - Other functions
+
+- (void)clear {
+    
 	_tesseract->Clear();
 	_tesseract->End();
+}
+
+- (BOOL)recognize {
+	int returnCode = _tesseract->Recognize(_monitor);
+	return (returnCode == 0) ? YES : NO;
+}
+
+- (BOOL)tesserackCallbackFunction:(Tesseract*)cancel_this words:(int)words {
+    
+    if (_monitor->ocr_alive == 1)
+        _monitor->ocr_alive = 0;
+    
+    SEL selector = @selector(shouldCancelImageRecognitionForTesseract:);
+    return [self.delegate respondsToSelector:selector] ? [self.delegate shouldCancelImageRecognitionForTesseract:self] : NO;
 }
 
 @end
