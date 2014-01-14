@@ -29,7 +29,7 @@
 
 @property (nonatomic, weak) id<TesseractDelegate> delegate;
 
-- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language __deprecated;  //designed
+- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language;  //designed
 - (id)initWithLanguage:(NSString*)language;
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
 

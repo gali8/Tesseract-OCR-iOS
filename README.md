@@ -1,4 +1,4 @@
-Tesseract OCR iOS 1.6 (iOS7 ready & arm64 ready)
+Tesseract OCR iOS 1.61 (iOS7 ready & arm64 ready)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**

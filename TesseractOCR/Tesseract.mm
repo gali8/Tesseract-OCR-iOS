@@ -126,12 +126,12 @@ namespace tesseract {
             if (tessdataPath)
             {
                 NSError *error = nil;
-                NSLog(@"trovato a %@", tessdataPath);
-                NSLog(@"lo copio in %@", destinationPath);
+                NSLog(@"found %@", tessdataPath);
+                NSLog(@"coping in %@", destinationPath);
                 [fileManager copyItemAtPath:tessdataPath toPath:destinationPath error:&error];
                 
                 if(error)
-                    NSLog(@"ERRORE! %@", error.description);
+                    NSLog(@"ERROR! %@", error.description);
             }
         }
     }
