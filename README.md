@@ -38,7 +38,8 @@ How to use
 
 **MyViewController.h**
 <pre><code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
-<code>@interface MyViewController : UIViewController &lt;TesseractDelegate&gt;</code><code>@end</code></pre>
+<code>@interface MyViewController : UIViewController &lt;TesseractDelegate&gt;</code>
+<code>@end</code></pre>
   
 <br />
 **MyViewController.m**
