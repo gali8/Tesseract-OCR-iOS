@@ -40,14 +40,37 @@ ex. from https://github.com/ldiqual/tesseract-ios but using the **"TesseractOCR.
 <pre><code>#import &lt;TesseractOCR/TesseractOCR.h&gt;
 
 Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>eng+ita</strong>"];
-//language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory. 
-//eng.traineddata is in your "tessdata" folder.
+// language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory.
+// eng.traineddata is in your "tessdata" folder.
+// Assumed, that you added a group "tessdata" into your xCode project tree and .traineddata files to it.
+// This actually will not create a "tessdata" folder into your application bundle. Instead, all the files would be located into the root of the bundle.
+// This initializer will copy such 'traineddata' files located in the root folder of the application bundle to 'Documents/traneddata' folder of the application bundle to allow Tesseract to searcj for files into "tessdata".
+// This leads to two copies of the same huge files on user's disk.
+
+// If you'd like to avoid wasting user's disk space, pls, import the whole tessdata folder as a refernce to your project
+// with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog
+// (In such case a folder in the xCode project tree will look blue instead of yellow).
+// So use the following initializer instead
+// Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:nil language:@"<strong>eng+ita</strong>"];
+// or
+// Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"<strong>eng+ita</strong>"];
+
+// set up the delegate to recieve tesseract's callback
+// self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
+// to have an ability to recieve callback and interrupt Tesseract before it finishes
+tesseract.delegate = self;
 
 [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
 [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
 [tesseract recognize];
 
 NSLog(@"%@", [tesseract recognizedText]);
+
+
+- (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract {
+    NSLog(@"progress: %d", tesseract.progress);
+    return NO;  // return YES, if you need to interrupt tesseract before it finishes
+}
 </code></pre>
 
 
