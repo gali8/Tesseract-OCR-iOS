@@ -9,14 +9,16 @@
 #import "G8ViewController.h"
 
 @interface G8ViewController ()
-
+{
+    
+}
 @end
 
 @implementation G8ViewController
 
 /****README****/
 /*
- tessdata group is linked into the template project, from the main project.
+ Tessdata folder is into the template project..
  TesseractOCR.framework is linked into the template project under the Framework group. It's builded by the main project.
  
  If you are using iOS7 or greater, import libstdc++.6.0.9.dylib (not libstdc++)!!!!!
@@ -29,29 +31,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-	
-    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng+ita"];
     
-    // language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory.
-    // eng.traineddata is in your "tessdata" folder.
-    // Assumed, that you added a group "tessdata" into your xCode project tree and .traineddata files to it.
-    // This actually will not create a "tessdata" folder into your application bundle. Instead, all the files would be located into the root of the bundle.
-    // This initializer will copy such 'traineddata' files located in the root folder of the application bundle to 'Documents/traneddata' folder of the application bundle to allow Tesseract to searcj for files into "tessdata".
-    // This leads to two copies of the same huge files on user's disk.
+    // language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory; eng+ita will search for a eng.traineddata and ita.traineddata.
     
-    // If you'd like to avoid wasting user's disk space, pls, import the whole tessdata folder as a refernce to your project
-    // with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog
-    // (In such case a folder in the xCode project tree will look blue instead of yellow).
-    // So use the following initializer instead
-    // Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:nil language:@"eng+ita"];
-    // or
-    // Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
+    //Like in the Template Framework Project:
+	// Assumed that .traineddata files are in your "tessdata" folder and the folder is in the root of the project.
+	// Assumed, that you added a folder references "tessdata" into your xCode project tree, with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog.
+	// Assumed that any .traineddata files is in the tessdata folder, like in the Template Framework Project
+
+    //Create your tesseract using the initWithLanguage method:
+	// Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"<strong>eng+ita</strong>"];
     
     // set up the delegate to recieve tesseract's callback
     // self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
     // to have an ability to recieve callback and interrupt Tesseract before it finishes
     
+    Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
     tesseract.delegate = self;
     
     [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search

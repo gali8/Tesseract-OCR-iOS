@@ -1,14 +1,16 @@
-Tesseract OCR iOS 1.61 (iOS7 ready & arm64 ready)
+Tesseract OCR iOS 2 (iOS7 ready & arm64 ready)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
 
-It will help you to use OCR in iOS projects. Easy and fast.
+It helps you to use OCR in iOS projects, writing Objective-C. Easy and fast.
 
 <br/>
 Template Framework Project
 =================
 You can use the "**Template Framework Project**". It's a starting point for use the Tesseract Framework. It's iOS7 and arm64 ready!
+
+Into the tessdata folder (linked like a referenced folder into the project), there are the .traineddata language files.
 
 Alternatively you can create a **New Project** like explained below.
 
@@ -25,12 +27,16 @@ If you are masochist :) you can generate your TesseractOCR.framework building th
 
 - Go to your project settings, and ensure that C++ Standard Library => Compiler Default. (thanks to https://github.com/trein)
 
-- Import the <code>tessdata</code> folder under the root of your project. It contains the "tessdata" files. You can add more tessdata files copyng them here.
+- Copy and import the <code>tessdata</code> folder from the Template Framework Project under the root of your project. It contains the "tessdata" files. You can add more tessdata files copyng them here.
+
+WARNING: Check the "Create folder references for any added folders" option and the correct target into the "Add to Targets" section.
+
+<img src="https://www.dropbox.com/s/0a33kuuasuxlp4k/tessdata%20folder.png" />
+
 
 - Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
 
-Now you can use Tesseract class like explained here: https://github.com/ldiqual/
-tesseract-ios
+Now you can use Tesseract class like explained below:
 
 <br/>
 How to use
@@ -47,38 +53,31 @@ How to use
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-	
-	Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"<strong>eng+ita</strong>"];
-	
-	// language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory.
-	// eng.traineddata is in your "tessdata" folder.
-	// Assumed, that you added a group "tessdata" into your xCode project tree and .traineddata files to it.
-	// This actually will not create a "tessdata" folder into your application bundle. Instead, all the files would be located into the root of the bundle.
-	// This initializer will copy such 'traineddata' files located in the root folder of the application bundle to 'Documents/traneddata' folder of the application bundle to allow Tesseract to searcj for files into "tessdata".
-	// This leads to two copies of the same huge files on user's disk.
+    
+    // language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory; eng+ita will search for a eng.traineddata and ita.traineddata.
+    
+    //Like in the Template Framework Project:
+	// Assumed that .traineddata files are in your "tessdata" folder and the folder is in the root of the project.
+	// Assumed, that you added a folder references "tessdata" into your xCode project tree, with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog.
+	// Assumed that any .traineddata files is in the tessdata folder, like in the Template Framework Project
 
-	// If you'd like to avoid wasting user's disk space, pls, import the whole tessdata folder as a refernce to your project
-	// with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog
-	// (In such case a folder in the xCode project tree will look blue instead of yellow).
-	// So use the following initializer instead
-	// Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:nil language:@"<strong>eng+ita</strong>"];
-	// or
+    //Create your tesseract using the initWithLanguage method:
 	// Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"<strong>eng+ita</strong>"];
+    
+    // set up the delegate to recieve tesseract's callback
+    // self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
+    // to have an ability to recieve callback and interrupt Tesseract before it finishes
+    
+    Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
+    tesseract.delegate = self;
+    
+    [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
+    [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
+    [tesseract recognize];
+    
+    NSLog(@"%@", [tesseract recognizedText]);
 
-	// set up the delegate to recieve tesseract's callback
-	// self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
-	// to have an ability to recieve callback and interrupt Tesseract before it finishes
-
-	tesseract.delegate = self;
-
-	[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
-	[tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
-	[tesseract recognize];
-
-	NSLog(@"%@", [tesseract recognizedText]);
-
-	[tesseract clear];
+    [tesseract clear];
 }
 
 
@@ -97,6 +96,16 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- New release 2.0 with 64 bit support.
+
+- The - (id)initWithDataPath:(NSString * *)dataPath language:(NSString * *)language method is now deprecated. 
+
+- Bug fixing!
+
+- Removed tessdata folder from the framework project.
+
+- The tessdata folder (follow the Template Framework Project) is now linked with the "folder references" option into the Template Project. <strong>REQUIRED!!!</strong>
+
 - Added delegate TesseractDelegate
 
 - arm64 support. Thanks to Cyril
@@ -131,14 +140,8 @@ License
 
 Tesseract OCR iOS and TesseractOCR.framework are under MIT License.
 
-Tesseract-ios, powered by ldiqual https://github.com/ldiqual/tesseract-ios, is under MIT License.
-
 Tesseract, powered by Google http://code.google.com/p/tesseract-ocr/, is under Apache License.
 
-Thanks
-=================
-
-Thanks to ldiqual for the good wrapper for Tesseract.
 
 Author Infos
 =================

@@ -14,14 +14,11 @@
 		6400DDE3180C5DE000443362 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDE1180C5DE000443362 /* InfoPlist.strings */; };
 		6400DDE5180C5DE000443362 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400DDE4180C5DE000443362 /* main.m */; };
 		6400DDE9180C5DE000443362 /* G8AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400DDE8180C5DE000443362 /* G8AppDelegate.m */; };
-		6400DDEC180C5DE000443362 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDEA180C5DE000443362 /* Main.storyboard */; };
 		6400DDEF180C5DE000443362 /* G8ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400DDEE180C5DE000443362 /* G8ViewController.m */; };
 		6400DDF1180C5DE000443362 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDF0180C5DE000443362 /* Images.xcassets */; };
-		6400DE1D180C5FBE00443362 /* eng.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 6400DE19180C5FBE00443362 /* eng.traineddata */; };
-		6400DE1E180C5FBE00443362 /* equ.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 6400DE1A180C5FBE00443362 /* equ.traineddata */; };
-		6400DE1F180C5FBE00443362 /* grc.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 6400DE1B180C5FBE00443362 /* grc.traineddata */; };
-		6400DE20180C5FBE00443362 /* ita.traineddata in Resources */ = {isa = PBXBuildFile; fileRef = 6400DE1C180C5FBE00443362 /* ita.traineddata */; };
 		6420626F1846105200EE2AD4 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6420626E1846105200EE2AD4 /* TesseractOCR.framework */; };
+		64DDA74E188FD7D10025590D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDEA180C5DE000443362 /* Main.storyboard */; };
+		64DDA75B188FD9140025590D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 64DDA75A188FD9140025590D /* tessdata */; };
 		64E40AB1180C6D4D00C36DDE /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */; };
 /* End PBXBuildFile section */
 
@@ -42,11 +39,8 @@
 		6400DDEE180C5DE000443362 /* G8ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = G8ViewController.m; sourceTree = "<group>"; };
 		6400DDF0180C5DE000443362 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6400DDF7180C5DE000443362 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		6400DE19180C5FBE00443362 /* eng.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = eng.traineddata; sourceTree = "<group>"; };
-		6400DE1A180C5FBE00443362 /* equ.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = equ.traineddata; sourceTree = "<group>"; };
-		6400DE1B180C5FBE00443362 /* grc.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = grc.traineddata; sourceTree = "<group>"; };
-		6400DE1C180C5FBE00443362 /* ita.traineddata */ = {isa = PBXFileReference; lastKnownFileType = file; path = ita.traineddata; sourceTree = "<group>"; };
 		6420626E1846105200EE2AD4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = ../Products/TesseractOCR.framework; sourceTree = "<group>"; };
+		64DDA75A188FD9140025590D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -99,7 +93,7 @@
 		6400DDDE180C5DE000443362 /* Template Framework Project */ = {
 			isa = PBXGroup;
 			children = (
-				6400DE18180C5FBE00443362 /* tessdata */,
+				64DDA75A188FD9140025590D /* tessdata */,
 				6400DDE7180C5DE000443362 /* G8AppDelegate.h */,
 				6400DDE8180C5DE000443362 /* G8AppDelegate.m */,
 				6400DDEA180C5DE000443362 /* Main.storyboard */,
@@ -121,18 +115,6 @@
 				6400DDE6180C5DE000443362 /* Template Framework Project-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		6400DE18180C5FBE00443362 /* tessdata */ = {
-			isa = PBXGroup;
-			children = (
-				6400DE19180C5FBE00443362 /* eng.traineddata */,
-				6400DE1A180C5FBE00443362 /* equ.traineddata */,
-				6400DE1B180C5FBE00443362 /* grc.traineddata */,
-				6400DE1C180C5FBE00443362 /* ita.traineddata */,
-			);
-			name = tessdata;
-			path = ../../TesseractOCR/tessdata;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,14 +170,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6400DE1D180C5FBE00443362 /* eng.traineddata in Resources */,
 				6400DDF1180C5DE000443362 /* Images.xcassets in Resources */,
-				6400DE20180C5FBE00443362 /* ita.traineddata in Resources */,
 				428615B71845F340005D5A2E /* image_sample.jpg in Resources */,
-				6400DE1E180C5FBE00443362 /* equ.traineddata in Resources */,
+				64DDA75B188FD9140025590D /* tessdata in Resources */,
 				6400DDE3180C5DE000443362 /* InfoPlist.strings in Resources */,
-				6400DE1F180C5FBE00443362 /* grc.traineddata in Resources */,
-				6400DDEC180C5DE000443362 /* Main.storyboard in Resources */,
+				64DDA74E188FD7D10025590D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

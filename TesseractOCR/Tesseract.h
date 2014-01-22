@@ -29,7 +29,11 @@
 
 @property (nonatomic, weak) id<TesseractDelegate> delegate;
 
-- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language;  //designed
+///
+/// @warning deprecated method!
+/// @deprecated	- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language is deprecated. Please use - (id)initWithLanguage:(NSString*)language;
+///
+- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language DEPRECATED_ATTRIBUTE;
 - (id)initWithLanguage:(NSString*)language;
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
 

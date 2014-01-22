@@ -20,14 +20,14 @@ Unzip it in this folder.
 
 
 ### Step 3 - Compile
-Run `build_dependencies.sh`, this compiles first leptonica and then tesseract.
+Run `build_dependencies.sh` from terminal, this compiles first leptonica and then tesseract.
 
-This creates a folder named `dependencies`.
+This creates, after few minutes, a folder named `dependencies`.
 
 
 ### Step 4 - Done
 Copy the file `dependencies/lib/liblept.a` and replace `lib/liblept.a`.
 Copy the file `dependencies/lib/libtesseract_all.a` and replace `lib/libtesseract_all.a`.
-Copy the folder `dependencies/include/leptonica` and replace `lib/leptonica`.
-Copy the folder `dependencies/include/tesseract` and replace `lib/tesseract`.
+Copy the folder `dependencies/include/leptonica` and replace `include/leptonica`.
+Copy the folder `dependencies/include/tesseract` and replace `include/tesseract`.
 

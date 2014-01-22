@@ -45,7 +45,7 @@ namespace tesseract {
 
 - (id)initWithLanguage:(NSString*)language {
     
-    self = [self initWithDataPath:nil language:language];
+    self = [self initPrivateWithDataPath:nil language:language];
     if (self) {
     }
     return self;
@@ -58,7 +58,11 @@ namespace tesseract {
 }
 
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language {
-    
+    return [self initPrivateWithDataPath:nil language:language];
+}
+
+- (id)initPrivateWithDataPath:(NSString *)dataPath language:(NSString *)language {
+
 	self = [super init];
 	if (self) {
 		_dataPath = dataPath;
@@ -182,6 +186,7 @@ namespace tesseract {
 	int height = size.height;
 	
 	if (width <= 0 || height <= 0) {
+        NSLog(@"WARNING: Image has not size!");
 		return;
 	}
 	
@@ -234,7 +239,8 @@ namespace tesseract {
 }
 
 - (BOOL)recognize {
-	int returnCode = _tesseract->Recognize(_monitor);
+        
+	int returnCode = _tesseract->Recognize(NULL);
 	return (returnCode == 0) ? YES : NO;
 }
 
