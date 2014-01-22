@@ -31,7 +31,7 @@ If you are masochist :) you can generate your TesseractOCR.framework building th
 
 WARNING: Check the "Create folder references for any added folders" option and the correct target into the "Add to Targets" section.
 
-<img src="https://www.dropbox.com/s/0a33kuuasuxlp4k/tessdata%20folder.png" />
+![alt tag](https://www.dropbox.com/s/0a33kuuasuxlp4k/tessdata%20folder.png)
 
 
 - Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
@@ -98,7 +98,7 @@ Updates in this version
 =================
 - New release 2.0 with 64 bit support.
 
-- The - (id)initWithDataPath:(NSString * *)dataPath language:(NSString * *)language method is now deprecated. 
+- The - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language method is now deprecated. 
 
 - Bug fixing!
 
