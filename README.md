@@ -31,8 +31,6 @@ If you are masochist :) you can generate your TesseractOCR.framework building th
 
 WARNING: Check the "Create folder references for any added folders" option and the correct target into the "Add to Targets" section.
 
-![alt tag](https://www.dropbox.com/s/0a33kuuasuxlp4k/tessdata%20folder.png)
-
 
 - Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
 
