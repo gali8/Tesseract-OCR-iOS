@@ -34,7 +34,7 @@ WARNING: Check the "Create folder references for any added folders" option and t
 
 - Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
 
-Now you can use Tesseract class like explained below:
+Now you can use Tesseract class like explained into the "How to use" section:
 
 <br/>
 How to use
