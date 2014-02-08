@@ -55,7 +55,7 @@
     
     NSLog(@"%@", [tesseract recognizedText]);
 
-    [tesseract clear];
+    tesseract = nil;
 }
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract {

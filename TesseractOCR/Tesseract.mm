@@ -52,9 +52,21 @@ namespace tesseract {
 }
 
 - (void)dealloc {
-    
-    [self clear];
-    free(_monitor);
+    if (_monitor != nullptr) {
+        free(_monitor);
+        _monitor = nullptr;
+    }
+    if (_pixels != nullptr) {
+        free(_pixels);
+        _monitor = nullptr;
+    }
+    if (_tesseract != nullptr) {
+        // There is no needs to call Clear() and End() explicitly.
+        // End() is sufficient to free up all memory of TessBaseAPI.
+        // End() is called in destructor of TessBaseAPI.
+        delete _tesseract;
+        _tesseract = nullptr;
+    }
 }
 
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language {
@@ -179,7 +191,10 @@ namespace tesseract {
 
 - (void)setImage:(UIImage *)image {
     
-	free(_pixels);
+    if (_pixels != nullptr) {
+        free(_pixels);
+        _pixels = nullptr;
+    }
 	
 	CGSize size = [image size];
 	int width = size.width;
@@ -235,9 +250,7 @@ namespace tesseract {
 #pragma mark - Other functions
 
 - (void)clear {
-    
-	_tesseract->Clear();
-	_tesseract->End();
+    // Free up all memory in dealloc.
 }
 
 - (BOOL)recognize {
