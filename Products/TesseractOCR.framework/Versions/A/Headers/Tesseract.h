@@ -38,6 +38,11 @@
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
 
 - (BOOL)recognize;
-- (void)clear;
+
+///
+/// @warning deprecated method!
+/// @deprecated	- (void)clear is deprecated. The memory will be freed in dealloc added by ARC;
+///
+- (void)clear DEPRECATED_ATTRIBUTE;
 
 @end

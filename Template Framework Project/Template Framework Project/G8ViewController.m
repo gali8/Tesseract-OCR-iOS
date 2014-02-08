@@ -55,7 +55,7 @@
     
     NSLog(@"%@", [tesseract recognizedText]);
 
-    tesseract = nil;
+    tesseract = nil; //deallocate and free all memory
 }
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract {

@@ -251,6 +251,7 @@ namespace tesseract {
 
 - (void)clear {
     // Free up all memory in dealloc.
+    NSLog(@"clear is deprecated. Free up all memory in dealloc.");
 }
 
 - (BOOL)recognize {

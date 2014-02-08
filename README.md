@@ -1,4 +1,4 @@
-Tesseract OCR iOS 2 (iOS7 ready & arm64 ready)
+Tesseract OCR iOS 2.1 (iOS7 ready & arm64 ready)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
@@ -75,7 +75,7 @@ How to use
     
     NSLog(@"%@", [tesseract recognizedText]);
 
-    [tesseract clear];
+    tesseract = nil; //deallocate and free all memory
 }
 
 
@@ -94,6 +94,19 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- New release **2.1**
+
+- Fixed memory leaks. Moved all freeing memory job to dealloc. Thanks to frank4565.
+
+- Clear method is deprecated. Set tesseract = nil; to free all memory.
+
+- Free the utf8Text according to the comment in Tesseract that “The recognized text is returned as a char* which is coded as UTF8 and must be freed with the delete [] operator.”.
+
+- Template Framework Project updated.
+
+
+
+
 - New release 2.0 with 64 bit support.
 
 - The - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language method is now deprecated. 
