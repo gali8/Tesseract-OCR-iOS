@@ -222,7 +222,9 @@ namespace tesseract {
 		NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
 		return nil;
 	}
-	return [NSString stringWithUTF8String:utf8Text];
+    NSString *text = [NSString stringWithUTF8String:utf8Text];
+    delete[] utf8Text;
+    return text;
 }
 
 - (short)progress {
