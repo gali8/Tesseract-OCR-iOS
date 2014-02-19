@@ -26,7 +26,7 @@
  Follow the readme at https://github.com/gali8/Tesseract-OCR-iOS for first step.
  */
 
- 
+
 
 - (void)viewDidLoad
 {
@@ -38,7 +38,7 @@
 	// Assumed that .traineddata files are in your "tessdata" folder and the folder is in the root of the project.
 	// Assumed, that you added a folder references "tessdata" into your xCode project tree, with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog.
 	// Assumed that any .traineddata files is in the tessdata folder, like in the Template Framework Project
-
+    
     //Create your tesseract using the initWithLanguage method:
 	// Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"<strong>eng+ita</strong>"];
     
@@ -46,15 +46,23 @@
     // self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
     // to have an ability to recieve callback and interrupt Tesseract before it finishes
     
+    [self recognizeImageWithTesseract:[UIImage imageNamed:@"image_sample.jpg"]];
+}
+
+-(void)recognizeImageWithTesseract:(UIImage *)img
+{
     Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
     tesseract.delegate = self;
     
     [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
-    [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
+    [tesseract setImage:img]; //image to check
     [tesseract recognize];
     
     NSLog(@"%@", [tesseract recognizedText]);
-
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tesseract OCR iOS" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"Yeah!" otherButtonTitles:nil];
+    [alert show];
+    
     tesseract = nil; //deallocate and free all memory
 }
 
@@ -69,4 +77,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)openCamera:(id)sender
+{
+    UIImagePickerController *imgPicker = [UIImagePickerController new];
+    imgPicker.delegate = self;
+    
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:imgPicker animated:YES completion:nil];
+    }
+}
+
+#pragma mark - UIImagePickerController Delegate
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self recognizeImageWithTesseract:image];
+}
 @end

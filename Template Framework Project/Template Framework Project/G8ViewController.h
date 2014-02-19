@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <TesseractOCR/TesseractOCR.h>
 
-@interface G8ViewController : UIViewController <TesseractDelegate>
+@interface G8ViewController : UIViewController <TesseractDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+- (IBAction)openCamera:(id)sender;
 
 @end

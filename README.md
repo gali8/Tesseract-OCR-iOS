@@ -94,6 +94,8 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- Template project updated. Now with camera support.
+
 - New release **2.1**
 
 - Fixed memory leaks. Moved all freeing memory job to dealloc. Thanks to frank4565.
