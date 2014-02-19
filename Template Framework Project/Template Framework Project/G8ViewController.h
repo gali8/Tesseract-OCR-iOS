@@ -11,6 +11,7 @@
 
 @interface G8ViewController : UIViewController <TesseractDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 - (IBAction)openCamera:(id)sender;
 
 @end
