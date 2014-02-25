@@ -256,7 +256,7 @@ namespace tesseract {
 
 - (BOOL)recognize {
         
-	int returnCode = _tesseract->Recognize(NULL);
+	int returnCode = _tesseract->Recognize(_monitor);
 	return (returnCode == 0) ? YES : NO;
 }
 

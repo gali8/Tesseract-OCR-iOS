@@ -1,4 +1,4 @@
-Tesseract OCR iOS 2.1 (iOS7 ready & arm64 ready)
+Tesseract OCR iOS 2.2 (iOS7 ready & arm64 ready)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
@@ -94,6 +94,8 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- The 2.2 is like 2.1... but shouldCancelImageRecognitionForTesseract works again! Thank you to Timo Formella! 
+
 - Template project updated. Now with camera support.
 
 - New release **2.1**
