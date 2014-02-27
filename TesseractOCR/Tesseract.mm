@@ -81,7 +81,7 @@ namespace tesseract {
 		_language = language;
         
         _monitor = new ETEXT_DESC();
-        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesserackCallbackFunction:words:)];
+        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesserackCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
 
 		_variables = [[NSMutableDictionary alloc] init];
@@ -255,12 +255,12 @@ namespace tesseract {
 }
 
 - (BOOL)recognize {
-        
+    
 	int returnCode = _tesseract->Recognize(_monitor);
 	return (returnCode == 0) ? YES : NO;
 }
 
-- (BOOL)tesserackCallbackFunction:(Tesseract*)cancel_this words:(int)words {
+- (BOOL)tesserackCallbackFunction:(int)words {
     
     if (_monitor->ocr_alive == 1)
         _monitor->ocr_alive = 0;
