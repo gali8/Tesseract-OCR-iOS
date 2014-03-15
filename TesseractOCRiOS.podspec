@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 
   s.license           = 'MIT'
   s.author            = { 'Daniele Galiotto' => '' }
-  s.source            = { :git => 'https://github.com/dlinsin/Tesseract-OCR-iOS', :branch => "podspec" }
+  s.source            = { :git => 'https://github.com/gali8/Tesseract-OCR-iOS', :branch => "podspec" }
 
   s.platform          = :ios, '5.0'
   s.source_files      = 'Classes'
