@@ -778,7 +778,7 @@
 		64F74CC1172FD75F0068E657 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Daniele Galiotto - www.g8production.com";
 			};
 			buildConfigurationList = 64F74CC4172FD75F0068E657 /* Build configuration list for PBXProject "Tesseract OCR iOS" */;
@@ -869,11 +869,6 @@
 		64A0293617307C1D002B12E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD_INCLUDING_64_BIT)",
-					x86_64,
-					i386,
-				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -907,11 +902,6 @@
 		64A0293717307C1D002B12E7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD_INCLUDING_64_BIT)",
-					x86_64,
-					i386,
-				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -947,6 +937,7 @@
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
 				LINK_WITH_STANDARD_LIBRARIES = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lstdc++",
