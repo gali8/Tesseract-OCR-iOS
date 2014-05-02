@@ -77,6 +77,13 @@
     tesseract = nil; //deallocate and free all memory
 }
 
+//DD TODO
+/*
+- (void)progressImageRecognitionForTesseract:(Tesseract*)tesseract {
+    NSLog(@"progress: %d", tesseract.progress);
+}
+ */
+
 - (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract {
     NSLog(@"progress: %d", tesseract.progress);
     return NO;  // return YES, if you need to interrupt tesseract before it finishes

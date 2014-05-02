@@ -81,7 +81,7 @@ namespace tesseract {
 		_language = language;
         
         _monitor = new ETEXT_DESC();
-        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesserackCallbackFunction:)];
+        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
 
 		_variables = [[NSMutableDictionary alloc] init];
@@ -243,7 +243,6 @@ namespace tesseract {
 }
 
 - (short)progress {
-    
     return _monitor->progress;
 }
 
@@ -260,7 +259,15 @@ namespace tesseract {
 	return (returnCode == 0) ? YES : NO;
 }
 
-- (BOOL)tesserackCallbackFunction:(int)words {
+- (void)tesseractProgressCallbackFunction:(int)words {
+    
+    SEL selector = @selector(progressImageRecognitionForTesseract:);
+    
+    if([self.delegate respondsToSelector:selector])
+        [self.delegate progressImageRecognitionForTesseract:self];
+}
+                              
+- (BOOL)tesseractCancelCallbackFunction:(int)words {
     
     if (_monitor->ocr_alive == 1)
         _monitor->ocr_alive = 0;

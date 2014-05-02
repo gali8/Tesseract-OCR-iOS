@@ -1,15 +1,15 @@
 Pod::Spec.new do |s|
   s.name              = 'TesseractOCRiOS'
-  s.version           = '2.21'
+  s.version           = '2.22'
 
   s.summary           = 'It helps you to use OCR in iOS projects, writing Objective-C. Easy and fast.'
  
-  s.homepage          = 'https://code.google.com/p/tesseract-ocr/'
-  s.documentation_url = 'https://code.google.com/p/tesseract-ocr/wiki/FAQ'
+  s.homepage          = 'https://github.com/gali8/Tesseract-OCR-iOS'
+  s.documentation_url = 'https://github.com/gali8/Tesseract-OCR-iOS/blob/master/README.md'
 
   s.license           = 'MIT'
-  s.author            = { 'Daniele Galiotto' => '' }
-  s.source            = { :git => 'https://github.com/gali8/Tesseract-OCR-iOS', :branch => "podspec" }
+  s.author            = { 'Daniele Galiotto' => 'genius@g8production.com' }
+  s.source            = { :git => 'https://github.com/gali8/Tesseract-OCR-iOS', :branch => "master" }
 
   s.platform          = :ios, '5.0'
   s.source_files      = 'Classes'

@@ -13,6 +13,7 @@
 
 @protocol TesseractDelegate <NSObject>
 @optional
+- (void)progressImageRecognitionForTesseract:(Tesseract*)tesseract;
 - (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract;
 @end
 
