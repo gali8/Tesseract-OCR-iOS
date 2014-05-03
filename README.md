@@ -18,15 +18,15 @@ New Framework Project
 =================
 
 Install with [**CocoaPods**](http://cocoapods.org) by adding the following to your Podfile:
-
-
+<p>
+<pre><code>pod 'TesseractOCRiOS', '~> 2.22'</pre></code>
+</p>
 **Or** copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
 
 If you are masochist :) you can generate your TesseractOCR.framework building the **TesseractOCRAggregate** target. 
 
 <br />
-<br />
-
+Now...
 
 - If you are using **iOS7** or greater, link <code>libstdc++.6.0.9.dylib</code> library (Your target => General => Linked Frameworks and Libraries => + => libstdc++.6.0.9)
 
