@@ -17,9 +17,20 @@ Alternatively you can create a **New Project** like explained below.
 New Framework Project
 =================
 
-Add the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
+Install with [**CocoaPods**](http://cocoapods.org) by adding the following to your Podfile:
+<br />
+
+<pre><code>pod 'TesseractOCRiOS', '~> 2.22'</pre></code>
+
+
+<br />
+**Or** copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
 
 If you are masochist :) you can generate your TesseractOCR.framework building the **TesseractOCRAggregate** target. 
+
+<br />
+<br />
+
 
 - If you are using **iOS7** or greater, link <code>libstdc++.6.0.9.dylib</code> library (Your target => General => Linked Frameworks and Libraries => + => libstdc++.6.0.9)
 
@@ -94,6 +105,8 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- 2.22 CocoaPods added
+
 - 2.21 tesserackCallbackFunction: leak solved on iDevice. 
 
 - The 2.2 is like 2.1... but shouldCancelImageRecognitionForTesseract works again! Thank you to Timo Formella! 
