@@ -22,8 +22,6 @@ Install with [**CocoaPods**](http://cocoapods.org) by adding the following to yo
 
 <pre><code>pod 'TesseractOCRiOS', '~> 2.22'</pre></code>
 
-
-<br />
 **Or** copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
 
 If you are masochist :) you can generate your TesseractOCR.framework building the **TesseractOCRAggregate** target. 
