@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.documentation_url = 'https://github.com/gali8/Tesseract-OCR-iOS/blob/master/README.md'
 
   s.license           = {
-        :type => 'MIT'
+        :type => 'MIT',
         :text => <<-LICENSE
                    Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
