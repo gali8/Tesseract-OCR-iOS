@@ -29,6 +29,12 @@ namespace tesseract {
 
 @end
 
+@interface Tesseract ()
+
+@property (readwrite, assign) CGSize imageSize;
+
+@end
+
 @implementation Tesseract
 
 + (NSString *)version {
@@ -196,9 +202,9 @@ namespace tesseract {
         _pixels = nullptr;
     }
 	
-	CGSize size = [image size];
-	int width = size.width;
-	int height = size.height;
+	self.imageSize = [image size];
+	int width = self.imageSize.width;
+	int height = self.imageSize.height;
 	
 	if (width <= 0 || height <= 0) {
         NSLog(@"WARNING: Image has not size!");
@@ -240,6 +246,33 @@ namespace tesseract {
     NSString *text = [NSString stringWithUTF8String:utf8Text];
     delete[] utf8Text;
     return text;
+}
+
+- (NSDictionary *)characterBoxes {
+    NSMutableDictionary *recognizedTextBoxes = [NSMutableDictionary dictionary];
+
+    //  Get box info
+    char* boxText = _tesseract->GetBoxText(0);
+    NSString *stringBoxes = [NSString stringWithUTF8String:boxText];
+    delete [] boxText;
+    
+    NSArray *arrayOfStringBoxes = [stringBoxes componentsSeparatedByString:@"\n"];
+    for (NSString *stringBox in arrayOfStringBoxes) {
+        //  A stringBox is of the format "c L B R T p"
+        //  (L, T) is the top left corner of the box, and (R, B) is the bottom right corner
+        //  Tesseract has (0, 0) in the bottom left corner and UIKit has (0, 0) in the top left corner
+        //  Need to flip to work with UIKit
+        NSArray *boxComponents = [stringBox componentsSeparatedByString:@" "];
+        if (boxComponents.count > 5) {
+            CGFloat x = [boxComponents[1] floatValue];
+            CGFloat y = self.imageSize.height - [boxComponents[4] floatValue];
+            CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
+            CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
+            CGRect box = CGRectMake(x, y, width, height);
+            [recognizedTextBoxes setObject:boxComponents[0] forKey:NSStringFromCGRect(box)];
+        }
+    }
+    return recognizedTextBoxes;
 }
 
 - (short)progress {
