@@ -28,8 +28,7 @@
 @property (nonatomic, readonly) short progress; // from 0 to 100
 @property (nonatomic, readonly) NSString *recognizedText;
 
-//  This NSDictionary uses NSString encoded CGRects as keys and the recognized character (NSString) as the value
-//  Use CGRectFromNSString to retrieve a CGRect from the key
+//  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
 //  CGRects are in UIKit's coordinate space (origin is in the top left)
 @property (nonatomic, readonly) NSDictionary *characterBoxes;
 

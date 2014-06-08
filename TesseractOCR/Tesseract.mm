@@ -262,6 +262,7 @@ namespace tesseract {
         //  (L, T) is the top left corner of the box, and (R, B) is the bottom right corner
         //  Tesseract has (0, 0) in the bottom left corner and UIKit has (0, 0) in the top left corner
         //  Need to flip to work with UIKit
+        //  c is the recognized character and p is the page it is recognized on
         NSArray *boxComponents = [stringBox componentsSeparatedByString:@" "];
         if (boxComponents.count > 5) {
             CGFloat x = [boxComponents[1] floatValue];
@@ -269,7 +270,7 @@ namespace tesseract {
             CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
             CGRect box = CGRectMake(x, y, width, height);
-            [recognizedTextBoxes setObject:boxComponents[0] forKey:NSStringFromCGRect(box)];
+            [recognizedTextBoxes setObject:boxComponents[0] forKey:[NSValue valueWithCGRect:box]];
         }
     }
     return recognizedTextBoxes;
