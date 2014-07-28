@@ -23,7 +23,7 @@ namespace tesseract {
     NSString* _language;
     NSMutableDictionary* _variables;
 	tesseract::TessBaseAPI* _tesseract;
-	uint32_t* _pixels;
+	const UInt8 *_pixels;
     ETEXT_DESC *_monitor;
 }
 
@@ -54,10 +54,6 @@ namespace tesseract {
 - (void)dealloc {
     if (_monitor != nullptr) {
         free(_monitor);
-        _monitor = nullptr;
-    }
-    if (_pixels != nullptr) {
-        free(_pixels);
         _monitor = nullptr;
     }
     if (_tesseract != nullptr) {
@@ -191,12 +187,7 @@ namespace tesseract {
 
 - (void)setImage:(UIImage *)image {
     
-    if (_pixels != nullptr) {
-        free(_pixels);
-        _pixels = nullptr;
-    }
-	
-	CGSize size = [image size];
+	CGSize size = image.size;
 	int width = size.width;
 	int height = size.height;
 	
@@ -204,26 +195,18 @@ namespace tesseract {
         NSLog(@"WARNING: Image has not size!");
 		return;
 	}
-	
-	_pixels = (uint32_t *) malloc(width * height * sizeof(uint32_t));
-	
-	// Clear the pixels so any transparency is preserved
-	memset(_pixels, 0, width * height * sizeof(uint32_t));
-	
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	
-	// Create a context with RGBA _pixels
-	CGContextRef context = CGBitmapContextCreate(_pixels, width, height, 8, width * sizeof(uint32_t), colorSpace,
-								   kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
-	
-	// Paint the bitmap to our context which will fill in the _pixels array
-	CGContextDrawImage(context, CGRectMake(0, 0, width, height), [image CGImage]);
-	
-	// We're done with the context and color space
-	CGContextRelease(context);
-	CGColorSpaceRelease(colorSpace);
-	
-	_tesseract->SetImage((const unsigned char *) _pixels, width, height, sizeof(uint32_t), width * sizeof(uint32_t));
+    
+    CGImage *cgImage = image.CGImage;
+    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+    _pixels = CFDataGetBytePtr(data);
+    CFRelease(data);
+    
+    size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
+    size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
+    size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
+    
+    assert(bytesPerRow < MAX_INT32);
+    _tesseract->SetImage(_pixels, width, height, (int)(bitsPerPixel / bitsPerComponent), (int)bytesPerRow);
 }
 
 - (void)setRect:(CGRect)rect {
