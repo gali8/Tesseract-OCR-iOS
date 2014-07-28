@@ -22,7 +22,6 @@
 
 /* Begin PBXBuildFile section */
 		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
-		64A029DC17307CD0002B12E7 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* Tesseract.mm */; };
 		64A029E417307D65002B12E7 /* allheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294017307CCF002B12E7 /* allheaders.h */; settings = {ATTRIBUTES = (); }; };
 		64A029E517307D65002B12E7 /* alltypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294117307CCF002B12E7 /* alltypes.h */; settings = {ATTRIBUTES = (); }; };
 		64A029E617307D65002B12E7 /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294217307CCF002B12E7 /* array.h */; settings = {ATTRIBUTES = (); }; };
@@ -168,6 +167,7 @@
 		64A02A7217307D66002B12E7 /* werdit.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CF17307CD0002B12E7 /* werdit.h */; settings = {ATTRIBUTES = (); }; };
 		64A02A7317307D70002B12E7 /* Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64A02A7417307D72002B12E7 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029DD17307CED002B12E7 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		64E9A53319194B47007EE74A /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* Tesseract.mm */; };
 		64F63F87173258890077B9CC /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D117307CD0002B12E7 /* liblept.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
@@ -848,7 +848,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64A029DC17307CD0002B12E7 /* Tesseract.mm in Sources */,
+				64E9A53319194B47007EE74A /* Tesseract.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
