@@ -1,4 +1,4 @@
-Tesseract OCR iOS 2.22
+Tesseract OCR iOS 2.23
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
@@ -101,6 +101,10 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+- 2.23
+Instead it's possible just to get raw data from the input image.
+Such way is better, cause in the case of the grayscale input image, there is no need to draw it in RGB color space, increasing memory consumptions significantly.
+
 - 2.22 CocoaPods
  
 
