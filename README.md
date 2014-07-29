@@ -102,6 +102,7 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 Updates in this version 
 =================
 - 2.23
+There is no need to draw an image for tesseract.
 Instead it's possible just to get raw data from the input image.
 Such way is better, cause in the case of the grayscale input image, there is no need to draw it in RGB color space, increasing memory consumptions significantly.
 
