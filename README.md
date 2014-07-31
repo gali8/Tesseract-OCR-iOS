@@ -77,9 +77,8 @@ How to use
     Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
     tesseract.delegate = self;
     
-    [tesseract setRecognizeImageType:RecognizeImageTypeBlackAndWhite]; //convert img to the RecognizeImageType
     [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
-    [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
+    [tesseract setImage:[[UIImage imageNamed:@"image_sample.jpg"] blackAndWhite]]; //image to check
     [tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
     [tesseract recognize];
     
@@ -108,7 +107,7 @@ Updates in this version
 
 - Bug fixing.
 
-- CoreImage filters: use <code>[tesseract setRecognizeImageType:RecognizeImageTypeBlackAndWhite];</code> to convert the UIImage to recognize into a RecognizeImageType
+- CoreImage filters: use <code>[img blackAndWhite];</code> to convert the UIImage to recognize into a RecognizeImageType
 
 - Rect: use <code>[tesseract setRect:CGRectMake(20, 20, 100, 100)]</code> to define the rect where the text must be recognized
 

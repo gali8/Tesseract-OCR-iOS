@@ -14,8 +14,6 @@
 #import "pix.h"
 #import "ocrclass.h"
 
-#import "UIImage+Filters.h"
-
 namespace tesseract {
 	class TessBaseAPI;
 };
@@ -195,31 +193,16 @@ namespace tesseract {
 
 - (void)setImage:(UIImage *)image {
     
-	CGSize size = image.size;
-	int width = size.width;
-	int height = size.height;
-	
-	if (width <= 0 || height <= 0) {
+    if (image == nil || image.size.width <= 0 || image.size.height <= 0) {
         NSLog(@"WARNING: Image has not size!");
 		return;
 	}
     
-    UIImage *recognizeImage = nil;
+    self.imageSize = image.size; //self.imageSize used in the characterBoxes method
+	int width = self.imageSize.width;
+	int height = self.imageSize.height;
     
-    switch (self.recognizeImageType) {
-        case RecognizeImageTypeBlackAndWhite:
-            recognizeImage = [image blackAndWhite];
-            break;
-        case RecognizeImageTypeGrayScale:
-            recognizeImage = [image grayScale];
-            break;
-        case RecognizeImageTypeOriginal:
-        default:
-            recognizeImage = image;
-            break;
-    }
-    
-    CGImage *cgImage = recognizeImage.CGImage;
+    CGImage *cgImage = image.CGImage;
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
     _pixels = CFDataGetBytePtr(data);
     

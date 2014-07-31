@@ -7,7 +7,6 @@
 //
 
 #import "G8ViewController.h"
-#import <TesseractOCR/UIImage+Filters.h>
 
 @interface G8ViewController ()
 {
@@ -52,22 +51,23 @@
 
 -(void)recognizeImageWithTesseract:(UIImage *)img
 {
+    //only for test//
+    UIImage *testb = [img blackAndWhite];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
 		[self.activityIndicator startAnimating];
         
         //only for test//
-        UIImage *testb = [img blackAndWhite];
         self.imageToRecognize.image = testb;
         //only for test//
 	});
     
-    Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
+    Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"ita"];
     tesseract.delegate = self;
     
-    [tesseract setRecognizeImageType:RecognizeImageTypeBlackAndWhite]; //convert img to the RecognizeImageType
     [tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" forKey:@"tessedit_char_whitelist"]; //limit search
     
-    [tesseract setImage:img]; //image to check
+    [tesseract setImage:[img blackAndWhite]]; //image to check
     //[tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
     [tesseract recognize];
     

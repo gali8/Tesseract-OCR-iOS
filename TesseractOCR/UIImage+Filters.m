@@ -13,7 +13,7 @@
 -(UIImage *)blackAndWhite
 {
     CIImage *beginImage = [CIImage imageWithCGImage:self.CGImage];
-    
+
     CIImage *blackAndWhite = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", @0.0, @"inputContrast", @1.1, @"inputSaturation", @0.0, nil].outputImage;
     CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, blackAndWhite, @"inputEV", @0.7, nil].outputImage;
     

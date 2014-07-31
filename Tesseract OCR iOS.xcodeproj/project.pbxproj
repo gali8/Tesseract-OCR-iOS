@@ -190,6 +190,7 @@
 		646772C318083B5600C85662 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		6490748A198A5A5600D728CC /* UIImage+Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Filters.h"; sourceTree = "<group>"; };
 		6490748B198A5A5600D728CC /* UIImage+Filters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Filters.m"; sourceTree = "<group>"; };
+		64907492198A6B9E00D728CC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		64A0292C17307C1D002B12E7 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A0292D17307C1D002B12E7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64A0293117307C1D002B12E7 /* TesseractOCR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesseractOCR-Info.plist"; sourceTree = "<group>"; };
@@ -595,6 +596,7 @@
 		64F74CCB172FD75F0068E657 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				64907492198A6B9E00D728CC /* CoreImage.framework */,
 				64F74D77172FD8E90068E657 /* UIKit.framework */,
 				64F74CCC172FD75F0068E657 /* Foundation.framework */,
 				64A0292D17307C1D002B12E7 /* CoreFoundation.framework */,
