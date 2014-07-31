@@ -17,6 +17,7 @@
 		6400DDEF180C5DE000443362 /* G8ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400DDEE180C5DE000443362 /* G8ViewController.m */; };
 		6400DDF1180C5DE000443362 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDF0180C5DE000443362 /* Images.xcassets */; };
 		6420626F1846105200EE2AD4 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6420626E1846105200EE2AD4 /* TesseractOCR.framework */; };
+		64907490198A5CD500D728CC /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6490748F198A5CD500D728CC /* CoreImage.framework */; };
 		64DDA74E188FD7D10025590D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDEA180C5DE000443362 /* Main.storyboard */; };
 		64DDA75B188FD9140025590D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 64DDA75A188FD9140025590D /* tessdata */; };
 		64E40AB1180C6D4D00C36DDE /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */; };
@@ -40,6 +41,7 @@
 		6400DDF0180C5DE000443362 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6400DDF7180C5DE000443362 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6420626E1846105200EE2AD4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = ../Products/TesseractOCR.framework; sourceTree = "<group>"; };
+		6490748F198A5CD500D728CC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		64DDA75A188FD9140025590D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64907490198A5CD500D728CC /* CoreImage.framework in Frameworks */,
 				6420626F1846105200EE2AD4 /* TesseractOCR.framework in Frameworks */,
 				64E40AB1180C6D4D00C36DDE /* libstdc++.6.0.9.dylib in Frameworks */,
 				6400DDDB180C5DE000443362 /* CoreGraphics.framework in Frameworks */,
@@ -80,6 +83,7 @@
 		6400DDD7180C5DE000443362 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6490748F198A5CD500D728CC /* CoreImage.framework */,
 				64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */,
 				6420626E1846105200EE2AD4 /* TesseractOCR.framework */,
 				6400DDD8180C5DE000443362 /* Foundation.framework */,

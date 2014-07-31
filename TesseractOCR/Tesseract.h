@@ -9,6 +9,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, RecognizeImageType) {
+    RecognizeImageTypeOriginal,
+    RecognizeImageTypeBlackAndWhite,
+    RecognizeImageTypeGrayScale
+};
+
 @class Tesseract;
 
 @protocol TesseractDelegate <NSObject>
@@ -19,6 +25,8 @@
 
 @interface Tesseract : NSObject
 + (NSString *)version;
+
+@property (nonatomic) RecognizeImageType recognizeImageType;
 
 @property (nonatomic, strong) NSString* language;
 

@@ -1,4 +1,4 @@
-Tesseract OCR iOS 2.23
+Tesseract OCR iOS 2.3
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
@@ -19,7 +19,7 @@ New Framework Project
 
 Install with [**CocoaPods**](http://cocoapods.org) by adding the following to your Podfile:
 <p>
-<pre><code>pod 'TesseractOCRiOS', '~> 2.22'</pre></code>
+<pre><code>pod 'TesseractOCRiOS', '~> 2.3'</pre></code>
 </p>
 **Or** copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
 
@@ -38,6 +38,7 @@ Now...
 
 WARNING: Check the "Create folder references for any added folders" option and the correct target into the "Add to Targets" section.
 
+- Link the <code>CoreImage.framework</code>
 
 - Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
 
@@ -76,8 +77,10 @@ How to use
     Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
     tesseract.delegate = self;
     
+    [tesseract setRecognizeImageType:RecognizeImageTypeBlackAndWhite]; //convert img to the RecognizeImageType
     [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
     [tesseract setImage:[UIImage imageNamed:@"image_sample.jpg"]]; //image to check
+    [tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
     [tesseract recognize];
     
     NSLog(@"%@", [tesseract recognizedText]);
@@ -101,21 +104,29 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
-- 2.23
-There is no need to draw an image for tesseract.
+- 2.3
+
+- Bug fixing.
+
+- CoreImage filters: use <code>[tesseract setRecognizeImageType:RecognizeImageTypeBlackAndWhite];</code> to convert the UIImage to recognize into a RecognizeImageType
+
+- Rect: use <code>[tesseract setRect:CGRectMake(20, 20, 100, 100)]</code> to define the rect where the text must be recognized
+
+
+- 2.23 There is no need to draw an image for tesseract.
 Instead it's possible just to get raw data from the input image.
 Such way is better, cause in the case of the grayscale input image, there is no need to draw it in RGB color space, increasing memory consumptions significantly.
 
+
 - 2.22 CocoaPods
  
-
 - 2.21 tesserackCallbackFunction: leak solved on iDevice. 
 
 - The 2.2 is like 2.1... but shouldCancelImageRecognitionForTesseract works again! Thank you to Timo Formella! 
 
 - Template project updated. Now with camera support.
 
-- New release **2.1**
+- New release 2.1
 
 - Fixed memory leaks. Moved all freeing memory job to dealloc. Thanks to frank4565.
 

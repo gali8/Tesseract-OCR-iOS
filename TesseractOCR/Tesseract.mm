@@ -14,6 +14,8 @@
 #import "pix.h"
 #import "ocrclass.h"
 
+#import "UIImage+Filters.h"
+
 namespace tesseract {
 	class TessBaseAPI;
 };
@@ -76,7 +78,7 @@ namespace tesseract {
 }
 
 - (id)initPrivateWithDataPath:(NSString *)dataPath language:(NSString *)language {
-
+    
 	self = [super init];
 	if (self) {
 		_dataPath = dataPath;
@@ -85,14 +87,14 @@ namespace tesseract {
         _monitor = new ETEXT_DESC();
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
-
+        
 		_variables = [[NSMutableDictionary alloc] init];
 		
         if (dataPath)
             [self copyDataToDocumentsDirectory];
         else
             [self setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle];
-
+        
 		_tesseract = new tesseract::TessBaseAPI();
 		
 		BOOL success = [self initEngine];
@@ -132,7 +134,7 @@ namespace tesseract {
 	{
 		[fileManager createDirectoryAtPath:dataPath withIntermediateDirectories:YES attributes:nil error:NULL];
 	}
-
+    
 	NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     for (NSString *l in [_language componentsSeparatedByString:@"+"]) {
         NSString *tessdataPath = [bundle pathForResource:l ofType:@"traineddata"];
@@ -202,17 +204,41 @@ namespace tesseract {
 		return;
 	}
     
-    CGImage *cgImage = image.CGImage;
+    UIImage *recognizeImage = nil;
+    
+    switch (self.recognizeImageType) {
+        case RecognizeImageTypeBlackAndWhite:
+            recognizeImage = [image blackAndWhite];
+            break;
+        case RecognizeImageTypeGrayScale:
+            recognizeImage = [image grayScale];
+            break;
+        case RecognizeImageTypeOriginal:
+        default:
+            recognizeImage = image;
+            break;
+    }
+    
+    CGImage *cgImage = recognizeImage.CGImage;
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
     _pixels = CFDataGetBytePtr(data);
-    CFRelease(data);
     
     size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
     size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
     
+    tesseract::ImageThresholder *imageThresholder = new tesseract::ImageThresholder();
+    
     assert(bytesPerRow < MAX_INT32);
-    _tesseract->SetImage(_pixels, width, height, (int)(bitsPerPixel / bitsPerComponent), (int)bytesPerRow);
+    {
+        imageThresholder->SetImage(_pixels,width,height,(int)(bitsPerPixel/bitsPerComponent),(int)bytesPerRow);
+        _tesseract->SetImage(imageThresholder->GetPixRect());
+    }
+    
+    imageThresholder->Clear();
+    CFRelease(data);
+    delete imageThresholder;
+    imageThresholder = nil;
 }
 
 - (void)setRect:(CGRect)rect {
@@ -233,7 +259,7 @@ namespace tesseract {
 
 - (NSDictionary *)characterBoxes {
     NSMutableDictionary *recognizedTextBoxes = [NSMutableDictionary dictionary];
-
+    
     //  Get box info
     char* boxText = _tesseract->GetBoxText(0);
     NSString *stringBoxes = [NSString stringWithUTF8String:boxText];
@@ -283,7 +309,7 @@ namespace tesseract {
     if([self.delegate respondsToSelector:selector])
         [self.delegate progressImageRecognitionForTesseract:self];
 }
-                              
+
 - (BOOL)tesseractCancelCallbackFunction:(int)words {
     
     if (_monitor->ocr_alive == 1)
