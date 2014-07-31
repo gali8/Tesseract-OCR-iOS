@@ -62,7 +62,7 @@
         //only for test//
 	});
     
-    Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"ita"];
+    Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
     tesseract.delegate = self;
     
     [tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" forKey:@"tessedit_char_whitelist"]; //limit search
