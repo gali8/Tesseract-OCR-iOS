@@ -272,6 +272,41 @@ namespace tesseract {
     return _monitor->progress;
 }
 
+- (NSArray *)wordConfidence {
+    NSMutableArray * array = [NSMutableArray array];
+    const char * word;
+    float conf;
+    int x1, y1, x2, y2;
+    
+    //  Get iterators
+    tesseract::ResultIterator *ri = _tesseract->GetIterator();
+    tesseract::PageIteratorLevel level = tesseract::RIL_WORD;
+    
+    if (ri != 0) {
+        do {
+            // Get confidence levels, text, and bounding box
+            ri->BoundingBox(level, &x1, &y1, &x2, &y2);
+            word = ri->GetUTF8Text(level);
+            conf = ri->Confidence(level);
+            
+            [array addObject:@{
+                               @"text":         [NSString stringWithUTF8String:word],
+                               @"confidence":   [NSNumber numberWithFloat:conf],
+                               @"bounds":       @{
+                                       @"top":      [NSNumber numberWithInt:y1],
+                                       @"left":     [NSNumber numberWithInt:x1],
+                                       @"bottom":   [NSNumber numberWithInt:y2],
+                                       @"right":    [NSNumber numberWithInt:x2]
+                                       }
+                               }];
+            
+            delete[] word;
+        } while (ri->Next(level));
+    }
+    
+    return array;
+}
+
 #pragma mark - Other functions
 
 - (void)clear {
