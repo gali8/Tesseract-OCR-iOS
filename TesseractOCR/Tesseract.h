@@ -33,7 +33,11 @@
 //  CGRects are in UIKit's coordinate space (origin is in the top left)
 @property (nonatomic, readonly) NSDictionary *characterBoxes;
 
-@property (nonatomic, readonly) NSArray *wordConfidence;
+@property (nonatomic, readonly) NSArray *getConfidenceByWord;
+@property (nonatomic, readonly) NSArray *getConfidenceBySymbol;
+@property (nonatomic, readonly) NSArray *getConfidenceByTextline;
+@property (nonatomic, readonly) NSArray *getConfidenceByParagraph;
+@property (nonatomic, readonly) NSArray *getConfidenceByBlock;
 
 @property (nonatomic, weak) id<TesseractDelegate> delegate;
 

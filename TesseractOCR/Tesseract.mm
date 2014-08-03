@@ -272,7 +272,7 @@ namespace tesseract {
     return _monitor->progress;
 }
 
-- (NSArray *)wordConfidence {
+- (NSArray *)getConfidences:(tesseract::PageIteratorLevel)level {
     NSMutableArray * array = [NSMutableArray array];
     const char * word;
     float conf;
@@ -280,7 +280,6 @@ namespace tesseract {
     
     //  Get iterators
     tesseract::ResultIterator *ri = _tesseract->GetIterator();
-    tesseract::PageIteratorLevel level = tesseract::RIL_WORD;
     
     if (ri != 0) {
         do {
@@ -305,6 +304,27 @@ namespace tesseract {
     }
     
     return array;
+}
+
+
+- (NSArray *)getConfidenceByWord {
+    return [self getConfidences:tesseract::RIL_WORD];
+}
+
+- (NSArray *)getConfidenceBySymbol {
+    return [self getConfidences:tesseract::RIL_SYMBOL];
+}
+
+- (NSArray *)getConfidenceByBlock {
+    return [self getConfidences:tesseract::RIL_BLOCK];
+}
+
+- (NSArray *)getConfidenceByTextline {
+    return [self getConfidences:tesseract::RIL_TEXTLINE];
+}
+
+- (NSArray *)getConfidenceByParagraph {
+    return [self getConfidences:tesseract::RIL_PARA];
 }
 
 #pragma mark - Other functions
