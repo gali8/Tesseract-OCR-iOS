@@ -284,6 +284,8 @@ namespace tesseract {
     if (ri != 0) {
         do {
             // BoundingBox parameters are (Left Top Right Bottom).
+            // See comment in characterBoxes() for information on the coordinate
+            // system, and changes being made.
             ri->BoundingBox(level, &x1, &y1, &x2, &y2);
             CGFloat x = x1;
             CGFloat y = self.imageSize.height - y1;
@@ -297,7 +299,7 @@ namespace tesseract {
             [array addObject:@{
                                @"text":         [NSString stringWithUTF8String:word],
                                @"confidence":   [NSNumber numberWithFloat:conf],
-                               @"boundingbox":       [NSValue valueWithCGRect:box]
+                               @"boundingbox":  [NSValue valueWithCGRect:box]
                                }];
             
             delete[] word;
