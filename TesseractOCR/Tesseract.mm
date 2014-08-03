@@ -283,20 +283,21 @@ namespace tesseract {
     
     if (ri != 0) {
         do {
-            // Get confidence levels, text, and bounding box
+            // BoundingBox parameters are (Left Top Right Bottom).
             ri->BoundingBox(level, &x1, &y1, &x2, &y2);
+            CGFloat x = x1;
+            CGFloat y = self.imageSize.height - y1;
+            CGFloat width = x2 - x1;
+            CGFloat height = y1 - y2;
+            CGRect box = CGRectMake(x, y, width, height);
+            
             word = ri->GetUTF8Text(level);
             conf = ri->Confidence(level);
             
             [array addObject:@{
                                @"text":         [NSString stringWithUTF8String:word],
                                @"confidence":   [NSNumber numberWithFloat:conf],
-                               @"bounds":       @{
-                                       @"top":      [NSNumber numberWithInt:y1],
-                                       @"left":     [NSNumber numberWithInt:x1],
-                                       @"bottom":   [NSNumber numberWithInt:y2],
-                                       @"right":    [NSNumber numberWithInt:x2]
-                                       }
+                               @"boundingbox":       [NSValue valueWithCGRect:box]
                                }];
             
             delete[] word;
