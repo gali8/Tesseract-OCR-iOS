@@ -103,6 +103,9 @@ For instance, use tessedit_char_whitelist to restrict characters to a specific s
 <br/>
 Updates in this version 
 =================
+
+- New implementation based off the API examples for tesseract-ocr  href="https://code.google.com/p/tesseract-ocr/wiki/APIExample#Result_iterator_example
+ 
 - 2.3
 
 - Bug fixing.
