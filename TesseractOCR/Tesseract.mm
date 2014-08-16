@@ -272,6 +272,64 @@ namespace tesseract {
     return _monitor->progress;
 }
 
+- (NSArray *)getConfidences:(tesseract::PageIteratorLevel)level {
+    NSMutableArray * array = [NSMutableArray array];
+    const char * word;
+    float conf;
+    int x1, y1, x2, y2;
+    
+    //  Get iterators
+    tesseract::ResultIterator *ri = _tesseract->GetIterator();
+    
+    if (ri != 0) {
+        do {
+            // BoundingBox parameters are (Left Top Right Bottom).
+            // See comment in characterBoxes() for information on the coordinate
+            // system, and changes being made.
+            ri->BoundingBox(level, &x1, &y1, &x2, &y2);
+            CGFloat x = x1;
+            CGFloat y = self.imageSize.height - y1;
+            CGFloat width = x2 - x1;
+            CGFloat height = y1 - y2;
+            CGRect box = CGRectMake(x, y, width, height);
+            
+            word = ri->GetUTF8Text(level);
+            conf = ri->Confidence(level);
+            
+            [array addObject:@{
+                               @"text":         [NSString stringWithUTF8String:word],
+                               @"confidence":   [NSNumber numberWithFloat:conf],
+                               @"boundingbox":  [NSValue valueWithCGRect:box]
+                               }];
+            
+            delete[] word;
+        } while (ri->Next(level));
+    }
+    
+    return array;
+}
+
+
+- (NSArray *)getConfidenceByWord {
+    return [self getConfidences:tesseract::RIL_WORD];
+}
+
+- (NSArray *)getConfidenceBySymbol {
+    return [self getConfidences:tesseract::RIL_SYMBOL];
+}
+
+- (NSArray *)getConfidenceByBlock {
+    return [self getConfidences:tesseract::RIL_BLOCK];
+}
+
+- (NSArray *)getConfidenceByTextline {
+    return [self getConfidences:tesseract::RIL_TEXTLINE];
+}
+
+- (NSArray *)getConfidenceByParagraph {
+    return [self getConfidences:tesseract::RIL_PARA];
+}
+
 #pragma mark - Other functions
 
 - (void)clear {
