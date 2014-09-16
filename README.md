@@ -19,7 +19,7 @@ New Framework Project
 
 Install with [**CocoaPods**](http://cocoapods.org) by adding the following to your Podfile:
 <p>
-<pre><code>pod 'TesseractOCRiOS', '~> 2.3'</pre></code>
+<pre><code>pod 'TesseractOCRiOS', '~> 2.2'</pre></code>  //2.3 is not yet available, I'm sorry.
 </p>
 **Or** copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
 
