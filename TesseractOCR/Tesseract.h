@@ -31,7 +31,7 @@
 
 //  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
 //  CGRects are in UIKit's coordinate space (origin is in the top left)
-@property (nonatomic, readonly) NSDictionary *characterBoxes;
+@property (nonatomic, readonly) NSArray *characterBoxes;
 
 @property (nonatomic, readonly) NSArray *getConfidenceByWord;
 @property (nonatomic, readonly) NSArray *getConfidenceBySymbol;

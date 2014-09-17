@@ -240,8 +240,8 @@ namespace tesseract {
     return text;
 }
 
-- (NSDictionary *)characterBoxes {
-    NSMutableDictionary *recognizedTextBoxes = [NSMutableDictionary dictionary];
+- (NSArray *)characterBoxes {
+    NSMutableArray *recognizedTextBoxes = [[NSMutableArray alloc] init];
     
     //  Get box info
     char* boxText = _tesseract->GetBoxText(0);
@@ -262,7 +262,10 @@ namespace tesseract {
             CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
             CGRect box = CGRectMake(x, y, width, height);
-            [recognizedTextBoxes setObject:boxComponents[0] forKey:[NSValue valueWithCGRect:box]];
+            NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+            resultDict[@"text"] = boxComponents[0];
+            resultDict[@"box"] = [NSValue valueWithCGRect:box];
+            [recognizedTextBoxes addObject: resultDict];
         }
     }
     return recognizedTextBoxes;
