@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -27,14 +27,14 @@
 #ifndef  LEPTONICA_WATERSHED_H
 #define  LEPTONICA_WATERSHED_H
 
-/* 
+/*
  *  watershed.h
  *
  *     Simple data structure to hold watershed data.
  *     All data here is owned by the L_WShed and must be freed.
  */
 
-struct L_WShed 
+struct L_WShed
 {
     struct Pix    *pixs;        /* clone of input 8 bpp pixs                */
     struct Pix    *pixm;        /* clone of input 1 bpp seed (marker) pixm  */

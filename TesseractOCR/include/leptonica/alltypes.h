@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -30,31 +30,34 @@
     /* Standard */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
     /* General and configuration defs */
 #include "environ.h"
 
-    /* Imaging */
+    /* Generic and non-image-specific containers */
 #include "array.h"
-#include "arrayaccess.h"
 #include "bbuffer.h"
+#include "heap.h"
+#include "list.h"
+#include "ptra.h"
+#include "queue.h"
+#include "stack.h"
+
+    /* Imaging */
+#include "arrayaccess.h"
 #include "bmf.h"
 #include "ccbord.h"
 #include "dewarp.h"
 #include "gplot.h"
-#include "heap.h"
 #include "imageio.h"
 #include "jbclass.h"
-#include "list.h"
 #include "morph.h"
 #include "pix.h"
-#include "ptra.h"
-#include "queue.h"
+#include "recog.h"
 #include "regutils.h"
 #include "sudoku.h"
-#include "stack.h"
 #include "watershed.h"
 
 
 #endif /* LEPTONICA_ALLTYPES_H */
-

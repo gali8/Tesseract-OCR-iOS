@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -28,7 +28,7 @@
 #define  LEPTONICA_IMAGEIO_H
 
 /* ------------------ Image file format types -------------- */
-/*  
+/*
  *  The IFF_DEFAULT flag is used to write the file out in the
  *  same (input) file format that the pix was read from.  If the pix
  *  was not read from file, the input format field will be
@@ -83,7 +83,8 @@ enum {
 enum {
     L_JPEG_ENCODE   = 1,    /* use dct encoding: 8 and 32 bpp, no cmap     */
     L_G4_ENCODE     = 2,    /* use ccitt g4 fax encoding: 1 bpp            */
-    L_FLATE_ENCODE  = 3     /* use flate encoding: any depth, cmap ok      */
+    L_FLATE_ENCODE  = 3,    /* use flate encoding: any depth, cmap ok      */
+    L_JP2K_ENCODE  = 4      /* use jp2k encoding: 8 and 32 bpp, no cmap    */
 };
 
 
@@ -116,7 +117,7 @@ struct L_Compressed_Data
     size_t             nbytes;       /* number of uncompressed raster bytes */
     l_int32            res;          /* resolution (ppi)                    */
 };
-typedef struct L_Compressed_Data  L_COMPRESSED_DATA;
+typedef struct L_Compressed_Data  L_COMP_DATA;
 
 
 /* ------------------------ Pdf multi-image flags ------------------------ */

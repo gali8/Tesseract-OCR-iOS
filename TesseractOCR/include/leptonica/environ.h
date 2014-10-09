@@ -41,6 +41,7 @@
 
 /* MS VC++ does not provide stdint.h, so define the missing types here */
 
+
 #ifndef _MSC_VER
 #include <stdint.h>
 
@@ -65,24 +66,18 @@ typedef unsigned int uintptr_t;
 #endif /* _MSC_VER */
 
 /* Windows specifics */
-
 #ifdef _WIN32
-
-/* DLL EXPORTS and IMPORTS:
- * Important: LEPTONLIB_* is deprected.  It is retained here only for
- * compatibility with tesseract 3.00.  In your project files, use
- * LIBLEPT_EXPORTS and LIBLEPT_IMPORTS  */
-#if defined(LIBLEPT_EXPORTS) || defined(LEPTONLIB_EXPORTS)
-#define LEPT_DLL __declspec(dllexport)
-#elif defined(LIBLEPT_IMPORTS) || defined(LEPTONLIB_IMPORTS)
-#define LEPT_DLL __declspec(dllimport)
-#else
-#define LEPT_DLL
-#endif
-
-#else  /* non-WINDOWS-SPECIFICS */
-#include <stdint.h>
-#define LEPT_DLL
+  /* DLL EXPORTS and IMPORTS */
+  #if defined(LIBLEPT_EXPORTS)
+    #define LEPT_DLL __declspec(dllexport)
+  #elif defined(LIBLEPT_IMPORTS)
+    #define LEPT_DLL __declspec(dllimport)
+  #else
+    #define LEPT_DLL
+  #endif
+#else  /* non-Windows specifics */
+  #include <stdint.h>
+  #define LEPT_DLL
 #endif  /* _WIN32 */
 
 typedef intptr_t l_intptr_t;
@@ -94,7 +89,7 @@ typedef void *L_TIMER;
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
  *                          USER CONFIGURABLE                         *
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
- *                 Environ variables with I/O libraries               *
+ *               Environment variables with I/O libraries             *
  *               Manual Configuration Only: NOT AUTO_CONF             *
  *--------------------------------------------------------------------*/
 /*
@@ -133,13 +128,14 @@ typedef void *L_TIMER;
  *       Environ variables for uncompressed formatted image I/O       *
  *--------------------------------------------------------------------*/
 /*
- *  Leptonica supplies image I/O for pnm, bmp, ps, and pdf.
+ *  Leptonica supplies image I/O for bmp, pnm, jp2k, pdf and ps.
  *  Setting any of these to 0 causes non-functioning stubs to be linked.
  */
 #define  USE_BMPIO        1
 #define  USE_PNMIO        1
-#define  USE_PSIO         1
+#define  USE_JP2KIO       1
 #define  USE_PDFIO        1
+#define  USE_PSIO         1
 
 
 /*--------------------------------------------------------------------*
@@ -153,6 +149,13 @@ typedef int                     l_int32;
 typedef unsigned int            l_uint32;
 typedef float                   l_float32;
 typedef double                  l_float64;
+#ifdef COMPILER_MSVC
+typedef __int64                 l_int64;
+typedef unsigned __int64        l_uint64;
+#else
+typedef long long               l_int64;
+typedef unsigned long long      l_uint64;
+#endif  /* COMPILER_MSVC */
 
 
 /*------------------------------------------------------------------------*
@@ -192,7 +195,7 @@ typedef double                  l_float64;
 
 
 /*--------------------------------------------------------------------*
- *         Environ variables used within compiler invocation          *
+ *            Environment variables for endian dependence             *
  *--------------------------------------------------------------------*/
 /*
  *  To control conditional compilation, one of two variables
@@ -206,7 +209,7 @@ typedef double                  l_float64;
 
 
 /*------------------------------------------------------------------------*
- *                   Simple search state variables                        *
+ *                    Simple search state variables                       *
  *------------------------------------------------------------------------*/
 enum {
     L_NOT_FOUND = 0,
@@ -216,10 +219,10 @@ enum {
 
 /*------------------------------------------------------------------------*
  *                      Standard memory allocation                        *
- *
- *  These specify the memory management functions that are used
- *  on all heap data except for Pix.  Memory management for Pix
- *  also defaults to malloc and free.  See pix1.c for details.
+ *                                                                        *
+ *  These specify the memory management functions that are used           *
+ *  on all heap data except for Pix.  Memory management for Pix           *
+ *  also defaults to malloc and free.  See pix1.c for details.            *
  *------------------------------------------------------------------------*/
 #define MALLOC(blocksize)           malloc(blocksize)
 #define CALLOC(numelem, elemsize)   calloc(numelem, elemsize)
@@ -228,55 +231,197 @@ enum {
 
 
 /*------------------------------------------------------------------------*
- *         Control printing of error, warning, and info messages         *
+ *         Control printing of error, warning, and info messages          *
  *                                                                        *
- *      (Use -DNO_CONSOLE_IO on compiler line to prevent text output)     *
+ *  To omit all messages to stderr, simply define NO_CONSOLE_IO on the    *
+ *  command line.  For finer grained control, we have a mechanism         *
+ *  based on the message severity level.  The following assumes that      *
+ *  NO_CONSOLE_IO is not defined.                                         *
+ *                                                                        *
+ *  Messages are printed if the message severity is greater than or equal *
+ *  to the current severity threshold.  The current severity threshold    *
+ *  is the greater of the compile-time severity, which is the minimum     *
+ *  severity that can be reported, and the run-time severity, which is    *
+ *  the severity threshold at the moment.                                 *
+ *                                                                        *
+ *  The compile-time threshold determines which messages are compiled     *
+ *  into the library for potential printing.  Messages below the          *
+ *  compile-time threshold are omitted and can never be printed.  The     *
+ *  default compile-time threshold is L_SEVERITY_INFO, but this may be    *
+ *  overridden by defining MINIMUM_SEVERITY to the desired enumeration    *
+ *  identifier on the compiler command line.  Defining NO_CONSOLE_IO on   *
+ *  the command line is the same as setting MINIMUM_SEVERITY to           *
+ *  L_SEVERITY_NONE.                                                      *
+ *                                                                        *
+ *  The run-time threshold determines which messages are printed during   *
+ *  library execution.  It defaults to the compile-time threshold but     *
+ *  may be changed either statically by defining DEFAULT_SEVERITY to      *
+ *  the desired enumeration identifier on the compiler command line, or   *
+ *  dynamically by calling setMsgSeverity() to specify a new threshold.   *
+ *  The run-time threshold may also be set from the value of the          *
+ *  environment variable LEPT_MSG_SEVERITY by calling setMsgSeverity()   *
+ *  and specifying L_SEVERITY_EXTERNAL.                                   *
+ *                                                                        *
+ *  In effect, the compile-time threshold setting says, "Generate code    *
+ *  to permit messages of equal or greater severity than this to be       *
+ *  printed, if desired," whereas the run-time threshold setting says,    *
+ *  "Print messages that have an equal or greater severity than this."    *
  *------------------------------------------------------------------------*/
+enum {
+    L_SEVERITY_EXTERNAL = 0,   /* Get the severity from the environment   */
+    L_SEVERITY_ALL      = 1,   /* Lowest severity: print all messages     */
+    L_SEVERITY_DEBUG    = 2,   /* Print debugging and higher messages     */
+    L_SEVERITY_INFO     = 3,   /* Print informational and higher messages */
+    L_SEVERITY_WARNING  = 4,   /* Print warning and higher messages       */
+    L_SEVERITY_ERROR    = 5,   /* Print error and higher messages         */
+    L_SEVERITY_NONE     = 6    /* Highest severity: print no messages     */
+};
+
+/*  No message less than the compile-time threshold will ever be
+ *  reported, regardless of the current run-time threshold.  This allows
+ *  selection of the set of messages to include in the library.  For
+ *  example, setting the threshold to L_SEVERITY_WARNING eliminates all
+ *  informational messages from the library.  With that setting, both
+ *  warning and error messages would be printed unless setMsgSeverity()
+ *  was called, or DEFAULT_SEVERITY was redefined, to set the run-time
+ *  severity to L_SEVERITY_ERROR.  In that case, only error messages
+ *  would be printed.
+ *
+ *  This mechanism makes the library smaller and faster, by eliminating
+ *  undesired message reporting and the associated run-time overhead for
+ *  message threshold checking, because code for messages whose severity
+ *  is lower than MINIMUM_SEVERITY won't be generated.
+ *
+ *  A production library might typically permit WARNING and higher
+ *  messages to be generated, and a development library might permit
+ *  DEBUG and higher.  The actual messages printed (as opposed to
+ *  generated) would depend on the current run-time severity threshold.
+ */
+
+#ifdef  NO_CONSOLE_IO
+  #undef MINIMUM_SEVERITY
+  #undef DEFAULT_SEVERITY
+
+  #define MINIMUM_SEVERITY      L_SEVERITY_NONE
+  #define DEFAULT_SEVERITY      L_SEVERITY_NONE
+
+#else
+  #ifndef MINIMUM_SEVERITY
+    #define MINIMUM_SEVERITY    L_SEVERITY_INFO    /* Compile-time default */
+  #endif
+
+  #ifndef DEFAULT_SEVERITY
+    #define DEFAULT_SEVERITY    MINIMUM_SEVERITY   /* Run-time default */
+  #endif
+#endif
+
+
+/*  The run-time message severity threshold is defined in utils.c.  */
+LEPT_DLL extern l_int32  LeptMsgSeverity;
+
+/*
+ *  Usage
+ *  =====
+ *  Messages are of two types.
+ *
+ *  (1) The messages
+ *      ERROR_INT(a,b,c)       : returns l_int32
+ *      ERROR_FLOAT(a,b,c)     : returns l_float32
+ *      ERROR_PTR(a,b,c)       : returns void*
+ *  are used to return from functions and take a fixed set of parameters:
+ *      a : <message string>
+ *      b : procName
+ *      c : <return value from function>
+ *  where procName is the name of the local variable naming the function.
+ *
+ *  (2) The purely informational L_* messages
+ *      L_ERROR(a,...)
+ *      L_WARNING(a,...)
+ *      L_INFO(a,...)
+ *  do not take a return value, but they take at least two parameters:
+ *      a  :  <message string> with optional format conversions
+ *      v1 : procName    (this must be included as the first vararg)
+ *      v2, ... :  optional varargs to match format converters in the message
+ *
+ *  To return an error from a function that returns void, use:
+ *      L_ERROR(<message string>, procName, [...])
+ *      return;
+ *
+ *  Implementation details
+ *  ======================
+ *  Messages are defined with the IF_SEV macro.  The first parameter is
+ *  the message severity, the second is the function to call if the
+ *  message is to be printed, and the third is the return value if the
+ *  message is to be suppressed.  For example, we might have an
+ *  informational message defined as:
+ *
+ *    IF_SEV(L_SEVERITY_INFO, fprintf(.......), 0)
+ *
+ *  The macro expands into a conditional.  Because the first comparison
+ *  is between two constants, an optimizing compiler will remove either
+ *  the comparison (if it's true) or the entire macro expansion (if it
+ *  is false).  This means that there is no run-time overhead for
+ *  messages whose severity falls below the minimum specified at compile
+ *  time, and for others the overhead is one (not two) comparisons.
+ *
+ *  The L_nnn() macros below do not return a value, but because the
+ *  conditional operator requires one for the false condition, we
+ *  specify a void expression.
+ */
+
 #ifdef  NO_CONSOLE_IO
 
-#define PROCNAME(name)
-#define ERROR_PTR(a,b,c)            ((void *)(c))
-#define ERROR_INT(a,b,c)            ((l_int32)(c))
-#define ERROR_FLOAT(a,b,c)          ((l_float32)(c))
-#define L_ERROR(a,b)
-#define L_ERROR_STRING(a,b,c)
-#define L_ERROR_INT(a,b,c)
-#define L_ERROR_FLOAT(a,b,c)
-#define L_WARNING(a,b)
-#define L_WARNING_STRING(a,b,c)
-#define L_WARNING_INT(a,b,c)
-#define L_WARNING_INT2(a,b,c,d)
-#define L_WARNING_FLOAT(a,b,c)
-#define L_WARNING_FLOAT2(a,b,c,d)
-#define L_INFO(a,b)
-#define L_INFO_STRING(a,b,c)
-#define L_INFO_INT(a,b,c)
-#define L_INFO_INT2(a,b,c,d)
-#define L_INFO_FLOAT(a,b,c)
-#define L_INFO_FLOAT2(a,b,c,d)
+  #define PROCNAME(name)
+  #define ERROR_INT(a,b,c)            ((l_int32)(c))
+  #define ERROR_FLOAT(a,b,c)          ((l_float32)(c))
+  #define ERROR_PTR(a,b,c)            ((void *)(c))
+  #define L_ERROR(a,...)
+  #define L_WARNING(a,...)
+  #define L_INFO(a,...)
 
 #else
 
-#define PROCNAME(name)              static const char procName[] = name
-#define ERROR_PTR(a,b,c)            returnErrorPtr((a),(b),(c))
-#define ERROR_INT(a,b,c)            returnErrorInt((a),(b),(c))
-#define ERROR_FLOAT(a,b,c)          returnErrorFloat((a),(b),(c))
-#define L_ERROR(a,b)                l_error((a),(b))
-#define L_ERROR_STRING(a,b,c)       l_errorString((a),(b),(c))
-#define L_ERROR_INT(a,b,c)          l_errorInt((a),(b),(c))
-#define L_ERROR_FLOAT(a,b,c)        l_errorFloat((a),(b),(c))
-#define L_WARNING(a,b)              l_warning((a),(b))
-#define L_WARNING_STRING(a,b,c)     l_warningString((a),(b),(c))
-#define L_WARNING_INT(a,b,c)        l_warningInt((a),(b),(c))
-#define L_WARNING_INT2(a,b,c,d)     l_warningInt2((a),(b),(c),(d))
-#define L_WARNING_FLOAT(a,b,c)      l_warningFloat((a),(b),(c))
-#define L_WARNING_FLOAT2(a,b,c,d)   l_warningFloat2((a),(b),(c),(d))
-#define L_INFO(a,b)                 l_info((a),(b))
-#define L_INFO_STRING(a,b,c)        l_infoString((a),(b),(c))
-#define L_INFO_INT(a,b,c)           l_infoInt((a),(b),(c))
-#define L_INFO_INT2(a,b,c,d)        l_infoInt2((a),(b),(c),(d))
-#define L_INFO_FLOAT(a,b,c)         l_infoFloat((a),(b),(c))
-#define L_INFO_FLOAT2(a,b,c,d)      l_infoFloat2((a),(b),(c),(d))
+  #define PROCNAME(name)              static const char procName[] = name
+  #define IF_SEV(l,t,f) \
+      ((l) >= MINIMUM_SEVERITY && (l) >= LeptMsgSeverity ? (t) : (f))
+
+  #define ERROR_INT(a,b,c) \
+      IF_SEV(L_SEVERITY_ERROR, returnErrorInt((a),(b),(c)), (l_int32)(c))
+  #define ERROR_FLOAT(a,b,c) \
+      IF_SEV(L_SEVERITY_ERROR, returnErrorFloat((a),(b),(c)), (l_float32)(c))
+  #define ERROR_PTR(a,b,c) \
+      IF_SEV(L_SEVERITY_ERROR, returnErrorPtr((a),(b),(c)), (void *)(c))
+
+  #define L_ERROR(a,...) \
+      IF_SEV(L_SEVERITY_ERROR, \
+             (void)fprintf(stderr, "Error in %s: " a, __VA_ARGS__), \
+             (void)0)
+  #define L_WARNING(a,...) \
+      IF_SEV(L_SEVERITY_WARNING, \
+             (void)fprintf(stderr, "Warning in %s: " a, __VA_ARGS__), \
+             (void)0)
+  #define L_INFO(a,...) \
+      IF_SEV(L_SEVERITY_INFO, \
+             (void)fprintf(stderr, "Info in %s: " a, __VA_ARGS__), \
+             (void)0)
+
+#if 0  /* Alternative method for controlling L_* message output */
+  #define L_ERROR(a,...) \
+    { if (L_SEVERITY_ERROR >= MINIMUM_SEVERITY && \
+          L_SEVERITY_ERROR >= LeptMsgSeverity) \
+          fprintf(stderr, "Error in %s: " a, __VA_ARGS__) \
+    }
+  #define L_WARNING(a,...) \
+    { if (L_SEVERITY_WARNING >= MINIMUM_SEVERITY && \
+          L_SEVERITY_WARNING >= LeptMsgSeverity) \
+          fprintf(stderr, "Warning in %s: " a, __VA_ARGS__) \
+    }
+  #define L_INFO(a,...) \
+    { if (L_SEVERITY_INFO >= MINIMUM_SEVERITY && \
+          L_SEVERITY_INFO >= LeptMsgSeverity) \
+             fprintf(stderr, "Info in %s: " a, __VA_ARGS__) \
+    }
+#endif
 
 #endif  /* NO_CONSOLE_IO */
 

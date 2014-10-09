@@ -30,7 +30,7 @@
 
 // Remove newline (if any) at the end of the string.
 inline void chomp_string(char *str) {
-  int last_index = (int)strlen(str) - 1;
+  int last_index = strlen(str) - 1;
   while (last_index >= 0 &&
          (str[last_index] == '\n' || str[last_index] == '\r')) {
     str[last_index--] = '\0';
@@ -40,6 +40,14 @@ inline void chomp_string(char *str) {
 // Advance the current pointer of the file if it points to a newline character.
 inline void SkipNewline(FILE *file) {
   if (fgetc(file) != '\n') fseek(file, -1, SEEK_CUR);
+}
+
+// Swaps the two args pointed to by the pointers.
+// Operator= and copy constructor must work on T.
+template<typename T> inline void Swap(T* p1, T* p2) {
+  T tmp(*p2);
+  *p2 = *p1;
+  *p1 = tmp;
 }
 
 // qsort function to sort 2 floats.
