@@ -245,6 +245,10 @@ namespace tesseract {
     
     //  Get box info
     char* boxText = _tesseract->GetBoxText(0);
+    if (!boxText) {
+        NSLog(@"No boxes recognized. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
+        return nil;
+    }
     NSString *stringBoxes = [NSString stringWithUTF8String:boxText];
     delete [] boxText;
     
@@ -297,14 +301,15 @@ namespace tesseract {
             CGRect box = CGRectMake(x, y, width, height);
             
             word = ri->GetUTF8Text(level);
-            conf = ri->Confidence(level);
-            
-            [array addObject:@{
-                               @"text":         [NSString stringWithUTF8String:word],
-                               @"confidence":   [NSNumber numberWithFloat:conf],
-                               @"boundingbox":  [NSValue valueWithCGRect:box]
-                               }];
-            
+            if (word != NULL) {
+                conf = ri->Confidence(level);
+                
+                [array addObject:@{
+                                   @"text":         [NSString stringWithUTF8String:word],
+                                   @"confidence":   [NSNumber numberWithFloat:conf],
+                                   @"boundingbox":  [NSValue valueWithCGRect:box]
+                                   }];
+            }
             delete[] word;
         } while (ri->Next(level));
     }
