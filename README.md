@@ -1,4 +1,4 @@
-Tesseract OCR iOS 2.3
+Tesseract OCR iOS 3.03 (Leoptonica 1.70)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
@@ -19,7 +19,7 @@ New Framework Project
 
 Install with [**CocoaPods**](http://cocoapods.org) by adding the following to your Podfile:
 <p>
-<pre><code>pod 'TesseractOCRiOS', '~> 2.2'</pre></code>  //2.3 is not yet available, I'm sorry.
+<pre><code>pod 'TesseractOCRiOS', '~> 2.2'</pre></code>  //3.03 is not yet available, I'm sorry.
 </p>
 **Or** copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
 
@@ -137,6 +137,14 @@ return false; // return true, if you need to interrupt tesseract before it finis
 
 Updates in this version 
 =================
+- 3.03 (Thanks to Kevin Conley href="https://github.com/kevincon")
+- This update fixes the confidence value issue I reported in #56
+- fixed the memory leak
+- Modified characterBoxes function to return characters in order
+- Removed unused lib files
+- Added some null checks to fix a bug where no text is recognized
+- Note that building the Tesseract OCR Aggregate product will yield a warning about how the Tesseract and Leptonica lib files don't work for the x86_64 architecture. However, everything still works in the simulator, I guess because the libraries work okay with the i386 target.
+
 
 - New implementation based off the API examples for tesseract-ocr  href="https://code.google.com/p/tesseract-ocr/wiki/APIExample#Result_iterator_example
 
