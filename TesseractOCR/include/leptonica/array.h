@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -40,10 +40,12 @@
  *
  *  Contains definitions for:
  *      Numa interpolation flags
+ *      Numa and FPix border flags
+ *      Numa data type conversion to string
  */
 
 
-/*------------------------------------------------------------------------* 
+/*------------------------------------------------------------------------*
  *                             Array Structs                              *
  *------------------------------------------------------------------------*/
 
@@ -142,10 +144,9 @@ struct L_Bytea
 typedef struct L_Bytea L_BYTEA;
 
 
-/*------------------------------------------------------------------------* 
+/*------------------------------------------------------------------------*
  *                              Array flags                               *
  *------------------------------------------------------------------------*/
-
     /* Flags for interpolation in Numa */
 enum {
     L_LINEAR_INTERP = 1,        /* linear     */
@@ -157,6 +158,12 @@ enum {
     L_CONTINUED_BORDER = 1,     /* extended with same value                  */
     L_SLOPE_BORDER = 2,         /* extended with constant normal derivative  */
     L_MIRRORED_BORDER = 3       /* mirrored                                  */
+};
+
+    /* Flags for data type converted from Numa */
+enum {
+    L_INTEGER_VALUE = 1,        /* convert to integer  */
+    L_FLOAT_VALUE = 2           /* convert to float    */
 };
 
 

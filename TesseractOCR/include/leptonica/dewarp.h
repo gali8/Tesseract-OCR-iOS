@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -48,28 +48,31 @@
  *     However, at rendering time, a page can have one of two different
  *     types of models.
  *     (1) A valid model is an actual model that meets the rendering
- *         requirements, including whether a full model (horizontal
- *         and vertical disparity) is required, and limits on model
- *         curvatures.  See dewarpaTestForValidModel() for details.
- *         Valid models are identified by dewarpaInsertRefModels(), which
- *         sets the 'valid' field.  Only valid models are used for rendering.
+ *         constraints, which are limits on model curvature parameters.
+ *         See dewarpaTestForValidModel() for details.
+ *         Valid models are identified by dewarpaInsertRefModels(),
+ *         which sets the 'vvalid' and 'hvalid' fields.  Only valid
+ *         models are used for rendering.
  *     (2) A reference model is used by a page that doesn't have
  *         a valid model, but has a nearby valid model of the same
- *         parity (even/odd page) that it can use.  The range to search
- *         for a valid model is given by the 'maxdist' field.
- *     A page may have neither a valid nor a reference model, in
- *     which case rendering simply copies the input image.
- *     By default, only the vertical disparity is required for
- *     an actual model ('fullmodel' = 0).  The 'maxdist' parameter is
- *     input when the dewarpa is created.  The other rendering parameters
- *     have default values given in dewarp.c.  All parameters used by
- *     rendering can be set (or reset) using accessors.
+ *         parity (even/odd page) that it can use.  The range in pages
+ *         to search for a valid model is given by the 'maxdist' field.
  *
- *     After dewarping, use of the vertical disparity will cause all
- *     points on each altered curve to have a y-value equal to the
- *     minimum.  Use of horizontal disparity will cause the left
- *     and right edges of the textlines to be vertically aligned if
- *     they had been typeset flush-left and flush-right, respectively.
+ *     If a valid vertical disparity model (VDM) is not available,
+ *     just use the input image.  Otherwise, assuming the VDM is available:
+ *       (a) with useboth == 0, we use only the VDM.
+ *       (b) with useboth == 1, we require using the VDM and, if a valid
+ *           horizontal disparity model (HDM) is available, we also use it.
+ *
+ *     The 'maxdist' parameter is input when the dewarpa is created.
+ *     The other rendering parameters have default values given in dewarp.c.
+ *     All parameters used by rendering can be set (or reset) using accessors.
+ *
+ *     After dewarping, use of the VDM will cause all points on each
+ *     altered curve to have a y-value equal to the minimum.  Use of
+ *     the HDA will cause the left and right edges of the textlines
+ *     to be vertically aligned if they had been typeset flush-left
+ *     and flush-right, respectively.
  *
  *     The sampled disparity arrays are expanded to full resolution,
  *     using linear interpolation, and this is further expanded
@@ -88,63 +91,70 @@
      * In most situations, the serialized version is ephemeral -- it is
      * not needed after being used.  No functions will be provided to
      * convert between different versions. */
-#define  DEWARP_VERSION_NUMBER      2
+#define  DEWARP_VERSION_NUMBER      3
 
 struct L_Dewarpa
 {
-    l_int32             nalloc;        /* size of dewarp ptr array           */
-    l_int32             maxpage;       /* maximum page number in array       */
-    struct L_Dewarp   **dewarp;        /* array of ptrs to page dewarp       */
-    struct Numa        *namodels;      /* list of page numbers for pages     */
-                                       /* with page models                   */
-    struct Numa        *napages;       /* list of page numbers with either   */
-                                       /* page models or ref page models     */
-    l_int32             redfactor;     /* reduction factor of input: 1 or 2  */
-    l_int32             sampling;      /* disparity arrays sampling factor   */
-    l_int32             minlines;      /* min number of long lines required  */
-    l_int32             maxdist;       /* max distance for getting ref pages */
-    l_int32             min_medcurv;   /* minimum median abs line curvature, */
-                                       /* in micro-units                     */
-    l_int32             max_medcurv;   /* maximum median abs line curvature, */
-                                       /* in micro-units                     */
-    l_int32             max_leftcurv;  /* maximum left edge line curvature,  */
-                                       /* in micro-units                     */
-    l_int32             max_rightcurv; /* maximum right edge line curvature, */
-                                       /* in micro-units                     */
-    l_int32             fullmodel;     /* both disparity arrays required     */
-    l_int32             modelsready;   /* invalid models have been removed   */
-                                       /* and refs built against valid set   */
+    l_int32            nalloc;        /* size of dewarp ptr array            */
+    l_int32            maxpage;       /* maximum page number in array        */
+    struct L_Dewarp  **dewarp;        /* array of ptrs to page dewarp        */
+    struct L_Dewarp  **dewarpcache;   /* array of ptrs to cached dewarps     */
+    struct Numa       *namodels;      /* list of page numbers for pages      */
+                                      /* with page models                    */
+    struct Numa       *napages;       /* list of page numbers with either    */
+                                      /* page models or ref page models      */
+    l_int32            redfactor;     /* reduction factor of input: 1 or 2   */
+    l_int32            sampling;      /* disparity arrays sampling factor    */
+    l_int32            minlines;      /* min number of long lines required   */
+    l_int32            maxdist;       /* max distance for getting ref pages  */
+    l_int32            max_linecurv;  /* maximum abs line curvature,         */
+                                      /* in micro-units                      */
+    l_int32            min_diff_linecurv; /* minimum abs diff line curvature */
+                                      /* in micro-units                      */
+    l_int32            max_diff_linecurv; /* maximum abs diff line curvature */
+                                      /* in micro-units                      */
+    l_int32            max_edgecurv;  /* maximum abs left or right edge      */
+                                      /* curvature, in micro-units           */
+    l_int32            max_diff_edgecurv; /* maximum abs diff left-right     */
+                                      /* edge curvature, in micro-units      */
+    l_int32            useboth;       /* use both disparity arrays if        */
+                                      /* available; just vertical otherwise  */
+    l_int32            modelsready;   /* invalid models have been removed    */
+                                      /* and refs built against valid set    */
 };
 typedef struct L_Dewarpa L_DEWARPA;
 
 
 struct L_Dewarp
 {
-    struct Pix     *pixs;         /* source pix, 1 bpp                       */
-    struct Pix     *pixd;         /* dewarped pix; 1, 8 or 32 bpp            */
-    struct FPix    *sampvdispar;  /* sampled vert disparity array            */
-    struct FPix    *samphdispar;  /* sampled horiz disparity array           */
-    struct FPix    *fullvdispar;  /* full vert disparity array               */
-    struct FPix    *fullhdispar;  /* full horiz disparity array              */
-    struct Numa    *naflats;      /* sorted flat location of each line       */
-    struct Numa    *nacurves;     /* sorted curvature of each line           */
-    l_int32         w;            /* width of source image                   */
-    l_int32         h;            /* height of source image                  */
-    l_int32         pageno;       /* page number; important for reuse        */
-    l_int32         sampling;     /* sampling factor of disparity arrays     */
-    l_int32         redfactor;    /* reduction factor of pixs: 1 or 2        */
-    l_int32         minlines;     /* min number of long lines required       */
-    l_int32         nlines;       /* number of long lines found              */
-    l_int32         medcurv;      /* median abs curvature in micro-units     */
-    l_int32         leftcurv;     /* left edge curvature in micro-units      */
-    l_int32         rightcurv;    /* right edge curvature in micro-units     */
-    l_int32         nx;           /* number of sampling pts in x direction   */
-    l_int32         ny;           /* number of sampling pts in y direction   */
-    l_int32         hasref;       /* 0 if normal; 1 if has a refpage         */
-    l_int32         refpage;      /* page with disparity model to use here   */
-    l_int32         success;      /* sets to 1 if model build succeeds       */
-    l_int32         valid;        /* sets to 1 if model is valid             */
-    l_int32         debug;        /* sets to 1 if debug output requested     */
+    struct L_Dewarpa  *dewa;         /* ptr to parent (not owned)            */
+    struct Pix        *pixs;         /* source pix, 1 bpp                    */
+    struct FPix       *sampvdispar;  /* sampled vert disparity array         */
+    struct FPix       *samphdispar;  /* sampled horiz disparity array        */
+    struct FPix       *fullvdispar;  /* full vert disparity array            */
+    struct FPix       *fullhdispar;  /* full horiz disparity array           */
+    struct Numa       *namidys;      /* sorted y val of midpoint each line   */
+    struct Numa       *nacurves;     /* sorted curvature of each line        */
+    l_int32            w;            /* width of source image                */
+    l_int32            h;            /* height of source image               */
+    l_int32            pageno;       /* page number; important for reuse     */
+    l_int32            sampling;     /* sampling factor of disparity arrays  */
+    l_int32            redfactor;    /* reduction factor of pixs: 1 or 2     */
+    l_int32            minlines;     /* min number of long lines required    */
+    l_int32            nlines;       /* number of long lines found           */
+    l_int32            mincurv;      /* min line curvature in micro-units    */
+    l_int32            maxcurv;      /* max line curvature in micro-units    */
+    l_int32            leftcurv;     /* left edge curvature in micro-units   */
+    l_int32            rightcurv;    /* right edge curvature in micro-units  */
+    l_int32            nx;           /* number of sampling pts in x-dir      */
+    l_int32            ny;           /* number of sampling pts in y-dir      */
+    l_int32            hasref;       /* 0 if normal; 1 if has a refpage      */
+    l_int32            refpage;      /* page with disparity model to use     */
+    l_int32            vsuccess;     /* sets to 1 if vert disparity builds   */
+    l_int32            hsuccess;     /* sets to 1 if horiz disparity builds  */
+    l_int32            vvalid;       /* sets to 1 if valid vert disparity    */
+    l_int32            hvalid;       /* sets to 1 if valid horiz disparity   */
+    l_int32            debug;        /* sets to 1 if debug output requested  */
 };
 typedef struct L_Dewarp L_DEWARP;
 

@@ -13,6 +13,7 @@
 #import "environ.h"
 #import "pix.h"
 #import "ocrclass.h"
+#import "allheaders.h"
 
 namespace tesseract {
 	class TessBaseAPI;
@@ -23,7 +24,8 @@ namespace tesseract {
     NSString* _language;
     NSMutableDictionary* _variables;
 	tesseract::TessBaseAPI* _tesseract;
-	const UInt8 *_pixels;
+	//const UInt8 *_pixels;
+    Pix *currentPix;
     ETEXT_DESC *_monitor;
 }
 
@@ -68,6 +70,9 @@ namespace tesseract {
         // End() is called in destructor of TessBaseAPI.
         delete _tesseract;
         _tesseract = nullptr;
+    }
+    if (currentPix != nullptr) {
+        pixDestroy(&currentPix);
     }
 }
 
@@ -204,7 +209,7 @@ namespace tesseract {
     
     CGImage *cgImage = image.CGImage;
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-    _pixels = CFDataGetBytePtr(data);
+    const UInt8 *_pixels = CFDataGetBytePtr(data);
     
     size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
@@ -215,7 +220,11 @@ namespace tesseract {
     assert(bytesPerRow < MAX_INT32);
     {
         imageThresholder->SetImage(_pixels,width,height,(int)(bitsPerPixel/bitsPerComponent),(int)bytesPerRow);
-        _tesseract->SetImage(imageThresholder->GetPixRect());
+        if (currentPix != nullptr) {
+            pixDestroy(&currentPix);
+        }
+        currentPix = imageThresholder->GetPixRect();
+        _tesseract->SetImage(currentPix);
     }
     
     imageThresholder->Clear();
@@ -240,11 +249,15 @@ namespace tesseract {
     return text;
 }
 
-- (NSDictionary *)characterBoxes {
-    NSMutableDictionary *recognizedTextBoxes = [NSMutableDictionary dictionary];
+- (NSArray *)characterBoxes {
+    NSMutableArray *recognizedTextBoxes = [[NSMutableArray alloc] init];
     
     //  Get box info
     char* boxText = _tesseract->GetBoxText(0);
+    if (!boxText) {
+        NSLog(@"No boxes recognized. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
+        return nil;
+    }
     NSString *stringBoxes = [NSString stringWithUTF8String:boxText];
     delete [] boxText;
     
@@ -262,7 +275,10 @@ namespace tesseract {
             CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
             CGRect box = CGRectMake(x, y, width, height);
-            [recognizedTextBoxes setObject:boxComponents[0] forKey:[NSValue valueWithCGRect:box]];
+            NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+            resultDict[@"text"] = boxComponents[0];
+            resultDict[@"box"] = [NSValue valueWithCGRect:box];
+            [recognizedTextBoxes addObject: resultDict];
         }
     }
     return recognizedTextBoxes;
@@ -294,14 +310,15 @@ namespace tesseract {
             CGRect box = CGRectMake(x, y, width, height);
             
             word = ri->GetUTF8Text(level);
-            conf = ri->Confidence(level);
-            
-            [array addObject:@{
-                               @"text":         [NSString stringWithUTF8String:word],
-                               @"confidence":   [NSNumber numberWithFloat:conf],
-                               @"boundingbox":  [NSValue valueWithCGRect:box]
-                               }];
-            
+            if (word != NULL) {
+                conf = ri->Confidence(level);
+                
+                [array addObject:@{
+                                   @"text":         [NSString stringWithUTF8String:word],
+                                   @"confidence":   [NSNumber numberWithFloat:conf],
+                                   @"boundingbox":  [NSValue valueWithCGRect:box]
+                                   }];
+            }
             delete[] word;
         } while (ri->Next(level));
     }
