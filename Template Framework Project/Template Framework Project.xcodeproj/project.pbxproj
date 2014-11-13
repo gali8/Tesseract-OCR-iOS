@@ -325,7 +325,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Template Framework Project/Template Framework Project-Prefix.pch";
 				INFOPLIST_FILE = "Template Framework Project/Template Framework Project-Info.plist";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
