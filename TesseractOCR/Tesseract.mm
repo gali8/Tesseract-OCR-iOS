@@ -13,6 +13,7 @@
 #import "environ.h"
 #import "pix.h"
 #import "ocrclass.h"
+#import "allheaders.h"
 
 namespace tesseract {
 	class TessBaseAPI;
@@ -23,7 +24,8 @@ namespace tesseract {
     NSString* _language;
     NSMutableDictionary* _variables;
 	tesseract::TessBaseAPI* _tesseract;
-	const UInt8 *_pixels;
+	//const UInt8 *_pixels;
+    Pix *currentPix;
     ETEXT_DESC *_monitor;
 }
 
@@ -53,6 +55,7 @@ namespace tesseract {
     
     self = [self initPrivateWithDataPath:nil language:language];
     if (self) {
+        currentPix = NULL;
     }
     return self;
 }
@@ -204,7 +207,7 @@ namespace tesseract {
     
     CGImage *cgImage = image.CGImage;
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-    _pixels = CFDataGetBytePtr(data);
+    const UInt8 *_pixels = CFDataGetBytePtr(data);
     
     size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
@@ -215,7 +218,11 @@ namespace tesseract {
     assert(bytesPerRow < MAX_INT32);
     {
         imageThresholder->SetImage(_pixels,width,height,(int)(bitsPerPixel/bitsPerComponent),(int)bytesPerRow);
-        _tesseract->SetImage(imageThresholder->GetPixRect());
+        if (currentPix != NULL) {
+            pixDestroy(&currentPix);
+        }
+        currentPix = imageThresholder->GetPixRect();
+        _tesseract->SetImage(currentPix);
     }
     
     imageThresholder->Clear();
