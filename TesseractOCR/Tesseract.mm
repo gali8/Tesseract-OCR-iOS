@@ -55,7 +55,6 @@ namespace tesseract {
     
     self = [self initPrivateWithDataPath:nil language:language];
     if (self) {
-        currentPix = NULL;
     }
     return self;
 }
@@ -71,6 +70,9 @@ namespace tesseract {
         // End() is called in destructor of TessBaseAPI.
         delete _tesseract;
         _tesseract = nullptr;
+    }
+    if (currentPix != nullptr) {
+        pixDestroy(&currentPix);
     }
 }
 
@@ -218,7 +220,7 @@ namespace tesseract {
     assert(bytesPerRow < MAX_INT32);
     {
         imageThresholder->SetImage(_pixels,width,height,(int)(bitsPerPixel/bitsPerComponent),(int)bytesPerRow);
-        if (currentPix != NULL) {
+        if (currentPix != nullptr) {
             pixDestroy(&currentPix);
         }
         currentPix = imageThresholder->GetPixRect();
