@@ -5,26 +5,38 @@ Tesseract OCR iOS 3.03 (Leoptonica 1.70)
 
 It helps you to use OCR in iOS projects, writing Objective-C. Easy and fast.
 
-Template Framework Project
+Getting Started
 =================
-You can use the "**Template Framework Project**". It's a starting point for use the Tesseract Framework. It's iOS7 and arm64 ready!
+
+Use the provided template project
+------------------------
+You can use the "**Template Framework Project**" from this repository. It's a starting point for use the Tesseract Framework. It's iOS7 and arm64 ready!
 
 Into the tessdata folder (linked like a referenced folder into the project), there are the .traineddata language files.
 
-Alternatively you can create a **New Project** like explained below.
+Integrate into an existing project
+------------------------
+### Option 1: Using [CocoaPods](http://cocoapods.org)
+#### Stable version
+Add the following line to your Podfile then run `pod update` 
 
-New Framework Project
-=================
+```
+pod 'TesseractOCRiOS', '~> 2.2'
+```
+#### Development version
+Add the following line to your Podfile then run `pod update` 
 
-Install with [**CocoaPods**](http://cocoapods.org) by adding the following to your Podfile:
-<p>
-<pre><code>pod 'TesseractOCRiOS', '~> 2.2'</pre></code>  //3.03 is not yet available, I'm sorry.
-</p>
-**Or** copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
+```
+pod 'TesseractOCRiOS', :git => 'https://github.com/gali8/Tesseract-OCR-iOS.git'
+```
+** WARNING **: This uses the GitHub repository's master branch as the source for the library. This is not based off of any Tesseract OCR iOS release.
 
+### Option 2: Manual installation
+Copy the framework "TesseractOCR.framework" (you can drag&drop it) from the **Products** folder in this repo, to your XCode Project under the frameworks folder.
+
+### Option 3: Build from source
 If you are masochist :) you can generate your TesseractOCR.framework building the **TesseractOCRAggregate** target. 
 
-<br />
 Now...
 
 - If you are using **iOS7** or greater, link <code>libstdc++.6.0.9.dylib</code> library (Your target => General => Linked Frameworks and Libraries => + => libstdc++.6.0.9)
@@ -41,11 +53,9 @@ WARNING: Check the "Create folder references for any added folders" option and t
 
 - Import the header in your classes writing <code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
 
-Now you can use Tesseract class like explained into the "How to use" section:
-
 <br/>
 Usage
-=================
+=======
 
 ### Objective-C
 
