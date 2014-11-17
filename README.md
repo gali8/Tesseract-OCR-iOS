@@ -48,58 +48,58 @@ How to use (objective c)
 =================
 
 **MyViewController.h**
-<pre><code>#import &lt;TesseractOCR/TesseractOCR.h&gt;</code>
-<code>@interface MyViewController : UIViewController &lt;TesseractDelegate&gt;</code>
-<code>@end</code></pre>
 
-<br />
+```Objective-C
+#import <TesseractOCR/TesseractOCR.h>
+@interface MyViewController : UIViewController <TesseractDelegate>
+@end
+```
+
 **MyViewController.m**
-<pre><code>
+
+```Objective-C
 - (void)viewDidLoad
 {
-[super viewDidLoad];
+     [super viewDidLoad];
 
-// language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory; eng+ita will search for a eng.traineddata and ita.traineddata.
-
-//Like in the Template Framework Project:
-// Assumed that .traineddata files are in your "tessdata" folder and the folder is in the root of the project.
-// Assumed, that you added a folder references "tessdata" into your xCode project tree, with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog.
-// Assumed that any .traineddata files is in the tessdata folder, like in the Template Framework Project
-
-//Create your tesseract using the initWithLanguage method:
-// Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"<strong>eng+ita</strong>"];
-
-// set up the delegate to recieve tesseract's callback
-// self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
-// to have an ability to recieve callback and interrupt Tesseract before it finishes
-
-Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
-tesseract.delegate = self;
-
-[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
-[tesseract setImage:[[UIImage imageNamed:@"image_sample.jpg"] blackAndWhite]]; //image to check
-[tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
-[tesseract recognize];
-
-NSLog(@"%@", [tesseract recognizedText]);
-
-tesseract = nil; //deallocate and free all memory
+	// language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory; eng+ita will search for a eng.traineddata and ita.traineddata.
+	
+	//Like in the Template Framework Project:
+	// Assumed that .traineddata files are in your "tessdata" folder and the folder is in the root of the project.
+	// Assumed, that you added a folder references "tessdata" into your xCode project tree, with the ‘Create folder references for any added folders’ options set up in the «Add files to project» dialog.
+	// Assumed that any .traineddata files is in the tessdata folder, like in the Template Framework Project
+	
+	//Create your tesseract using the initWithLanguage method:
+	// Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"<strong>eng+ita</strong>"];
+	
+	// set up the delegate to recieve tesseract's callback
+	// self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
+	// to have an ability to recieve callback and interrupt Tesseract before it finishes
+	
+	Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
+	tesseract.delegate = self;
+	
+	[tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
+	[tesseract setImage:[[UIImage imageNamed:@"image_sample.jpg"] blackAndWhite]]; //image to check
+	[tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
+	[tesseract recognize];
+	
+	NSLog(@"%@", [tesseract recognizedText]);
+	
+	tesseract = nil; //deallocate and free all memory
 }
 
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract
 {
-NSLog(@"progress: %d", tesseract.progress);
-return NO;  // return YES, if you need to interrupt tesseract before it finishes
+    NSLog(@"progress: %d", tesseract.progress);
+    return NO;  // return YES, if you need to interrupt tesseract before it finishes
 }
-</code></pre>
-
+```
 
 Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr-en-variables for a complete (but not up-to-date) list.
 
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
-
-<br/>
 
 How to use (swift)
 =================
