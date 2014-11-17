@@ -5,7 +5,6 @@ Tesseract OCR iOS 3.03 (Leoptonica 1.70)
 
 It helps you to use OCR in iOS projects, writing Objective-C. Easy and fast.
 
-<br/>
 Template Framework Project
 =================
 You can use the "**Template Framework Project**". It's a starting point for use the Tesseract Framework. It's iOS7 and arm64 ready!
@@ -137,86 +136,62 @@ return false; // return true, if you need to interrupt tesseract before it finis
 
 Updates in this version 
 =================
-- 3.03 (Thanks to Kevin Conley href="https://github.com/kevincon")
+### 3.03 (Thanks to [Kevin Conley](https://github.com/kevincon))
 - This update fixes the confidence value issue I reported in #56
 - fixed the memory leak
 - Modified characterBoxes function to return characters in order
 - Removed unused lib files
 - Added some null checks to fix a bug where no text is recognized
 - Note that building the Tesseract OCR Aggregate product will yield a warning about how the Tesseract and Leptonica lib files don't work for the x86_64 architecture. However, everything still works in the simulator, I guess because the libraries work okay with the i386 target.
+- New implementation based off the [API examples for tesseract-ocr](https://code.google.com/p/tesseract-ocr/wiki/APIExample#Result_iterator_example)
 
-
-- New implementation based off the API examples for tesseract-ocr  href="https://code.google.com/p/tesseract-ocr/wiki/APIExample#Result_iterator_example
-
-- 2.3
-
+### 2.3
 - Bug fixing.
-
 - CoreImage filters: use <code>[img blackAndWhite];</code> to convert the UIImage to recognize into a RecognizeImageType
-
 - Rect: use <code>[tesseract setRect:CGRectMake(20, 20, 100, 100)]</code> to define the rect where the text must be recognized
 
-
-- 2.23 There is no need to draw an image for tesseract.
+### 2.23 
+- There is no need to draw an image for tesseract.
 Instead it's possible just to get raw data from the input image.
 Such way is better, cause in the case of the grayscale input image, there is no need to draw it in RGB color space, increasing memory consumptions significantly.
 
 
-- 2.22 CocoaPods
+### 2.22 
+- CocoaPods
 
-- 2.21 tesserackCallbackFunction: leak solved on iDevice. 
+### 2.21 
+- tesserackCallbackFunction: leak solved on iDevice. 
 
-- The 2.2 is like 2.1... but shouldCancelImageRecognitionForTesseract works again! Thank you to Timo Formella! 
+### The 2.2 is like 2.1... 
+but shouldCancelImageRecognitionForTesseract works again! Thank you to Timo Formella! 
 
 - Template project updated. Now with camera support.
 
-- New release 2.1
+### New release 2.1
 
 - Fixed memory leaks. Moved all freeing memory job to dealloc. Thanks to frank4565.
-
 - Clear method is deprecated. Set tesseract = nil; to free all memory.
-
 - Free the utf8Text according to the comment in Tesseract that “The recognized text is returned as a char* which is coded as UTF8 and must be freed with the delete [] operator.”.
-
 - Template Framework Project updated.
 
-
-
-
-- New release 2.0 with 64 bit support.
+### New release 2.0 with 64 bit support.
 
 - The - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language method is now deprecated. 
-
 - Bug fixing!
-
 - Removed tessdata folder from the framework project.
-
 - The tessdata folder (follow the Template Framework Project) is now linked with the "folder references" option into the Template Project. <strong>REQUIRED!!!</strong>
-
 - Added delegate TesseractDelegate
-
 - arm64 support. Thanks to Cyril
-
 - Now you can compile yours libraries. Follow the README_howto_compile_libaries.md inside. Thanks to Simon Strangbaard
-
 - Framework updated
-
 - Bugs fixed. Thanks to Simon Strangbaard
-
 - iOS7 libstdc++ issue solved (using libstdc++.6.0.9). 
-
 - **Template Framework Project added.** It's the start point for use the Tesseract Framework. It's **iOS7** ready!
-
 - 11 october 2013, tesseract is up to date with last https://github.com/ldiqual/tesseract-ios version available.
-
 - Clear method updated:<pre><code>[tesseract clear]; //call Clear() end End() functions</code></pre>
-
 - XCode 5 ready!
-
 - Framework builded with the new Xcode 5.
 
-
-<br/>
 Dependencies
 =================
 
