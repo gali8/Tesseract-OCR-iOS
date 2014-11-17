@@ -106,33 +106,34 @@ How to use (swift)
 Make sure that you have used an Objective-c bridging header to include the &lt;TesseractOCR/TesseractOCR.h&gt; library.  (instructions can be found at https://developer.apple.com/library/ios/documentation/swift/conceptual/buildingcocoaapps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77)
 
 **ViewController.swift**
-<pre><code>
+
+```Swift
 import UIKit
 
 class ViewController: UIViewController, TesseractDelegate {
 
-override func viewDidLoad() {
-super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-var tesseract:Tesseract = Tesseract();
-tesseract.language = "eng+ita";
-tesseract.delegate = self;
-tesseract.setVariableValue("01234567890", forKey: "tessedit_char_whitelist");
-tesseract.image = UIImage(named: "image_sample.jpg");
-tesseract.recognize();
+        var tesseract:Tesseract = Tesseract();
+        tesseract.language = "eng+ita";
+        tesseract.delegate = self;
+        tesseract.setVariableValue("01234567890", forKey: "tessedit_char_whitelist");
+        tesseract.image = UIImage(named: "image_sample.jpg");
+        tesseract.recognize();
 
-NSLog("%@", tesseract.recognizedText);
-}
+        NSLog("%@", tesseract.recognizedText);
+    }
 
-override func didReceiveMemoryWarning() {
-super.didReceiveMemoryWarning()
-}
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
 
-func shouldCancelImageRecognitionForTesseract(tesseract: Tesseract!) -> Bool {
-return false; // return true, if you need to interrupt tesseract before it finishes
+    func shouldCancelImageRecognitionForTesseract(tesseract: Tesseract!) -> Bool {
+        return false; // return true, if you need to interrupt tesseract before it finishes
+    }
 }
-}
-</code></pre>
+```
 
 Known Limitations
 =================
