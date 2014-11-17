@@ -138,7 +138,7 @@ class ViewController: UIViewController, TesseractDelegate {
 Known Limitations
 =================
 
-- Only supports iPhone 5 and lower simulators
+- Not OS X support. iOS simulators are supported only for 32bit version.
 
 Updates in this version 
 =================
