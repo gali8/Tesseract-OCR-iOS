@@ -134,6 +134,11 @@ return false; // return true, if you need to interrupt tesseract before it finis
 }
 </code></pre>
 
+Known Limitations
+=================
+
+- Only supports iPhone 5 and lower simulators
+
 Updates in this version 
 =================
 ### 3.03 (Thanks to [Kevin Conley](https://github.com/kevincon))
@@ -142,7 +147,7 @@ Updates in this version
 - Modified characterBoxes function to return characters in order
 - Removed unused lib files
 - Added some null checks to fix a bug where no text is recognized
-- Note that building the Tesseract OCR Aggregate product will yield a warning about how the Tesseract and Leptonica lib files don't work for the x86_64 architecture. However, everything still works in the simulator, I guess because the libraries work okay with the i386 target.
+- **Note**: Building the Tesseract OCR Aggregate product will yield a warning about how the Tesseract and Leptonica lib files don't work for the x86_64 architecture. However, everything still works in the simulator for iPhone 5 and lower, as well as on all physical devices. I guess because the libraries work okay with the i386 target.
 - New implementation based off the [API examples for tesseract-ocr](https://code.google.com/p/tesseract-ocr/wiki/APIExample#Result_iterator_example)
 
 ### 2.3
