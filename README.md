@@ -1,4 +1,4 @@
-Tesseract OCR iOS 3.03 (Leoptonica 1.70)
+Tesseract OCR iOS 3.03 (Leptonica 1.70)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
