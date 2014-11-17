@@ -44,8 +44,10 @@ WARNING: Check the "Create folder references for any added folders" option and t
 Now you can use Tesseract class like explained into the "How to use" section:
 
 <br/>
-How to use (objective c)
+Usage
 =================
+
+### Objective-C
 
 **MyViewController.h**
 
@@ -101,9 +103,8 @@ Set Tesseract variable key to value. See http://www.sk-spell.sk.cx/tesseract-ocr
 
 For instance, use tessedit_char_whitelist to restrict characters to a specific set.
 
-How to use (swift)
-=================
-Make sure that you have used an Objective-c bridging header to include the &lt;TesseractOCR/TesseractOCR.h&gt; library.  (instructions can be found at https://developer.apple.com/library/ios/documentation/swift/conceptual/buildingcocoaapps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77)
+###Swift 
+Make sure that you have used an Objective-c bridging header to include the library. Instructions on configuring a bridging header file can be found in the [Apple Developer Library](https://developer.apple.com/library/ios/documentation/swift/conceptual/buildingcocoaapps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77).
 
 **ViewController.swift**
 
