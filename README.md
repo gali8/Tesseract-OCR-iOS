@@ -21,7 +21,7 @@ Integrate into an existing project
 Add the following line to your Podfile then run `pod update` 
 
 ```
-pod 'TesseractOCRiOS', '~> 3.1'
+pod 'TesseractOCRiOS', '3.1'
 ```
 #### Development version
 Add the following line to your Podfile then run `pod update` 
