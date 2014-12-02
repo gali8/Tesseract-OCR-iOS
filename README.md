@@ -1,4 +1,4 @@
-Tesseract OCR iOS 3.03 (Leptonica 1.70)
+Tesseract OCR iOS 3.1 (Leptonica 1.70)
 =================
 
 **Tesseract OCR iOS is a Framework for iOS5+.**
@@ -21,7 +21,7 @@ Integrate into an existing project
 Add the following line to your Podfile then run `pod update` 
 
 ```
-pod 'TesseractOCRiOS', '~> 2.2'
+pod 'TesseractOCRiOS', '~> 3.1'
 ```
 #### Development version
 Add the following line to your Podfile then run `pod update` 
@@ -153,6 +153,8 @@ Known Limitations
 
 Updates in this version 
 =================
+### 3.1 Cocoapods 
+
 ### 3.03 (Thanks to [Kevin Conley](https://github.com/kevincon))
 - This update fixes the confidence value issue I reported in #56
 - fixed the memory leak

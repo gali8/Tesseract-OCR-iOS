@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'TesseractOCRiOS'
-  s.version           = '2.3'
+  s.version           = ‘3.1’
 
   s.summary           = 'It helps you to use OCR in iOS projects, writing Objective-C. Easy and fast.'
  
