@@ -93,8 +93,8 @@ typedef void *L_TIMER;
  *               Manual Configuration Only: NOT AUTO_CONF             *
  *--------------------------------------------------------------------*/
 /*
- *  Leptonica provides interfaces to link to five external image I/O
- *  libraries, plus zlib.  Setting any of these to 0 here causes
+ *  Leptonica provides interfaces to link to several external image
+ *  I/O libraries, plus zlib.  Setting any of these to 0 here causes
  *  non-functioning stubs to be linked.
  */
 #ifndef HAVE_CONFIG_H
@@ -105,6 +105,7 @@ typedef void *L_TIMER;
 #define  HAVE_LIBGIF      0
 #define  HAVE_LIBUNGIF    0
 #define  HAVE_LIBWEBP     0
+#define  HAVE_LIBJP2K     0
 #endif  /* ~HAVE_CONFIG_H */
 
 /*
@@ -125,15 +126,18 @@ typedef void *L_TIMER;
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
  *                          USER CONFIGURABLE                         *
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
- *       Environ variables for uncompressed formatted image I/O       *
+ *     Environ variables for image I/O without external libraries     *
  *--------------------------------------------------------------------*/
 /*
- *  Leptonica supplies image I/O for bmp, pnm, jp2k, pdf and ps.
+ *  Leptonica supplies I/O support without using external libraries for:
+ *     * image read/write for bmp, pnm
+ *     * header read for jp2k
+ *     * image wrapping write for pdf and ps.
  *  Setting any of these to 0 causes non-functioning stubs to be linked.
  */
 #define  USE_BMPIO        1
 #define  USE_PNMIO        1
-#define  USE_JP2KIO       1
+#define  USE_JP2KHEADER   1
 #define  USE_PDFIO        1
 #define  USE_PSIO         1
 
@@ -214,6 +218,15 @@ typedef unsigned long long      l_uint64;
 enum {
     L_NOT_FOUND = 0,
     L_FOUND = 1
+};
+
+
+/*------------------------------------------------------------------------*
+ *                     Path separator conversion                          *
+ *------------------------------------------------------------------------*/
+enum {
+    UNIX_PATH_SEPCHAR = 0,
+    WIN_PATH_SEPCHAR = 1
 };
 
 

@@ -16,6 +16,9 @@
 /* Define to 1 if you have giflib. */
 /* #undef HAVE_LIBGIF */
 
+/* Define to 1 if you have libopenjp2. */
+/* #undef HAVE_LIBJP2K */
+
 /* Define to 1 if you have jpeg. */
 /* #undef HAVE_LIBJPEG */
 
@@ -69,7 +72,7 @@
 #define PACKAGE_NAME "leptonica"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "leptonica 1.70"
+#define PACKAGE_STRING "leptonica 1.71"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "leptonica"
@@ -78,13 +81,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.70"
+#define PACKAGE_VERSION "1.71"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.70"
+#define VERSION "1.71"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

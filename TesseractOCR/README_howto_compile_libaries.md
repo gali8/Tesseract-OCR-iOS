@@ -1,9 +1,10 @@
-# Compiling the .a files your self
+# Compiling the .a library files your self
 
 
-### Step 1 - Prerequisits
-In order to compile you need these tools:
-- Xcode 5.0.2 (5A3005)
+### Step 1 - Prerequisites
+First you need to install these tools:
+
+- Xcode 6.1 (6A1052d) with command line tools
 - M4
 - Autoconf
 - Automake
@@ -11,23 +12,17 @@ In order to compile you need these tools:
 
 
 ### Step 2 - Download and unzip
-Download the source code for `leptonica-1.69` from the internet.
+Download the source code for `leptonica-1.71` from the Internet here: http://leptonica.org/source/leptonica-1.71.tar.gz.
 Unzip it in this folder.
 
 
-Download the source code for `tesseract-3.02.02` from the internet.
+Download the source code for `tesseract-3.03` from the Internet here: https://tesseract-ocr.googlecode.com/archive/3.03-rc1.tar.gz.
 Unzip it in this folder.
 
 
 ### Step 3 - Compile
-Run `build_dependencies.sh` from terminal, this compiles first leptonica and then tesseract.
-
-This creates, after few minutes, a folder named `dependencies`.
+Run `build_dependencies.sh` from the terminal. This first compiles leptonica and then tesseract for every architecture iOS/simulator uses (arm7 arm7s arm64 i386 x86_64), and then combines the resulting libs into one library file. It does this for both leptonica and tesseract, so the final results of the script are "libtesseract_all.a", "liblept.a", and "include" directories for both leptonica and tesseract. Finally, the script copies these results into the "lib" and "include" directories inside this directory.
 
 
-### Step 4 - Done
-Copy the file `dependencies/lib/liblept.a` and replace `lib/liblept.a`.
-Copy the file `dependencies/lib/libtesseract_all.a` and replace `lib/libtesseract_all.a`.
-Copy the folder `dependencies/include/leptonica` and replace `include/leptonica`.
-Copy the folder `dependencies/include/tesseract` and replace `include/tesseract`.
-
+### Step 4 - Build
+Finally, with `Tesseract OCR iOS.xcodeproj` open in Xcode, build the target "TesseractOCRAggregate". This will use the "lib" and "include" directories to create the Tesseract OCR iOS framework.
