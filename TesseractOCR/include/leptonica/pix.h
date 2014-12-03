@@ -92,20 +92,23 @@
  *       Line orientation flags
  *       Scan direction flags
  *       Box size adjustment flags
+ *       Flags for selecting box boundaries from two choices
  *       Handling overlapping bounding boxes in boxa
  *       Horizontal warp
  *       Pixel selection for resampling
  *       Thinning flags
  *       Runlength flags
  *       Edge filter flags
- *       Handling negative values in conversion to unsigned int
  *       Subpixel color component ordering in LCD display
- *       Relative to zero flags
  *       HSV histogram flags
  *       Region flags (inclusion, exclusion)
  *       Flags for adding text to a pix
+ *       Flags for plotting on a pix
  *       Flags for selecting display program
  *       Flags in the 'special' pix field for non-default operations
+ *       Handling negative values in conversion to unsigned int
+ *       Relative to zero flags
+ *       Flags for adding or removing traling slash from string                *
  */
 
 
@@ -324,7 +327,7 @@ enum {
  *           colors are ordered from MSB to LSB, as follows:
  *
  *                |  MSB  |  2nd MSB  |  3rd MSB  |  LSB  |
- *                   red      green       blue      alpha 
+ *                   red      green       blue      alpha
  *                    0         1           2         3   (big-endian)
  *                    3         2           1         0   (little-endian)
  *
@@ -728,7 +731,8 @@ enum {
     L_SELECT_GREEN = 2,           /* use green component                   */
     L_SELECT_BLUE = 3,            /* use blue component                    */
     L_SELECT_MIN = 4,             /* use min color component               */
-    L_SELECT_MAX = 5              /* use max color component               */
+    L_SELECT_MAX = 5,             /* use max color component               */
+    L_SELECT_AVERAGE = 6          /* use average of color components       */
 };
 
 
@@ -900,7 +904,9 @@ enum {
     L_FROM_BOT = 3,            /* scan from bottom                         */
     L_SCAN_NEGATIVE = 4,       /* scan in negative direction               */
     L_SCAN_POSITIVE = 5,       /* scan in positive direction               */
-    L_SCAN_BOTH = 6            /* scan in both directions                  */
+    L_SCAN_BOTH = 6,           /* scan in both directions                  */
+    L_SCAN_HORIZONTAL = 7,     /* horizontal scan (direction unimportant)  */
+    L_SCAN_VERTICAL = 8        /* vertical scan (direction unimportant)    */
 };
 
 
@@ -927,6 +933,15 @@ enum {
     L_GET_BOT = 16                 /* get bottom side location             */
 };
 
+
+/*-------------------------------------------------------------------------*
+ *          Flags for selecting box boundaries from two choices            *
+ *-------------------------------------------------------------------------*/
+enum {
+    L_USE_MINSIZE = 1,             /* use boundaries giving min size       */
+    L_USE_MAXSIZE = 2,             /* use boundaries giving max size       */
+    L_SUB_ON_BIG_DIFF = 3          /* substitute boundary if big abs diff  */
+};
 
 /*-------------------------------------------------------------------------*
  *              Handling overlapping bounding boxes in boxa                *
@@ -987,15 +1002,6 @@ enum {
 
 
 /*-------------------------------------------------------------------------*
- *          Handling negative values in conversion to unsigned int         *
- *-------------------------------------------------------------------------*/
-enum {
-    L_CLIP_TO_ZERO = 1,        /* Clip negative values to 0                */
-    L_TAKE_ABSVAL = 2          /* Convert to positive using L_ABS()        */
-};
-
-
-/*-------------------------------------------------------------------------*
  *             Subpixel color component ordering in LCD display            *
  *-------------------------------------------------------------------------*/
 enum {
@@ -1003,16 +1009,6 @@ enum {
     L_SUBPIXEL_ORDER_BGR = 2,   /* sensor order left-to-right BGR          */
     L_SUBPIXEL_ORDER_VRGB = 3,  /* sensor order top-to-bottom RGB          */
     L_SUBPIXEL_ORDER_VBGR = 4   /* sensor order top-to-bottom BGR          */
-};
-
-
-/*-------------------------------------------------------------------------*
- *                         Relative to zero flags                          *
- *-------------------------------------------------------------------------*/
-enum {
-    L_LESS_THAN_ZERO = 1,      /* Choose values less than zero             */
-    L_EQUAL_TO_ZERO = 2,       /* Choose values equal to zero              */
-    L_GREATER_THAN_ZERO = 3    /* Choose values greater than zero          */
 };
 
 
@@ -1051,6 +1047,19 @@ enum {
 
 
 /*-------------------------------------------------------------------------*
+ *                       Flags for plotting on a pix                       *
+ *-------------------------------------------------------------------------*/
+enum {
+    L_PLOT_AT_TOP = 1,         /* Plot horizontally at top                 */
+    L_PLOT_AT_MID_HORIZ = 2,   /* Plot horizontally at middle              */
+    L_PLOT_AT_BOT = 3,         /* Plot horizontally at bottom              */
+    L_PLOT_AT_LEFT = 4,        /* Plot vertically at left                  */
+    L_PLOT_AT_MID_VERT = 5,    /* Plot vertically at middle                */
+    L_PLOT_AT_RIGHT = 6        /* Plot vertically at right                 */
+};
+
+
+/*-------------------------------------------------------------------------*
  *                   Flags for selecting display program                   *
  *-------------------------------------------------------------------------*/
 enum {
@@ -1069,5 +1078,34 @@ enum {
 enum {
     L_NO_CHROMA_SAMPLING_JPEG = 1     /* Write full resolution chroma      */
 };
+
+
+/*-------------------------------------------------------------------------*
+ *          Handling negative values in conversion to unsigned int         *
+ *-------------------------------------------------------------------------*/
+enum {
+    L_CLIP_TO_ZERO = 1,        /* Clip negative values to 0                */
+    L_TAKE_ABSVAL = 2          /* Convert to positive using L_ABS()        */
+};
+
+
+/*-------------------------------------------------------------------------*
+ *                        Relative to zero flags                           *
+ *-------------------------------------------------------------------------*/
+enum {
+    L_LESS_THAN_ZERO = 1,      /* Choose values less than zero             */
+    L_EQUAL_TO_ZERO = 2,       /* Choose values equal to zero              */
+    L_GREATER_THAN_ZERO = 3    /* Choose values greater than zero          */
+};
+
+
+/*-------------------------------------------------------------------------*
+ *         Flags for adding or removing traling slash from string          *
+ *-------------------------------------------------------------------------*/
+enum {
+    L_ADD_TRAIL_SLASH = 1,     /* Add trailing slash to string             */
+    L_REMOVE_TRAIL_SLASH = 2   /* Remove trailing slash from string        */
+};
+
 
 #endif  /* LEPTONICA_PIX_H */

@@ -91,7 +91,7 @@
      * In most situations, the serialized version is ephemeral -- it is
      * not needed after being used.  No functions will be provided to
      * convert between different versions. */
-#define  DEWARP_VERSION_NUMBER      3
+#define  DEWARP_VERSION_NUMBER      4
 
 struct L_Dewarpa
 {
@@ -113,6 +113,8 @@ struct L_Dewarpa
                                       /* in micro-units                      */
     l_int32            max_diff_linecurv; /* maximum abs diff line curvature */
                                       /* in micro-units                      */
+    l_int32            max_edgeslope; /* maximum abs left or right edge      */
+                                      /* slope, in milli-units               */
     l_int32            max_edgecurv;  /* maximum abs left or right edge      */
                                       /* curvature, in micro-units           */
     l_int32            max_diff_edgecurv; /* maximum abs diff left-right     */
@@ -144,6 +146,8 @@ struct L_Dewarp
     l_int32            nlines;       /* number of long lines found           */
     l_int32            mincurv;      /* min line curvature in micro-units    */
     l_int32            maxcurv;      /* max line curvature in micro-units    */
+    l_int32            leftslope;    /* left edge slope in milli-units       */
+    l_int32            rightslope;   /* right edge slope in milli-units      */
     l_int32            leftcurv;     /* left edge curvature in micro-units   */
     l_int32            rightcurv;    /* right edge curvature in micro-units  */
     l_int32            nx;           /* number of sampling pts in x-dir      */
