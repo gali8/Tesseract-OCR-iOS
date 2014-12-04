@@ -6,7 +6,7 @@ Easy and fast.**
 
 These are the current versions of the bundled libraries:
 
-* Tesseract 3.03
+* Tesseract 3.1.1
 * Leptonica 1.71
 
 Getting Started
@@ -265,6 +265,6 @@ Contributors
 =================
 
 Daniele Galiotto (founder) - iOS Freelance Developer -
-**[www.g8production.com]()**
+**[www.g8production.com](http://www.g8production.com)**
 
-Kevin Conley - Stanford Graduate Fellow - **[www.kevintechnology.com]()**
+Kevin Conley - Stanford Graduate Fellow - **[www.kevintechnology.com](http://www.kevintechnology.com)**
