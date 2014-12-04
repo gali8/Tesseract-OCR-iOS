@@ -1,13 +1,13 @@
-Tesseract OCR iOS ![](https://img.shields.io/cocoapods/v/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg)
+Tesseract OCR iOS ![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg)
 =================
 
 **Use Tesseract OCR in iOS 7.0+ projects written in either Objective-C or Swift.
 Easy and fast.**
 
-These are the current versions of the bundled libraries:
+These are the current versions of the upstream bundled libraries within the framework that this repository provides:
 
-* Tesseract 3.1.1
-* Leptonica 1.71
+* Tesseract 3.03-rc1 ([homepage](https://code.google.com/p/tesseract-ocr/))
+* Leptonica 1.71 ([homepage](http://leptonica.org/))
 
 Getting Started
 =================
