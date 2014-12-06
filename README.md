@@ -1,4 +1,4 @@
-Tesseract OCR iOS ![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg)
+Tesseract OCR iOS ![](https://img.shields.io/cocoapods/v/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg)
 =================
 
 **Use Tesseract OCR in iOS 7.0+ projects written in either Objective-C or Swift.
@@ -24,7 +24,7 @@ Integrate the framework into an existing project
 Add the following line to your Podfile then run `pod update`
 
 ```
-pod 'TesseractOCRiOS', '3.1.1'
+pod 'TesseractOCRiOS', '3.4.0'
 ```
 #### Development version
 Add the following line to your Podfile then run `pod update`
@@ -183,6 +183,10 @@ If you like this work, please buy me a [beer](http://g8production.com/Beer)
 
 Release Notes
 =================
+
+### 3.4.0
+- Version bump to get past CocoaPods not respecting that 3.1.1 is a newer version than 3.03 (it thinks 3.03 == 3.3), see [#74](https://github.com/gali8/Tesseract-OCR-iOS/issues/74)
+
 ### 3.1.1
 - Switched to [semantic versioning](http://semver.org/), as required by
     CocoaPods
