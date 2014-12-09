@@ -1,0 +1,3 @@
+language: objective-c
+xcode_project: Tesseract OCR iOS.xcodeproj # path to your xcodeproj folder
+xcode_scheme: TesseractOCRAggregate 
