@@ -184,81 +184,15 @@ If you like this work, please buy me a [beer](http://g8production.com/Beer)
 Release Notes
 =================
 
-### 3.4.0
-- Version bump to get past CocoaPods not respecting that 3.1.1 is a newer version than 3.03 (it thinks 3.03 == 3.3), see [#74](https://github.com/gali8/Tesseract-OCR-iOS/issues/74)
+### 3.1.1 and greater
 
-### 3.1.1
-- Switched to [semantic versioning](http://semver.org/), as required by
-    CocoaPods
-- Fixed bug that affected support of x86_64 architectures (iOS 5S+ simulators)
-- Updated leptonica library from 1.70 to 1.71
+See the [Releases](https://github.com/gali8/Tesseract-OCR-iOS/releases) page
 
-### 3.1 (Thanks to [Kevin Conley](https://github.com/kevincon))
-- Fixed confidence value issue reported in #56
-- Fixed the memory leak reported in #59
-- Modified characterBoxes function to return characters in order
-- Added some null checks to fix a bug where no text is recognized
-- New implementation based off the [API examples for tesseract-ocr](https://code.google.com/p/tesseract-ocr/wiki/APIExample#Result_iterator_example)
+### Older releases
 
-### 2.3
-- Bug fixes
-- CoreImage filters: use `[img blackAndWhite];` to convert a UIImage to
-    recognize into a RecognizeImageType
-- Rect: use `[tesseract setRect:CGRectMake(20, 20, 100, 100)]` to define a
-    rectangle where the text must be located to be recognized
+See the [Release Notes wiki page](https://github.com/gali8/Tesseract-OCR-iOS/wiki/Release-Notes)
 
-### 2.23
-- There is no need to draw an image for Tesseract anymore. Instead it's
-    possible just to get raw data from the input image. This is better because
-    in the case of a grayscale input image, there is no need to draw it in RGB
-    color space, which increases memory consumption significantly.
 
-### 2.22
-- Added support for CocoaPods
-
-### 2.21
-- tesserackCallbackFunction: leak fixed
-
-### 2.2
-- `shouldCancelImageRecognitionForTesseract` works again (thanks to Timo
-    Formella)
-- Template project updated, now with camera support
-
-### 2.1
-
-- Fixed memory leaks
-- Moved all freeing memory job to dealloc (thanks to @frank4565)
-- Clear method is deprecated. Set `tesseract = nil;` to free all memory
-- Free the utf8Text according to the comment in Tesseract that
-    “The recognized text is returned as a char* which is coded as UTF8 and must
-    be freed with the delete [] operator.”
-- Template Framework Project updated
-
-### 2.0
-
-- 64-bit support
-- The
-    `- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language`
-    method is now deprecated
-- Bug fixes
-- Removed tessdata folder from the framework project; the tessdata folder
-    (in the Template Framework Project) is now linked with the "folder
-    references" **REQUIRED!**
-- Added delegate TesseractDelegate
-- arm64 support (thanks to Cyril)
-- Now you can compile the tesseract/leptonica libraries; follow the
-    instructions in README_howto_compile_libaries.md (thanks to Simon
-    Strangbaard)
-- Framework updated
-- Bugs fixed (thanks to Simon Strangbaard)
-- iOS7 libstdc++ issue solved (using libstdc++.6.0.9)
-- **Template Framework Project added.** It's the starting point for using the
-    Tesseract Framework. It's **iOS7** ready!
-- October 11, 2013: Tesseract is up-to-date with the
-    [last version available](https://github.com/ldiqual/tesseract-ios)
-- Clear method updated:`[tesseract clear]; //call Clear() end End() functions`
-- XCode 5 ready!
-- Framework built with the new Xcode 5
 
 License
 =================
