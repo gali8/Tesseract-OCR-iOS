@@ -11,61 +11,7 @@ These are the current versions of the upstream bundled libraries within the fram
 
 Getting Started
 =================
-
-Use the provided template project
-------------------------
-The "**Template Framework Project**" in this repository provides an example of
-how to use Tesseract in your iOS projects. It's iOS7 and arm64 ready!
-
-Integrate the framework into an existing project
-------------------------
-### Option 1: Using [CocoaPods](http://cocoapods.org) (HIGHLY RECOMMENDED)
-#### Stable version
-Add the following line to your Podfile then run `pod update`
-
-```
-pod 'TesseractOCRiOS', '3.4.0'
-```
-#### Development version
-Add the following line to your Podfile then run `pod update`
-
-```
-pod 'TesseractOCRiOS', :git => 'https://github.com/gali8/Tesseract-OCR-iOS.git'
-```
-** WARNING **: This uses the GitHub repository's master branch as the source
-for the library. This is not based off of any stable Tesseract OCR iOS release.
-
-### Option 2: Manual installation
-
-1. Copy the framework file "TesseractOCR.framework" (you can drag and drop it)
-    from the **Products** folder in this repo, to your XCode project under the
-    **Frameworks** folder.
-2. Link against the `libstdc++.6.0.9.dylib` library and the
-    `CoreImage.framework` framework (Your target => General => Linked
-    Frameworks and Libraries => + => libstdc++.6.0.9 and then
-    CoreImage.framework).
-3. Go to your project, click on the project and in the Build Settings tab add
-    <code>-lstdc++</code> to all the "Other Linker Flags" keys.
-4. Go to your project settings, and ensure that C++ Standard Library =>
-    Compiler Default. (thanks to [@trein](https://github.com/trein))
-5. Copy and import the `tessdata` folder from the **Template Framework
-    Project** into the root of your project **AS A REFERENCED FOLDER** (see
-    below). It contains the Tesseract trained data files. You can add your own
-    trained data files here too.
-6. Import the Tesseract header in your classes to start using Tesseract:
-
-    ```#import <TesseractOCR/TesseractOCR.h>```
-
-**NOTE: This library currently requires the tessdata folder to
-be linked as a referenced folder instead of a symbolic group**. If Tesseract
-can't find a language file in your own project, it's probably because you
-created the tessdata folder as a symbolic group instead of a referenced folder.
-It should look like this if you did it correctly:
-
-![](https://cloud.githubusercontent.com/assets/817753/4598582/aeba675c-50ba-11e4-8d14-c7af9336b965.png)
-
-Note how the tessdata folder has a blue icon, indicating it was imported as a
-referenced folder instead of a symbolic group.
+See the [Installation](https://github.com/gali8/Tesseract-OCR-iOS/wiki/Installation) page in the wiki.
 
 Building From Source
 =================
