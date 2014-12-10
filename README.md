@@ -13,11 +13,6 @@ Getting Started
 =================
 See the [Installation](https://github.com/gali8/Tesseract-OCR-iOS/wiki/Installation) page in the wiki. Once you're setup see some [usage examples](https://github.com/gali8/Tesseract-OCR-iOS/wiki/Using-Tesseract-OCR-iOS).
 
-Building From Source
-=================
-You can generate "TesseractOCR.framework" yourself by building the
-**TesseractOCRAggregate** target in "Tesseract OCR iOS.xcodeproj".
-
 Known Limitations
 =================
 
