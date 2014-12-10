@@ -174,16 +174,6 @@
 		64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		64E40AA7180C6AA400C36DDE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6400DDD5180C5DE000443362;
-			remoteInfo = "Template Framework Project";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_howto_compile_libaries.md; sourceTree = "<group>"; };
 		645C864D18698ECE00B27B19 /* build_dependencies.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build_dependencies.sh; sourceTree = "<group>"; };
@@ -345,7 +335,6 @@
 		64A029D617307CD0002B12E7 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		64A029D717307CD0002B12E7 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
 		64A029DD17307CED002B12E7 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
-		64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Template Framework Project.xcodeproj"; path = "Template Framework Project/Template Framework Project.xcodeproj"; sourceTree = "<group>"; };
 		64F74CCC172FD75F0068E657 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -567,18 +556,9 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
-		64E40AA4180C6AA400C36DDE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				64E40AA8180C6AA400C36DDE /* Template Framework Project.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		64F74CC0172FD75F0068E657 = {
 			isa = PBXGroup;
 			children = (
-				64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */,
 				64A0292F17307C1D002B12E7 /* TesseractOCR */,
 				64F74CCB172FD75F0068E657 /* Frameworks */,
 				64F74CCA172FD75F0068E657 /* Products */,
@@ -800,12 +780,6 @@
 			mainGroup = 64F74CC0172FD75F0068E657;
 			productRefGroup = 64F74CCA172FD75F0068E657 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 64E40AA4180C6AA400C36DDE /* Products */;
-					ProjectRef = 64E40AA3180C6AA400C36DDE /* Template Framework Project.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				64A0292B17307C1C002B12E7 /* TesseractOCR */,
@@ -813,16 +787,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		64E40AA8180C6AA400C36DDE /* Template Framework Project.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Template Framework Project.app";
-			remoteRef = 64E40AA7180C6AA400C36DDE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		64A0292A17307C1C002B12E7 /* Resources */ = {

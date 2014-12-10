@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Template Framework Project/Template Framework Project.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Tesseract OCR iOS.xcodeproj">
+   </FileRef>
+</Workspace>
