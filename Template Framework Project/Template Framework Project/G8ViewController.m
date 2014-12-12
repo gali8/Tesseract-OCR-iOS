@@ -94,7 +94,7 @@
  */
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract {
-    NSLog(@"progress: %d", tesseract.progress);
+    NSLog(@"progress: %lu", tesseract.progress);
     return NO;  // return YES, if you need to interrupt tesseract before it finishes
 }
 
