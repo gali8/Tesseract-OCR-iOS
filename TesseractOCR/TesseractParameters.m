@@ -3,7 +3,7 @@
 //  Tesseract OCR iOS
 //  This code is auto-generated from include/tesseract/tesseractclass.h.
 //
-//  Created by Nikolay Volosatov on 12/12/14.
+//  Created by Nikolay Volosatov on 13/12/14.
 //  Copyright (c) 2014 Daniele Galiotto - www.g8production.com. All rights reserved.
 //
 

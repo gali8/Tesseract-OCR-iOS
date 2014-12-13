@@ -45,8 +45,8 @@ codeTemplate = '''//
 ''' % (resultClassName, tesseractclass, strftime("%d/%m/%y", gmtime()), 
 	strftime("%Y", gmtime()), resultClassName, "%s")
 
-externVarTemplate = '\n//%s\n//Type: %s\n//Default: %s\nextern NSString *const %s;\n'
-depricatedExternVarTemplate = '\n///\n/// @warning deprecated parameter!\n///\n//%s\n//Type: %s\n//Default: %s\nextern NSString *const %s;\n'
+externVarTemplate = '\n///%s\n///@param Type %s\n///@param Default %s\nextern NSString *const %s;\n'
+depricatedExternVarTemplate = '\n///%s\n///@param Type %s\n///@param Default %s\nextern NSString *const %s DEPRECATED_ATTRIBUTE;\n'
 codeVarTemplate = 'NSString *const %s = @"%s";\n'
 
 # Read tesseractclass.h file
