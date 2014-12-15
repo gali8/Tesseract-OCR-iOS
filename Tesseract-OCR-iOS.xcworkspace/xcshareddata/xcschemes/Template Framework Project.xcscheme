@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "41A95DDB1A3AD48B0085093C"
-               BuildableName = "Template Framework Project Tests.xctest"
-               BlueprintName = "Template Framework Project Tests"
-               ReferencedContainer = "container:Template Framework Project/Template Framework Project.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
