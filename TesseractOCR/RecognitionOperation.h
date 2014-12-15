@@ -20,4 +20,7 @@ typedef void(^RecognitionOperationComplete)(Tesseract *tesseract);
 
 @property (nonatomic, copy) RecognitionOperationComplete recognitionCompleteBlock;
 
+/// @deprecated	Use property recognitionCompleteBlock instead
+@property (copy) void (^completionBlock)(void) DEPRECATED_ATTRIBUTE;
+
 @end
