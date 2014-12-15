@@ -70,7 +70,8 @@
         //only for test//
 	});
     
-    [operation.tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" forKey:@"tessedit_char_whitelist"]; //limit search
+    [operation.tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                   forKey:kTSTesseditCharWhitelist]; //limit search
     
     [operation.tesseract setImage:[img blackAndWhite]]; //image to check
     //[operation.tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
@@ -97,7 +98,7 @@
  */
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract {
-    NSLog(@"progress: %d", tesseract.progress);
+    NSLog(@"progress: %lu", tesseract.progress);
     return NO;  // return YES, if you need to interrupt tesseract before it finishes
 }
 

@@ -8,25 +8,27 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIImage+Filters.h"
 
 @class Tesseract;
 
 @protocol TesseractDelegate <NSObject>
+
 @optional
-- (void)progressImageRecognitionForTesseract:(Tesseract*)tesseract;
-- (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract*)tesseract;
+- (void)progressImageRecognitionForTesseract:(Tesseract *)tesseract;
+- (BOOL)shouldCancelImageRecognitionForTesseract:(Tesseract *)tesseract;
+
 @end
 
 @interface Tesseract : NSObject
+
 + (NSString *)version;
 
-@property (nonatomic, strong) NSString* language;
+@property (nonatomic, copy) NSString* language;
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGRect rect;
 
-@property (nonatomic, readonly) short progress; // from 0 to 100
+@property (nonatomic, readonly) NSUInteger progress; // from 0 to 100
 @property (nonatomic, readonly) NSString *recognizedText;
 
 //  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
@@ -41,15 +43,16 @@
 
 @property (nonatomic, weak) id<TesseractDelegate> delegate;
 
+- (id)initWithLanguage:(NSString*)language;
+- (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
+
+- (BOOL)recognize;
+
 ///
 /// @warning deprecated method!
 /// @deprecated	- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language is deprecated. Please use - (id)initWithLanguage:(NSString*)language;
 ///
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language DEPRECATED_ATTRIBUTE;
-- (id)initWithLanguage:(NSString*)language;
-- (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
-
-- (BOOL)recognize;
 
 ///
 /// @warning deprecated method!

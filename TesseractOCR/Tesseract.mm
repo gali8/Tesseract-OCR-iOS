@@ -9,6 +9,8 @@
 
 #import "Tesseract.h"
 
+#import "UIImage+Filters.h"
+
 #import "baseapi.h"
 #import "environ.h"
 #import "pix.h"
@@ -20,18 +22,14 @@ namespace tesseract {
 };
 
 @interface Tesseract () {
-    NSString* _dataPath;
-    NSString* _language;
-    NSMutableDictionary* _variables;
-	tesseract::TessBaseAPI* _tesseract;
+	tesseract::TessBaseAPI *_tesseract;
 	//const UInt8 *_pixels;
-    Pix *currentPix;
+    Pix *_currentPix;
     ETEXT_DESC *_monitor;
 }
 
-@end
-
-@interface Tesseract ()
+@property (nonatomic, copy) NSString *dataPath;
+@property (nonatomic, strong) NSMutableDictionary *variables;
 
 @property (readwrite, assign) CGSize imageSize;
 
@@ -39,27 +37,57 @@ namespace tesseract {
 
 @implementation Tesseract
 
-+ (NSString *)version {
++ (NSString *)version
+{
 	return [NSString stringWithFormat:@"%s", tesseract::TessBaseAPI::Version()];
 }
 
-- (id)init {
-    
-    self = [self initWithLanguage:nil];
-    if (self) {
-    }
-    return self;
+- (id)init
+{
+    return [self initWithLanguage:nil];
 }
 
-- (id)initWithLanguage:(NSString*)language {
-    
-    self = [self initPrivateWithDataPath:nil language:language];
-    if (self) {
-    }
-    return self;
+- (id)initWithLanguage:(NSString*)language
+{
+    return [self initPrivateWithDataPath:nil language:language];
 }
 
-- (void)dealloc {
+- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language
+{
+    return [self initPrivateWithDataPath:dataPath language:language];
+}
+
+- (id)initPrivateWithDataPath:(NSString *)dataPath language:(NSString *)language
+{
+	self = [super init];
+    if (self != nil) {
+		_dataPath = [dataPath copy];
+		_language = [language copy];
+        _variables = [NSMutableDictionary dictionary];
+        
+        _monitor = new ETEXT_DESC();
+        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
+        _monitor->cancel_this = (__bridge void*)self;
+
+        if (dataPath != nil) {
+            [self copyDataToDocumentsDirectory];
+        }
+        else {
+            [self setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle];
+        }
+        
+		_tesseract = new tesseract::TessBaseAPI();
+		
+		BOOL success = [self initEngine];
+        if (success == NO) {
+            self = nil;
+        }
+	}
+	return self;
+}
+
+- (void)dealloc
+{
     if (_monitor != nullptr) {
         free(_monitor);
         _monitor = nullptr;
@@ -71,98 +99,65 @@ namespace tesseract {
         delete _tesseract;
         _tesseract = nullptr;
     }
-    if (currentPix != nullptr) {
-        pixDestroy(&currentPix);
+    if (_currentPix != nullptr) {
+        pixDestroy(&_currentPix);
     }
 }
 
-- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language {
-    return [self initPrivateWithDataPath:nil language:language];
-}
-
-- (id)initPrivateWithDataPath:(NSString *)dataPath language:(NSString *)language {
-    
-	self = [super init];
-	if (self) {
-		_dataPath = dataPath;
-		_language = language;
-        
-        _monitor = new ETEXT_DESC();
-        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
-        _monitor->cancel_this = (__bridge void*)self;
-        
-		_variables = [[NSMutableDictionary alloc] init];
-		
-        if (dataPath)
-            [self copyDataToDocumentsDirectory];
-        else
-            [self setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle];
-        
-		_tesseract = new tesseract::TessBaseAPI();
-		
-		BOOL success = [self initEngine];
-		if (!success)
-            self = nil;
-	}
-	return self;
-}
-
-- (void)setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle {
-    
-    NSString *datapath = [NSString stringWithFormat:@"%@/",
-                          [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]
-                          ];
+- (void)setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle
+{
+    NSString *datapath =
+        [NSString stringWithFormat:@"%@/", [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]];
     setenv("TESSDATA_PREFIX", datapath.UTF8String, 1);
 }
 
-- (BOOL)initEngine {
-	int returnCode = _tesseract->Init([_dataPath UTF8String], [_language UTF8String]);
-	return (returnCode == 0) ? YES : NO;
+- (BOOL)initEngine
+{
+	int returnCode = _tesseract->Init(self.dataPath.UTF8String, self.language.UTF8String);
+	return returnCode == 0;
 }
 
-- (void)copyDataToDocumentsDirectory {
-	
+- (void)copyDataToDocumentsDirectory
+{
 	// Useful paths
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentPath = ([documentPaths count] > 0) ? [documentPaths objectAtIndex:0] : nil;
-	NSString *dataPath = [documentPath stringByAppendingPathComponent:_dataPath];
+    NSString *documentPath = documentPaths.firstObject;
+	NSString *dataPath = [documentPath stringByAppendingPathComponent:self.dataPath];
 	
 	//	NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"grc" ofType:@"traineddata"];
-	//
 	NSLog(@"DATAPATH %@", dataPath);
 	
 	// Copy data in Doc Directory
-	if (![fileManager fileExistsAtPath:dataPath])
-	{
-		[fileManager createDirectoryAtPath:dataPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	if ([fileManager fileExistsAtPath:dataPath] == NO) {
+		[fileManager createDirectoryAtPath:dataPath withIntermediateDirectories:YES attributes:nil error:nil];
 	}
     
 	NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    for (NSString *l in [_language componentsSeparatedByString:@"+"]) {
-        NSString *tessdataPath = [bundle pathForResource:l ofType:@"traineddata"];
-        
-        NSString *destinationPath = [dataPath stringByAppendingPathComponent:[tessdataPath lastPathComponent]];
-        
-        if(![fileManager fileExistsAtPath:destinationPath])
-        {
-            if (tessdataPath)
-            {
+    for (NSString *languageName in [self.language componentsSeparatedByString:@"+"]) {
+        NSString *tessdataPath = [bundle pathForResource:languageName ofType:@"traineddata"];
+
+        if (tessdataPath != nil) {
+            NSString *destinationPath = [dataPath stringByAppendingPathComponent:tessdataPath.lastPathComponent];
+
+            if([fileManager fileExistsAtPath:destinationPath] == NO) {
                 NSError *error = nil;
                 NSLog(@"found %@", tessdataPath);
                 NSLog(@"coping in %@", destinationPath);
                 [fileManager copyItemAtPath:tessdataPath toPath:destinationPath error:&error];
-                
-                if(error)
+
+                if(error != nil) {
                     NSLog(@"ERROR! %@", error.description);
+                }
             }
         }
     }
 	
-	setenv("TESSDATA_PREFIX", [[documentPath stringByAppendingString:@"/"] UTF8String], 1);
+	setenv("TESSDATA_PREFIX", [documentPath stringByAppendingString:@"/"].UTF8String, 1);
 }
 
-- (void)setVariableValue:(NSString *)value forKey:(NSString *)key {
+- (void)setVariableValue:(NSString *)value forKey:(NSString *)key
+{
 	/*
 	 * Example:
 	 * _tesseract->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -170,96 +165,123 @@ namespace tesseract {
 	 * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
 	 */
 	
-	[_variables setValue:value forKey:key];
-	_tesseract->SetVariable([key UTF8String], [value UTF8String]);
+	[self.variables setValue:value forKey:key];
+	_tesseract->SetVariable(key.UTF8String, value.UTF8String);
 }
 
-- (void)loadVariables {
-	for (NSString* key in _variables) {
-		NSString* value = [_variables objectForKey:key];
-		_tesseract->SetVariable([key UTF8String], [value UTF8String]);
+- (void)loadVariables
+{
+	for (NSString *key in self.variables) {
+		NSString *value = [self.variables objectForKey:key];
+		_tesseract->SetVariable(key.UTF8String, value.UTF8String);
 	}
 }
 
 #pragma mark - Getters and setters
 
-- (void)setLanguage:(NSString *)language {
-    
-	_language = language;
-	BOOL result = [self initEngine];
-	
-	/*
-	 * "WARNING: On changing languages, all Tesseract parameters
-	 * are reset back to their default values."
-	 */
-	if (result)
-        [self loadVariables];
-}
+- (void)setLanguage:(NSString *)language
+{
+    if ([_language isEqualToString:language] == NO) {
+        _language = language;
+        BOOL inInitDone = [self initEngine];
 
-- (void)setImage:(UIImage *)image {
-    
-    if (image == nil || image.size.width <= 0 || image.size.height <= 0) {
-        NSLog(@"WARNING: Image has not size!");
-		return;
-	}
-    
-    self.imageSize = image.size; //self.imageSize used in the characterBoxes method
-	int width = self.imageSize.width;
-	int height = self.imageSize.height;
-    
-    CGImage *cgImage = image.CGImage;
-    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-    const UInt8 *_pixels = CFDataGetBytePtr(data);
-    
-    size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
-    size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
-    size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
-    
-    tesseract::ImageThresholder *imageThresholder = new tesseract::ImageThresholder();
-    
-    assert(bytesPerRow < MAX_INT32);
-    {
-        imageThresholder->SetImage(_pixels,width,height,(int)(bitsPerPixel/bitsPerComponent),(int)bytesPerRow);
-        if (currentPix != nullptr) {
-            pixDestroy(&currentPix);
+        /*
+         * "WARNING: On changing languages, all Tesseract parameters
+         * are reset back to their default values."
+         */
+        if (inInitDone) {
+            [self loadVariables];
         }
-        currentPix = imageThresholder->GetPixRect();
-        _tesseract->SetImage(currentPix);
     }
-    
-    imageThresholder->Clear();
-    CFRelease(data);
-    delete imageThresholder;
-    imageThresholder = nil;
 }
 
-- (void)setRect:(CGRect)rect {
-    
-	_tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+- (void)setImage:(UIImage *)image
+{
+    if (_image != image) {
+        _image = image;
+
+        if (image.size.width <= 0 || image.size.height <= 0) {
+            NSLog(@"WARNING: Image has not size!");
+            return;
+        }
+
+        self.imageSize = image.size; //self.imageSize used in the characterBoxes method
+        int width = self.imageSize.width;
+        int height = self.imageSize.height;
+
+        CGImage *cgImage = image.CGImage;
+        CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+        const UInt8 *_pixels = CFDataGetBytePtr(data);
+
+        size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
+        size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
+        size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
+
+        if (bytesPerRow > MAX_INT32) {
+            NSLog(@"ERROR: Image is too big");
+            return;
+        }
+
+        tesseract::ImageThresholder *imageThresholder = new tesseract::ImageThresholder();
+        @try {
+            imageThresholder->SetImage(_pixels, width, height, (int)(bitsPerPixel/bitsPerComponent), (int)bytesPerRow);
+            if (_currentPix != nullptr) {
+                pixDestroy(&_currentPix);
+            }
+            _currentPix = imageThresholder->GetPixRect();
+            _tesseract->SetImage(_currentPix);
+        }
+        @finally {
+            imageThresholder->Clear();
+            delete imageThresholder;
+        }
+
+        CFRelease(data);
+    }
 }
 
-- (NSString *)recognizedText {
-	char* utf8Text = _tesseract->GetUTF8Text();
-	if (!utf8Text) {
+- (void)setRect:(CGRect)rect
+{
+    if (CGRectEqualToRect(_rect, rect) == NO) {
+        _rect = rect;
+
+        _tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+    }
+}
+
+- (NSUInteger)progress
+{
+    return _monitor->progress;
+}
+
+#pragma mark - Result fetching
+
+- (NSString *)recognizedText
+{
+	char *utf8Text = _tesseract->GetUTF8Text();
+	if (utf8Text == NULL) {
 		NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
 		return nil;
 	}
+
     NSString *text = [NSString stringWithUTF8String:utf8Text];
     delete[] utf8Text;
     return text;
 }
 
-- (NSArray *)characterBoxes {
+- (NSArray *)characterBoxes
+{
     NSMutableArray *recognizedTextBoxes = [[NSMutableArray alloc] init];
     
     //  Get box info
-    char* boxText = _tesseract->GetBoxText(0);
-    if (!boxText) {
+    char *boxText = _tesseract->GetBoxText(0);
+    if (boxText == NULL) {
         NSLog(@"No boxes recognized. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
         return nil;
     }
+
     NSString *stringBoxes = [NSString stringWithUTF8String:boxText];
-    delete [] boxText;
+    delete[] boxText;
     
     NSArray *arrayOfStringBoxes = [stringBoxes componentsSeparatedByString:@"\n"];
     for (NSString *stringBox in arrayOfStringBoxes) {
@@ -269,112 +291,119 @@ namespace tesseract {
         //  Need to flip to work with UIKit
         //  c is the recognized character and p is the page it is recognized on
         NSArray *boxComponents = [stringBox componentsSeparatedByString:@" "];
-        if (boxComponents.count > 5) {
+        if (boxComponents.count >= 6) {
             CGFloat x = [boxComponents[1] floatValue];
             CGFloat y = self.imageSize.height - [boxComponents[4] floatValue];
             CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
             CGRect box = CGRectMake(x, y, width, height);
-            NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-            resultDict[@"text"] = boxComponents[0];
-            resultDict[@"box"] = [NSValue valueWithCGRect:box];
-            [recognizedTextBoxes addObject: resultDict];
+
+            NSDictionary *resultDict = @{
+                @"text":    boxComponents[0],
+                @"box":     [NSValue valueWithCGRect:box],
+            };
+            [recognizedTextBoxes addObject:resultDict];
         }
     }
-    return recognizedTextBoxes;
+    return [recognizedTextBoxes copy];
 }
 
-- (short)progress {
-    return _monitor->progress;
-}
-
-- (NSArray *)getConfidences:(tesseract::PageIteratorLevel)level {
-    NSMutableArray * array = [NSMutableArray array];
-    const char * word;
-    float conf;
-    int x1, y1, x2, y2;
-    
+- (NSArray *)getConfidences:(tesseract::PageIteratorLevel)level
+{
+    NSMutableArray *array = [NSMutableArray array];
     //  Get iterators
-    tesseract::ResultIterator *ri = _tesseract->GetIterator();
+    tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
     
-    if (ri != 0) {
+    if (resultIterator != NULL) {
         do {
             // BoundingBox parameters are (Left Top Right Bottom).
             // See comment in characterBoxes() for information on the coordinate
             // system, and changes being made.
-            ri->BoundingBox(level, &x1, &y1, &x2, &y2);
+            int x1, y1, x2, y2;
+            resultIterator->BoundingBox(level, &x1, &y1, &x2, &y2);
+
             CGFloat x = x1;
             CGFloat y = self.imageSize.height - y1;
             CGFloat width = x2 - x1;
             CGFloat height = y1 - y2;
             CGRect box = CGRectMake(x, y, width, height);
             
-            word = ri->GetUTF8Text(level);
+            const char *word = resultIterator->GetUTF8Text(level);
             if (word != NULL) {
-                conf = ri->Confidence(level);
+                float conf = resultIterator->Confidence(level);
                 
                 [array addObject:@{
-                                   @"text":         [NSString stringWithUTF8String:word],
-                                   @"confidence":   [NSNumber numberWithFloat:conf],
-                                   @"boundingbox":  [NSValue valueWithCGRect:box]
-                                   }];
+                    @"text":         [NSString stringWithUTF8String:word],
+                    @"confidence":   [NSNumber numberWithFloat:conf],
+                    @"boundingbox":  [NSValue valueWithCGRect:box]
+                }];
+                delete[] word;
             }
-            delete[] word;
-        } while (ri->Next(level));
+        } while (resultIterator->Next(level));
     }
     
-    return array;
+    return [array copy];
 }
 
-
-- (NSArray *)getConfidenceByWord {
+- (NSArray *)getConfidenceByWord
+{
     return [self getConfidences:tesseract::RIL_WORD];
 }
 
-- (NSArray *)getConfidenceBySymbol {
+- (NSArray *)getConfidenceBySymbol
+{
     return [self getConfidences:tesseract::RIL_SYMBOL];
 }
 
-- (NSArray *)getConfidenceByBlock {
+- (NSArray *)getConfidenceByBlock
+{
     return [self getConfidences:tesseract::RIL_BLOCK];
 }
 
-- (NSArray *)getConfidenceByTextline {
+- (NSArray *)getConfidenceByTextline
+{
     return [self getConfidences:tesseract::RIL_TEXTLINE];
 }
 
-- (NSArray *)getConfidenceByParagraph {
+- (NSArray *)getConfidenceByParagraph
+{
     return [self getConfidences:tesseract::RIL_PARA];
 }
 
 #pragma mark - Other functions
 
-- (void)clear {
+- (void)clear
+{
     // Free up all memory in dealloc.
     NSLog(@"clear is deprecated. Free up all memory in dealloc.");
 }
 
-- (BOOL)recognize {
-    
+- (BOOL)recognize
+{
 	int returnCode = _tesseract->Recognize(_monitor);
-	return (returnCode == 0) ? YES : NO;
+	return returnCode == 0;
 }
 
-- (void)tesseractProgressCallbackFunction:(int)words {
-    
+- (void)tesseractProgressCallbackFunction:(int)words
+{
     SEL selector = @selector(progressImageRecognitionForTesseract:);
     
-    if([self.delegate respondsToSelector:selector])
+    if([self.delegate respondsToSelector:selector]) {
         [self.delegate progressImageRecognitionForTesseract:self];
+    }
 }
 
-- (BOOL)tesseractCancelCallbackFunction:(int)words {
-    
-    if (_monitor->ocr_alive == 1)
+- (BOOL)tesseractCancelCallbackFunction:(int)words
+{
+    if (_monitor->ocr_alive == 1) {
         _monitor->ocr_alive = 0;
-    
-    SEL selector = @selector(shouldCancelImageRecognitionForTesseract:);
-    return [self.delegate respondsToSelector:selector] ? [self.delegate shouldCancelImageRecognitionForTesseract:self] : NO;
+    }
+
+    BOOL isCancel = NO;
+    if ([self.delegate respondsToSelector:@selector(shouldCancelImageRecognitionForTesseract:)]) {
+        isCancel = [self.delegate shouldCancelImageRecognitionForTesseract:self];
+    }
+    return isCancel;
 }
 
 @end
