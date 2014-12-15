@@ -11,13 +11,16 @@
 		4115B9641A3EF8E90004EC0A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4115B9631A3EF8E90004EC0A /* AppDelegate.m */; };
 		4115B9671A3EF8E90004EC0A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4115B9661A3EF8E90004EC0A /* ViewController.m */; };
 		4115B96C1A3EF8E90004EC0A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4115B96B1A3EF8E90004EC0A /* Images.xcassets */; };
-		4115B97B1A3EF8E90004EC0A /* TestsProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4115B97A1A3EF8E90004EC0A /* TestsProjectTests.m */; };
+		4115B97B1A3EF8E90004EC0A /* RecognitionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4115B97A1A3EF8E90004EC0A /* RecognitionTests.m */; };
 		4115B9851A3EF9920004EC0A /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4115B9841A3EF9920004EC0A /* Launch Screen.xib */; };
 		41184B4B1A3EFA8B007F5923 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B4A1A3EFA8B007F5923 /* UIKit.framework */; };
 		41184B4D1A3EFA93007F5923 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B4C1A3EFA93007F5923 /* libstdc++.6.0.9.dylib */; };
 		41184B4F1A3EFA9B007F5923 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B4E1A3EFA9B007F5923 /* Foundation.framework */; };
 		41184B511A3EFAA8007F5923 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B501A3EFAA8007F5923 /* CoreGraphics.framework */; };
 		41184B531A3EFAAB007F5923 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B521A3EFAAB007F5923 /* TesseractOCR.framework */; };
+		41184B591A3EFD41007F5923 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 41184B551A3EFCAD007F5923 /* tessdata */; };
+		41184B5A1A3EFD44007F5923 /* image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41184B571A3EFCC3007F5923 /* image_sample.jpg */; };
+		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AFE52DB6EB8A535E8FC8DF5 /* Pods-TestsProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestsProjectTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TestsProjectTests/Pods-TestsProjectTests.release.xcconfig"; sourceTree = "<group>"; };
+		36B555C7AA77E5D05A50F31C /* Pods-TestsProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestsProjectTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TestsProjectTests/Pods-TestsProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4115B95B1A3EF8E90004EC0A /* TestsProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestsProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4115B95F1A3EF8E90004EC0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4115B9601A3EF8E90004EC0A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,13 +46,16 @@
 		4115B96B1A3EF8E90004EC0A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4115B9741A3EF8E90004EC0A /* TestsProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestsProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4115B9791A3EF8E90004EC0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4115B97A1A3EF8E90004EC0A /* TestsProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestsProjectTests.m; sourceTree = "<group>"; };
+		4115B97A1A3EF8E90004EC0A /* RecognitionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecognitionTests.m; sourceTree = "<group>"; };
 		4115B9841A3EF9920004EC0A /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		41184B4A1A3EFA8B007F5923 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		41184B4C1A3EFA93007F5923 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		41184B4E1A3EFA9B007F5923 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41184B501A3EFAA8007F5923 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		41184B521A3EFAAB007F5923 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = ../Products/TesseractOCR.framework; sourceTree = "<group>"; };
+		41184B551A3EFCAD007F5923 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tessdata; path = TestsProjectTests/tessdata; sourceTree = SOURCE_ROOT; };
+		41184B571A3EFCC3007F5923 /* image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = image_sample.jpg; path = TestsProjectTests/image_sample.jpg; sourceTree = SOURCE_ROOT; };
+		5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestsProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +89,7 @@
 				4115B9771A3EF8E90004EC0A /* TestsProjectTests */,
 				41184B541A3EFAB9007F5923 /* Frameworks */,
 				4115B95C1A3EF8E90004EC0A /* Products */,
+				DE313315F0F85109F42B426C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,10 +105,12 @@
 		4115B95D1A3EF8E90004EC0A /* TestsProject */ = {
 			isa = PBXGroup;
 			children = (
+				41184B551A3EFCAD007F5923 /* tessdata */,
 				4115B9621A3EF8E90004EC0A /* AppDelegate.h */,
 				4115B9631A3EF8E90004EC0A /* AppDelegate.m */,
 				4115B9651A3EF8E90004EC0A /* ViewController.h */,
 				4115B9661A3EF8E90004EC0A /* ViewController.m */,
+				41184B571A3EFCC3007F5923 /* image_sample.jpg */,
 				4115B95E1A3EF8E90004EC0A /* Supporting Files */,
 			);
 			path = TestsProject;
@@ -118,7 +130,7 @@
 		4115B9771A3EF8E90004EC0A /* TestsProjectTests */ = {
 			isa = PBXGroup;
 			children = (
-				4115B97A1A3EF8E90004EC0A /* TestsProjectTests.m */,
+				4115B97A1A3EF8E90004EC0A /* RecognitionTests.m */,
 				4115B9781A3EF8E90004EC0A /* Supporting Files */,
 			);
 			path = TestsProjectTests;
@@ -140,8 +152,18 @@
 				41184B4E1A3EFA9B007F5923 /* Foundation.framework */,
 				41184B4C1A3EFA93007F5923 /* libstdc++.6.0.9.dylib */,
 				41184B4A1A3EFA8B007F5923 /* UIKit.framework */,
+				5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DE313315F0F85109F42B426C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				36B555C7AA77E5D05A50F31C /* Pods-TestsProjectTests.debug.xcconfig */,
+				0AFE52DB6EB8A535E8FC8DF5 /* Pods-TestsProjectTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,9 +190,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4115B9811A3EF8E90004EC0A /* Build configuration list for PBXNativeTarget "TestsProjectTests" */;
 			buildPhases = (
+				EB697FCAF31FBCD095DB85A9 /* Check Pods Manifest.lock */,
 				4115B9701A3EF8E90004EC0A /* Sources */,
 				4115B9711A3EF8E90004EC0A /* Frameworks */,
 				4115B9721A3EF8E90004EC0A /* Resources */,
+				9017DE589BCC5537B8B27927 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,6 +250,8 @@
 			files = (
 				4115B96C1A3EF8E90004EC0A /* Images.xcassets in Resources */,
 				4115B9851A3EF9920004EC0A /* Launch Screen.xib in Resources */,
+				41184B591A3EFD41007F5923 /* tessdata in Resources */,
+				41184B5A1A3EFD44007F5923 /* image_sample.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +263,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9017DE589BCC5537B8B27927 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-TestsProjectTests/Pods-TestsProjectTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB697FCAF31FBCD095DB85A9 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4115B9571A3EF8E90004EC0A /* Sources */ = {
@@ -253,7 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4115B97B1A3EF8E90004EC0A /* TestsProjectTests.m in Sources */,
+				4115B97B1A3EF8E90004EC0A /* RecognitionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +437,7 @@
 		};
 		4115B9821A3EF8E90004EC0A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36B555C7AA77E5D05A50F31C /* Pods-TestsProjectTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -397,6 +457,7 @@
 		};
 		4115B9831A3EF8E90004EC0A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AFE52DB6EB8A535E8FC8DF5 /* Pods-TestsProjectTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -429,6 +490,7 @@
 				4115B9801A3EF8E90004EC0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4115B9811A3EF8E90004EC0A /* Build configuration list for PBXNativeTarget "TestsProjectTests" */ = {
 			isa = XCConfigurationList;
@@ -437,6 +499,7 @@
 				4115B9831A3EF8E90004EC0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
