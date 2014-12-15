@@ -1,6 +1,0 @@
-#ifdef __OBJC__
-#import <UIKit/UIKit.h>
-#endif
-
-#import "Pods-Template Framework Project Tests-environment.h"
-#import <XCTest/XCTest.h>

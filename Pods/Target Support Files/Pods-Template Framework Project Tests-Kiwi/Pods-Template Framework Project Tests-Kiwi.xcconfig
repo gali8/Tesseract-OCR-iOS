@@ -1,4 +1,0 @@
-PODS_TEMPLATE_FRAMEWORK_PROJECT_TESTS_KIWI_FRAMEWORK_SEARCH_PATHS = $(SDKROOT)/Developer/Library/Frameworks $(inherited) $(DEVELOPER_FRAMEWORKS_DIR) "$(SDKROOT)/Developer/Library/Frameworks" "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-PODS_TEMPLATE_FRAMEWORK_PROJECT_TESTS_KIWI_FRAMEWORK_SEARCH_PATHS[sdk=iphoneos8.0] = $(inherited) $(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/Library/Frameworks
-PODS_TEMPLATE_FRAMEWORK_PROJECT_TESTS_KIWI_FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator8.0] = $(inherited) $(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks
-PODS_TEMPLATE_FRAMEWORK_PROJECT_TESTS_KIWI_OTHER_LDFLAGS = -framework "XCTest"

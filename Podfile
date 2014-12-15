@@ -1,8 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 workspace 'Tesseract-OCR-iOS'
-xcodeproj 'Template Framework Project/Template Framework Project.xcodeproj/'
+xcodeproj 'TestsProject/TestsProject.xcodeproj/'
 
-target 'Template Framework Project Tests' do
+target 'TestsProjectTests' do
 
 	pod 'Kiwi', '~> 2.3.1'
 

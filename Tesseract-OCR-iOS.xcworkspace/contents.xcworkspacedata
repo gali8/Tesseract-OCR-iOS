@@ -5,6 +5,9 @@
       location = "group:Template Framework Project/Template Framework Project.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:TestsProject/TestsProject.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Tesseract OCR iOS.xcodeproj">
    </FileRef>
    <FileRef
