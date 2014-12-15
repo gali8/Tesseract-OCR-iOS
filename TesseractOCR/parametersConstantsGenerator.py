@@ -5,8 +5,8 @@ from time import gmtime, strftime
 # Converter settings:
 tesseractclass = "include/tesseract/tesseractclass.h"
 resultClassPath = "./"
-resultClassName = "TesseractParameters"
-varPrefix = "kTS"
+resultClassName = "G8TesseractParameters"
+varPrefix = "kG8"
 
 # Constants:
 #pattern = re.compile('(\w*)_VAR_H\((.*),(.*),(.*)\);')
