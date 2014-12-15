@@ -10,9 +10,9 @@
 #import <TesseractOCR/TesseractOCR.h>
 #import <Kiwi/Kiwi.h>
 
-static NSTimeInterval const kTSMaximumRecognitionTime = 5.0;
-static NSString *const kTSLanguages = @"eng+ita";
-static NSString *const kTSWhiteList = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static NSTimeInterval const kG8MaximumRecognitionTime = 5.0;
+static NSString *const kG8Languages = @"eng+ita";
+static NSString *const kG8WhiteList = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 SPEC_BEGIN(RecognitionTests)
 
@@ -27,17 +27,17 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
     }
 };
 
-__block Tesseract *tesseract;
+__block G8Tesseract *tesseract;
 
 let(image, ^id{
     return nil;
 });
 
 void (^recognizeImage)() = ^{
-    tesseract = [[Tesseract alloc] initWithLanguage:kTSLanguages];
+    tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
 
-    [tesseract setVariableValue:kTSWhiteList
-                         forKey:kTSTesseditCharWhitelist];
+    [tesseract setVariableValue:kG8WhiteList
+                         forKey:kG8TesseditCharWhitelist];
 
     UIImage *bwImage = [image blackAndWhite];
     [tesseract setImage:bwImage];
@@ -45,21 +45,21 @@ void (^recognizeImage)() = ^{
 };
 
 void (^recognizeImageUsingOperation)() = ^{
-    RecognitionOperation *operation = [[RecognitionOperation alloc] init];
+    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
 
-    operation.tesseract.language = kTSLanguages;
+    operation.tesseract.language = kG8Languages;
     operation.tesseract.image = image;
-    [operation.tesseract setVariableValue:kTSWhiteList forKey:kTSTesseditCharWhitelist];
+    [operation.tesseract setVariableValue:kG8WhiteList forKey:kG8TesseditCharWhitelist];
 
     tesseract = nil;
-    operation.recognitionCompleteBlock = ^(Tesseract *recognizedTesseract) {
+    operation.recognitionCompleteBlock = ^(G8Tesseract *recognizedTesseract) {
         tesseract = recognizedTesseract;
     };
 
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperation:operation];
 
-    wait(kTSMaximumRecognitionTime, ^{
+    wait(kG8MaximumRecognitionTime, ^{
         return (BOOL)(tesseract == nil);
     });
 };
