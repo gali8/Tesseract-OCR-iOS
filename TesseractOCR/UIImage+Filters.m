@@ -25,12 +25,12 @@
     return newImage;
 }
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, PIXELS) {
     ALPHA = 0,
     BLUE = 1,
     GREEN = 2,
     RED = 3
-} PIXELS;
+};
 
 - (UIImage *)grayScale
 {
