@@ -17,3 +17,5 @@ DerivedData
 .idea/
 leptonica-*
 tesseract-*
+
+Pods/
