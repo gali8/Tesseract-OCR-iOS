@@ -12,6 +12,9 @@
 {
     
 }
+
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
+
 @end
 
 @implementation G8ViewController
@@ -45,12 +48,17 @@
     // set up the delegate to recieve tesseract's callback
     // self should respond to TesseractDelegate and implement shouldCancelImageRecognitionForTesseract: method
     // to have an ability to recieve callback and interrupt Tesseract before it finishes
-    
+
+    self.operationQueue = [[NSOperationQueue alloc] init];
     [self recognizeSampleImage:nil];
 }
 
 -(void)recognizeImageWithTesseract:(UIImage *)img
 {
+    RecognitionOperation *operation = [[RecognitionOperation alloc] init];
+    operation.tesseract.language = @"eng+ita";
+    operation.delegate = self;
+
     //only for test//
     UIImage *testb = [img blackAndWhite];
     
@@ -62,29 +70,24 @@
         //only for test//
 	});
     
-    Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
-    tesseract.delegate = self;
+    [operation.tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                   forKey:kTSTesseditCharWhitelist]; //limit search
     
-    [tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                         forKey:kTSTesseditCharWhitelist]; //limit search
-    
-    [tesseract setImage:[img blackAndWhite]]; //image to check
-    //[tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
-    [tesseract recognize];
-    
-    NSString *recognizedText = [tesseract recognizedText];
-    
-    NSLog(@"%@", recognizedText);
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-		[self.activityIndicator stopAnimating];
-        
+    [operation.tesseract setImage:[img blackAndWhite]]; //image to check
+    //[operation.tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
+
+    operation.recognitionCompleteBlock = ^(Tesseract *tesseract) {
+        NSString *recognizedText = [tesseract recognizedText];
+
+        NSLog(@"%@", recognizedText);
+
+        [self.activityIndicator stopAnimating];
+
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tesseract OCR iOS" message:recognizedText delegate:nil cancelButtonTitle:@"Yeah!" otherButtonTitles:nil];
         [alert show];
-        
-    });
-    
-    tesseract = nil; //deallocate and free all memory
+    };
+
+    [self.operationQueue addOperation:operation];
 }
 
 //DD TODO
@@ -118,9 +121,7 @@
 }
 
 - (IBAction)recognizeSampleImage:(id)sender {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        [self recognizeImageWithTesseract:[UIImage imageNamed:@"image_sample.jpg"]];
-	});
+    [self recognizeImageWithTesseract:[UIImage imageNamed:@"image_sample.jpg"]];
 }
 
 #pragma mark - UIImagePickerController Delegate
@@ -128,8 +129,6 @@
 {
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     [picker dismissViewControllerAnimated:YES completion:nil];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        [self recognizeImageWithTesseract:image];
-	});
+    [self recognizeImageWithTesseract:image];
 }
 @end

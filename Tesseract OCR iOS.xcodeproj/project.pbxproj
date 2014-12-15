@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		41A95DEE1A3AFBF30085093C /* RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41A95DEF1A3AFBF30085093C /* RecognitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DED1A3AFBF30085093C /* RecognitionOperation.m */; };
 		41A95DEA1A3AF39B0085093C /* TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A95DEB1A3AF39B0085093C /* TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* TesseractParameters.m */; };
 		6490748D198A5A5600D728CC /* UIImage+Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+Filters.m */; };
@@ -177,6 +179,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41A95DEC1A3AFBF30085093C /* RecognitionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecognitionOperation.h; sourceTree = "<group>"; };
+		41A95DED1A3AFBF30085093C /* RecognitionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecognitionOperation.m; sourceTree = "<group>"; };
 		41A95DE81A3AF39B0085093C /* TesseractParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractParameters.h; sourceTree = "<group>"; };
 		41A95DE91A3AF39B0085093C /* TesseractParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TesseractParameters.m; sourceTree = "<group>"; };
 		645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_howto_compile_libaries.md; sourceTree = "<group>"; };
@@ -365,6 +369,8 @@
 				64A029DD17307CED002B12E7 /* TesseractOCR.h */,
 				64A029D617307CD0002B12E7 /* Tesseract.h */,
 				64A029D717307CD0002B12E7 /* Tesseract.mm */,
+				41A95DEC1A3AFBF30085093C /* RecognitionOperation.h */,
+				41A95DED1A3AFBF30085093C /* RecognitionOperation.m */,
 				41A95DE81A3AF39B0085093C /* TesseractParameters.h */,
 				41A95DE91A3AF39B0085093C /* TesseractParameters.m */,
 				6490748A198A5A5600D728CC /* UIImage+Filters.h */,
@@ -639,6 +645,7 @@
 				64A02A0817307D65002B12E7 /* blread.h in Headers */,
 				64A02A0917307D65002B12E7 /* boxread.h in Headers */,
 				64A02A0A17307D65002B12E7 /* boxword.h in Headers */,
+				41A95DEE1A3AFBF30085093C /* RecognitionOperation.h in Headers */,
 				64A02A0B17307D65002B12E7 /* capi.h in Headers */,
 				64A02A0C17307D65002B12E7 /* ccstruct.h in Headers */,
 				64A02A0D17307D65002B12E7 /* ccutil.h in Headers */,
@@ -829,6 +836,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64E9A53319194B47007EE74A /* Tesseract.mm in Sources */,
+				41A95DEF1A3AFBF30085093C /* RecognitionOperation.m in Sources */,
 				41A95DEB1A3AF39B0085093C /* TesseractParameters.m in Sources */,
 				6490748D198A5A5600D728CC /* UIImage+Filters.m in Sources */,
 			);
