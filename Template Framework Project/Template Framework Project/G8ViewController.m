@@ -65,7 +65,8 @@
     Tesseract* tesseract = [[Tesseract alloc] initWithLanguage:@"eng+ita"];
     tesseract.delegate = self;
     
-    [tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" forKey:@"tessedit_char_whitelist"]; //limit search
+    [tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                         forKey:kTSTesseditCharWhitelist]; //limit search
     
     [tesseract setImage:[img blackAndWhite]]; //image to check
     //[tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image

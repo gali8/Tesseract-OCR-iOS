@@ -11,5 +11,6 @@
 
 #import "Tesseract.h"
 #import "UIImage+Filters.h"
+#import "TesseractParameters.h"
 
 #endif
