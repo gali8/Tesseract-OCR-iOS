@@ -9,9 +9,9 @@
 #ifndef Tesseract_OCR_iOS_TesseractOCR_h
 #define Tesseract_OCR_iOS_TesseractOCR_h
 
-#import "Tesseract.h"
-#import "TesseractParameters.h"
-#import "RecognitionOperation.h"
-#import "UIImage+Filters.h"
+#import "G8Tesseract.h"
+#import "G8TesseractParameters.h"
+#import "G8RecognitionOperation.h"
+#import "UIImage+G8Filters.h"
 
 #endif
