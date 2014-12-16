@@ -19,12 +19,6 @@ Known Limitations
 - No OS X support.
 - Strict requirement on language files existing in a referenced "tessdata" folder.
 
-Beer
-=================
-[![](http://media.tumblr.com/3243ca9030c3fa14ca3042344ae3d510/tumblr_inline_ng26w7z8SG1qmlajm.png)](http://g8production.com/Beer)
-
-If you like this work, please buy me a [beer](http://g8production.com/Beer)
-
 Release Notes
 =================
 
