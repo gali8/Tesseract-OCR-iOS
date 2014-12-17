@@ -31,6 +31,8 @@
 @property (nonatomic, readonly) NSUInteger progress; // from 0 to 100
 @property (nonatomic, readonly) NSString *recognizedText;
 
+@property (nonatomic, readonly) UIImage *thressholdedImage;
+
 //  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
 //  CGRects are in UIKit's coordinate space (origin is in the top left)
 @property (nonatomic, readonly) NSArray *characterBoxes;
