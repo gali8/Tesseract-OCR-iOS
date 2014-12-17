@@ -222,7 +222,7 @@ extern NSString *const kG8ParamTextordTestY;
 ///@param Default -MAX_INT32
 extern NSString *const kG8ParamTextordTestX;
 
-///A suffix of user-provided patterns located in tessdata.
+///A list of user-provided patterns.
 ///@param Type STRING
 ///@param Default ""
 extern NSString *const kG8ParamUserPatternsSuffix;
@@ -347,10 +347,10 @@ extern NSString *const kG8ParamParagraphDebugLevel;
 ///@param Default 1.0
 extern NSString *const kG8ParamQualityOutlinePc;
 
-///Dont touch bad rating limit
-///@param Type double
-///@param Default 999.9
-extern NSString *const kG8ParamSuspectRatingPerCh;
+///Debug level for TessdataManager functions.
+///@param Type INT
+///@param Default 0
+extern NSString *const kG8ParamTessdataManagerDebugLevel;
 
 ///Print blamer debug messages
 ///@param Type BOOL
@@ -406,6 +406,11 @@ extern NSString *const kG8ParamQualityRowrejPc;
 ///@param Type INT
 ///@param Default 10
 extern NSString *const kG8ParamSegsearchMaxFutileClassifications;
+
+///Call Tess to learn blobs
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamTesseditTrainingTess;
 
 ///Del if word gt xht x this below bl
 ///@param Type double
@@ -717,6 +722,11 @@ extern NSString *const kG8ParamTextordDescheightModeFraction;
 ///@param Default false
 extern NSString *const kG8ParamTesseditWriteImages;
 
+///Dont touch bad rating limit
+///@param Type double
+///@param Default 999.9
+extern NSString *const kG8ParamSuspectRatingPerCh;
+
 ///Run in parallel where possible
 ///@param Type INT
 ///@param Default 0
@@ -842,10 +852,10 @@ extern NSString *const kG8ParamTesseditWriteUnlv;
 ///@param Default 0.0
 extern NSString *const kG8ParamQualityBlobPc;
 
-///A filename of user-provided words.
-///@param Type STRING
-///@param Default ""
-extern NSString *const kG8ParamUserWordsFile;
+///super norm blobs to save row
+///@param Type INT
+///@param Default 1
+extern NSString *const kG8ParamTextordNoiseSncount;
 
 ///Fract of xheight for fuzz sp
 ///@param Type double
@@ -962,16 +972,6 @@ extern NSString *const kG8ParamTesseditRejectRowPercent;
 ///@param Default 230
 extern NSString *const kG8ParamClassifyAdaptFeatureThreshold;
 
-///Enable vertical detection
-///@param Type BOOL
-///@param Default true
-extern NSString *const kG8ParamTextordTabfindVerticalText;
-
-///Enable single word correction based on the dictionary.
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamTesseditEnableDictCorrection;
-
 ///Width change adjustment
 ///@param Type double
 ///@param Default 5.0
@@ -1006,11 +1006,6 @@ extern NSString *const kG8ParamTesseditGoodQualityUnrej;
 ///@param Type INT
 ///@param Default 0
 extern NSString *const kG8ParamClassifyLearningDebugLevel;
-
-///Max width of blobs to make rows
-///@param Type double
-///@param Default 8
-extern NSString *const kG8ParamTextordWidthLimit;
 
 ///xht multiplier
 ///@param Type double
@@ -1056,11 +1051,6 @@ extern NSString *const kG8ParamTesseditImageBorder;
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTospAllFlipsFuzzy;
-
-///super norm blobs to save row
-///@param Type INT
-///@param Default 1
-extern NSString *const kG8ParamTextordNoiseSncount;
 
 ///Contextual fixspace debug
 ///@param Type INT
@@ -1217,10 +1207,10 @@ extern NSString *const kG8ParamSuperscriptMinYBottom;
 ///@param Default 500
 extern NSString *const kG8ParamLanguageModelViterbiListMaxSize;
 
-///Fraction of height used as a minimum gap for aligned blobs.
+///Max width of blobs to make rows
 ///@param Type double
-///@param Default 0.75
-extern NSString *const kG8ParamTextordTabfindAlignedGapFraction;
+///@param Default 8
+extern NSString *const kG8ParamTextordWidthLimit;
 
 ///Fraction of line spacing for outlier
 ///@param Type double
@@ -1291,11 +1281,6 @@ extern NSString *const kG8ParamBlandUnrej;
 ///@param Type double
 ///@param Default 1.5
 extern NSString *const kG8ParamCrunchDelHighWord;
-
-///List of chars to override tessedit_char_blacklist
-///@param Type STRING
-///@param Default ""
-extern NSString *const kG8ParamTesseditCharUnblacklist;
 
 ///fraction of linesize for min xheight
 ///@param Type double
@@ -1617,7 +1602,7 @@ extern NSString *const kG8ParamMatcherGoodThreshold;
 ///@param Default ""
 extern NSString *const kG8ParamWordToDebug;
 
-///A suffix of user-provided words located in tessdata.
+///A list of user-provided words.
 ///@param Type STRING
 ///@param Default ""
 extern NSString *const kG8ParamUserWordsSuffix;
@@ -1636,11 +1621,6 @@ extern NSString *const kG8ParamRejUseSensibleWd;
 ///@param Type BOOL
 ///@param Default TRUE
 extern NSString *const kG8ParamWordrecEnableAssoc;
-
-///Fraction of textlines deemed vertical to use vertical page mode
-///@param Type double
-///@param Default 0.5
-extern NSString *const kG8ParamTextordTabfindVerticalTextRatio;
 
 ///Top choice only from CP
 ///@param Type INT
@@ -2047,11 +2027,6 @@ extern NSString *const kG8ParamMatcherBadMatchPad;
 ///@param Default 0.2
 extern NSString *const kG8ParamTextordLinespaceIqrlimit;
 
-///Write .txt output file
-///@param Type BOOL
-///@param Default true
-extern NSString *const kG8ParamTesseditCreateTxt;
-
 ///Debug level
 ///@param Type INT
 ///@param Default 1
@@ -2072,20 +2047,15 @@ extern NSString *const kG8ParamTesseditDumpPagesegImages;
 ///@param Default 0
 extern NSString *const kG8ParamTextordBaselineDebug;
 
-///Score penalty (0.1 = 10%) added if there are subscripts or superscripts in a word, but it is otherwise OK.
-///@param Type double
-///@param Default 0.125
-extern NSString *const kG8ParamXheightPenaltySubscripts;
-
 ///No.gaps reqd with few cert spaces to use certs
 ///@param Type INT
 ///@param Default 20
 extern NSString *const kG8ParamTospShortRow;
 
-///Debug level for TessdataManager functions.
-///@param Type INT
-///@param Default 0
-extern NSString *const kG8ParamTessdataManagerDebugLevel;
+///Score penalty (0.1 = 10%) added if there are subscripts or superscripts in a word, but it is otherwise OK.
+///@param Type double
+///@param Default 0.125
+extern NSString *const kG8ParamXheightPenaltySubscripts;
 
 ///Take out ~^ early?
 ///@param Type BOOL
@@ -2192,11 +2162,6 @@ extern NSString *const kG8ParamOutputAmbigWordsFile;
 ///@param Default true
 extern NSString *const kG8ParamTospFuzzyLimitAll;
 
-///A filename of user-provided patterns.
-///@param Type STRING
-///@param Default ""
-extern NSString *const kG8ParamUserPatternsFile;
-
 ///if >this fract
 ///@param Type double
 ///@param Default 0.85
@@ -2242,11 +2207,6 @@ extern NSString *const kG8ParamForceWordAssoc;
 ///@param Default 2.2
 extern NSString *const kG8ParamTospInitGuessKnMult;
 
-///Force using vertical text page mode
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamTextordTabfindForceVerticalText;
-
 ///Maximum character width-to-height ratio
 ///@param Type double
 ///@param Default 2.0
@@ -2276,11 +2236,6 @@ extern NSString *const kG8ParamTesseditDebugBlockRejection;
 ///@param Type double
 ///@param Default 0
 extern NSString *const kG8ParamTospNearLhEdge;
-
-///Add font info to hocr output
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamHocrFontInfo;
 
 ///gap ratio to flip kern->sp
 ///@param Type double
@@ -2377,10 +2332,10 @@ extern NSString *const kG8ParamSegmentRewardNgramBestChoice DEPRECATED_ATTRIBUTE
 ///@param Default FALSE
 extern NSString *const kG8ParamUseNewStateCost DEPRECATED_ATTRIBUTE;
 
-///Enable new segmentation search path.
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamEnableNewSegsearch DEPRECATED_ATTRIBUTE;
+///Score multipler for script consistency within a word. Being a 'reward' factor, it should be <= 1. Smaller value implies bigger reward.
+///@param Type double
+///@param Default 0.95
+extern NSString *const kG8ParamSegmentRewardScript DEPRECATED_ATTRIBUTE;
 
 ///Acceptance decision algorithm
 ///@param Type INT
@@ -2412,10 +2367,10 @@ extern NSString *const kG8ParamHeuristicWeightSeamcut DEPRECATED_ATTRIBUTE;
 ///@param Default true
 extern NSString *const kG8ParamLoadFixedLengthDawgs DEPRECATED_ATTRIBUTE;
 
-///Score multipler for script consistency within a word. Being a 'reward' factor, it should be <= 1. Smaller value implies bigger reward.
-///@param Type double
-///@param Default 0.95
-extern NSString *const kG8ParamSegmentRewardScript DEPRECATED_ATTRIBUTE;
+///Enable new segmentation search path.
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamEnableNewSegsearch DEPRECATED_ATTRIBUTE;
 
 ///Turn on fixed-length phrasebook search permuter
 ///@param Type BOOL
@@ -2426,11 +2381,6 @@ extern NSString *const kG8ParamPermuteFixedLengthDawg DEPRECATED_ATTRIBUTE;
 ///@param Type double
 ///@param Default 1
 extern NSString *const kG8ParamHeuristicWeightRating DEPRECATED_ATTRIBUTE;
-
-///find horizontal lines such as headers in vertical page mode
-///@param Type BOOL
-///@param Default true
-extern NSString *const kG8ParamTextordTabfindVerticalHorizontalMix DEPRECATED_ATTRIBUTE;
 
 ///base factor for adding segmentation cost into word rating. It's a multiplying factor, the larger the value above 1, the bigger the effect of segmentation cost.
 ///@param Type double
