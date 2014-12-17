@@ -6,6 +6,8 @@ from time import gmtime, strftime
 
 # Converter settings:
 repo = "https://code.google.com/p/tesseract-ocr/"
+repoTag = "3.03-rc1"
+
 baseHeadersDir = "tesseract-ocr"
 headers = [
     "ccmain/tesseractclass.h",
@@ -67,8 +69,7 @@ def bash(cmd, cwd=None):
 # Clone/pull repo
 if not os.path.exists(baseHeadersDir):
     bash('git clone ' + repo + ' ' + baseHeadersDir)
-else:
-    bash('cd ' + baseHeadersDir + ' && git pull && cd ..')
+    bash('cd ' + baseHeadersDir + ' && git checkout tags/' + repoTag + ' && cd ..')
 
 # Read tesseractclass.h file
 actualContent = ""
