@@ -57,6 +57,7 @@
 {
     G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
     operation.tesseract.language = @"eng+ita";
+    //operation.tesseract.maximumRecognitionTime = 1.0;
     operation.delegate = self;
 
     //only for test//

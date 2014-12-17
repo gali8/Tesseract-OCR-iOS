@@ -27,6 +27,7 @@
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGRect rect;
+@property (nonatomic, assign) NSTimeInterval maximumRecognitionTime;
 
 @property (nonatomic, readonly) NSUInteger progress; // from 0 to 100
 @property (nonatomic, readonly) NSUInteger recognizedWordsCount;

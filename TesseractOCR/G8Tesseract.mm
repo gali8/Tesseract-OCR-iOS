@@ -369,6 +369,9 @@ namespace tesseract {
 
 - (BOOL)recognize
 {
+    if (self.maximumRecognitionTime > FLT_EPSILON) {
+        _monitor->set_deadline_msecs((inT32)(self.maximumRecognitionTime * 1000));
+    }
     int returnCode = _tesseract->Recognize(_monitor);
     return returnCode == 0;
 }
