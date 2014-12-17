@@ -384,30 +384,49 @@ namespace tesseract {
 
 - (UIImage *)imageFromPix:(Pix *)pix
 {
+    // Get Pix parameters
     l_uint32 width = pixGetWidth(pix);
     l_uint32 height = pixGetHeight(pix);
     l_uint32 bitsPerPixel = pixGetDepth(pix);
     l_uint32 bytesPerRow = pixGetWpl(pix) * 4;
     l_uint32 bitsPerComponent = 8;
+    // By default Leptonica uses 3 spp (RGB)
     if (pixSetSpp(pix, 4) == 0) {
         bitsPerComponent = bitsPerPixel / pixGetSpp(pix);
     }
 
     l_uint32 *pixData = pixGetData(pix);
 
+    // Create CGImage
     CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, pixData, bytesPerRow * height, NULL);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
-    CGImage *cgImage = CGImageCreate(width, height,
-                                     bitsPerComponent, bitsPerPixel, bytesPerRow,
-                                     colorSpace, kCGBitmapByteOrderDefault,
-                                     provider, NULL, NO, kCGRenderingIntentDefault);
+    CGImageRef cgImage = CGImageCreate(width, height,
+                                       bitsPerComponent, bitsPerPixel, bytesPerRow,
+                                       colorSpace, kCGBitmapByteOrderDefault,
+                                       provider, NULL, NO, kCGRenderingIntentDefault);
 
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(colorSpace);
-
     pixDestroy(&pix);
-    UIImage *image = [UIImage imageWithCGImage:cgImage];
+
+    // Draw CGImage to create UIImage
+    //      Creating UIImage by [UIImage imageWithCGImage:] worked wrong
+    //      and image became broken after some releases.
+    CGRect frame = { CGPointZero, CGSizeMake(width, height) };
+    UIGraphicsBeginImageContext(frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    // Context must be mirrored vertical
+    CGContextTranslateCTM(context, 0, height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextDrawImage(context, frame, cgImage);
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+    CGImageRelease(cgImage);
+
     return image;
 }
 

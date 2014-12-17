@@ -35,6 +35,10 @@ let(image, ^id{
     return [UIImage imageNamed:@"image_sample.jpg"];
 });
 
+let(expectedThresholdedImage, ^id{
+    return [UIImage imageNamed:@"image_sample_tr.png"];
+});
+
 void (^recognizeImage)() = ^{
     tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
 
@@ -90,17 +94,19 @@ describe(@"NSOperation usage", ^{
 
 describe(@"Thresholding", ^{
 
-    it(@"Should fetch thresholded image", ^{
+    UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
         tesseract.image = image;
 
-        UIImage *thresholded = tesseract.thresholdedImage;
+        return tesseract.thresholdedImage;
+    };
 
-        [[thresholded shouldNot] beNil];
+    it(@"Should fetch thresholded image", ^{
+        UIImage *onceThresholded = thresholdedImageForImage(image);
+        UIImage *twiceThresholded = thresholdedImageForImage(onceThresholded);
 
-        BOOL isEqual = [tesseract.thresholdedImage g8_isEqualToImage:[UIImage imageNamed:@"image_sample_tr"]];
-
-        [[theValue(isEqual) should] beYes];
+        [[theValue([onceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
+        [[theValue([twiceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
     });
 
 });
