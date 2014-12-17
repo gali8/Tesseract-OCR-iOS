@@ -71,7 +71,7 @@
     });
 
     [operation.tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                   forKey:kG8TesseditCharWhitelist]; //limit search
+                                   forKey:kG8ParamTesseditCharWhitelist]; //limit search
 
     [operation.tesseract setImage:[img blackAndWhite]]; //image to check
     //[operation.tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image

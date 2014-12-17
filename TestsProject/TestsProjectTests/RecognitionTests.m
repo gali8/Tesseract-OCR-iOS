@@ -43,7 +43,7 @@ void (^recognizeImage)() = ^{
     tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
 
     [tesseract setVariableValue:kG8WhiteList
-                         forKey:kG8TesseditCharWhitelist];
+                         forKey:kG8ParamTesseditCharWhitelist];
 
     UIImage *bwImage = [image blackAndWhite];
     [tesseract setImage:bwImage];
@@ -55,7 +55,7 @@ void (^recognizeImageUsingOperation)() = ^{
 
     operation.tesseract.language = kG8Languages;
     operation.tesseract.image = image;
-    [operation.tesseract setVariableValue:kG8WhiteList forKey:kG8TesseditCharWhitelist];
+    [operation.tesseract setVariableValue:kG8WhiteList forKey:kG8ParamTesseditCharWhitelist];
 
     tesseract = nil;
     operation.recognitionCompleteBlock = ^(G8Tesseract *recognizedTesseract) {
