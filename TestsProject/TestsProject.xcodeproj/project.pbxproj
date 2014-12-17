@@ -19,7 +19,9 @@
 		41184B511A3EFAA8007F5923 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B501A3EFAA8007F5923 /* CoreGraphics.framework */; };
 		41184B531A3EFAAB007F5923 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B521A3EFAAB007F5923 /* TesseractOCR.framework */; };
 		41184B591A3EFD41007F5923 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 41184B551A3EFCAD007F5923 /* tessdata */; };
-		41184B5A1A3EFD44007F5923 /* image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41184B571A3EFCC3007F5923 /* image_sample.jpg */; };
+		41C68DAF1A41825500848AE1 /* UIImage+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C68DAE1A41825500848AE1 /* UIImage+G8Equal.m */; };
+		41C68DB31A41849100848AE1 /* image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41C68DB21A41849100848AE1 /* image_sample.jpg */; };
+		41C68DB51A41854600848AE1 /* image_sample_tr.png in Resources */ = {isa = PBXBuildFile; fileRef = 41C68DB41A41854600848AE1 /* image_sample_tr.png */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +56,10 @@
 		41184B501A3EFAA8007F5923 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		41184B521A3EFAAB007F5923 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = ../Products/TesseractOCR.framework; sourceTree = "<group>"; };
 		41184B551A3EFCAD007F5923 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tessdata; path = TestsProjectTests/tessdata; sourceTree = SOURCE_ROOT; };
-		41184B571A3EFCC3007F5923 /* image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = image_sample.jpg; path = TestsProjectTests/image_sample.jpg; sourceTree = SOURCE_ROOT; };
+		41C68DAD1A41825500848AE1 /* UIImage+G8Equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+G8Equal.h"; sourceTree = "<group>"; };
+		41C68DAE1A41825500848AE1 /* UIImage+G8Equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+G8Equal.m"; sourceTree = "<group>"; };
+		41C68DB21A41849100848AE1 /* image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sample.jpg; sourceTree = "<group>"; };
+		41C68DB41A41854600848AE1 /* image_sample_tr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample_tr.png; sourceTree = "<group>"; };
 		5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestsProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -110,7 +115,7 @@
 				4115B9631A3EF8E90004EC0A /* AppDelegate.m */,
 				4115B9651A3EF8E90004EC0A /* ViewController.h */,
 				4115B9661A3EF8E90004EC0A /* ViewController.m */,
-				41184B571A3EFCC3007F5923 /* image_sample.jpg */,
+				41C68DB61A41854A00848AE1 /* Images */,
 				4115B95E1A3EF8E90004EC0A /* Supporting Files */,
 			);
 			path = TestsProject;
@@ -140,6 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				4115B9791A3EF8E90004EC0A /* Info.plist */,
+				41C68DAD1A41825500848AE1 /* UIImage+G8Equal.h */,
+				41C68DAE1A41825500848AE1 /* UIImage+G8Equal.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -155,6 +162,15 @@
 				5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		41C68DB61A41854A00848AE1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				41C68DB21A41849100848AE1 /* image_sample.jpg */,
+				41C68DB41A41854600848AE1 /* image_sample_tr.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		DE313315F0F85109F42B426C /* Pods */ = {
@@ -248,10 +264,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41C68DB31A41849100848AE1 /* image_sample.jpg in Resources */,
 				4115B96C1A3EF8E90004EC0A /* Images.xcassets in Resources */,
 				4115B9851A3EF9920004EC0A /* Launch Screen.xib in Resources */,
+				41C68DB51A41854600848AE1 /* image_sample_tr.png in Resources */,
 				41184B591A3EFD41007F5923 /* tessdata in Resources */,
-				41184B5A1A3EFD44007F5923 /* image_sample.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4115B97B1A3EF8E90004EC0A /* RecognitionTests.m in Sources */,
+				41C68DAF1A41825500848AE1 /* UIImage+G8Equal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

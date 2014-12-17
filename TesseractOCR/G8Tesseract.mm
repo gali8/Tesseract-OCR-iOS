@@ -23,8 +23,6 @@ namespace tesseract {
 
 @interface G8Tesseract () {
     tesseract::TessBaseAPI *_tesseract;
-    //const UInt8 *_pixels;
-    Pix *_currentPix;
     ETEXT_DESC *_monitor;
 }
 
@@ -99,9 +97,6 @@ namespace tesseract {
         delete _tesseract;
         _tesseract = nullptr;
     }
-    if (_currentPix != nullptr) {
-        pixDestroy(&_currentPix);
-    }
 }
 
 - (void)setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle
@@ -165,14 +160,14 @@ namespace tesseract {
      * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
      */
 
-    [self.variables setValue:value forKey:key];
+    self.variables[key] = value;
     _tesseract->SetVariable(key.UTF8String, value.UTF8String);
 }
 
 - (void)loadVariables
 {
-    for (NSString *key in self.variables) {
-        NSString *value = [self.variables objectForKey:key];
+    for (NSString *key in self.variables.allKeys) {
+        NSString *value = self.variables[key];
         _tesseract->SetVariable(key.UTF8String, value.UTF8String);
     }
 }
@@ -198,8 +193,6 @@ namespace tesseract {
 - (void)setImage:(UIImage *)image
 {
     if (_image != image) {
-        _image = image;
-
         if (image.size.width <= 0 || image.size.height <= 0) {
             NSLog(@"WARNING: Image has not size!");
             return;
@@ -211,7 +204,7 @@ namespace tesseract {
 
         CGImage *cgImage = image.CGImage;
         CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-        const UInt8 *_pixels = CFDataGetBytePtr(data);
+        const UInt8 *pixels = CFDataGetBytePtr(data);
 
         size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
         size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
@@ -222,21 +215,16 @@ namespace tesseract {
             return;
         }
 
-        tesseract::ImageThresholder *imageThresholder = new tesseract::ImageThresholder();
         @try {
-            imageThresholder->SetImage(_pixels, width, height, (int)(bitsPerPixel/bitsPerComponent), (int)bytesPerRow);
-            if (_currentPix != nullptr) {
-                pixDestroy(&_currentPix);
-            }
-            _currentPix = imageThresholder->GetPixRect();
-            _tesseract->SetImage(_currentPix);
+            _tesseract->SetImage(pixels, width, height, (int)(bitsPerPixel/bitsPerComponent), (int)bytesPerRow);
         }
-        @finally {
-            imageThresholder->Clear();
-            delete imageThresholder;
+        @catch (NSException *exception) {
+            NSLog(@"ERROR: Can't set image: %@", exception);
         }
 
         CFRelease(data);
+
+        _image = image;
     }
 }
 
@@ -382,6 +370,64 @@ namespace tesseract {
 {
     int returnCode = _tesseract->Recognize(_monitor);
     return returnCode == 0;
+}
+
+- (UIImage *)thresholdedImage
+{
+    Pix *pixs = _tesseract->GetThresholdedImage();
+    Pix *pix = pixUnpackBinary(pixs, 32, 0);
+
+    pixDestroy(&pixs);
+
+    return [self imageFromPix:pix];
+}
+
+- (UIImage *)imageFromPix:(Pix *)pix
+{
+    // Get Pix parameters
+    l_uint32 width = pixGetWidth(pix);
+    l_uint32 height = pixGetHeight(pix);
+    l_uint32 bitsPerPixel = pixGetDepth(pix);
+    l_uint32 bytesPerRow = pixGetWpl(pix) * 4;
+    l_uint32 bitsPerComponent = 8;
+    // By default Leptonica uses 3 spp (RGB)
+    if (pixSetSpp(pix, 4) == 0) {
+        bitsPerComponent = bitsPerPixel / pixGetSpp(pix);
+    }
+
+    l_uint32 *pixData = pixGetData(pix);
+
+    // Create CGImage
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, pixData, bytesPerRow * height, NULL);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+    CGImageRef cgImage = CGImageCreate(width, height,
+                                       bitsPerComponent, bitsPerPixel, bytesPerRow,
+                                       colorSpace, kCGBitmapByteOrderDefault,
+                                       provider, NULL, NO, kCGRenderingIntentDefault);
+
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    pixDestroy(&pix);
+
+    // Draw CGImage to create UIImage
+    //      Creating UIImage by [UIImage imageWithCGImage:] worked wrong
+    //      and image became broken after some releases.
+    CGRect frame = { CGPointZero, CGSizeMake(width, height) };
+    UIGraphicsBeginImageContext(frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    // Context must be mirrored vertical
+    CGContextTranslateCTM(context, 0, height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextDrawImage(context, frame, cgImage);
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+    CGImageRelease(cgImage);
+
+    return image;
 }
 
 - (void)tesseractProgressCallbackFunction:(int)words

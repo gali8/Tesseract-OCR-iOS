@@ -10,6 +10,8 @@
 #import <TesseractOCR/TesseractOCR.h>
 #import <Kiwi/Kiwi.h>
 
+#import "UIImage+G8Equal.h"
+
 static NSTimeInterval const kG8MaximumRecognitionTime = 5.0;
 static NSString *const kG8Languages = @"eng+ita";
 static NSString *const kG8WhiteList = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -30,7 +32,11 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
 __block G8Tesseract *tesseract;
 
 let(image, ^id{
-    return nil;
+    return [UIImage imageNamed:@"image_sample.jpg"];
+});
+
+let(expectedThresholdedImage, ^id{
+    return [UIImage imageNamed:@"image_sample_tr.png"];
 });
 
 void (^recognizeImage)() = ^{
@@ -66,10 +72,6 @@ void (^recognizeImageUsingOperation)() = ^{
 
 describe(@"Simple numbers", ^{
 
-    let(image, ^id{
-        return [UIImage imageNamed:@"image_sample.jpg"];
-    });
-
     it(@"Should recognize", ^{
         recognizeImage();
 
@@ -81,16 +83,32 @@ describe(@"Simple numbers", ^{
 
 describe(@"NSOperation usage", ^{
 
-    let(image, ^id{
-        return [UIImage imageNamed:@"image_sample.jpg"];
-    });
-
     it(@"Should recognize", ^{
         recognizeImageUsingOperation();
 
         NSString *recognizedText = [tesseract recognizedText];
         [[recognizedText should] containString:@"1234567890"];
     });
+
+});
+
+describe(@"Thresholding", ^{
+
+    UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
+        G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+        tesseract.image = image;
+
+        return tesseract.thresholdedImage;
+    };
+
+    it(@"Should fetch thresholded image", ^{
+        UIImage *onceThresholded = thresholdedImageForImage(image);
+        UIImage *twiceThresholded = thresholdedImageForImage(onceThresholded);
+
+        [[theValue([onceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
+        [[theValue([twiceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
+    });
+
 });
 
 SPEC_END
