@@ -29,6 +29,7 @@
 @property (nonatomic, assign) CGRect rect;
 
 @property (nonatomic, readonly) NSUInteger progress; // from 0 to 100
+@property (nonatomic, readonly) NSUInteger recognizedWordsCount;
 @property (nonatomic, readonly) NSString *recognizedText;
 
 @property (nonatomic, readonly) UIImage *thresholdedImage;

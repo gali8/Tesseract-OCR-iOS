@@ -90,15 +90,12 @@
     [self.operationQueue addOperation:operation];
 }
 
-//DD TODO
-/*
- - (void)progressImageRecognitionForTesseract:(Tesseract*)tesseract {
- NSLog(@"progress: %d", tesseract.progress);
- }
- */
+- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract {
+    NSLog(@"progress: %lu words: %lu",
+          (unsigned long)tesseract.progress, (unsigned long)tesseract.recognizedWordsCount);
+}
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract {
-    NSLog(@"progress: %lu", tesseract.progress);
     return NO;  // return YES, if you need to interrupt tesseract before it finishes
 }
 

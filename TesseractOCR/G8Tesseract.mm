@@ -30,6 +30,7 @@ namespace tesseract {
 @property (nonatomic, strong) NSMutableDictionary *variables;
 
 @property (readwrite, assign) CGSize imageSize;
+@property (nonatomic, assign) NSUInteger recognizedWordsCount;
 
 @end
 
@@ -442,7 +443,11 @@ namespace tesseract {
     if (_monitor->ocr_alive == 1) {
         _monitor->ocr_alive = 0;
     }
-    
+
+    self.recognizedWordsCount = words;
+
+    [self tesseractProgressCallbackFunction:words];
+
     BOOL isCancel = NO;
     if ([self.delegate respondsToSelector:@selector(shouldCancelImageRecognitionForTesseract:)]) {
         isCancel = [self.delegate shouldCancelImageRecognitionForTesseract:self];
