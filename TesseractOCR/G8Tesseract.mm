@@ -372,26 +372,39 @@ namespace tesseract {
     return returnCode == 0;
 }
 
-- (UIImage *)thressholdedImage
+- (UIImage *)thresholdedImage
 {
     Pix *pixs = _tesseract->GetThresholdedImage();
     Pix *pix = pixUnpackBinary(pixs, 32, 0);
+
     pixDestroy(&pixs);
 
+    return [self imageFromPix:pix];
+}
+
+- (UIImage *)imageFromPix:(Pix *)pix
+{
     l_uint32 width = pixGetWidth(pix);
     l_uint32 height = pixGetHeight(pix);
     l_uint32 bitsPerPixel = pixGetDepth(pix);
     l_uint32 bytesPerRow = pixGetWpl(pix) * 4;
-    l_uint32 bitsPerComponent = pixGetSpp(pix);
+    l_uint32 bitsPerComponent = 8;
+    if (pixSetSpp(pix, 4) == 0) {
+        bitsPerComponent = bitsPerPixel / pixGetSpp(pix);
+    }
 
     l_uint32 *pixData = pixGetData(pix);
 
     CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, pixData, bytesPerRow * height, NULL);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
     CGImage *cgImage = CGImageCreate(width, height,
                                      bitsPerComponent, bitsPerPixel, bytesPerRow,
-                                     CGColorSpaceCreateDeviceRGB(), kCGBitmapByteOrderDefault,
+                                     colorSpace, kCGBitmapByteOrderDefault,
                                      provider, NULL, NO, kCGRenderingIntentDefault);
+
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
 
     pixDestroy(&pix);
     UIImage *image = [UIImage imageWithCGImage:cgImage];
