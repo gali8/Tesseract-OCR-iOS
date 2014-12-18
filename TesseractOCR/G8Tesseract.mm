@@ -361,6 +361,71 @@ namespace tesseract {
     return [recognizedTextBoxes copy];
 }
 
+- (G8RecognizedBlock *)blockFromIterator:(tesseract::ResultIterator *)iterator
+                           iteratorLevel:(G8PageIteratorLevel)iteratorLevel
+{
+    tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)iteratorLevel;
+
+    G8RecognizedBlock *block = nil;
+    const char *word = iterator->GetUTF8Text(level);
+    if (word != NULL) {
+        // BoundingBox parameters are (Left Top Right Bottom).
+        // See comment in characterBoxes() for information on the coordinate
+        // system, and changes being made.
+        int x1, y1, x2, y2;
+        iterator->BoundingBox(level, &x1, &y1, &x2, &y2);
+
+        CGFloat x = x1;
+        CGFloat y = self.imageSize.height - y1;
+        CGFloat width = x2 - x1;
+        CGFloat height = y1 - y2;
+
+        NSString *text = [NSString stringWithUTF8String:word];
+        CGRect boundingBox = CGRectMake(x, y, width, height);
+        CGFloat confidence = iterator->Confidence(level);
+        delete[] word;
+
+        block = [[G8RecognizedBlock alloc] initWithText:text
+                                            boundingBox:boundingBox
+                                             confidence:confidence
+                                                  level:iteratorLevel];
+    }
+    return block;
+}
+
+- (NSArray *)characterChoices
+{
+    NSMutableArray *array = [NSMutableArray array];
+    //  Get iterators
+    tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
+
+    if (resultIterator != NULL) {
+        do {
+            G8RecognizedBlock *block = [self blockFromIterator:resultIterator iteratorLevel:G8PageIteratorLevelSymbol];
+            NSMutableArray *choices = [NSMutableArray array];
+
+            tesseract::ChoiceIterator choiceIterator(*resultIterator);
+            do {
+                const char *choiceWord = choiceIterator.GetUTF8Text();
+                if (choiceWord != NULL) {
+                    NSString *text = [NSString stringWithUTF8String:choiceWord];
+                    CGFloat confidence = choiceIterator.Confidence();
+
+                    G8RecognizedBlock *choiceBlock = [[G8RecognizedBlock alloc] initWithText:text
+                                                                                 boundingBox:block.boundingBox
+                                                                                  confidence:confidence
+                                                                                       level:G8PageIteratorLevelSymbol];
+                    [choices addObject:choiceBlock];
+                }
+            } while (choiceIterator.Next());
+
+            [array addObject:[choices copy]];
+        } while (resultIterator->Next(tesseract::RIL_SYMBOL));
+    }
+    
+    return [array copy];
+}
+
 - (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
 {
     tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
@@ -371,28 +436,8 @@ namespace tesseract {
 
     if (resultIterator != NULL) {
         do {
-            const char *word = resultIterator->GetUTF8Text(level);
-            if (word != NULL) {
-                // BoundingBox parameters are (Left Top Right Bottom).
-                // See comment in characterBoxes() for information on the coordinate
-                // system, and changes being made.
-                int x1, y1, x2, y2;
-                resultIterator->BoundingBox(level, &x1, &y1, &x2, &y2);
-
-                CGFloat x = x1;
-                CGFloat y = self.imageSize.height - y1;
-                CGFloat width = x2 - x1;
-                CGFloat height = y1 - y2;
-
-                NSString *text = [NSString stringWithUTF8String:word];
-                CGRect boundingBox = CGRectMake(x, y, width, height);
-                CGFloat confidence = resultIterator->Confidence(level);
-                delete[] word;
-
-                G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:text
-                                                                       boundingBox:boundingBox
-                                                                        confidence:confidence
-                                                                             level:pageIteratorLevel];
+            G8RecognizedBlock *block = [self blockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
+            if (block != nil) {
                 [array addObject:block];
             }
         } while (resultIterator->Next(level));
