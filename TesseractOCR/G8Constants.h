@@ -89,4 +89,30 @@ typedef NS_ENUM(NSUInteger, G8OCREngineMode){
 //    G8OCREngineModeDefault,
 };
 
+/**
+ *  Result iteration level
+ */
+typedef NS_ENUM(NSUInteger, G8PageIteratorLevel){
+    /**
+     *  Block of text/image/separator line.
+     */
+    G8PageIteratorLevelBlock,
+    /**
+     *  Paragraph within a block.
+     */
+    G8PageIteratorLevelParagraph,
+    /**
+     *  Line within a paragraph.
+     */
+    G8PageIteratorLevelTextline,
+    /**
+     *  Word within a textline.
+     */
+    G8PageIteratorLevelWord,
+    /**
+     *  Symbol/character within a word.
+     */
+    G8PageIteratorLevelSymbol,
+};
+
 #endif

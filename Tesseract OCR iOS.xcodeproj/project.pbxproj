@@ -26,6 +26,8 @@
 		41A95DEB1A3AF39B0085093C /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
 		41A95DEE1A3AFBF30085093C /* G8RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A95DEF1A3AFBF30085093C /* G8RecognitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */; };
+		41B41A511A42ED7600D46246 /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41B41A521A42ED7600D46246 /* G8RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */; };
 		6490748D198A5A5600D728CC /* UIImage+G8Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+G8Filters.m */; };
 		64907491198A5DF200D728CC /* UIImage+G8Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 6490748A198A5A5600D728CC /* UIImage+G8Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
@@ -185,6 +187,8 @@
 		41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8TesseractParameters.m; sourceTree = "<group>"; };
 		41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8RecognitionOperation.h; sourceTree = "<group>"; };
 		41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8RecognitionOperation.m; sourceTree = "<group>"; };
+		41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8RecognizedBlock.h; sourceTree = "<group>"; };
+		41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8RecognizedBlock.m; sourceTree = "<group>"; };
 		645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_howto_compile_libaries.md; sourceTree = "<group>"; };
 		645C864D18698ECE00B27B19 /* build_dependencies.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build_dependencies.sh; sourceTree = "<group>"; };
 		646772C318083B5600C85662 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -388,6 +392,8 @@
 				64A029DD17307CED002B12E7 /* TesseractOCR.h */,
 				64A029D617307CD0002B12E7 /* G8Tesseract.h */,
 				64A029D717307CD0002B12E7 /* G8Tesseract.mm */,
+				41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */,
+				41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */,
 				41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */,
 				41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */,
 				41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */,
@@ -655,6 +661,7 @@
 				64A029FF17307D65002B12E7 /* ambigs.h in Headers */,
 				64A02A0017307D65002B12E7 /* apitypes.h in Headers */,
 				64A02A0117307D65002B12E7 /* baseapi.h in Headers */,
+				41B41A511A42ED7600D46246 /* G8RecognizedBlock.h in Headers */,
 				64A02A0217307D65002B12E7 /* basedir.h in Headers */,
 				64A02A0317307D65002B12E7 /* bits16.h in Headers */,
 				64A02A0417307D65002B12E7 /* bitvector.h in Headers */,
@@ -859,6 +866,7 @@
 				64E9A53319194B47007EE74A /* G8Tesseract.mm in Sources */,
 				41A95DEF1A3AFBF30085093C /* G8RecognitionOperation.m in Sources */,
 				41A95DEB1A3AF39B0085093C /* G8TesseractParameters.m in Sources */,
+				41B41A521A42ED7600D46246 /* G8RecognizedBlock.m in Sources */,
 				6490748D198A5A5600D728CC /* UIImage+G8Filters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

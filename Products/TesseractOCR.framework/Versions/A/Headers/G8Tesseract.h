@@ -43,12 +43,7 @@
 //  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
 //  CGRects are in UIKit's coordinate space (origin is in the top left)
 @property (nonatomic, readonly) NSArray *characterBoxes;
-
-@property (nonatomic, readonly) NSArray *getConfidenceByWord;
-@property (nonatomic, readonly) NSArray *getConfidenceBySymbol;
-@property (nonatomic, readonly) NSArray *getConfidenceByTextline;
-@property (nonatomic, readonly) NSArray *getConfidenceByParagraph;
-@property (nonatomic, readonly) NSArray *getConfidenceByBlock;
+- (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
 
 @property (nonatomic, weak) id<G8TesseractDelegate> delegate;
 

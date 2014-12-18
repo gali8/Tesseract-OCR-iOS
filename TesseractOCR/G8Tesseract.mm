@@ -12,6 +12,7 @@
 #import "UIImage+G8Filters.h"
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
+#import "G8RecognizedBlock.h"
 
 #import "baseapi.h"
 #import "environ.h"
@@ -350,76 +351,54 @@ namespace tesseract {
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
             CGRect box = CGRectMake(x, y, width, height);
 
-            NSDictionary *resultDict = @{
-                @"text":    boxComponents[0],
-                @"box":     [NSValue valueWithCGRect:box],
-            };
-            [recognizedTextBoxes addObject:resultDict];
+            G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:boxComponents[0]
+                                                                   boundingBox:box
+                                                                    confidence:0.0f
+                                                                         level:G8PageIteratorLevelBlock];
+            [recognizedTextBoxes addObject:block];
         }
     }
     return [recognizedTextBoxes copy];
 }
 
-- (NSArray *)getConfidences:(tesseract::PageIteratorLevel)level
+- (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
 {
+    tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
+
     NSMutableArray *array = [NSMutableArray array];
     //  Get iterators
     tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
 
     if (resultIterator != NULL) {
         do {
-            // BoundingBox parameters are (Left Top Right Bottom).
-            // See comment in characterBoxes() for information on the coordinate
-            // system, and changes being made.
-            int x1, y1, x2, y2;
-            resultIterator->BoundingBox(level, &x1, &y1, &x2, &y2);
-
-            CGFloat x = x1;
-            CGFloat y = self.imageSize.height - y1;
-            CGFloat width = x2 - x1;
-            CGFloat height = y1 - y2;
-            CGRect box = CGRectMake(x, y, width, height);
-
             const char *word = resultIterator->GetUTF8Text(level);
             if (word != NULL) {
-                float conf = resultIterator->Confidence(level);
+                // BoundingBox parameters are (Left Top Right Bottom).
+                // See comment in characterBoxes() for information on the coordinate
+                // system, and changes being made.
+                int x1, y1, x2, y2;
+                resultIterator->BoundingBox(level, &x1, &y1, &x2, &y2);
 
-                [array addObject:@{
-                    @"text":         [NSString stringWithUTF8String:word],
-                    @"confidence":   [NSNumber numberWithFloat:conf],
-                    @"boundingbox":  [NSValue valueWithCGRect:box]
-                }];
+                CGFloat x = x1;
+                CGFloat y = self.imageSize.height - y1;
+                CGFloat width = x2 - x1;
+                CGFloat height = y1 - y2;
+
+                NSString *text = [NSString stringWithUTF8String:word];
+                CGRect boundingBox = CGRectMake(x, y, width, height);
+                CGFloat confidence = resultIterator->Confidence(level);
                 delete[] word;
+
+                G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:text
+                                                                       boundingBox:boundingBox
+                                                                        confidence:confidence
+                                                                             level:pageIteratorLevel];
+                [array addObject:block];
             }
         } while (resultIterator->Next(level));
     }
-
+    
     return [array copy];
-}
-
-- (NSArray *)getConfidenceByWord
-{
-    return [self getConfidences:tesseract::RIL_WORD];
-}
-
-- (NSArray *)getConfidenceBySymbol
-{
-    return [self getConfidences:tesseract::RIL_SYMBOL];
-}
-
-- (NSArray *)getConfidenceByBlock
-{
-    return [self getConfidences:tesseract::RIL_BLOCK];
-}
-
-- (NSArray *)getConfidenceByTextline
-{
-    return [self getConfidences:tesseract::RIL_TEXTLINE];
-}
-
-- (NSArray *)getConfidenceByParagraph
-{
-    return [self getConfidences:tesseract::RIL_PARA];
 }
 
 #pragma mark - Other functions

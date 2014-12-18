@@ -10,8 +10,10 @@
 #define Tesseract_OCR_iOS_TesseractOCR_h
 
 #import "G8Tesseract.h"
+#import "G8RecognizedBlock.h"
 #import "G8TesseractParameters.h"
 #import "G8RecognitionOperation.h"
+#import "G8Constants.h"
 #import "UIImage+G8Filters.h"
 
 #endif
