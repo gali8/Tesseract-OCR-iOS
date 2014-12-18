@@ -75,7 +75,7 @@
     operation.tesseract.charWhitelist = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //limit search
     operation.tesseract.image = [img blackAndWhite]; //image to check
 
-    //[operation.tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
+    //operation.tesseract.rect = CGRectMake(20, 20, 100, 100); //optional: set the rectangle to recognize text in the image
 
     operation.recognitionCompleteBlock = ^(G8Tesseract *tesseract) {
         NSString *recognizedText = [tesseract recognizedText];

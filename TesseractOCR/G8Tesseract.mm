@@ -35,6 +35,12 @@ namespace tesseract {
 @property (readwrite, assign) CGSize imageSize;
 @property (nonatomic, assign) NSUInteger recognizedWordsCount;
 
+@property (nonatomic, assign, getter=isLayoutAnalysed) BOOL layoutAnalysed;
+@property (nonatomic, assign) G8Orientation orientation;
+@property (nonatomic, assign) G8WritingDirection writingDirection;
+@property (nonatomic, assign) G8TextlineOrder textlineOrder;
+@property (nonatomic, assign) CGFloat deskewAngle;
+
 @end
 
 @implementation G8Tesseract
@@ -290,6 +296,7 @@ namespace tesseract {
         CFRelease(data);
 
         _image = image;
+        self.layoutAnalysed = NO;
     }
 }
 
@@ -320,6 +327,58 @@ namespace tesseract {
     NSString *text = [NSString stringWithUTF8String:utf8Text];
     delete[] utf8Text;
     return text;
+}
+
+- (G8Orientation)orientation
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _orientation;
+}
+
+- (G8WritingDirection)writingDirection
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _writingDirection;
+}
+
+- (G8TextlineOrder)textlineOrder
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _textlineOrder;
+}
+
+- (CGFloat)descewAngle
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _deskewAngle;
+}
+
+- (void)analyzeLayout
+{
+    NSLog(@"...");
+    tesseract::Orientation orientation;
+    tesseract::WritingDirection direction;
+    tesseract::TextlineOrder order;
+    float deskewAngle;
+
+    tesseract::PageIterator *iterator = _tesseract->AnalyseLayout();
+    iterator->Orientation(&orientation, &direction, &order, &deskewAngle);
+    delete iterator;
+
+    self.orientation = (G8Orientation)orientation;
+    self.writingDirection = (G8WritingDirection)direction;
+    self.textlineOrder = (G8TextlineOrder)order;
+    self.deskewAngle = deskewAngle;
+
+    self.layoutAnalysed = YES;
 }
 
 - (NSArray *)characterBoxes
@@ -421,6 +480,7 @@ namespace tesseract {
 
             [array addObject:[choices copy]];
         } while (resultIterator->Next(tesseract::RIL_SYMBOL));
+        delete resultIterator;
     }
     
     return [array copy];
@@ -441,6 +501,7 @@ namespace tesseract {
                 [array addObject:block];
             }
         } while (resultIterator->Next(level));
+        delete resultIterator;
     }
     
     return [array copy];

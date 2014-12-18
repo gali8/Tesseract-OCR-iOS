@@ -115,4 +115,50 @@ typedef NS_ENUM(NSUInteger, G8PageIteratorLevel){
     G8PageIteratorLevelSymbol,
 };
 
+/**
+ * If you orient your head so that "up" aligns with Orientation,
+ * then the characters will appear "right side up" and readable.
+ *
+ * In the example above, both the English and Chinese paragraphs are oriented
+ * so their "up" is the top of the page (page up).  The photo credit is read
+ * with one's head turned leftward ("up" is to page left).
+ */
+typedef NS_ENUM(NSUInteger, G8Orientation){
+    G8OrientationPageUp,
+    G8OrientationPareRight,
+    G8OrientationPageDown,
+    G8OrientationPageLeft,
+};
+
+/**
+ * The grapheme clusters within a line of text are laid out logically
+ * in this direction, judged when looking at the text line rotated so that
+ * its Orientation is "page up".
+ *
+ * For English text, the writing direction is left-to-right.  For the
+ * Chinese text in the above example, the writing direction is top-to-bottom.
+ */
+typedef NS_ENUM(NSUInteger, G8WritingDirection){
+    G8WritingDirectionLeftToRight,
+    G8WritingDirectionRightToLeft,
+    G8WritingDirectionTopToBottom,
+};
+
+/**
+ * The text lines are read in the given sequence.
+ *
+ * In English, the order is top-to-bottom.
+ * In Chinese, vertical text lines are read right-to-left.  Mongolian is
+ * written in vertical columns top to bottom like Chinese, but the lines
+ * order left-to right.
+ *
+ * Note that only some combinations make sense.  For example,
+ * WRITING_DIRECTION_LEFT_TO_RIGHT implies TEXTLINE_ORDER_TOP_TO_BOTTOM
+ */
+typedef NS_ENUM(NSUInteger, G8TextlineOrder) {
+    G8TextlineOrderLeftToRight,
+    G8TextlineOrderRightToLeft,
+    G8TextlineOrderTopToBottom,
+};
+
 #endif

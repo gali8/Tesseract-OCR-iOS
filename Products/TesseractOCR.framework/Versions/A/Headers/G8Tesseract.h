@@ -38,6 +38,11 @@
 @property (nonatomic, readonly) NSUInteger recognizedWordsCount;
 @property (nonatomic, readonly) NSString *recognizedText;
 
+@property (nonatomic, readonly) G8Orientation orientation;
+@property (nonatomic, readonly) G8WritingDirection writingDirection;
+@property (nonatomic, readonly) G8TextlineOrder textlineOrder;
+@property (nonatomic, readonly) CGFloat deskewAngle;
+
 @property (nonatomic, readonly) UIImage *thresholdedImage;
 
 //  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
