@@ -13,7 +13,7 @@
 #import "UIImage+G8Equal.h"
 
 static NSTimeInterval const kG8MaximumRecognitionTime = 5.0;
-static NSString *const kG8Languages = @"eng+ita";
+static NSString *const kG8Languages = @"eng";
 static NSString *const kG8WhiteList = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 SPEC_BEGIN(RecognitionTests)
@@ -39,8 +39,12 @@ let(expectedThresholdedImage, ^id{
     return [UIImage imageNamed:@"image_sample_tr.png"];
 });
 
-void (^recognizeImage)() = ^{
-    tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+let(engineMode, ^id{
+    return theValue(G8OCREngineModeTesseractOnly);
+});
+
+void (^recognizeImage)() = ^() {
+    tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages engineMode:[engineMode integerValue]];
 
     [tesseract setVariableValue:kG8WhiteList
                          forKey:kG8ParamTesseditCharWhitelist];
@@ -50,10 +54,11 @@ void (^recognizeImage)() = ^{
     [tesseract recognize];
 };
 
-void (^recognizeImageUsingOperation)() = ^{
+void (^recognizeImageUsingOperation)() = ^() {
     G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
 
     operation.tesseract.language = kG8Languages;
+    operation.tesseract.engineMode = [engineMode integerValue];
     operation.tesseract.image = image;
     [operation.tesseract setVariableValue:kG8WhiteList forKey:kG8ParamTesseditCharWhitelist];
 

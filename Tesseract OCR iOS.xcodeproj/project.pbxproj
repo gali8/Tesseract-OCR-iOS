@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		418997A91A42CC8B00D6477C /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A95DEA1A3AF39B0085093C /* G8TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A95DEB1A3AF39B0085093C /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
 		41A95DEE1A3AFBF30085093C /* G8RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -179,6 +180,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		418997A71A42CC8B00D6477C /* G8Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Constants.h; sourceTree = "<group>"; };
 		41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8TesseractParameters.h; sourceTree = "<group>"; };
 		41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8TesseractParameters.m; sourceTree = "<group>"; };
 		41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8RecognitionOperation.h; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */,
 				41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */,
 				41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */,
+				418997A71A42CC8B00D6477C /* G8Constants.h */,
 				6490748A198A5A5600D728CC /* UIImage+G8Filters.h */,
 				6490748B198A5A5600D728CC /* UIImage+G8Filters.m */,
 				41C7E8231A3F0682000DC42B /* Core */,
@@ -669,6 +672,7 @@
 				64A02A0F17307D65002B12E7 /* control.h in Headers */,
 				64A02A1017307D65002B12E7 /* coutln.h in Headers */,
 				64A02A1117307D65002B12E7 /* crakedge.h in Headers */,
+				418997A91A42CC8B00D6477C /* G8Constants.h in Headers */,
 				64A02A1217307D65002B12E7 /* cube_reco_context.h in Headers */,
 				64A02A1317307D65002B12E7 /* cubeclassifier.h in Headers */,
 				64A02A1417307D65002B12E7 /* detlinefit.h in Headers */,

@@ -4,7 +4,8 @@ import os
 import re
 from time import gmtime, strftime
 
-# Converter settings:
+### Converter settings: ###
+
 repo = "https://code.google.com/p/tesseract-ocr/"
 repoTag = "3.03-rc1"
 
@@ -21,57 +22,60 @@ headers = [
 resultClassPath = "./"
 resultClassName = "G8TesseractParameters"
 varPrefix = "kG8Param"
+varPattern = re.compile('(\w*)(_VAR_H|_VAR)\(([^,]*), ([^,]*|"[^"]*"),([^;]*)\);')
 
-# Constants:
-#pattern = re.compile('(\w*)_VAR_H\((.*),(.*),(.*)\);')
-pattern = re.compile('(\w*)(_VAR_H|_VAR)\(([^,]*), ([^,]*|"[^"]*"),([^;]*)\);')
+### Constants: ###
 
-headerTemplate = '''//
-//  %s.h
+copyrights = '''//
+//  %s
 //  Tesseract OCR iOS
 //  This code is auto-generated from Tesseract headers.
 //
 //  Created by Nikolay Volosatov on %s.
 //  Copyright (c) %s Daniele Galiotto - www.g8production.com. All rights reserved.
 //
+''' % ("%s", strftime("%d/%m/%y", gmtime()), strftime("%Y", gmtime()))
 
+headerTemplate = '''%s
 #import <Foundation/Foundation.h>
 
 #ifndef Tesseract_OCR_iOS_%s_h
 #define Tesseract_OCR_iOS_%s_h
 %s
 #endif
-''' % (resultClassName, strftime("%d/%m/%y", gmtime()), 
-    strftime("%Y", gmtime()), resultClassName, resultClassName, "%s")
+''' % (copyrights % (resultClassName + '.h'), resultClassName, resultClassName, "%s")
 
-codeTemplate = '''//
-//  %s.m
-//  Tesseract OCR iOS
-//  This code is auto-generated from Tesseract headers.
-//
-//  Created by Nikolay Volosatov on %s.
-//  Copyright (c) %s Daniele Galiotto - www.g8production.com. All rights reserved.
-//
-
+codeTemplate = '''%s
 #import "%s.h"
 
-%s''' % (resultClassName, strftime("%d/%m/%y", gmtime()), 
-    strftime("%Y", gmtime()), resultClassName, "%s")
+%s''' % (copyrights % (resultClassName + '.m'), resultClassName, "%s")
 
-externVarTemplate = '\n///%s\n///@param Type %s\n///@param Default %s\nextern NSString *const %s;\n'
-depricatedExternVarTemplate = '\n///%s\n///@param Type %s\n///@param Default %s\nextern NSString *const %s DEPRECATED_ATTRIBUTE;\n'
+externVarTemplate = '''
+///%s
+///@param Type %s
+///@param Default %s
+extern NSString *const %s;
+'''
+depricatedExternVarTemplate = '''
+///%s
+///@param Type %s
+///@param Default %s
+extern NSString *const %s DEPRECATED_ATTRIBUTE;
+'''
 codeVarTemplate = 'NSString *const %s = @"%s";\n'
 
 def bash(cmd, cwd=None):
     print(cmd)
     print(subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, cwd=cwd).stdout.read())
 
-# Clone/pull repo
+### Clone/pull repo ###
+
 if not os.path.exists(baseHeadersDir):
     bash('git clone ' + repo + ' ' + baseHeadersDir)
     bash('cd ' + baseHeadersDir + ' && git checkout tags/' + repoTag + ' && cd ..')
 
-# Read tesseractclass.h file
+### Read tesseractclass.h file ###
+
 actualContent = ""
 depricatedContent = ""
 for header in headers:
@@ -86,9 +90,10 @@ for header in headers:
     actualContent = actualContent + '\n' + newActualContent
     depricatedContent = depricatedContent + '\n' + newDepricatedContent
 
-# Parse parameters from content
+### Parse parameters from content ###
+
 def parse(someContent):
-    result = pattern.finditer(someContent)
+    result = varPattern.finditer(someContent)
 
     variables = dict()
     for match in result:
@@ -112,7 +117,8 @@ def parse(someContent):
 hContent = ''
 mContent = ''
 
-# Format result content
+### Format result content ###
+
 for (objCVarName,(varType, varName, varDefault, varDescription)) in parse(actualContent):
     hContent = hContent + (externVarTemplate % (varDescription, varType, varDefault, objCVarName))
     mContent = mContent + (codeVarTemplate % (objCVarName, varName))
@@ -123,7 +129,8 @@ for (objCVarName,(varType, varName, varDefault, varDescription)) in parse(depric
     mContent = mContent + (codeVarTemplate % (objCVarName, varName))
     print '%s %s = %s' % (varType, objCVarName, varName)
 
-# Write .h and .m files
+### Write .h and .m files ###
+
 f = open(resultClassName + ".h", "w")
 f.write(headerTemplate % hContent)
 f.close()

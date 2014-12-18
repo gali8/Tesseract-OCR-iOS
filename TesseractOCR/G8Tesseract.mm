@@ -10,6 +10,8 @@
 #import "G8Tesseract.h"
 
 #import "UIImage+G8Filters.h"
+#import "G8TesseractParameters.h"
+#import "G8Constants.h"
 
 #import "baseapi.h"
 #import "environ.h"
@@ -38,7 +40,11 @@ namespace tesseract {
 
 + (NSString *)version
 {
-    return [NSString stringWithFormat:@"%s", tesseract::TessBaseAPI::Version()];
+    const char *version = tesseract::TessBaseAPI::Version();
+    if (version != NULL) {
+        return [NSString stringWithUTF8String:version];
+    }
+    return @"n/a";
 }
 
 - (id)init
@@ -48,20 +54,29 @@ namespace tesseract {
 
 - (id)initWithLanguage:(NSString*)language
 {
-    return [self initPrivateWithDataPath:nil language:language];
+    return [self initPrivateWithDataPath:nil language:language engineMode:G8OCREngineModeTesseractOnly];
+}
+
+- (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
+{
+    return [self initPrivateWithDataPath:nil language:language engineMode:engineMode];
 }
 
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language
 {
-    return [self initPrivateWithDataPath:dataPath language:language];
+    return [self initPrivateWithDataPath:nil language:language engineMode:G8OCREngineModeTesseractOnly];
 }
 
-- (id)initPrivateWithDataPath:(NSString *)dataPath language:(NSString *)language
+- (id)initPrivateWithDataPath:(NSString *)dataPath
+                     language:(NSString *)language
+                   engineMode:(G8OCREngineMode)engineMode
 {
     self = [super init];
     if (self != nil) {
         _dataPath = [dataPath copy];
         _language = [language copy];
+        _engineMode = engineMode;
+        _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
 
         _monitor = new ETEXT_DESC();
@@ -103,14 +118,28 @@ namespace tesseract {
 - (void)setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle
 {
     NSString *datapath =
-    [NSString stringWithFormat:@"%@/", [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]];
+        [NSString stringWithFormat:@"%@/", [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]];
     setenv("TESSDATA_PREFIX", datapath.UTF8String, 1);
 }
 
 - (BOOL)initEngine
 {
-    int returnCode = _tesseract->Init(self.dataPath.UTF8String, self.language.UTF8String);
+    int returnCode = _tesseract->Init(self.dataPath.UTF8String, self.language.UTF8String,
+                                      (tesseract::OcrEngineMode)self.engineMode);
     return returnCode == 0;
+}
+
+- (BOOL)resetEngine
+{
+    BOOL isInitDone = [self initEngine];
+    if (isInitDone) {
+        [self loadVariables];
+    }
+    else {
+        NSLog(@"ERROR! Can't init Tesseract engine.");
+    }
+
+    return isInitDone;
 }
 
 - (void)copyDataToDocumentsDirectory
@@ -178,16 +207,50 @@ namespace tesseract {
 - (void)setLanguage:(NSString *)language
 {
     if ([_language isEqualToString:language] == NO) {
-        _language = language;
-        BOOL inInitDone = [self initEngine];
+        _language = [language copy];
 
         /*
          * "WARNING: On changing languages, all Tesseract parameters
          * are reset back to their default values."
          */
-        if (inInitDone) {
-            [self loadVariables];
-        }
+        [self resetEngine];
+    }
+}
+
+- (void)setEngineMode:(G8OCREngineMode)engineMode
+{
+    if (_engineMode != engineMode) {
+        _engineMode = engineMode;
+
+        [self resetEngine];
+    }
+}
+
+- (void)setPageSegmentationMode:(G8PageSegmentationMode)pageSegmentationMode
+{
+    if (_pageSegmentationMode != pageSegmentationMode) {
+        _pageSegmentationMode = pageSegmentationMode;
+
+        [self setVariableValue:[NSString stringWithFormat:@"%lu", (unsigned long)pageSegmentationMode]
+                        forKey:kG8ParamTesseditPagesegMode];
+    }
+}
+
+- (void)setCharWhitelist:(NSString *)charWhitelist
+{
+    if ([_charWhitelist isEqualToString:charWhitelist] == NO) {
+        _charWhitelist = [charWhitelist copy];
+
+        [self setVariableValue:charWhitelist forKey:kG8ParamTesseditCharWhitelist];
+    }
+}
+
+- (void)setCharBlacklist:(NSString *)charBlacklist
+{
+    if ([_charBlacklist isEqualToString:charBlacklist] == NO) {
+        _charBlacklist = [charBlacklist copy];
+
+        [self setVariableValue:charBlacklist forKey:kG8ParamTesseditCharBlacklist];
     }
 }
 

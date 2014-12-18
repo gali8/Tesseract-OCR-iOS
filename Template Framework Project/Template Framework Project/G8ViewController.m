@@ -56,7 +56,8 @@
 -(void)recognizeImageWithTesseract:(UIImage *)img
 {
     G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
-    operation.tesseract.language = @"eng+ita";
+    operation.tesseract.language = @"eng";
+    operation.tesseract.engineMode = G8OCREngineModeCubeOnly;
     //operation.tesseract.maximumRecognitionTime = 1.0;
     operation.delegate = self;
 
@@ -71,8 +72,7 @@
         //only for test//
     });
 
-    [operation.tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                   forKey:kG8ParamTesseditCharWhitelist]; //limit search
+    operation.tesseract.charWhitelist = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //limit search
 
     [operation.tesseract setImage:[img blackAndWhite]]; //image to check
     //[operation.tesseract setRect:CGRectMake(20, 20, 100, 100)]; //optional: set the rectangle to recognize text in the image
@@ -84,7 +84,11 @@
 
         [self.activityIndicator stopAnimating];
 
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tesseract OCR iOS" message:recognizedText delegate:nil cancelButtonTitle:@"Yeah!" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tesseract OCR iOS"
+                                                        message:recognizedText
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Yeah!"
+                                              otherButtonTitles:nil];
         [alert show];
     };
 

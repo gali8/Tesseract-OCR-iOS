@@ -8,6 +8,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "G8Constants.h"
 
 @class G8Tesseract;
 
@@ -24,6 +25,10 @@
 + (NSString *)version;
 
 @property (nonatomic, copy) NSString* language;
+@property (nonatomic, assign) G8OCREngineMode engineMode;
+@property (nonatomic, assign) G8PageSegmentationMode pageSegmentationMode;
+@property (nonatomic, copy) NSString *charWhitelist;
+@property (nonatomic, copy) NSString *charBlacklist;
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGRect rect;
@@ -48,6 +53,7 @@
 @property (nonatomic, weak) id<G8TesseractDelegate> delegate;
 
 - (id)initWithLanguage:(NSString*)language;
+- (id)initWithLanguage:(NSString*)language engineMode:(G8OCREngineMode)engineMode;
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
 
 - (BOOL)recognize;
