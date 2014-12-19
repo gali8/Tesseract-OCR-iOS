@@ -10,7 +10,7 @@
 
 #import "G8Tesseract.h"
 
-typedef void(^G8RecognitionOperationComplete)(G8Tesseract *tesseract);
+typedef void(^G8RecognitionOperationCallback)(G8Tesseract *tesseract);
 
 @interface G8RecognitionOperation : NSOperation
 
@@ -19,7 +19,8 @@ typedef void(^G8RecognitionOperationComplete)(G8Tesseract *tesseract);
 
 @property (nonatomic, assign, readonly) CGFloat progress;
 
-@property (nonatomic, copy) G8RecognitionOperationComplete recognitionCompleteBlock;
+@property (nonatomic, copy) G8RecognitionOperationCallback recognitionCompleteBlock;
+@property (nonatomic, copy) G8RecognitionOperationCallback progressCallbackBlock;
 
 /// @deprecated	Use property recognitionCompleteBlock instead
 @property (copy) void (^completionBlock)(void) DEPRECATED_ATTRIBUTE;

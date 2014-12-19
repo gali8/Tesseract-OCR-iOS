@@ -35,7 +35,9 @@ namespace tesseract {
 @property (readwrite, assign) CGSize imageSize;
 @property (nonatomic, assign) NSUInteger recognizedWordsCount;
 
+@property (nonatomic, assign, getter=isRecognized) BOOL recognized;
 @property (nonatomic, assign, getter=isLayoutAnalysed) BOOL layoutAnalysed;
+
 @property (nonatomic, assign) G8Orientation orientation;
 @property (nonatomic, assign) G8WritingDirection writingDirection;
 @property (nonatomic, assign) G8TextlineOrder textlineOrder;
@@ -136,11 +138,18 @@ namespace tesseract {
     return returnCode == 0;
 }
 
+- (void)resetFlags
+{
+    self.recognized = NO;
+    self.layoutAnalysed = NO;
+}
+
 - (BOOL)resetEngine
 {
     BOOL isInitDone = [self initEngine];
     if (isInitDone) {
         [self loadVariables];
+        [self resetFlags];
     }
     else {
         NSLog(@"ERROR! Can't init Tesseract engine.");
@@ -196,6 +205,8 @@ namespace tesseract {
      * _tesseract->SetVariable("language_model_penalty_non_freq_dict_word", "0");
      * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
      */
+
+    [self resetFlags];
 
     self.variables[key] = value;
     _tesseract->SetVariable(key.UTF8String, value.UTF8String);
@@ -296,7 +307,7 @@ namespace tesseract {
         CFRelease(data);
 
         _image = image;
-        self.layoutAnalysed = NO;
+        [self resetFlags];
     }
 }
 
@@ -306,6 +317,7 @@ namespace tesseract {
         _rect = rect;
 
         _tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+        [self resetFlags];
     }
 }
 
@@ -353,7 +365,7 @@ namespace tesseract {
     return _textlineOrder;
 }
 
-- (CGFloat)descewAngle
+- (CGFloat)deskewAngle
 {
     if (self.layoutAnalysed == NO) {
         [self analyzeLayout];
@@ -520,8 +532,17 @@ namespace tesseract {
     if (self.maximumRecognitionTime > FLT_EPSILON) {
         _monitor->set_deadline_msecs((inT32)(self.maximumRecognitionTime * 1000));
     }
-    int returnCode = _tesseract->Recognize(_monitor);
-    return returnCode == 0;
+
+    self.recognized = NO;
+    int returnCode = 0;
+    @try {
+        returnCode = _tesseract->Recognize(_monitor);
+        self.recognized = YES;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exceprion rised while recognizing: %@", exception);
+    }
+    return returnCode == 0 && self.recognized;
 }
 
 - (UIImage *)thresholdedImage

@@ -57,7 +57,8 @@
 {
     G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
     operation.tesseract.language = @"eng";
-    operation.tesseract.engineMode = G8OCREngineModeCubeOnly;
+    operation.tesseract.engineMode = G8OCREngineModeTesseractOnly;
+    operation.tesseract.pageSegmentationMode = G8PageSegmentationModeAutoOnly;
     //operation.tesseract.maximumRecognitionTime = 1.0;
     operation.delegate = self;
 
@@ -72,13 +73,14 @@
         //only for test//
     });
 
-    operation.tesseract.charWhitelist = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //limit search
+    //operation.tesseract.charWhitelist = @"01234"; //limit search
+    //operation.tesseract.charBlacklist = @"56789";
     operation.tesseract.image = [img blackAndWhite]; //image to check
 
     //operation.tesseract.rect = CGRectMake(20, 20, 100, 100); //optional: set the rectangle to recognize text in the image
 
     operation.recognitionCompleteBlock = ^(G8Tesseract *tesseract) {
-        NSString *recognizedText = [tesseract recognizedText];
+        NSString *recognizedText = tesseract.recognizedText;
 
         NSLog(@"%@", recognizedText);
 
