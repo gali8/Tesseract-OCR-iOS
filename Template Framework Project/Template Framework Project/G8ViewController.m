@@ -55,7 +55,7 @@
 
 -(void)recognizeImageWithTesseract:(UIImage *)image
 {
-    UIImage *bwImage = [image blackAndWhite];
+    UIImage *bwImage = [image g8_blackAndWhite];
 
     [self.activityIndicator startAnimating];
     //only for test//

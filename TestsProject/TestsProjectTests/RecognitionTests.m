@@ -35,10 +35,6 @@ let(image, ^id{
     return [UIImage imageNamed:@"image_sample.jpg"];
 });
 
-let(expectedThresholdedImage, ^id{
-    return [UIImage imageNamed:@"image_sample_tr"];
-});
-
 let(engineMode, ^id{
     return theValue(G8OCREngineModeTesseractOnly);
 });
@@ -67,7 +63,7 @@ void (^setupTesseract)() = ^{
     tesseract.charWhitelist = charWhitelist;
     tesseract.maximumRecognitionTime = [waitDeadline floatValue];
 
-    tesseract.image = [image blackAndWhite];
+    tesseract.image = [image g8_blackAndWhite];
 };
 
 void (^recognizeImage)() = ^{
@@ -127,10 +123,6 @@ describe(@"Simple image", ^{
         return [UIImage imageNamed:@"image_sample.jpg"];
     });
 
-    let(expectedThresholdedImage, ^id{
-        return [UIImage imageNamed:@"image_sample_tr"];
-    });
-
     let(waitDeadline, ^id{
         return @(1.0);
     });
@@ -186,12 +178,23 @@ describe(@"Simple image", ^{
         [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelWord)];
     });
 
+    it(@"Should draw blocks on image", ^{
+        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+
+        NSArray *blocks = [tesseract confidencesByIteratorLevel:G8PageIteratorLevelSymbol];
+        UIImage *blocksImage = [tesseract imageWithBlocks:blocks drawText:YES thresholded:NO];
+        UIImage *expectedBlocksImage = [UIImage imageNamed:@"image_sample_bl"];
+        
+        [[theValue([blocksImage g8_isEqualToImage:expectedBlocksImage]) should] beYes];
+    });
+
     it(@"Should fetch thresholded image", ^{
         UIImage *onceThresholded = thresholdedImageForImage(image);
         UIImage *twiceThresholded = thresholdedImageForImage(onceThresholded);
+        UIImage *expectedThresholdedImage = [UIImage imageNamed:@"image_sample_tr"];
 
+        [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
         [[theValue([onceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
-        [[theValue([twiceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
     });
 
 });

@@ -42,13 +42,15 @@
 @property (nonatomic, readonly) G8TextlineOrder textlineOrder;
 @property (nonatomic, readonly) CGFloat deskewAngle;
 
-@property (nonatomic, readonly) UIImage *thresholdedImage;
-
 //  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
 //  CGRects are in UIKit's coordinate space (origin is in the top left)
 @property (nonatomic, readonly) NSArray *characterBoxes;
 @property (nonatomic, readonly) NSArray *characterChoices;
 - (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
+
+// Debug methods
+@property (nonatomic, readonly) UIImage *thresholdedImage;
+- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded;
 
 @property (nonatomic, weak) id<G8TesseractDelegate> delegate;
 

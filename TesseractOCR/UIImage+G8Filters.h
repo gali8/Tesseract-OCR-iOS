@@ -10,7 +10,7 @@
 
 @interface UIImage (G8Filters)
 
--(UIImage *)blackAndWhite;
--(UIImage *)grayScale;
+- (UIImage *)g8_blackAndWhite;
+- (UIImage *)g8_grayScale;
 
 @end

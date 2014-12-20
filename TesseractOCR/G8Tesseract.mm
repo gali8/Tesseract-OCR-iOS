@@ -382,7 +382,6 @@ namespace tesseract {
 
 - (void)analyzeLayout
 {
-    NSLog(@"...");
     tesseract::Orientation orientation;
     tesseract::WritingDirection direction;
     tesseract::TextlineOrder order;
@@ -524,6 +523,41 @@ namespace tesseract {
     }
     
     return [array copy];
+}
+
+- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
+{
+    UIImage *image = thresholded ? self.thresholdedImage : self.image;
+
+    UIGraphicsBeginImageContextWithOptions(self.imageSize, YES, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIGraphicsPushContext(context);
+
+    [image drawInRect:(CGRect){CGPointZero, self.imageSize}];
+
+    CGContextSetLineWidth(context, 2.0f);
+    CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+
+    for (G8RecognizedBlock *block in blocks) {
+        CGRect boundingBox = block.boundingBox;
+        CGRect rect = CGRectMake(boundingBox.origin.x, self.imageSize.height - boundingBox.origin.y,
+                                 boundingBox.size.width, -boundingBox.size.height);
+        CGContextStrokeRect(context, rect);
+
+        if (drawText) {
+            NSAttributedString *string =
+                [[NSAttributedString alloc] initWithString:block.text attributes:@{
+                    NSForegroundColorAttributeName: [UIColor redColor]
+                }];
+            [string drawAtPoint:(CGPoint){CGRectGetMidX(rect), CGRectGetMaxY(rect) + 2}];
+        }
+    }
+
+    UIGraphicsPopContext();
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
 }
 
 #pragma mark - Other functions
