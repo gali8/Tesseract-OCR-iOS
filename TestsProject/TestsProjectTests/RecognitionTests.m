@@ -16,18 +16,7 @@ static NSString *const kG8Languages = @"eng";
 
 SPEC_BEGIN(RecognitionTests)
 
-// ###### Helpers ######
-
-void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^shouldKeepRunning)()) {
-    NSDate *deadlineDate = [NSDate dateWithTimeInterval:maximumWait sinceDate:[NSDate date]];
-    BOOL isDeadline = NO;
-    while (shouldKeepRunning != nil && shouldKeepRunning() && isDeadline == NO) {
-        if ([[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:deadlineDate] == NO) {
-            break;
-        }
-        isDeadline = [[NSDate date] compare:deadlineDate] == NSOrderedDescending;
-    }
-};
+#pragma mark - Variables
 
 __block G8Tesseract *tesseract;
 
@@ -54,6 +43,19 @@ let(waitDeadline, ^id{
 let(maxExpectedRecognitionTime, ^id{
     return @(5.0);
 });
+
+#pragma mark - Helpers
+
+void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^shouldKeepRunning)()) {
+    NSDate *deadlineDate = [NSDate dateWithTimeInterval:maximumWait sinceDate:[NSDate date]];
+    BOOL isDeadline = NO;
+    while (shouldKeepRunning != nil && shouldKeepRunning() && isDeadline == NO) {
+        if ([[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:deadlineDate] == NO) {
+            break;
+        }
+        isDeadline = [[NSDate date] compare:deadlineDate] == NSOrderedDescending;
+    }
+};
 
 void (^setupTesseract)() = ^{
     tesseract.language = kG8Languages;
@@ -115,7 +117,7 @@ UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
     return tesseract.thresholdedImage;
 };
 
-// ###### TESTS ######
+#pragma mark - Test - Simple image
 
 describe(@"Simple image", ^{
 
@@ -198,6 +200,8 @@ describe(@"Simple image", ^{
     });
 
 });
+
+#pragma mark - Test - Well scaned page
 
 describe(@"Well scaned page", ^{
 
