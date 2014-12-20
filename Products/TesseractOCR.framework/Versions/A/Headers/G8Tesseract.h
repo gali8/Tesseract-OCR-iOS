@@ -35,7 +35,6 @@
 @property (nonatomic, assign) NSTimeInterval maximumRecognitionTime;
 
 @property (nonatomic, readonly) NSUInteger progress; // from 0 to 100
-@property (nonatomic, readonly) NSUInteger recognizedWordsCount;
 @property (nonatomic, readonly) NSString *recognizedText;
 
 @property (nonatomic, readonly) G8Orientation orientation;
@@ -56,6 +55,7 @@
 - (id)initWithLanguage:(NSString*)language;
 - (id)initWithLanguage:(NSString*)language engineMode:(G8OCREngineMode)engineMode;
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
+- (void)setVariablesFromDictionary:(NSDictionary *)dictionary;
 
 - (BOOL)recognize;
 

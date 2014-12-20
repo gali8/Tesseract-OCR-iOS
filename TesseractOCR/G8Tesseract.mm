@@ -33,7 +33,6 @@ namespace tesseract {
 @property (nonatomic, strong) NSMutableDictionary *variables;
 
 @property (readwrite, assign) CGSize imageSize;
-@property (nonatomic, assign) NSUInteger recognizedWordsCount;
 
 @property (nonatomic, assign, getter=isRecognized) BOOL recognized;
 @property (nonatomic, assign, getter=isLayoutAnalysed) BOOL layoutAnalysed;
@@ -210,6 +209,14 @@ namespace tesseract {
 
     self.variables[key] = value;
     _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+}
+
+- (void)setVariablesFromDictionary:(NSDictionary *)dictionary
+{
+    for (NSString *key in dictionary.allKeys) {
+        NSString *value = dictionary[key];
+        [self setVariableValue:value forKey:key];
+    }
 }
 
 - (void)loadVariables
@@ -615,8 +622,6 @@ namespace tesseract {
     if (_monitor->ocr_alive == 1) {
         _monitor->ocr_alive = 0;
     }
-
-    self.recognizedWordsCount = words;
 
     [self tesseractProgressCallbackFunction:words];
 
