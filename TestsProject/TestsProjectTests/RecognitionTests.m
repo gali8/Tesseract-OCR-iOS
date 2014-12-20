@@ -16,6 +16,8 @@ static NSString *const kG8Languages = @"eng";
 
 SPEC_BEGIN(RecognitionTests)
 
+// ###### Helpers ######
+
 void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^shouldKeepRunning)()) {
     NSDate *deadlineDate = [NSDate dateWithTimeInterval:maximumWait sinceDate:[NSDate date]];
     BOOL isDeadline = NO;
@@ -110,13 +112,6 @@ void (^recognizeImageUsingOperation)() = ^{
     }
 };
 
-void (^analyzeLayout)() = ^{
-    tesseract = [[G8Tesseract alloc] init];
-
-    tesseract.image = image;
-    NSLog(@"%.2f", tesseract.deskewAngle);
-};
-
 UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
     G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     tesseract.image = image;
@@ -124,6 +119,7 @@ UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
     return tesseract.thresholdedImage;
 };
 
+// ###### TESTS ######
 
 describe(@"Simple image", ^{
 
