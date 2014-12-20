@@ -10,7 +10,7 @@
 
 @implementation UIImage (G8Filters)
 
--(UIImage *)blackAndWhite
+- (UIImage *)g8_blackAndWhite
 {
     CIImage *beginImage = [CIImage imageWithCGImage:self.CGImage];
 
@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, PIXELS) {
     RED = 3
 };
 
-- (UIImage *)grayScale
+- (UIImage *)g8_grayScale
 {
     CGSize size = [self size];
     int width = size.width;

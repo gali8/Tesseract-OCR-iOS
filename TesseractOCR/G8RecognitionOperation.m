@@ -51,8 +51,13 @@
 - (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract
 {
     self.progress = self.tesseract.progress / 100.0f;
+    if (self.progressCallbackBlock != nil) {
+        self.progressCallbackBlock(self.tesseract);
+    }
     if ([self.delegate respondsToSelector:@selector(progressImageRecognitionForTesseract:)]) {
-        [self.delegate progressImageRecognitionForTesseract:tesseract];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.delegate progressImageRecognitionForTesseract:tesseract];
+        }];
     }
 }
 

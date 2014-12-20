@@ -8,6 +8,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "G8Constants.h"
 
 @class G8Tesseract;
 
@@ -24,29 +25,39 @@
 + (NSString *)version;
 
 @property (nonatomic, copy) NSString* language;
+@property (nonatomic, assign) G8OCREngineMode engineMode;
+@property (nonatomic, assign) G8PageSegmentationMode pageSegmentationMode;
+@property (nonatomic, copy) NSString *charWhitelist;
+@property (nonatomic, copy) NSString *charBlacklist;
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGRect rect;
+@property (nonatomic, assign) NSTimeInterval maximumRecognitionTime;
 
 @property (nonatomic, readonly) NSUInteger progress; // from 0 to 100
 @property (nonatomic, readonly) NSString *recognizedText;
 
-@property (nonatomic, readonly) UIImage *thresholdedImage;
+@property (nonatomic, readonly) G8Orientation orientation;
+@property (nonatomic, readonly) G8WritingDirection writingDirection;
+@property (nonatomic, readonly) G8TextlineOrder textlineOrder;
+@property (nonatomic, readonly) CGFloat deskewAngle;
 
 //  This NSDictionary uses NSValue encoded CGRects as keys and the recognized character (NSString) as the value
 //  CGRects are in UIKit's coordinate space (origin is in the top left)
 @property (nonatomic, readonly) NSArray *characterBoxes;
+@property (nonatomic, readonly) NSArray *characterChoices;
+- (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
 
-@property (nonatomic, readonly) NSArray *getConfidenceByWord;
-@property (nonatomic, readonly) NSArray *getConfidenceBySymbol;
-@property (nonatomic, readonly) NSArray *getConfidenceByTextline;
-@property (nonatomic, readonly) NSArray *getConfidenceByParagraph;
-@property (nonatomic, readonly) NSArray *getConfidenceByBlock;
+// Debug methods
+@property (nonatomic, readonly) UIImage *thresholdedImage;
+- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded;
 
 @property (nonatomic, weak) id<G8TesseractDelegate> delegate;
 
 - (id)initWithLanguage:(NSString*)language;
+- (id)initWithLanguage:(NSString*)language engineMode:(G8OCREngineMode)engineMode;
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
+- (void)setVariablesFromDictionary:(NSDictionary *)dictionary;
 
 - (BOOL)recognize;
 

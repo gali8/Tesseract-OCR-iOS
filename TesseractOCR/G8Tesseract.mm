@@ -10,6 +10,9 @@
 #import "G8Tesseract.h"
 
 #import "UIImage+G8Filters.h"
+#import "G8TesseractParameters.h"
+#import "G8Constants.h"
+#import "G8RecognizedBlock.h"
 
 #import "baseapi.h"
 #import "environ.h"
@@ -31,13 +34,25 @@ namespace tesseract {
 
 @property (readwrite, assign) CGSize imageSize;
 
+@property (nonatomic, assign, getter=isRecognized) BOOL recognized;
+@property (nonatomic, assign, getter=isLayoutAnalysed) BOOL layoutAnalysed;
+
+@property (nonatomic, assign) G8Orientation orientation;
+@property (nonatomic, assign) G8WritingDirection writingDirection;
+@property (nonatomic, assign) G8TextlineOrder textlineOrder;
+@property (nonatomic, assign) CGFloat deskewAngle;
+
 @end
 
 @implementation G8Tesseract
 
 + (NSString *)version
 {
-    return [NSString stringWithFormat:@"%s", tesseract::TessBaseAPI::Version()];
+    const char *version = tesseract::TessBaseAPI::Version();
+    if (version != NULL) {
+        return [NSString stringWithUTF8String:version];
+    }
+    return @"n/a";
 }
 
 - (id)init
@@ -47,20 +62,29 @@ namespace tesseract {
 
 - (id)initWithLanguage:(NSString*)language
 {
-    return [self initPrivateWithDataPath:nil language:language];
+    return [self initPrivateWithDataPath:nil language:language engineMode:G8OCREngineModeTesseractOnly];
+}
+
+- (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
+{
+    return [self initPrivateWithDataPath:nil language:language engineMode:engineMode];
 }
 
 - (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language
 {
-    return [self initPrivateWithDataPath:dataPath language:language];
+    return [self initPrivateWithDataPath:nil language:language engineMode:G8OCREngineModeTesseractOnly];
 }
 
-- (id)initPrivateWithDataPath:(NSString *)dataPath language:(NSString *)language
+- (id)initPrivateWithDataPath:(NSString *)dataPath
+                     language:(NSString *)language
+                   engineMode:(G8OCREngineMode)engineMode
 {
     self = [super init];
     if (self != nil) {
         _dataPath = [dataPath copy];
         _language = [language copy];
+        _engineMode = engineMode;
+        _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
 
         _monitor = new ETEXT_DESC();
@@ -102,14 +126,35 @@ namespace tesseract {
 - (void)setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle
 {
     NSString *datapath =
-    [NSString stringWithFormat:@"%@/", [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]];
+        [NSString stringWithFormat:@"%@/", [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]];
     setenv("TESSDATA_PREFIX", datapath.UTF8String, 1);
 }
 
 - (BOOL)initEngine
 {
-    int returnCode = _tesseract->Init(self.dataPath.UTF8String, self.language.UTF8String);
+    int returnCode = _tesseract->Init(self.dataPath.UTF8String, self.language.UTF8String,
+                                      (tesseract::OcrEngineMode)self.engineMode);
     return returnCode == 0;
+}
+
+- (void)resetFlags
+{
+    self.recognized = NO;
+    self.layoutAnalysed = NO;
+}
+
+- (BOOL)resetEngine
+{
+    BOOL isInitDone = [self initEngine];
+    if (isInitDone) {
+        [self loadVariables];
+        [self resetFlags];
+    }
+    else {
+        NSLog(@"ERROR! Can't init Tesseract engine.");
+    }
+
+    return isInitDone;
 }
 
 - (void)copyDataToDocumentsDirectory
@@ -160,8 +205,18 @@ namespace tesseract {
      * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
      */
 
+    [self resetFlags];
+
     self.variables[key] = value;
     _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+}
+
+- (void)setVariablesFromDictionary:(NSDictionary *)dictionary
+{
+    for (NSString *key in dictionary.allKeys) {
+        NSString *value = dictionary[key];
+        [self setVariableValue:value forKey:key];
+    }
 }
 
 - (void)loadVariables
@@ -177,16 +232,50 @@ namespace tesseract {
 - (void)setLanguage:(NSString *)language
 {
     if ([_language isEqualToString:language] == NO) {
-        _language = language;
-        BOOL inInitDone = [self initEngine];
+        _language = [language copy];
 
         /*
          * "WARNING: On changing languages, all Tesseract parameters
          * are reset back to their default values."
          */
-        if (inInitDone) {
-            [self loadVariables];
-        }
+        [self resetEngine];
+    }
+}
+
+- (void)setEngineMode:(G8OCREngineMode)engineMode
+{
+    if (_engineMode != engineMode) {
+        _engineMode = engineMode;
+
+        [self resetEngine];
+    }
+}
+
+- (void)setPageSegmentationMode:(G8PageSegmentationMode)pageSegmentationMode
+{
+    if (_pageSegmentationMode != pageSegmentationMode) {
+        _pageSegmentationMode = pageSegmentationMode;
+
+        [self setVariableValue:[NSString stringWithFormat:@"%lu", (unsigned long)pageSegmentationMode]
+                        forKey:kG8ParamTesseditPagesegMode];
+    }
+}
+
+- (void)setCharWhitelist:(NSString *)charWhitelist
+{
+    if ([_charWhitelist isEqualToString:charWhitelist] == NO) {
+        _charWhitelist = [charWhitelist copy];
+
+        [self setVariableValue:charWhitelist forKey:kG8ParamTesseditCharWhitelist];
+    }
+}
+
+- (void)setCharBlacklist:(NSString *)charBlacklist
+{
+    if ([_charBlacklist isEqualToString:charBlacklist] == NO) {
+        _charBlacklist = [charBlacklist copy];
+
+        [self setVariableValue:charBlacklist forKey:kG8ParamTesseditCharBlacklist];
     }
 }
 
@@ -225,6 +314,7 @@ namespace tesseract {
         CFRelease(data);
 
         _image = image;
+        [self resetFlags];
     }
 }
 
@@ -234,6 +324,7 @@ namespace tesseract {
         _rect = rect;
 
         _tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+        [self resetFlags];
     }
 }
 
@@ -255,6 +346,57 @@ namespace tesseract {
     NSString *text = [NSString stringWithUTF8String:utf8Text];
     delete[] utf8Text;
     return text;
+}
+
+- (G8Orientation)orientation
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _orientation;
+}
+
+- (G8WritingDirection)writingDirection
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _writingDirection;
+}
+
+- (G8TextlineOrder)textlineOrder
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _textlineOrder;
+}
+
+- (CGFloat)deskewAngle
+{
+    if (self.layoutAnalysed == NO) {
+        [self analyzeLayout];
+    }
+    return _deskewAngle;
+}
+
+- (void)analyzeLayout
+{
+    tesseract::Orientation orientation;
+    tesseract::WritingDirection direction;
+    tesseract::TextlineOrder order;
+    float deskewAngle;
+
+    tesseract::PageIterator *iterator = _tesseract->AnalyseLayout();
+    iterator->Orientation(&orientation, &direction, &order, &deskewAngle);
+    delete iterator;
+
+    self.orientation = (G8Orientation)orientation;
+    self.writingDirection = (G8WritingDirection)direction;
+    self.textlineOrder = (G8TextlineOrder)order;
+    self.deskewAngle = deskewAngle;
+
+    self.layoutAnalysed = YES;
 }
 
 - (NSArray *)characterBoxes
@@ -286,17 +428,49 @@ namespace tesseract {
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
             CGRect box = CGRectMake(x, y, width, height);
 
-            NSDictionary *resultDict = @{
-                @"text":    boxComponents[0],
-                @"box":     [NSValue valueWithCGRect:box],
-            };
-            [recognizedTextBoxes addObject:resultDict];
+            G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:boxComponents[0]
+                                                                   boundingBox:box
+                                                                    confidence:0.0f
+                                                                         level:G8PageIteratorLevelBlock];
+            [recognizedTextBoxes addObject:block];
         }
     }
     return [recognizedTextBoxes copy];
 }
 
-- (NSArray *)getConfidences:(tesseract::PageIteratorLevel)level
+- (G8RecognizedBlock *)blockFromIterator:(tesseract::ResultIterator *)iterator
+                           iteratorLevel:(G8PageIteratorLevel)iteratorLevel
+{
+    tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)iteratorLevel;
+
+    G8RecognizedBlock *block = nil;
+    const char *word = iterator->GetUTF8Text(level);
+    if (word != NULL) {
+        // BoundingBox parameters are (Left Top Right Bottom).
+        // See comment in characterBoxes() for information on the coordinate
+        // system, and changes being made.
+        int x1, y1, x2, y2;
+        iterator->BoundingBox(level, &x1, &y1, &x2, &y2);
+
+        CGFloat x = x1;
+        CGFloat y = self.imageSize.height - y1;
+        CGFloat width = x2 - x1;
+        CGFloat height = y1 - y2;
+
+        NSString *text = [NSString stringWithUTF8String:word];
+        CGRect boundingBox = CGRectMake(x, y, width, height);
+        CGFloat confidence = iterator->Confidence(level);
+        delete[] word;
+
+        block = [[G8RecognizedBlock alloc] initWithText:text
+                                            boundingBox:boundingBox
+                                             confidence:confidence
+                                                  level:iteratorLevel];
+    }
+    return block;
+}
+
+- (NSArray *)characterChoices
 {
     NSMutableArray *array = [NSMutableArray array];
     //  Get iterators
@@ -304,58 +478,86 @@ namespace tesseract {
 
     if (resultIterator != NULL) {
         do {
-            // BoundingBox parameters are (Left Top Right Bottom).
-            // See comment in characterBoxes() for information on the coordinate
-            // system, and changes being made.
-            int x1, y1, x2, y2;
-            resultIterator->BoundingBox(level, &x1, &y1, &x2, &y2);
+            G8RecognizedBlock *block = [self blockFromIterator:resultIterator iteratorLevel:G8PageIteratorLevelSymbol];
+            NSMutableArray *choices = [NSMutableArray array];
 
-            CGFloat x = x1;
-            CGFloat y = self.imageSize.height - y1;
-            CGFloat width = x2 - x1;
-            CGFloat height = y1 - y2;
-            CGRect box = CGRectMake(x, y, width, height);
+            tesseract::ChoiceIterator choiceIterator(*resultIterator);
+            do {
+                const char *choiceWord = choiceIterator.GetUTF8Text();
+                if (choiceWord != NULL) {
+                    NSString *text = [NSString stringWithUTF8String:choiceWord];
+                    CGFloat confidence = choiceIterator.Confidence();
 
-            const char *word = resultIterator->GetUTF8Text(level);
-            if (word != NULL) {
-                float conf = resultIterator->Confidence(level);
+                    G8RecognizedBlock *choiceBlock = [[G8RecognizedBlock alloc] initWithText:text
+                                                                                 boundingBox:block.boundingBox
+                                                                                  confidence:confidence
+                                                                                       level:G8PageIteratorLevelSymbol];
+                    [choices addObject:choiceBlock];
+                }
+            } while (choiceIterator.Next());
 
-                [array addObject:@{
-                    @"text":         [NSString stringWithUTF8String:word],
-                    @"confidence":   [NSNumber numberWithFloat:conf],
-                    @"boundingbox":  [NSValue valueWithCGRect:box]
-                }];
-                delete[] word;
-            }
-        } while (resultIterator->Next(level));
+            [array addObject:[choices copy]];
+        } while (resultIterator->Next(tesseract::RIL_SYMBOL));
+        delete resultIterator;
     }
-
+    
     return [array copy];
 }
 
-- (NSArray *)getConfidenceByWord
+- (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
 {
-    return [self getConfidences:tesseract::RIL_WORD];
+    tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
+
+    NSMutableArray *array = [NSMutableArray array];
+    //  Get iterators
+    tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
+
+    if (resultIterator != NULL) {
+        do {
+            G8RecognizedBlock *block = [self blockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
+            if (block != nil) {
+                [array addObject:block];
+            }
+        } while (resultIterator->Next(level));
+        delete resultIterator;
+    }
+    
+    return [array copy];
 }
 
-- (NSArray *)getConfidenceBySymbol
+- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
 {
-    return [self getConfidences:tesseract::RIL_SYMBOL];
-}
+    UIImage *image = thresholded ? self.thresholdedImage : self.image;
 
-- (NSArray *)getConfidenceByBlock
-{
-    return [self getConfidences:tesseract::RIL_BLOCK];
-}
+    UIGraphicsBeginImageContextWithOptions(self.imageSize, YES, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIGraphicsPushContext(context);
 
-- (NSArray *)getConfidenceByTextline
-{
-    return [self getConfidences:tesseract::RIL_TEXTLINE];
-}
+    [image drawInRect:(CGRect){CGPointZero, self.imageSize}];
 
-- (NSArray *)getConfidenceByParagraph
-{
-    return [self getConfidences:tesseract::RIL_PARA];
+    CGContextSetLineWidth(context, 2.0f);
+    CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+
+    for (G8RecognizedBlock *block in blocks) {
+        CGRect boundingBox = block.boundingBox;
+        CGRect rect = CGRectMake(boundingBox.origin.x, self.imageSize.height - boundingBox.origin.y,
+                                 boundingBox.size.width, -boundingBox.size.height);
+        CGContextStrokeRect(context, rect);
+
+        if (drawText) {
+            NSAttributedString *string =
+                [[NSAttributedString alloc] initWithString:block.text attributes:@{
+                    NSForegroundColorAttributeName: [UIColor redColor]
+                }];
+            [string drawAtPoint:(CGPoint){CGRectGetMidX(rect), CGRectGetMaxY(rect) + 2}];
+        }
+    }
+
+    UIGraphicsPopContext();
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
 }
 
 #pragma mark - Other functions
@@ -368,8 +570,20 @@ namespace tesseract {
 
 - (BOOL)recognize
 {
-    int returnCode = _tesseract->Recognize(_monitor);
-    return returnCode == 0;
+    if (self.maximumRecognitionTime > FLT_EPSILON) {
+        _monitor->set_deadline_msecs((inT32)(self.maximumRecognitionTime * 1000));
+    }
+
+    self.recognized = NO;
+    int returnCode = 0;
+    @try {
+        returnCode = _tesseract->Recognize(_monitor);
+        self.recognized = YES;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exceprion rised while recognizing: %@", exception);
+    }
+    return returnCode == 0 && self.recognized;
 }
 
 - (UIImage *)thresholdedImage
@@ -442,7 +656,9 @@ namespace tesseract {
     if (_monitor->ocr_alive == 1) {
         _monitor->ocr_alive = 0;
     }
-    
+
+    [self tesseractProgressCallbackFunction:words];
+
     BOOL isCancel = NO;
     if ([self.delegate respondsToSelector:@selector(shouldCancelImageRecognitionForTesseract:)]) {
         isCancel = [self.delegate shouldCancelImageRecognitionForTesseract:self];

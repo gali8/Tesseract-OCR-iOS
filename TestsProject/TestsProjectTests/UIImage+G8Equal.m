@@ -10,8 +10,11 @@
 
 @implementation UIImage (G8Equal)
 
-- (BOOL)g8_isEqualToImage:(UIImage*)image
+- (BOOL)g8_isEqualToImage:(UIImage *)image
 {
+    if (self == image) {
+        return YES;
+    }
     NSData *data = [image g8_normalizedData];
     NSData *originalData = [self g8_normalizedData];
     return [originalData isEqualToData:data];
