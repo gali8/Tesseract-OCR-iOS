@@ -4,7 +4,8 @@
 //  This code is auto-generated from Tesseract headers.
 //
 //  Created by Nikolay Volosatov on 17/12/14.
-//  Copyright (c) 2014 Daniele Galiotto - www.g8production.com. All rights reserved.
+//  Copyright (c) 2014 Daniele Galiotto - www.g8production.com.
+//  All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

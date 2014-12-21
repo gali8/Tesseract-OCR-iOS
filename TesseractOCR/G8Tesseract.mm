@@ -570,7 +570,7 @@ namespace tesseract {
         self.recognized = YES;
     }
     @catch (NSException *exception) {
-        NSLog(@"Exceprion rised while recognizing: %@", exception);
+        NSLog(@"Exception was raised while recognizing: %@", exception);
     }
     return returnCode == 0 && self.recognized;
 }
