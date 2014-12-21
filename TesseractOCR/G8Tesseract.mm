@@ -70,11 +70,6 @@ namespace tesseract {
     return [self initPrivateWithDataPath:nil language:language engineMode:engineMode];
 }
 
-- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language
-{
-    return [self initPrivateWithDataPath:nil language:language engineMode:G8OCREngineModeTesseractOnly];
-}
-
 - (id)initPrivateWithDataPath:(NSString *)dataPath
                      language:(NSString *)language
                    engineMode:(G8OCREngineMode)engineMode
@@ -561,12 +556,6 @@ namespace tesseract {
 }
 
 #pragma mark - Other functions
-
-- (void)clear
-{
-    // Free up all memory in dealloc.
-    NSLog(@"clear is deprecated. Free up all memory in dealloc.");
-}
 
 - (BOOL)recognize
 {

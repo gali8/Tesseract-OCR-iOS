@@ -61,16 +61,4 @@
 
 - (BOOL)recognize;
 
-///
-/// @warning deprecated method!
-/// @deprecated	- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language is deprecated. Please use - (id)initWithLanguage:(NSString*)language;
-///
-- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language DEPRECATED_ATTRIBUTE;
-
-///
-/// @warning deprecated method!
-/// @deprecated	- (void)clear is deprecated. The memory will be freed in dealloc added by ARC;
-///
-- (void)clear DEPRECATED_ATTRIBUTE;
-
 @end
