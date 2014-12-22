@@ -448,9 +448,9 @@ namespace tesseract {
         iterator->BoundingBox(level, &x1, &y1, &x2, &y2);
 
         CGFloat x = x1;
-        CGFloat y = self.imageSize.height - y1;
+        CGFloat y = y1;
         CGFloat width = x2 - x1;
-        CGFloat height = y1 - y2;
+        CGFloat height = y2 - y1;
 
         NSString *text = [NSString stringWithUTF8String:word];
         CGRect boundingBox = CGRectMake(x, y, width, height);
@@ -535,8 +535,8 @@ namespace tesseract {
 
     for (G8RecognizedBlock *block in blocks) {
         CGRect boundingBox = block.boundingBox;
-        CGRect rect = CGRectMake(boundingBox.origin.x, self.imageSize.height - boundingBox.origin.y,
-                                 boundingBox.size.width, -boundingBox.size.height);
+        CGRect rect = CGRectMake(boundingBox.origin.x, boundingBox.origin.y,
+                                 boundingBox.size.width, boundingBox.size.height);
         CGContextStrokeRect(context, rect);
 
         if (drawText) {
