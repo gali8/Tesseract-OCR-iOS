@@ -70,11 +70,6 @@ namespace tesseract {
     return [self initPrivateWithDataPath:nil language:language engineMode:engineMode];
 }
 
-- (id)initWithDataPath:(NSString *)dataPath language:(NSString *)language
-{
-    return [self initPrivateWithDataPath:nil language:language engineMode:G8OCREngineModeTesseractOnly];
-}
-
 - (id)initPrivateWithDataPath:(NSString *)dataPath
                      language:(NSString *)language
                    engineMode:(G8OCREngineMode)engineMode
@@ -562,12 +557,6 @@ namespace tesseract {
 
 #pragma mark - Other functions
 
-- (void)clear
-{
-    // Free up all memory in dealloc.
-    NSLog(@"clear is deprecated. Free up all memory in dealloc.");
-}
-
 - (BOOL)recognize
 {
     if (self.maximumRecognitionTime > FLT_EPSILON) {
@@ -581,7 +570,7 @@ namespace tesseract {
         self.recognized = YES;
     }
     @catch (NSException *exception) {
-        NSLog(@"Exceprion rised while recognizing: %@", exception);
+        NSLog(@"Exception was raised while recognizing: %@", exception);
     }
     return returnCode == 0 && self.recognized;
 }

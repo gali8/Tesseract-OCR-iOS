@@ -32,7 +32,8 @@ copyrights = '''//
 //  This code is auto-generated from Tesseract headers.
 //
 //  Created by Nikolay Volosatov on %s.
-//  Copyright (c) %s Daniele Galiotto - www.g8production.com. All rights reserved.
+//  Copyright (c) %s Daniele Galiotto - www.g8production.com. 
+//  All rights reserved.
 //
 ''' % ("%s", strftime("%d/%m/%y", gmtime()), strftime("%Y", gmtime()))
 
