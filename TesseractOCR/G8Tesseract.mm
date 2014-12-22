@@ -535,8 +535,8 @@ namespace tesseract {
 
     for (G8RecognizedBlock *block in blocks) {
         CGRect boundingBox = block.boundingBox;
-        CGRect rect = CGRectMake(boundingBox.origin.x, boundingBox.origin.y,
-                                 boundingBox.size.width, boundingBox.size.height);
+        CGRect rect = CGRectMake(boundingBox.origin.x, self.imageSize.height - boundingBox.origin.y,
+                                 boundingBox.size.width, -boundingBox.size.height);
         CGContextStrokeRect(context, rect);
 
         if (drawText) {
