@@ -59,6 +59,12 @@
 @property (nonatomic, copy) NSString* language;
 
 /**
+ * The path to the tessdata file, if it was specified in a call to initWithDataPath:language:(NSString engineMode:configFileNames:
+ * Otherwise it's supposed that the tessdata folder is located in the application bundle
+ */
+@property (nonatomic, readonly, copy) NSString *dataPath;
+
+/**
  *  The recognition mode to use. See `G8OCREngineMode` in G8Constants.h for the
  *  available recognition modes.
  */
@@ -239,6 +245,22 @@
  */
 - (id)initWithLanguage:(NSString*)language
             engineMode:(G8OCREngineMode)engineMode;
+
+/**
+ *  Initialize Tesseract with the provided language and engine mode.
+ *
+ *  @param dataPath
+ *  @param language         The language to use in recognition. See `language`.
+ *  @param engineMode       The engine mode to use in recognition. See `engineMode`.
+ *  @param configFileNames
+ *
+ *  @return The initialized Tesseract object, or `nil` if there was an error.
+ */
+
+- (id)initWithDataPath:(NSString *)dataPath
+              language:(NSString *)language
+            engineMode:(G8OCREngineMode)engineMode
+       configFileNames:(NSArray*)configFileNames NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Set a Tesseract variable. See G8TesseractParameters.h for the available
