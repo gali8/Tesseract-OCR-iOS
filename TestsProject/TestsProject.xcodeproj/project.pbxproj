@@ -26,6 +26,7 @@
 		41C68DAF1A41825500848AE1 /* UIImage+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C68DAE1A41825500848AE1 /* UIImage+G8Equal.m */; };
 		41C68DB31A41849100848AE1 /* image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41C68DB21A41849100848AE1 /* image_sample.jpg */; };
 		41C68DB51A41854600848AE1 /* image_sample_tr.png in Resources */ = {isa = PBXBuildFile; fileRef = 41C68DB41A41854600848AE1 /* image_sample_tr.png */; };
+		732C54761A514DA6000322DA /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54751A514DA5000322DA /* InitializationTests.m */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		41C68DB21A41849100848AE1 /* image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sample.jpg; sourceTree = "<group>"; };
 		41C68DB41A41854600848AE1 /* image_sample_tr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample_tr.png; sourceTree = "<group>"; };
 		5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestsProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		732C54751A514DA5000322DA /* InitializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitializationTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 		4115B9771A3EF8E90004EC0A /* TestsProjectTests */ = {
 			isa = PBXGroup;
 			children = (
+				732C54751A514DA5000322DA /* InitializationTests.m */,
 				4115B97A1A3EF8E90004EC0A /* RecognitionTests.m */,
 				4115B9781A3EF8E90004EC0A /* Supporting Files */,
 			);
@@ -348,6 +351,7 @@
 			files = (
 				414121231A4C5A5700583ED4 /* G8RecognitionTestsHelper.m in Sources */,
 				4115B97B1A3EF8E90004EC0A /* RecognitionTests.m in Sources */,
+				732C54761A514DA6000322DA /* InitializationTests.m in Sources */,
 				41C68DAF1A41825500848AE1 /* UIImage+G8Equal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

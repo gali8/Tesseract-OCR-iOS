@@ -19,6 +19,8 @@
 #import "pix.h"
 #import "ocrclass.h"
 #import "allheaders.h"
+#import "genericvector.h"
+#import "strngs.h"
 
 namespace tesseract {
     class TessBaseAPI;
@@ -30,6 +32,8 @@ namespace tesseract {
 }
 
 @property (nonatomic, copy) NSString *dataPath;
+@property (nonatomic, strong) NSDictionary *configDictionary;
+@property (nonatomic, strong) NSArray *configFileNames;
 @property (nonatomic, strong) NSMutableDictionary *variables;
 
 @property (readwrite, assign) CGSize imageSize;
@@ -67,22 +71,26 @@ namespace tesseract {
 
 - (id)initWithLanguage:(NSString*)language
 {
-    return [self initPrivateWithDataPath:nil language:language engineMode:G8OCREngineModeTesseractOnly];
+    return [self initWithLanguage:language configDictionary:nil configFileNames:nil dataPath:nil engineMode:G8OCREngineModeTesseractOnly];
 }
 
 - (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
 {
-    return [self initPrivateWithDataPath:nil language:language engineMode:engineMode];
+    return [self initWithLanguage:language configDictionary:nil configFileNames:nil dataPath:nil engineMode:engineMode];
 }
 
-- (id)initPrivateWithDataPath:(NSString *)dataPath
-                     language:(NSString *)language
-                   engineMode:(G8OCREngineMode)engineMode
+- (id)initWithLanguage:(NSString *)language
+      configDictionary:(NSDictionary *)configDictionary
+       configFileNames:(NSArray *)configFileNames
+              dataPath:(NSString *)dataPath
+            engineMode:(G8OCREngineMode)engineMode
 {
     self = [super init];
     if (self != nil) {
         _dataPath = [dataPath copy];
         _language = [language copy];
+        _configDictionary = configDictionary;
+        _configFileNames = configFileNames;
         _engineMode = engineMode;
         _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
@@ -93,16 +101,25 @@ namespace tesseract {
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
 
-        if (dataPath != nil) {
-            [self copyDataToDocumentsDirectory];
+        if (self.dataPath != nil) {
+            // config Tesseract to search trainedData in tessdata folder of the Documents folder];
+            NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentPath = documentPaths.firstObject;
+            assert(documentPath);
+            _dataPath = [documentPath stringByAppendingPathComponent:self.dataPath];
+
+            [self moveTessdataToDocumentsDirectoryIfNecessary];
         }
         else {
-            [self setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle];
+            // config Tesseract to search trainedData in tessdata folder of the application bundle];
+            _dataPath = [NSString stringWithFormat:@"%@/", [NSString stringWithString:[NSBundle bundleForClass:self.class].bundlePath]];
         }
+        
+        setenv("TESSDATA_PREFIX", [self.dataPath stringByAppendingString:@"/"].UTF8String, 1);
 
         _tesseract = new tesseract::TessBaseAPI();
 
-        BOOL success = [self initEngine];
+        BOOL success = [self configEngine];
         if (success == NO) {
             self = nil;
         }
@@ -125,17 +142,31 @@ namespace tesseract {
     }
 }
 
-- (void)setUpTesseractToSearchTrainedDataInTrainedDataFolderOfTheApplicatinBundle
+- (BOOL)configEngine
 {
-    NSString *datapath =
-        [NSString stringWithFormat:@"%@/", [NSString stringWithString:[[NSBundle mainBundle] bundlePath]]];
-    setenv("TESSDATA_PREFIX", datapath.UTF8String, 1);
-}
+    GenericVector<STRING> tessKeys;
+    for( NSString *key in self.configDictionary.allKeys ){
+        tessKeys.push_back(STRING(key.UTF8String));
+    }
 
-- (BOOL)initEngine
-{
+    GenericVector<STRING> tessValues;
+    for( NSString *val in self.configDictionary.allValues ){
+        tessValues.push_back(STRING(val.UTF8String));
+    }
+    
+    int count = (int)self.configFileNames.count;
+    const char **configs = (const char **)malloc(sizeof(int) * count);
+    for (int i = 0; i < count; i++) {
+        configs[i] = ((NSString*)self.configFileNames[i]).UTF8String;
+    }
     int returnCode = _tesseract->Init(self.dataPath.UTF8String, self.language.UTF8String,
-                                      (tesseract::OcrEngineMode)self.engineMode);
+                                      (tesseract::OcrEngineMode)self.engineMode,
+                                      (char **)configs, count,
+                                      &tessKeys, &tessValues,
+                                      false);
+    if (configs != nullptr) {
+        free(configs);
+    }
     return returnCode == 0;
 }
 
@@ -147,7 +178,7 @@ namespace tesseract {
 
 - (BOOL)resetEngine
 {
-    BOOL isInitDone = [self initEngine];
+    BOOL isInitDone = [self configEngine];
     if (isInitDone) {
         [self loadVariables];
         [self resetFlags];
@@ -159,43 +190,60 @@ namespace tesseract {
     return isInitDone;
 }
 
-- (void)copyDataToDocumentsDirectory
+- (BOOL)moveTessdataToDocumentsDirectoryIfNecessary
 {
-    // Useful paths
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentPath = documentPaths.firstObject;
-    NSString *dataPath = [documentPath stringByAppendingPathComponent:self.dataPath];
-
-    //	NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"grc" ofType:@"traineddata"];
-    NSLog(@"DATAPATH %@", dataPath);
-
-    // Copy data in Doc Directory
-    if ([fileManager fileExistsAtPath:dataPath] == NO) {
-        [fileManager createDirectoryAtPath:dataPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    // Useful paths
+    NSString *tessdataFolderName = @"tessdata";
+    NSString *tessdataPath = [[NSBundle bundleForClass:self.class].resourcePath stringByAppendingPathComponent:tessdataFolderName];
+    NSString *destinationPath = [self.dataPath stringByAppendingPathComponent:tessdataFolderName];
+    NSLog(@"Tesseract destination path: %@", destinationPath);
+    
+    if ([fileManager fileExistsAtPath:destinationPath] == NO) {
+        NSError *error = nil;
+        BOOL res = [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:nil];
+        if (error != nil) {
+            NSLog(@"Error creating folder %@: %@", destinationPath, error);
+            return NO;
+        }
+        if (res == NO) {
+            NSLog(@"Error creating folder %@", destinationPath);
+            return NO;
+        }
     }
-
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    for (NSString *languageName in [self.language componentsSeparatedByString:@"+"]) {
-        NSString *tessdataPath = [bundle pathForResource:languageName ofType:@"traineddata"];
-
-        if (tessdataPath != nil) {
-            NSString *destinationPath = [dataPath stringByAppendingPathComponent:tessdataPath.lastPathComponent];
-
-            if([fileManager fileExistsAtPath:destinationPath] == NO) {
-                NSError *error = nil;
-                NSLog(@"found %@", tessdataPath);
-                NSLog(@"coping in %@", destinationPath);
-                [fileManager copyItemAtPath:tessdataPath toPath:destinationPath error:&error];
-
-                if(error != nil) {
-                    NSLog(@"ERROR! %@", error.description);
-                }
+    
+    BOOL result = YES;
+    NSError *error = nil;
+    NSArray *files = [fileManager contentsOfDirectoryAtPath:tessdataPath error:&error];
+    if (error != nil) {
+        NSLog(@"ERROR! %@", error.description);
+        result = NO;
+    }
+    for (NSString *filename in files) {
+        
+        NSString *destinationFileName = [destinationPath stringByAppendingPathComponent:filename];
+        if (![fileManager fileExistsAtPath:destinationFileName]) {
+            
+            NSString *filePath = [tessdataPath stringByAppendingPathComponent:filename];
+            //NSLog(@"found %@", filePath);
+            //NSLog(@"symlink in %@", destinationFileName);
+            
+            BOOL res = [fileManager createSymbolicLinkAtPath:destinationFileName
+                                         withDestinationPath:filePath
+                                                       error:&error];
+            if (res == NO) {
+                NSLog(@"The result of createSymbolicLinkAtPath == NO");
+                result = NO;
+            }
+            if (error != nil) {
+                NSLog(@"Error creating symlink %@: %@", filePath, error);
+                result = NO;
             }
         }
     }
-
-    setenv("TESSDATA_PREFIX", [documentPath stringByAppendingString:@"/"].UTF8String, 1);
+    
+    return result;
 }
 
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key
