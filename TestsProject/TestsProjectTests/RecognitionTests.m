@@ -26,6 +26,7 @@ __block G8PageSegmentationMode pageSegmentationMode = G8PageSegmentationModeAuto
 __block NSString *charWhitelist = @"0123456789";
 __block NSTimeInterval waitDeadline = 5.0;
 __block NSTimeInterval maxExpectedRecognitionTime = 5.0;
+__block BOOL isSimpleThresholding = NO;
 __block UIImage *image = nil;
 
 beforeEach(^{
@@ -34,6 +35,7 @@ beforeEach(^{
     charWhitelist = @"0123456789";
     waitDeadline = 5.0;
     maxExpectedRecognitionTime = 5.0;
+    isSimpleThresholding = NO;
     image = nil;
 });
 
@@ -58,7 +60,12 @@ void (^setupTesseract)() = ^{
     tesseract.charWhitelist = charWhitelist;
     tesseract.maximumRecognitionTime = waitDeadline;
 
-    tesseract.image = [image g8_blackAndWhite];
+    if (isSimpleThresholding) {
+        [tesseract setImage:[image g8_blackAndWhite] withSimpleThreshold:0.5f];
+    }
+    else {
+        tesseract.image = [image g8_blackAndWhite];
+    }
 };
 
 void (^recognizeImage)() = ^{
@@ -106,7 +113,12 @@ void (^recognizeImageUsingOperation)() = ^{
 UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
     G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
 
-    tesseract.image = [image g8_blackAndWhite];
+    if (isSimpleThresholding) {
+        [tesseract setImage:[image g8_blackAndWhite] withSimpleThreshold:0.5f];
+    }
+    else {
+        tesseract.image = [image g8_blackAndWhite];
+    }
 
     return tesseract.thresholdedImage;
 };
@@ -130,6 +142,15 @@ describe(@"Simple image", ^{
 
     it(@"Should recognize by queue", ^{
         recognizeImageUsingOperation();
+
+        NSString *recognizedText = tesseract.recognizedText;
+        [[recognizedText should] containString:@"1234567890"];
+    });
+
+    it(@"Should recognize with simple thresholding", ^{
+        isSimpleThresholding = YES;
+
+        recognizeImage();
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
@@ -185,6 +206,33 @@ describe(@"Simple image", ^{
 
         [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
         [[theValue([onceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
+    });
+
+    it(@"Should differ thresholding ways", ^{
+        UIImage *thresholdedFull = thresholdedImageForImage(image);
+
+        isSimpleThresholding = YES;
+        UIImage *thresholdedSimple = thresholdedImageForImage(image);
+
+        [[theValue([thresholdedFull g8_isEqualToImage:thresholdedSimple]) should] beNo];
+    });
+
+});
+
+#pragma mark - Test - Blank image
+
+describe(@"Blank image", ^{
+
+    beforeEach(^{
+        image = [UIImage imageNamed:@"image_blank"];
+        isSimpleThresholding = YES;
+    });
+
+    it(@"Should recognize sync", ^{
+        recognizeImage();
+
+        NSString *recognizedText = [tesseract recognizedText];
+        [[recognizedText should] beEmpty];
     });
 
 });
