@@ -97,6 +97,14 @@
 @property (nonatomic, strong) UIImage *image;
 
 /**
+ *  Image setter to prevent inner Tesseract thresholding.
+ *
+ *  @param image  Image to recognize
+ *  @param threshold Thresholding value (between 0.0 and 1.0).
+ */
+- (void)setImage:(UIImage *)image withSimpleThreshold:(CGFloat)threshold;
+
+/**
  *  A rectangle to specify the region of the image on which Tesseract should
  *  limit its recognition.
  */

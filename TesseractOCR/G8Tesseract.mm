@@ -276,6 +276,16 @@ namespace tesseract {
 
 - (void)setImage:(UIImage *)image
 {
+    [self setImage:image isSimpleThreshold:NO threshold:0.0f];
+}
+
+- (void)setImage:(UIImage *)image withSimpleThreshold:(CGFloat)threshold
+{
+    [self setImage:image isSimpleThreshold:YES threshold:threshold];
+}
+
+- (void)setImage:(UIImage *)image isSimpleThreshold:(BOOL)isSimpleThreshold threshold:(CGFloat)threshold
+{
     if (_image != image) {
         if (image.size.width <= 0 || image.size.height <= 0) {
             NSLog(@"WARNING: Image has not size!");
@@ -283,30 +293,29 @@ namespace tesseract {
         }
 
         self.imageSize = image.size; //self.imageSize used in the characterBoxes method
-        int width = self.imageSize.width;
-        int height = self.imageSize.height;
 
-        CGImage *cgImage = image.CGImage;
-        CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-        const UInt8 *pixels = CFDataGetBytePtr(data);
+        Pix *pix = [self pixForImage:image];
 
-        size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
-        size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
-        size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
-
-        if (bytesPerRow > MAX_INT32) {
-            NSLog(@"ERROR: Image is too big");
-            return;
+        if (isSimpleThreshold) {
+            if (threshold > 1.0) {
+                threshold = 1.0;
+            }
+            else if (threshold < 0.0f) {
+                threshold = 0.0f;
+            }
+            Pix *pixs = pix;
+            pix = pixConvertTo1(pixs, (l_int32)(threshold * UINT8_MAX));
+            pixDestroy(&pixs);
+            NSLog(@"Image simple thresholded");
         }
 
         @try {
-            _tesseract->SetImage(pixels, width, height, (int)(bitsPerPixel/bitsPerComponent), (int)bytesPerRow);
+            _tesseract->SetImage(pix);
         }
         @catch (NSException *exception) {
             NSLog(@"ERROR: Can't set image: %@", exception);
         }
-
-        CFRelease(data);
+        pixDestroy(&pix);
 
         _image = image;
         [self resetFlags];
@@ -631,6 +640,76 @@ namespace tesseract {
     CGImageRelease(cgImage);
 
     return image;
+}
+
+- (Pix *)pixForImage:(UIImage *)image
+{
+    int width = image.size.width;
+    int height = image.size.height;
+
+    CGImage *cgImage = image.CGImage;
+    CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+    const UInt8 *pixels = CFDataGetBytePtr(imageData);
+
+    size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
+    size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
+
+    int bpp = MAX(1, (int)bitsPerPixel);
+    Pix *pix = pixCreate(width, height, bpp == 24 ? 32 : bpp);
+    l_uint32 *data = pixGetData(pix);
+    int wpl = pixGetWpl(pix);
+    switch (bpp) {
+        case 1:
+            for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
+                for (int x = 0; x < width; ++x) {
+                    if (pixels[x / 8] & (0x80 >> (x % 8))) {
+                        CLEAR_DATA_BIT(data, x);
+                    }
+                    else {
+                        SET_DATA_BIT(data, x);
+                    }
+                }
+            }
+            break;
+
+        case 8:
+            // Greyscale just copies the bytes in the right order.
+            for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
+                for (int x = 0; x < width; ++x) {
+                    SET_DATA_BYTE(data, x, pixels[x]);
+                }
+            }
+            break;
+
+        case 24:
+            // Put the colors in the correct places in the line buffer.
+            for (int y = 0; y < height; ++y, pixels += bytesPerRow) {
+                for (int x = 0; x < width; ++x, ++data) {
+                    SET_DATA_BYTE(data, COLOR_RED, pixels[3 * x]);
+                    SET_DATA_BYTE(data, COLOR_GREEN, pixels[3 * x + 1]);
+                    SET_DATA_BYTE(data, COLOR_BLUE, pixels[3 * x + 2]);
+                }
+            }
+            break;
+
+        case 32:
+            // Maintain byte order consistency across different endianness.
+            for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+                for (int x = 0; x < width; ++x) {
+                    data[x] = (pixels[x * 4] << 24) | (pixels[x * 4 + 1] << 16) |
+                        (pixels[x * 4 + 2] << 8) | pixels[x * 4 + 3];
+                }
+            }
+            break;
+            
+        default:
+            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp);
+    }
+    pixSetYRes(pix, 300);
+    
+    CFRelease(imageData);
+    
+    return pix;
 }
 
 - (void)tesseractProgressCallbackFunction:(int)words
