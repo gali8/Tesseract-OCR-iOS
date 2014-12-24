@@ -33,9 +33,11 @@
         self.completionBlock = ^{
             __strong __typeof(weakSelf) strongSelf = weakSelf;
 
-            if (strongSelf.recognitionCompleteBlock != nil) {
+            G8RecognitionOperationCallback callback = [strongSelf.recognitionCompleteBlock copy];
+            G8Tesseract *tesseract = strongSelf.tesseract;
+            if (callback != nil) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    strongSelf.recognitionCompleteBlock(strongSelf.tesseract);
+                    callback(tesseract);
                 }];
             }
         };
@@ -46,27 +48,29 @@
 
 - (void)main
 {
-    [self.tesseract recognize];
+    @autoreleasepool {
+        [self.tesseract recognize];
+    }
 }
 
 - (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract
 {
     self.progress = self.tesseract.progress / 100.0f;
+
     if (self.progressCallbackBlock != nil) {
         self.progressCallbackBlock(self.tesseract);
     }
+
     if ([self.delegate respondsToSelector:@selector(progressImageRecognitionForTesseract:)]) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.delegate progressImageRecognitionForTesseract:tesseract];
-        }];
+        [self.delegate progressImageRecognitionForTesseract:tesseract];
     }
 }
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract
 {
     BOOL canceled = self.cancelled;
-    if ([self.delegate respondsToSelector:@selector(shouldCancelImageRecognitionForTesseract:)]) {
-        canceled = canceled || [self.delegate shouldCancelImageRecognitionForTesseract:tesseract];
+    if (canceled == NO && [self.delegate respondsToSelector:@selector(shouldCancelImageRecognitionForTesseract:)]) {
+        canceled = [self.delegate shouldCancelImageRecognitionForTesseract:tesseract];
     }
     return canceled;
 }
