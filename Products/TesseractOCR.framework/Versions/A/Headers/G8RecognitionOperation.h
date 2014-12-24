@@ -32,6 +32,8 @@ typedef void(^G8RecognitionOperationCallback)(G8Tesseract *tesseract);
 
 /**
  *  An optional delegate for Tesseract's recognition.
+ *
+ *  @note Delegate methods will be called from operation thread.
  */
 @property (nonatomic, weak) id<G8TesseractDelegate> delegate;
 
@@ -43,12 +45,16 @@ typedef void(^G8RecognitionOperationCallback)(G8Tesseract *tesseract);
 /**
  *  A `G8RecognitionOperationBlock` function that will be called when the
  *  recognition has been completed.
+ *  
+ *  @note It will be called from main thread.
  */
 @property (nonatomic, copy) G8RecognitionOperationCallback recognitionCompleteBlock;
 
 /**
  *  A `G8RecognitionOperationBlock` function that will be called periodically
  *  as the recognition progresses.
+ *
+ *  @note It will be called from operation thread.
  */
 @property (nonatomic, copy) G8RecognitionOperationCallback progressCallbackBlock;
 
