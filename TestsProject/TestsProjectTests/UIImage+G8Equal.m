@@ -15,6 +15,11 @@
     if (self == image) {
         return YES;
     }
+
+    if (CGSizeEqualToSize(self.size, image.size) == NO) {
+        return NO;
+    }
+
     NSData *data = [image g8_normalizedData];
     NSData *originalData = [self g8_normalizedData];
     return [originalData isEqualToData:data];

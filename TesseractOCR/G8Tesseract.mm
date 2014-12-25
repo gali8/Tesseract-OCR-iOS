@@ -533,7 +533,7 @@ namespace tesseract {
 {
     UIImage *image = thresholded ? self.thresholdedImage : self.image;
 
-    UIGraphicsBeginImageContextWithOptions(self.imageSize, YES, 0.0);
+    UIGraphicsBeginImageContextWithOptions(self.imageSize, NO, image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
 
@@ -626,7 +626,7 @@ namespace tesseract {
     //      Creating UIImage by [UIImage imageWithCGImage:] worked wrong
     //      and image became broken after some releases.
     CGRect frame = { CGPointZero, CGSizeMake(width, height) };
-    UIGraphicsBeginImageContext(frame.size);
+    UIGraphicsBeginImageContextWithOptions(frame.size, YES, self.image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     // Context must be mirrored vertical
