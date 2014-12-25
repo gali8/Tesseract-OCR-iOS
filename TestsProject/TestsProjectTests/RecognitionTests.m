@@ -11,6 +11,7 @@
 #import <TesseractOCR/TesseractOCR.h>
 #import <Kiwi/Kiwi.h>
 
+#import "G8RecognitionTestsHelper.h"
 #import "UIImage+G8Equal.h"
 
 static NSString *const kG8Languages = @"eng";
@@ -20,29 +21,24 @@ SPEC_BEGIN(RecognitionTests)
 #pragma mark - Variables
 
 __block G8Tesseract *tesseract;
+__block G8RecognitionTestsHelper *helper;
 
-let(image, ^id{
-    return [UIImage imageNamed:@"image_sample.jpg"];
-});
+__block G8OCREngineMode engineMode;
+__block G8PageSegmentationMode pageSegmentationMode;
+__block NSString *charWhitelist;
+__block NSTimeInterval waitDeadline;
+__block NSTimeInterval maxExpectedRecognitionTime;
+__block UIImage *image;
 
-let(engineMode, ^id{
-    return theValue(G8OCREngineModeTesseractOnly);
-});
-
-let(pageSegmentationMode, ^id{
-    return theValue(G8PageSegmentationModeAutoOnly);
-});
-
-let(charWhitelist, ^id{
-    return @"0123456789";
-});
-
-let(waitDeadline, ^id{
-    return @(6.0);
-});
-
-let(maxExpectedRecognitionTime, ^id{
-    return @(5.0);
+beforeEach(^{
+    helper = [[G8RecognitionTestsHelper alloc] init];
+    engineMode = G8OCREngineModeTesseractOnly;
+    pageSegmentationMode = G8PageSegmentationModeAuto;
+    charWhitelist = @"";
+    waitDeadline = 180.0;
+    maxExpectedRecognitionTime = 185.0;
+    helper.customThresholderEnabled = NO;
+    image = nil;
 });
 
 #pragma mark - Helpers
@@ -59,19 +55,21 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
 };
 
 void (^setupTesseract)() = ^{
+    tesseract.delegate = helper;
+
     tesseract.language = kG8Languages;
-    tesseract.engineMode = [engineMode integerValue];
-    tesseract.pageSegmentationMode = [pageSegmentationMode integerValue];
+    tesseract.engineMode = engineMode;
+    tesseract.pageSegmentationMode = pageSegmentationMode;
 
     tesseract.charWhitelist = charWhitelist;
-    tesseract.maximumRecognitionTime = [waitDeadline floatValue];
-
-    tesseract.image = [image g8_blackAndWhite];
+    tesseract.maximumRecognitionTime = waitDeadline;
 };
 
 void (^recognizeImage)() = ^{
     tesseract = [[G8Tesseract alloc] init];
     setupTesseract(tesseract);
+
+    tesseract.image = [image g8_blackAndWhite];
 
     __block BOOL isDone = NO;
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
@@ -79,7 +77,7 @@ void (^recognizeImage)() = ^{
         isDone = YES;
     });
 
-    wait([maxExpectedRecognitionTime floatValue], ^{
+    wait(maxExpectedRecognitionTime, ^{
         return (BOOL)(isDone == NO);
     });
 
@@ -91,8 +89,10 @@ void (^recognizeImage)() = ^{
 void (^recognizeImageUsingOperation)() = ^{
     G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
     tesseract = operation.tesseract;
-
     setupTesseract();
+
+    tesseract.image = [image g8_blackAndWhite];
+
     __block BOOL isDone = NO;
     operation.recognitionCompleteBlock = ^(G8Tesseract *recognizedTesseract) {
         isDone = YES;
@@ -102,7 +102,7 @@ void (^recognizeImageUsingOperation)() = ^{
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperation:operation];
 
-    wait([maxExpectedRecognitionTime floatValue], ^{
+    wait(maxExpectedRecognitionTime, ^{
         return (BOOL)(isDone == NO);
     });
 
@@ -112,8 +112,10 @@ void (^recognizeImageUsingOperation)() = ^{
 };
 
 UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
-    G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
-    tesseract.image = image;
+    tesseract = [[G8Tesseract alloc] init];
+    setupTesseract();
+
+    tesseract.image = [sourceImage g8_blackAndWhite];
 
     return tesseract.thresholdedImage;
 };
@@ -122,34 +124,36 @@ UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
 
 describe(@"Simple image", ^{
 
-    let(image, ^id{
-        return [UIImage imageNamed:@"image_sample.jpg"];
-    });
-
-    let(waitDeadline, ^id{
-        return @(1.0);
-    });
-
-    let(maxExpectedRecognitionTime, ^id{
-        return @(1.2);
+    beforeEach(^{
+        image = [UIImage imageNamed:@"image_sample.jpg"];
+        charWhitelist = @"0123456789";
     });
 
     it(@"Should recognize sync", ^{
-        recognizeImage();
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
     });
 
     it(@"Should recognize by queue", ^{
-        recognizeImageUsingOperation();
+        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+
+        NSString *recognizedText = tesseract.recognizedText;
+        [[recognizedText should] containString:@"1234567890"];
+    });
+
+    it(@"Should recognize with simple thresholding", ^{
+        helper.customThresholderEnabled = YES;
+
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
     });
 
     it(@"Should provide choices", ^{
-        recognizeImageUsingOperation();
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSArray *choices = tesseract.characterChoices;
         for (id blocksObj in choices) {
@@ -167,7 +171,7 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should provide confidences", ^{
-        recognizeImageUsingOperation();
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSArray *confidences = [tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord];
         [[[confidences should] have:1] object];
@@ -202,28 +206,49 @@ describe(@"Simple image", ^{
 
 });
 
+#pragma mark - Test - Blank image
+
+describe(@"Blank image", ^{
+
+    beforeEach(^{
+        image = [UIImage imageNamed:@"image_blank"];
+        helper.customThresholderEnabled = YES;
+    });
+
+    it(@"Should recognize nothing", ^{
+        [[theBlock(recognizeImage) shouldNot] raise];
+
+        NSString *recognizedText = [tesseract recognizedText];
+        [[recognizedText should] beEmpty];
+    });
+
+    it(@"Should recognize noise with Otsu", ^{
+        helper.customThresholderEnabled = NO;
+
+        [[theBlock(recognizeImage) shouldNot] raise];
+
+        NSString *recognizedText = [tesseract recognizedText];
+        [[recognizedText shouldNot] beEmpty];
+    });
+
+    it(@"Should be blank thresholded image", ^{
+        UIImage *thresholdedImage = thresholdedImageForImage(image);
+
+        [[theValue([thresholdedImage g8_isFilledWithColor:[UIColor blackColor]]) should] beYes];
+    });
+
+});
+
 #pragma mark - Test - Well scaned page
 
 describe(@"Well scaned page", ^{
 
-    let(image, ^id{
-        return [UIImage imageNamed:@"well_scaned_page"];
-    });
-
-    let(charWhitelist, ^id{
-        return @"";
-    });
-
-    let(waitDeadline, ^id{
-        return @(10.0);
-    });
-
-    let(maxExpectedRecognitionTime, ^id{
-        return @(9.0);
+    beforeEach(^{
+        image = [UIImage imageNamed:@"well_scaned_page"];
     });
 
     it(@"Should recognize", ^{
-        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"Foreword"];
@@ -239,45 +264,29 @@ describe(@"Well scaned page", ^{
         [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
     });
 
-    describe(@"OSD", ^{
+    it(@"Should analyze layout", ^{
+        pageSegmentationMode = G8PageSegmentationModeAutoOSD;
 
-        let(pageSegmentationMode, ^id{
-            return theValue(G8PageSegmentationModeAutoOSD);
-        });
+        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
 
-        it(@"Should analyze layout", ^{
-            [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+        CGFloat deskewAngle = tesseract.deskewAngle;
+        [[theValue(ABS(deskewAngle)) should] beGreaterThan:theValue(FLT_EPSILON)];
 
-            CGFloat deskewAngle = tesseract.deskewAngle;
-            [[theValue(ABS(deskewAngle)) should] beGreaterThan:theValue(FLT_EPSILON)];
-
-            [[theValue(tesseract.orientation) should] equal:theValue(G8OrientationPageUp)];
-            [[theValue(tesseract.writingDirection) should] equal:theValue(G8WritingDirectionLeftToRight)];
-            [[theValue(tesseract.textlineOrder) should] equal:theValue(G8TextlineOrderTopToBottom)];
-        });
-
+        [[theValue(tesseract.orientation) should] equal:theValue(G8OrientationPageUp)];
+        [[theValue(tesseract.writingDirection) should] equal:theValue(G8WritingDirectionLeftToRight)];
+        [[theValue(tesseract.textlineOrder) should] equal:theValue(G8TextlineOrderTopToBottom)];
     });
 
-    describe(@"Deadline", ^{
+    it(@"Should break by deadline", ^{
+        waitDeadline = 2.0;
 
-        let(waitDeadline, ^id{
-            return @(2.0);
-        });
+        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
 
-        let(maxExpectedRecognitionTime, ^id{
-            return @(3.0);
-        });
-
-        it(@"Should break", ^{
-            [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
-
-            [[tesseract shouldNot] beNil];
-            NSString *recognizedText = tesseract.recognizedText;
-            [[recognizedText should] containString:@"Foreword"];
-            [[recognizedText shouldNot] containString:@"Mathematcs"];
-            [[[[tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
-        });
-
+        [[tesseract shouldNot] beNil];
+        NSString *recognizedText = tesseract.recognizedText;
+        [[recognizedText should] containString:@"Foreword"];
+        [[recognizedText shouldNot] containString:@"Mathematcs"];
+        [[[[tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
     });
     
 });

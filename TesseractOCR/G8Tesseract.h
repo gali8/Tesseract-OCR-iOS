@@ -9,33 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import "G8Constants.h"
-
-@class G8Tesseract;
-
-/**
- *  `G8TesseractDelegate` provides delegate methods for Tesseract recognition.
- */
-@protocol G8TesseractDelegate <NSObject>
-
-@optional
-/**
- *  An optional method to be called periodically during recognition so
- *  the recognition's progress can be observed.
- *
- *  @param tesseract The `G8Tesseract` object performing the recognition.
- */
-- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract;
-/**
- *  An optional method to be called periodically during recognition so
- *  the user can choose whether or not to cancel recognition.
- *
- *  @param tesseract The `G8Tesseract` object performing the recognition.
- *
- *  @return Whether or not to cancel the recognition in progress.
- */
-- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract;
-
-@end
+#import "G8TesseractDelegate.h"
 
 /**
  *  `G8Tesseract` encapsulates the Tesseract library and provides properties

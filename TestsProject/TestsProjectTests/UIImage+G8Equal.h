@@ -10,6 +10,8 @@
 
 @interface UIImage (G8Equal)
 
-- (BOOL)g8_isEqualToImage:(UIImage*)image;
+- (BOOL)g8_isEqualToImage:(UIImage *)image;
+- (BOOL)g8_isFilledWithColor:(UIColor *)color;
++ (UIImage *)g8_imageFilledWithColor:(UIColor *)color ofSize:(CGSize)size;
 
 @end
