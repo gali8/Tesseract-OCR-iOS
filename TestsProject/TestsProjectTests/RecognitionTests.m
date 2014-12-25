@@ -21,20 +21,20 @@ SPEC_BEGIN(RecognitionTests)
 
 __block G8Tesseract *tesseract;
 
-__block G8OCREngineMode engineMode = G8OCREngineModeTesseractOnly;
-__block G8PageSegmentationMode pageSegmentationMode = G8PageSegmentationModeAuto;
-__block NSString *charWhitelist = @"0123456789";
-__block NSTimeInterval waitDeadline = 5.0;
-__block NSTimeInterval maxExpectedRecognitionTime = 5.0;
-__block BOOL isSimpleThresholding = NO;
-__block UIImage *image = nil;
+__block G8OCREngineMode engineMode;
+__block G8PageSegmentationMode pageSegmentationMode;
+__block NSString *charWhitelist;
+__block NSTimeInterval waitDeadline;
+__block NSTimeInterval maxExpectedRecognitionTime;
+__block BOOL isSimpleThresholding;
+__block UIImage *image;
 
 beforeEach(^{
     engineMode = G8OCREngineModeTesseractOnly;
     pageSegmentationMode = G8PageSegmentationModeAuto;
-    charWhitelist = @"0123456789";
-    waitDeadline = 5.0;
-    maxExpectedRecognitionTime = 5.0;
+    charWhitelist = @"";
+    waitDeadline = 180.0;
+    maxExpectedRecognitionTime = 185.0;
     isSimpleThresholding = NO;
     image = nil;
 });
@@ -129,19 +129,18 @@ describe(@"Simple image", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"image_sample.jpg"];
-        waitDeadline = 1.0;
-        maxExpectedRecognitionTime = 1.2;
+        charWhitelist = @"0123456789";
     });
 
     it(@"Should recognize sync", ^{
-        recognizeImage();
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
     });
 
     it(@"Should recognize by queue", ^{
-        recognizeImageUsingOperation();
+        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
@@ -150,14 +149,14 @@ describe(@"Simple image", ^{
     it(@"Should recognize with simple thresholding", ^{
         isSimpleThresholding = YES;
 
-        recognizeImage();
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
     });
 
     it(@"Should provide choices", ^{
-        recognizeImageUsingOperation();
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSArray *choices = tesseract.characterChoices;
         for (id blocksObj in choices) {
@@ -175,7 +174,7 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should provide confidences", ^{
-        recognizeImageUsingOperation();
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSArray *confidences = [tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord];
         [[[confidences should] have:1] object];
@@ -208,15 +207,6 @@ describe(@"Simple image", ^{
         [[theValue([onceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
     });
 
-    it(@"Should differ thresholding ways", ^{
-        UIImage *thresholdedFull = thresholdedImageForImage(image);
-
-        isSimpleThresholding = YES;
-        UIImage *thresholdedSimple = thresholdedImageForImage(image);
-
-        [[theValue([thresholdedFull g8_isEqualToImage:thresholdedSimple]) should] beNo];
-    });
-
 });
 
 #pragma mark - Test - Blank image
@@ -228,11 +218,26 @@ describe(@"Blank image", ^{
         isSimpleThresholding = YES;
     });
 
-    it(@"Should recognize sync", ^{
-        recognizeImage();
+    it(@"Should recognize nothing", ^{
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = [tesseract recognizedText];
         [[recognizedText should] beEmpty];
+    });
+
+    it(@"Should recognize noise with Otsu", ^{
+        isSimpleThresholding = NO;
+
+        [[theBlock(recognizeImage) shouldNot] raise];
+
+        NSString *recognizedText = [tesseract recognizedText];
+        [[recognizedText shouldNot] beEmpty];
+    });
+
+    it(@"Should be blank thresholded image", ^{
+        UIImage *thresholdedImage = thresholdedImageForImage(image);
+
+        [[theValue([thresholdedImage g8_isFilledWithColor:[UIColor blackColor]]) should] beYes];
     });
 
 });
@@ -243,13 +248,10 @@ describe(@"Well scaned page", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"well_scaned_page"];
-        charWhitelist = @"";
-        waitDeadline = 10.0;
-        maxExpectedRecognitionTime = 9.0;
     });
 
     it(@"Should recognize", ^{
-        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"Foreword"];
@@ -280,7 +282,6 @@ describe(@"Well scaned page", ^{
 
     it(@"Should break by deadline", ^{
         waitDeadline = 2.0;
-        maxExpectedRecognitionTime = 3.0;
 
         [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
 
