@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		414121201A4C58B000583ED4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		418997A91A42CC8B00D6477C /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A95DEA1A3AF39B0085093C /* G8TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A95DEB1A3AF39B0085093C /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
@@ -182,6 +183,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = G8TesseractDelegate.h; sourceTree = "<group>"; };
 		418997A71A42CC8B00D6477C /* G8Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Constants.h; sourceTree = "<group>"; };
 		41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8TesseractParameters.h; sourceTree = "<group>"; };
 		41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8TesseractParameters.m; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				64A029DD17307CED002B12E7 /* TesseractOCR.h */,
 				64A029D617307CD0002B12E7 /* G8Tesseract.h */,
 				64A029D717307CD0002B12E7 /* G8Tesseract.mm */,
+				4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */,
 				41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */,
 				41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */,
 				41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */,
@@ -672,6 +675,7 @@
 				64A02A0917307D65002B12E7 /* boxread.h in Headers */,
 				64A02A0A17307D65002B12E7 /* boxword.h in Headers */,
 				41A95DEE1A3AFBF30085093C /* G8RecognitionOperation.h in Headers */,
+				414121201A4C58B000583ED4 /* G8TesseractDelegate.h in Headers */,
 				64A02A0B17307D65002B12E7 /* capi.h in Headers */,
 				64A02A0C17307D65002B12E7 /* ccstruct.h in Headers */,
 				64A02A0D17307D65002B12E7 /* ccutil.h in Headers */,

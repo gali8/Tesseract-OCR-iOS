@@ -11,6 +11,7 @@
 #import <TesseractOCR/TesseractOCR.h>
 #import <Kiwi/Kiwi.h>
 
+#import "G8RecognitionTestsHelper.h"
 #import "UIImage+G8Equal.h"
 
 static NSString *const kG8Languages = @"eng";
@@ -20,22 +21,23 @@ SPEC_BEGIN(RecognitionTests)
 #pragma mark - Variables
 
 __block G8Tesseract *tesseract;
+__block G8RecognitionTestsHelper *helper;
 
 __block G8OCREngineMode engineMode;
 __block G8PageSegmentationMode pageSegmentationMode;
 __block NSString *charWhitelist;
 __block NSTimeInterval waitDeadline;
 __block NSTimeInterval maxExpectedRecognitionTime;
-__block BOOL isSimpleThresholding;
 __block UIImage *image;
 
 beforeEach(^{
+    helper = [[G8RecognitionTestsHelper alloc] init];
     engineMode = G8OCREngineModeTesseractOnly;
     pageSegmentationMode = G8PageSegmentationModeAuto;
     charWhitelist = @"";
     waitDeadline = 180.0;
     maxExpectedRecognitionTime = 185.0;
-    isSimpleThresholding = NO;
+    helper.customThresholderEnabled = NO;
     image = nil;
 });
 
@@ -53,24 +55,21 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
 };
 
 void (^setupTesseract)() = ^{
+    tesseract.delegate = helper;
+
     tesseract.language = kG8Languages;
     tesseract.engineMode = engineMode;
     tesseract.pageSegmentationMode = pageSegmentationMode;
 
     tesseract.charWhitelist = charWhitelist;
     tesseract.maximumRecognitionTime = waitDeadline;
-
-    if (isSimpleThresholding) {
-        [tesseract setImage:[image g8_blackAndWhite] withSimpleThreshold:0.5f];
-    }
-    else {
-        tesseract.image = [image g8_blackAndWhite];
-    }
 };
 
 void (^recognizeImage)() = ^{
     tesseract = [[G8Tesseract alloc] init];
     setupTesseract(tesseract);
+
+    tesseract.image = [image g8_blackAndWhite];
 
     __block BOOL isDone = NO;
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
@@ -90,8 +89,10 @@ void (^recognizeImage)() = ^{
 void (^recognizeImageUsingOperation)() = ^{
     G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
     tesseract = operation.tesseract;
-
     setupTesseract();
+
+    tesseract.image = [image g8_blackAndWhite];
+
     __block BOOL isDone = NO;
     operation.recognitionCompleteBlock = ^(G8Tesseract *recognizedTesseract) {
         isDone = YES;
@@ -111,14 +112,10 @@ void (^recognizeImageUsingOperation)() = ^{
 };
 
 UIImage *(^thresholdedImageForImage)(UIImage *) = ^(UIImage *sourceImage) {
-    G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+    tesseract = [[G8Tesseract alloc] init];
+    setupTesseract();
 
-    if (isSimpleThresholding) {
-        [tesseract setImage:[image g8_blackAndWhite] withSimpleThreshold:0.5f];
-    }
-    else {
-        tesseract.image = [image g8_blackAndWhite];
-    }
+    tesseract.image = [sourceImage g8_blackAndWhite];
 
     return tesseract.thresholdedImage;
 };
@@ -147,7 +144,7 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should recognize with simple thresholding", ^{
-        isSimpleThresholding = YES;
+        helper.customThresholderEnabled = YES;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 
@@ -215,7 +212,7 @@ describe(@"Blank image", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"image_blank"];
-        isSimpleThresholding = YES;
+        helper.customThresholderEnabled = YES;
     });
 
     it(@"Should recognize nothing", ^{
@@ -226,7 +223,7 @@ describe(@"Blank image", ^{
     });
 
     it(@"Should recognize noise with Otsu", ^{
-        isSimpleThresholding = NO;
+        helper.customThresholderEnabled = NO;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 

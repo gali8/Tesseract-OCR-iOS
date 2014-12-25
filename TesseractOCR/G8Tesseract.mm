@@ -276,37 +276,31 @@ namespace tesseract {
 
 - (void)setImage:(UIImage *)image
 {
-    [self setImage:image isSimpleThreshold:NO threshold:0.0f];
-}
-
-- (void)setImage:(UIImage *)image withSimpleThreshold:(CGFloat)threshold
-{
-    [self setImage:image isSimpleThreshold:YES threshold:threshold];
-}
-
-- (void)setImage:(UIImage *)image isSimpleThreshold:(BOOL)isSimpleThreshold threshold:(CGFloat)threshold
-{
     if (_image != image) {
         if (image.size.width <= 0 || image.size.height <= 0) {
-            NSLog(@"WARNING: Image has not size!");
+            NSLog(@"ERROR: Image has not size!");
             return;
         }
 
         self.imageSize = image.size; //self.imageSize used in the characterBoxes method
 
-        Pix *pix = [self pixForImage:image];
+        Pix *pix = nullptr;
 
-        if (isSimpleThreshold) {
-            if (threshold > 1.0) {
-                threshold = 1.0;
+        if ([self.delegate respondsToSelector:@selector(thresholdedImageForTesseract:sourceImage:)]) {
+            UIImage *thresholdedImage = [self.delegate thresholdedImageForTesseract:self sourceImage:image];
+            if (thresholdedImage != nil) {
+                Pix *pixs = [self pixForImage:thresholdedImage];
+                pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+                pixDestroy(&pixs);
+
+                if (pix == nullptr) {
+                    NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
+                }
             }
-            else if (threshold < 0.0f) {
-                threshold = 0.0f;
-            }
-            Pix *pixs = pix;
-            pix = pixConvertTo1(pixs, (l_int32)(threshold * UINT8_MAX));
-            pixDestroy(&pixs);
-            NSLog(@"Image simple thresholded");
+        }
+
+        if (pix == nullptr) {
+            pix = [self pixForImage:image];
         }
 
         @try {
