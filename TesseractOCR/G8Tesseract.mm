@@ -55,6 +55,11 @@ namespace tesseract {
     return @"n/a";
 }
 
++ (void)clearCache
+{
+    tesseract::TessBaseAPI::ClearPersistentCache();
+}
+
 - (id)init
 {
     return [self initWithLanguage:nil];

@@ -24,6 +24,8 @@
  */
 + (NSString *)version;
 
++ (void)clearCache;
+
 /**
  *  The language pack to use during recognition. A corresponding trained data
  *  file must exist in the "tessdata" folder of the project. For example, if
