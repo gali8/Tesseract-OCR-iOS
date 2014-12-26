@@ -164,6 +164,8 @@ describe(@"Simple image", ^{
                 G8RecognizedBlock *block = blockObj;
 
                 [[block.text shouldNot] beEmpty];
+                [[theValue(CGRectGetWidth(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
+                [[theValue(CGRectGetHeight(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
                 [[theValue(block.confidence) should] beGreaterThanOrEqualTo:theValue(0.0f)];
                 [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelSymbol)];
             }
@@ -181,6 +183,8 @@ describe(@"Simple image", ^{
         G8RecognizedBlock *block = blockObj;
 
         [[block.text shouldNot] beEmpty];
+        [[theValue(CGRectGetWidth(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
+        [[theValue(CGRectGetHeight(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
         [[theValue(block.confidence) should] beGreaterThanOrEqualTo:theValue(0.0f)];
         [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelWord)];
     });
