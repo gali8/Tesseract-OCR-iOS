@@ -289,6 +289,8 @@ namespace tesseract {
         if ([self.delegate respondsToSelector:@selector(thresholdedImageForTesseract:sourceImage:)]) {
             UIImage *thresholdedImage = [self.delegate thresholdedImageForTesseract:self sourceImage:image];
             if (thresholdedImage != nil) {
+                self.imageSize = thresholdedImage.size;
+
                 Pix *pixs = [self pixForImage:thresholdedImage];
                 pix = pixConvertTo1(pixs, UINT8_MAX / 2);
                 pixDestroy(&pixs);
@@ -424,7 +426,7 @@ namespace tesseract {
             CGFloat y = self.imageSize.height - [boxComponents[4] floatValue];
             CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
-            CGRect box = CGRectMake(x, y, width, height);
+            CGRect box = [self normalizedRectForX:x y:y width:width height:height];
 
             G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:boxComponents[0]
                                                                    boundingBox:box
@@ -434,6 +436,15 @@ namespace tesseract {
         }
     }
     return [recognizedTextBoxes copy];
+}
+
+- (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height
+{
+    x /= self.imageSize.width;
+    y /= self.imageSize.height;
+    width /= self.imageSize.width;
+    height /= self.imageSize.height;
+    return CGRectMake(x, y, width, height);
 }
 
 - (G8RecognizedBlock *)blockFromIterator:(tesseract::ResultIterator *)iterator
@@ -456,7 +467,7 @@ namespace tesseract {
         CGFloat height = y2 - y1;
 
         NSString *text = [NSString stringWithUTF8String:word];
-        CGRect boundingBox = CGRectMake(x, y, width, height);
+        CGRect boundingBox = [self normalizedRectForX:x y:y width:width height:height];
         CGFloat confidence = iterator->Confidence(level);
         delete[] word;
 
@@ -527,17 +538,17 @@ namespace tesseract {
 {
     UIImage *image = thresholded ? self.thresholdedImage : self.image;
 
-    UIGraphicsBeginImageContextWithOptions(self.imageSize, NO, image.scale);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
 
-    [image drawInRect:(CGRect){CGPointZero, self.imageSize}];
+    [image drawInRect:(CGRect){CGPointZero, image.size}];
 
     CGContextSetLineWidth(context, 2.0f);
     CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
 
     for (G8RecognizedBlock *block in blocks) {
-        CGRect boundingBox = block.boundingBox;
+        CGRect boundingBox = [block boundingBoxAtImageOfSize:image.size];
         CGRect rect = CGRectMake(boundingBox.origin.x, boundingBox.origin.y,
                                  boundingBox.size.width, boundingBox.size.height);
         CGContextStrokeRect(context, rect);

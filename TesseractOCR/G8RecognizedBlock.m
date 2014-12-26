@@ -43,6 +43,16 @@
     return self;
 }
 
+- (CGRect)boundingBoxAtImageOfSize:(CGSize)imageSize
+{
+    CGFloat x = CGRectGetMinX(self.boundingBox) * imageSize.width;
+    CGFloat y = CGRectGetMinY(self.boundingBox) * imageSize.height;
+    CGFloat width = CGRectGetWidth(self.boundingBox) * imageSize.width;
+    CGFloat height = CGRectGetHeight(self.boundingBox) * imageSize.height;
+
+    return CGRectMake(x, y, width, height);
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
     return self;
