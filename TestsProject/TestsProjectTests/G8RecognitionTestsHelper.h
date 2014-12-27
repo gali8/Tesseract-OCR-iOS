@@ -9,8 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <TesseractOCR/TesseractOCR.h>
 
+typedef NS_ENUM(NSUInteger, G8CustomThresholder) {
+    G8CustomThresholderNone,
+    G8CustomThresholderSimple,
+    G8CustomThresholderResize,
+};
+
 @interface G8RecognitionTestsHelper : NSObject <G8TesseractDelegate>
 
-@property (nonatomic, assign, getter=isCustomThresholderEnabled) BOOL customThresholderEnabled;
+@property (nonatomic, assign) G8CustomThresholder customThresholderType;
 
 @end

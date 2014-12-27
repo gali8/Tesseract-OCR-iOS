@@ -12,7 +12,56 @@
 
 - (UIImage *)thresholdedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
 {
-    return self.customThresholderEnabled ? sourceImage : nil;
+    switch (self.customThresholderType) {
+        case G8CustomThresholderNone:
+            return nil;
+
+        case G8CustomThresholderSimple:
+            return sourceImage;
+
+        case G8CustomThresholderResize:
+            return [[self class] imageWithImage:sourceImage scaledToSizeWithSameAspectRatio:CGSizeMake(700.0f, 700.0f)];
+
+        default:
+            return nil;
+    }
+}
+
++ (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize
+{
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+
+    CGFloat scaleFactor = 1.0f;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+
+    if (CGSizeEqualToSize(imageSize, targetSize) == NO) {
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+
+        if (widthFactor < heightFactor) {
+            scaleFactor = widthFactor;
+        }
+        else {
+            scaleFactor = heightFactor;
+        }
+
+        scaledWidth  = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+    }
+
+    UIGraphicsBeginImageContext(CGSizeMake(scaledWidth, scaledHeight));
+
+    [sourceImage drawInRect: CGRectMake(0, 0, scaledWidth, scaledHeight)];
+    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+    
+    return smallImage;
 }
 
 @end

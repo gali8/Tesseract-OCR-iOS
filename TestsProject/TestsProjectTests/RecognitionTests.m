@@ -21,23 +21,24 @@ SPEC_BEGIN(RecognitionTests)
 #pragma mark - Variables
 
 __block G8Tesseract *tesseract;
-__block G8RecognitionTestsHelper *helper;
+__block G8CustomThresholder customThresholder;
 
 __block G8OCREngineMode engineMode;
 __block G8PageSegmentationMode pageSegmentationMode;
 __block NSString *charWhitelist;
 __block NSTimeInterval waitDeadline;
 __block NSTimeInterval maxExpectedRecognitionTime;
+__block CGRect rect;
 __block UIImage *image;
 
 beforeEach(^{
-    helper = [[G8RecognitionTestsHelper alloc] init];
     engineMode = G8OCREngineModeTesseractOnly;
     pageSegmentationMode = G8PageSegmentationModeAuto;
     charWhitelist = @"";
     waitDeadline = 180.0;
     maxExpectedRecognitionTime = 185.0;
-    helper.customThresholderEnabled = NO;
+    customThresholder = G8CustomThresholderNone;
+    rect = CGRectZero;
     image = nil;
 });
 
@@ -55,6 +56,8 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
 };
 
 void (^setupTesseract)() = ^{
+    G8RecognitionTestsHelper *helper = [[G8RecognitionTestsHelper alloc] init];
+    helper.customThresholderType = customThresholder;
     tesseract.delegate = helper;
 
     tesseract.language = kG8Languages;
@@ -70,6 +73,7 @@ void (^recognizeImage)() = ^{
     setupTesseract(tesseract);
 
     tesseract.image = [image g8_blackAndWhite];
+    tesseract.rect = rect;
 
     __block BOOL isDone = NO;
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
@@ -92,6 +96,7 @@ void (^recognizeImageUsingOperation)() = ^{
     setupTesseract();
 
     tesseract.image = [image g8_blackAndWhite];
+    tesseract.rect = rect;
 
     __block BOOL isDone = NO;
     operation.recognitionCompleteBlock = ^(G8Tesseract *recognizedTesseract) {
@@ -126,6 +131,7 @@ describe(@"Simple image", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"image_sample.jpg"];
+        rect = (CGRect){CGPointZero, image.size};
         charWhitelist = @"0123456789";
     });
 
@@ -144,12 +150,38 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should recognize with simple thresholding", ^{
-        helper.customThresholderEnabled = YES;
+        customThresholder = G8CustomThresholderSimple;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
+    });
+
+    describe(@"Subimage", ^{
+
+        beforeEach(^{
+            rect = (CGRect){CGPointZero, {image.size.width / 2, image.size.height}};
+        });
+
+        it(@"Should recognize subimage", ^{
+            [[theBlock(recognizeImage) shouldNot] raise];
+
+            NSString *recognizedText = tesseract.recognizedText;
+            [[recognizedText should] containString:@"12345"];
+            [[recognizedText shouldNot] containString:@"67890"];
+        });
+
+        it(@"Should recognize subimage after resizing", ^{
+            customThresholder = G8CustomThresholderResize;
+
+            [[theBlock(recognizeImage) shouldNot] raise];
+
+            NSString *recognizedText = tesseract.recognizedText;
+            [[recognizedText should] containString:@"12345"];
+            [[recognizedText shouldNot] containString:@"67890"];
+        });
+
     });
 
     it(@"Should provide choices", ^{
@@ -216,7 +248,8 @@ describe(@"Blank image", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"image_blank"];
-        helper.customThresholderEnabled = YES;
+        rect = (CGRect){CGPointZero, image.size};
+        customThresholder = G8CustomThresholderSimple;
     });
 
     it(@"Should recognize nothing", ^{
@@ -227,7 +260,7 @@ describe(@"Blank image", ^{
     });
 
     it(@"Should recognize noise with Otsu", ^{
-        helper.customThresholderEnabled = NO;
+        customThresholder = G8CustomThresholderNone;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 
@@ -249,6 +282,7 @@ describe(@"Well scaned page", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"well_scaned_page"];
+        rect = (CGRect){CGPointZero, image.size};
     });
 
     it(@"Should recognize", ^{

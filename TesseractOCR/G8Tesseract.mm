@@ -328,6 +328,16 @@ namespace tesseract {
     if (CGRectEqualToRect(_rect, rect) == NO) {
         _rect = rect;
 
+        // Because of custom thresholding we have to resize rect
+        if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
+            rect = (CGRect){
+                CGRectGetMinX(rect) / self.image.size.width * self.imageSize.width,
+                CGRectGetMinY(rect) / self.image.size.height * self.imageSize.height,
+                CGRectGetWidth(rect) / self.image.size.width * self.imageSize.width,
+                CGRectGetHeight(rect) / self.image.size.height * self.imageSize.height,
+            };
+        }
+
         _tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
         [self resetFlags];
     }
