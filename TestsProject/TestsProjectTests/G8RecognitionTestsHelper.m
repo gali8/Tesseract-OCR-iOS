@@ -10,17 +10,28 @@
 
 @implementation G8RecognitionTestsHelper
 
+- (id)init
+{
+    self = [super init];
+    if (self != nil) {
+        _customPreprocessingType = G8CustomPreprocessingNone;
+        _boundingSizeForResizing = CGSizeMake(700.0f, 700.0f);
+    }
+    return self;
+}
+
 - (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
 {
-    switch (self.customThresholderType) {
-        case G8CustomThresholderNone:
+    switch (self.customPreprocessingType) {
+        case G8CustomPreprocessingNone:
             return nil;
 
-        case G8CustomThresholderSimple:
+        case G8CustomPreprocessingSimpleThreshold:
             return sourceImage;
 
-        case G8CustomThresholderResize:
-            return [[self class] imageWithImage:sourceImage scaledToSizeWithSameAspectRatio:CGSizeMake(700.0f, 700.0f)];
+        case G8CustomPreprocessingSimpleThresholdAndResize:
+            return [[self class] imageWithImage:sourceImage
+                scaledToSizeWithSameAspectRatio:self.boundingSizeForResizing];
 
         default:
             return nil;

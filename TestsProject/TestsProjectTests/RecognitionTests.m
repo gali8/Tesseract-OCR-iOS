@@ -22,7 +22,7 @@ SPEC_BEGIN(RecognitionTests)
 
 __block G8RecognitionTestsHelper *helper;
 __block G8Tesseract *tesseract;
-__block G8CustomThresholder customThresholder;
+__block G8CustomPreprocessing customPreprocessing;
 
 __block G8OCREngineMode engineMode;
 __block G8PageSegmentationMode pageSegmentationMode;
@@ -41,7 +41,7 @@ beforeEach(^{
     charWhitelist = @"";
     waitDeadline = 180.0;
     maxExpectedRecognitionTime = 185.0;
-    customThresholder = G8CustomThresholderNone;
+    customPreprocessing = G8CustomPreprocessingNone;
     rect = CGRectZero;
     sourceResolution = 0;
     image = nil;
@@ -61,7 +61,7 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
 };
 
 void (^setupTesseract)() = ^{
-    helper.customThresholderType = customThresholder;
+    helper.customPreprocessingType = customPreprocessing;
     tesseract.delegate = helper;
 
     tesseract.language = kG8Languages;
@@ -159,7 +159,7 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should recognize with simple thresholding", ^{
-        customThresholder = G8CustomThresholderSimple;
+        customPreprocessing = G8CustomPreprocessingSimpleThreshold;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 
@@ -182,7 +182,7 @@ describe(@"Simple image", ^{
         });
 
         it(@"Should recognize subimage after resizing", ^{
-            customThresholder = G8CustomThresholderResize;
+            customPreprocessing = G8CustomPreprocessingSimpleThresholdAndResize;
 
             [[theBlock(recognizeImage) shouldNot] raise];
 
@@ -258,7 +258,7 @@ describe(@"Blank image", ^{
     beforeEach(^{
         image = [UIImage imageNamed:@"image_blank"];
         rect = (CGRect){CGPointZero, image.size};
-        customThresholder = G8CustomThresholderSimple;
+        customPreprocessing = G8CustomPreprocessingSimpleThreshold;
     });
 
     it(@"Should recognize nothing", ^{
@@ -269,7 +269,7 @@ describe(@"Blank image", ^{
     });
 
     it(@"Should recognize noise with Otsu", ^{
-        customThresholder = G8CustomThresholderNone;
+        customPreprocessing = G8CustomPreprocessingNone;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 
