@@ -84,19 +84,7 @@ void (^recognizeImage)() = ^{
         tesseract.sourceResolution = sourceResolution;
     }
 
-    __block BOOL isDone = NO;
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-        [tesseract recognize];
-        isDone = YES;
-    });
-
-    wait(maxExpectedRecognitionTime, ^{
-        return (BOOL)(isDone == NO);
-    });
-
-    if (isDone == NO) {
-        [NSException raise:@"Tesseract stopped" format:@"Tesseract worked too long"];
-    }
+    [tesseract recognize];
 };
 
 void (^recognizeImageUsingOperation)() = ^{
@@ -231,7 +219,7 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should draw blocks on image", ^{
-        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSArray *blocks = [tesseract confidencesByIteratorLevel:G8PageIteratorLevelSymbol];
         UIImage *blocksImage = [tesseract imageWithBlocks:blocks drawText:YES thresholded:NO];
@@ -314,7 +302,7 @@ describe(@"Well scaned page", ^{
     it(@"Should analyze layout", ^{
         pageSegmentationMode = G8PageSegmentationModeAutoOSD;
 
-        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         CGFloat deskewAngle = tesseract.deskewAngle;
         [[theValue(ABS(deskewAngle)) should] beGreaterThan:theValue(FLT_EPSILON)];
