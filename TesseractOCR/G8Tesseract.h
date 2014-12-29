@@ -74,9 +74,15 @@
 
 /**
  *  A rectangle to specify the region of the image on which Tesseract should
- *  limit its recognition.
+ *  limit its recognition. Change it after setting image.
  */
 @property (nonatomic, assign) CGRect rect;
+
+/**
+ *  The resolution of the source image in pixels per inch so font size
+ *  information can be calculated in results. Change it after setting image.
+ */
+@property (nonatomic, assign) NSInteger sourceResolution;
 
 /**
  *  A time limit (in seconds, via `NSTimeInterval`) to limit Tesseract's time

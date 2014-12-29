@@ -20,6 +20,7 @@ SPEC_BEGIN(RecognitionTests)
 
 #pragma mark - Variables
 
+__block G8RecognitionTestsHelper *helper;
 __block G8Tesseract *tesseract;
 __block G8CustomThresholder customThresholder;
 
@@ -29,9 +30,12 @@ __block NSString *charWhitelist;
 __block NSTimeInterval waitDeadline;
 __block NSTimeInterval maxExpectedRecognitionTime;
 __block CGRect rect;
+__block NSInteger sourceResolution;
 __block UIImage *image;
 
 beforeEach(^{
+    helper = [[G8RecognitionTestsHelper alloc] init];
+
     engineMode = G8OCREngineModeTesseractOnly;
     pageSegmentationMode = G8PageSegmentationModeAuto;
     charWhitelist = @"";
@@ -39,6 +43,7 @@ beforeEach(^{
     maxExpectedRecognitionTime = 185.0;
     customThresholder = G8CustomThresholderNone;
     rect = CGRectZero;
+    sourceResolution = 0;
     image = nil;
 });
 
@@ -56,7 +61,6 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
 };
 
 void (^setupTesseract)() = ^{
-    G8RecognitionTestsHelper *helper = [[G8RecognitionTestsHelper alloc] init];
     helper.customThresholderType = customThresholder;
     tesseract.delegate = helper;
 
@@ -73,7 +77,12 @@ void (^recognizeImage)() = ^{
     setupTesseract(tesseract);
 
     tesseract.image = [image g8_blackAndWhite];
-    tesseract.rect = rect;
+    if (CGRectEqualToRect(rect, CGRectZero) == NO) {
+        tesseract.rect = rect;
+    }
+    if (sourceResolution > 0) {
+        tesseract.sourceResolution = sourceResolution;
+    }
 
     __block BOOL isDone = NO;
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
@@ -161,15 +170,15 @@ describe(@"Simple image", ^{
     describe(@"Subimage", ^{
 
         beforeEach(^{
-            rect = (CGRect){CGPointZero, {image.size.width / 2, image.size.height}};
+            rect = (CGRect){CGPointZero, {image.size.width * 0.6f, image.size.height}};
         });
 
         it(@"Should recognize subimage", ^{
             [[theBlock(recognizeImage) shouldNot] raise];
 
             NSString *recognizedText = tesseract.recognizedText;
-            [[recognizedText should] containString:@"12345"];
-            [[recognizedText shouldNot] containString:@"67890"];
+            [[recognizedText should] containString:@"123456"];
+            [[recognizedText shouldNot] containString:@"7890"];
         });
 
         it(@"Should recognize subimage after resizing", ^{
@@ -178,8 +187,8 @@ describe(@"Simple image", ^{
             [[theBlock(recognizeImage) shouldNot] raise];
 
             NSString *recognizedText = tesseract.recognizedText;
-            [[recognizedText should] containString:@"12345"];
-            [[recognizedText shouldNot] containString:@"67890"];
+            [[recognizedText should] containString:@"123456"];
+            [[recognizedText shouldNot] containString:@"7890"];
         });
 
     });

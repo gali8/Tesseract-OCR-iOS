@@ -86,6 +86,8 @@ namespace tesseract {
         _engineMode = engineMode;
         _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
+        _sourceResolution = 300;
+        _rect = CGRectZero;
 
         _monitor = new ETEXT_DESC();
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
@@ -319,6 +321,9 @@ namespace tesseract {
         pixDestroy(&pix);
 
         _image = image;
+        _sourceResolution = 300;
+        _rect = (CGRect){CGPointZero, self.imageSize};
+
         [self resetFlags];
     }
 }
@@ -328,18 +333,43 @@ namespace tesseract {
     if (CGRectEqualToRect(_rect, rect) == NO) {
         _rect = rect;
 
+        CGFloat x = CGRectGetMinX(rect);
+        CGFloat y = CGRectGetMinY(rect);
+        CGFloat width = CGRectGetWidth(rect);
+        CGFloat height = CGRectGetHeight(rect);
+
         // Because of custom thresholding we have to resize rect
         if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
-            rect = (CGRect){
-                CGRectGetMinX(rect) / self.image.size.width * self.imageSize.width,
-                CGRectGetMinY(rect) / self.image.size.height * self.imageSize.height,
-                CGRectGetWidth(rect) / self.image.size.width * self.imageSize.width,
-                CGRectGetHeight(rect) / self.image.size.height * self.imageSize.height,
-            };
+            CGFloat widthFactor = self.imageSize.width / self.image.size.width;
+            CGFloat heightFactor = self.imageSize.height / self.image.size.height;
+
+            x *= widthFactor;
+            y *= heightFactor;
+            width *= widthFactor;
+            heightFactor *= heightFactor;
         }
 
-        _tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+        CGFloat (^clip)(CGFloat, CGFloat, CGFloat) = ^(CGFloat value, CGFloat min, CGFloat max) {
+            return (value < min ? min : (value > max ? max : value));
+        };
+
+        // Clip rect by image size
+        x = clip(x, 0, self.imageSize.width);
+        y = clip(y, 0, self.imageSize.height);
+        width = clip(width, 0, self.imageSize.width - x);
+        height = clip(height, 0, self.imageSize.height - y);
+
+        _tesseract->SetRectangle(x, y, width, height);
         [self resetFlags];
+    }
+}
+
+- (void)setSourceResolution:(NSInteger)sourceResolution
+{
+    if (_sourceResolution != sourceResolution) {
+        _sourceResolution = sourceResolution;
+
+        _tesseract->SetSourceResolution((int)sourceResolution);
     }
 }
 
