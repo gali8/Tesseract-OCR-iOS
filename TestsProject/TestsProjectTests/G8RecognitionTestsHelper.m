@@ -10,7 +10,7 @@
 
 @implementation G8RecognitionTestsHelper
 
-- (UIImage *)thresholdedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
+- (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
 {
     switch (self.customThresholderType) {
         case G8CustomThresholderNone:

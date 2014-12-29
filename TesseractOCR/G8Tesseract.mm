@@ -293,8 +293,8 @@ namespace tesseract {
 
         Pix *pix = nullptr;
 
-        if ([self.delegate respondsToSelector:@selector(thresholdedImageForTesseract:sourceImage:)]) {
-            UIImage *thresholdedImage = [self.delegate thresholdedImageForTesseract:self sourceImage:image];
+        if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+            UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
             if (thresholdedImage != nil) {
                 self.imageSize = thresholdedImage.size;
 
@@ -338,7 +338,7 @@ namespace tesseract {
         CGFloat width = CGRectGetWidth(rect);
         CGFloat height = CGRectGetHeight(rect);
 
-        // Because of custom thresholding we have to resize rect
+        // Because of custom preprocessing we may have to resize rect
         if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
             CGFloat widthFactor = self.imageSize.width / self.image.size.width;
             CGFloat heightFactor = self.imageSize.height / self.image.size.height;
