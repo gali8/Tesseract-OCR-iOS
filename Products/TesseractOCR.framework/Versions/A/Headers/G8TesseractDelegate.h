@@ -38,15 +38,15 @@
 - (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract;
 
 /**
- *  An optional method to provide custom thresholder. To perform default
- *  Tesseract thresholding return `nil` in this method.
+ *  An optional method to provide image preprocessing. To perform default
+ *  Tesseract preprocessing return `nil` in this method.
  *
  *  @param tesseract   The `G8Tesseract` object performing the recognition.
- *  @param sourceImage The source `UIImage` to perform thresholding.
+ *  @param sourceImage The source `UIImage` to perform preprocessing.
  *
- *  @return Thresholded `UIImage` or nil to perform default thresholding.
+ *  @return Preprocessed `UIImage` or nil to perform default preprocessing.
  */
-- (UIImage *)thresholdedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage;
+- (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage;
 
 @end
 

@@ -24,8 +24,12 @@
 @property (nonatomic, copy, readonly) NSString *text;
 
 /**
- *  The bounding box rectangle where this recognized block appears in the
+ *  The normalized bounding box rectangle where this recognized block appears in the
  *  target image.
+ *
+ *  @note The parameters of this `CGRect` is normalized and lays in 0.0-1.0 range.
+ *        If you want to get actual rectangle use `boundingBoxAtImageOfSize` with
+ *        size of target image.
  */
 @property (nonatomic, assign, readonly) CGRect boundingBox;
 
@@ -56,5 +60,15 @@
                  boundingBox:(CGRect)boundingBox
                   confidence:(CGFloat)confidence
                        level:(G8PageIteratorLevel)level;
+
+/**
+ *  The bounding box rectangle where this recognized block appears in the
+ *  image of target size.
+ *
+ *  @param imageSize Size of target image.
+ *
+ *  @return The bounding box rectangle
+ */
+- (CGRect)boundingBoxAtImageOfSize:(CGSize)imageSize;
 
 @end

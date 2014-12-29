@@ -20,24 +20,30 @@ SPEC_BEGIN(RecognitionTests)
 
 #pragma mark - Variables
 
-__block G8Tesseract *tesseract;
 __block G8RecognitionTestsHelper *helper;
+__block G8Tesseract *tesseract;
+__block G8CustomPreprocessing customPreprocessing;
 
 __block G8OCREngineMode engineMode;
 __block G8PageSegmentationMode pageSegmentationMode;
 __block NSString *charWhitelist;
 __block NSTimeInterval waitDeadline;
 __block NSTimeInterval maxExpectedRecognitionTime;
+__block CGRect rect;
+__block NSInteger sourceResolution;
 __block UIImage *image;
 
 beforeEach(^{
     helper = [[G8RecognitionTestsHelper alloc] init];
+
     engineMode = G8OCREngineModeTesseractOnly;
     pageSegmentationMode = G8PageSegmentationModeAuto;
     charWhitelist = @"";
     waitDeadline = 180.0;
     maxExpectedRecognitionTime = 185.0;
-    helper.customThresholderEnabled = NO;
+    customPreprocessing = G8CustomPreprocessingNone;
+    rect = CGRectZero;
+    sourceResolution = 0;
     image = nil;
 });
 
@@ -55,6 +61,7 @@ void (^wait)(NSTimeInterval, BOOL (^)()) = ^(NSTimeInterval maximumWait, BOOL (^
 };
 
 void (^setupTesseract)() = ^{
+    helper.customPreprocessingType = customPreprocessing;
     tesseract.delegate = helper;
 
     tesseract.language = kG8Languages;
@@ -70,6 +77,12 @@ void (^recognizeImage)() = ^{
     setupTesseract(tesseract);
 
     tesseract.image = [image g8_blackAndWhite];
+    if (CGRectEqualToRect(rect, CGRectZero) == NO) {
+        tesseract.rect = rect;
+    }
+    if (sourceResolution > 0) {
+        tesseract.sourceResolution = sourceResolution;
+    }
 
     __block BOOL isDone = NO;
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
@@ -92,6 +105,7 @@ void (^recognizeImageUsingOperation)() = ^{
     setupTesseract();
 
     tesseract.image = [image g8_blackAndWhite];
+    tesseract.rect = rect;
 
     __block BOOL isDone = NO;
     operation.recognitionCompleteBlock = ^(G8Tesseract *recognizedTesseract) {
@@ -126,6 +140,7 @@ describe(@"Simple image", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"image_sample.jpg"];
+        rect = (CGRect){CGPointZero, image.size};
         charWhitelist = @"0123456789";
     });
 
@@ -144,12 +159,38 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should recognize with simple thresholding", ^{
-        helper.customThresholderEnabled = YES;
+        customPreprocessing = G8CustomPreprocessingSimpleThreshold;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
+    });
+
+    describe(@"Subimage", ^{
+
+        beforeEach(^{
+            rect = (CGRect){CGPointZero, {image.size.width * 0.6f, image.size.height}};
+        });
+
+        it(@"Should recognize subimage", ^{
+            [[theBlock(recognizeImage) shouldNot] raise];
+
+            NSString *recognizedText = tesseract.recognizedText;
+            [[recognizedText should] containString:@"123456"];
+            [[recognizedText shouldNot] containString:@"7890"];
+        });
+
+        it(@"Should recognize subimage after resizing", ^{
+            customPreprocessing = G8CustomPreprocessingSimpleThresholdAndResize;
+
+            [[theBlock(recognizeImage) shouldNot] raise];
+
+            NSString *recognizedText = tesseract.recognizedText;
+            [[recognizedText should] containString:@"123456"];
+            [[recognizedText shouldNot] containString:@"7890"];
+        });
+
     });
 
     it(@"Should provide choices", ^{
@@ -164,6 +205,8 @@ describe(@"Simple image", ^{
                 G8RecognizedBlock *block = blockObj;
 
                 [[block.text shouldNot] beEmpty];
+                [[theValue(CGRectGetWidth(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
+                [[theValue(CGRectGetHeight(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
                 [[theValue(block.confidence) should] beGreaterThanOrEqualTo:theValue(0.0f)];
                 [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelSymbol)];
             }
@@ -181,6 +224,8 @@ describe(@"Simple image", ^{
         G8RecognizedBlock *block = blockObj;
 
         [[block.text shouldNot] beEmpty];
+        [[theValue(CGRectGetWidth(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
+        [[theValue(CGRectGetHeight(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
         [[theValue(block.confidence) should] beGreaterThanOrEqualTo:theValue(0.0f)];
         [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelWord)];
     });
@@ -212,7 +257,8 @@ describe(@"Blank image", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"image_blank"];
-        helper.customThresholderEnabled = YES;
+        rect = (CGRect){CGPointZero, image.size};
+        customPreprocessing = G8CustomPreprocessingSimpleThreshold;
     });
 
     it(@"Should recognize nothing", ^{
@@ -223,7 +269,7 @@ describe(@"Blank image", ^{
     });
 
     it(@"Should recognize noise with Otsu", ^{
-        helper.customThresholderEnabled = NO;
+        customPreprocessing = G8CustomPreprocessingNone;
 
         [[theBlock(recognizeImage) shouldNot] raise];
 
@@ -245,6 +291,7 @@ describe(@"Well scaned page", ^{
 
     beforeEach(^{
         image = [UIImage imageNamed:@"well_scaned_page"];
+        rect = (CGRect){CGPointZero, image.size};
     });
 
     it(@"Should recognize", ^{

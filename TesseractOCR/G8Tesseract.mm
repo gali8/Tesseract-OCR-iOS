@@ -55,6 +55,11 @@ namespace tesseract {
     return @"n/a";
 }
 
++ (void)clearCache
+{
+    tesseract::TessBaseAPI::ClearPersistentCache();
+}
+
 - (id)init
 {
     return [self initWithLanguage:nil];
@@ -81,6 +86,8 @@ namespace tesseract {
         _engineMode = engineMode;
         _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
+        _sourceResolution = 300;
+        _rect = CGRectZero;
 
         _monitor = new ETEXT_DESC();
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
@@ -286,9 +293,11 @@ namespace tesseract {
 
         Pix *pix = nullptr;
 
-        if ([self.delegate respondsToSelector:@selector(thresholdedImageForTesseract:sourceImage:)]) {
-            UIImage *thresholdedImage = [self.delegate thresholdedImageForTesseract:self sourceImage:image];
+        if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+            UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
             if (thresholdedImage != nil) {
+                self.imageSize = thresholdedImage.size;
+
                 Pix *pixs = [self pixForImage:thresholdedImage];
                 pix = pixConvertTo1(pixs, UINT8_MAX / 2);
                 pixDestroy(&pixs);
@@ -312,6 +321,9 @@ namespace tesseract {
         pixDestroy(&pix);
 
         _image = image;
+        _sourceResolution = 300;
+        _rect = (CGRect){CGPointZero, self.imageSize};
+
         [self resetFlags];
     }
 }
@@ -321,8 +333,43 @@ namespace tesseract {
     if (CGRectEqualToRect(_rect, rect) == NO) {
         _rect = rect;
 
-        _tesseract->SetRectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+        CGFloat x = CGRectGetMinX(rect);
+        CGFloat y = CGRectGetMinY(rect);
+        CGFloat width = CGRectGetWidth(rect);
+        CGFloat height = CGRectGetHeight(rect);
+
+        // Because of custom preprocessing we may have to resize rect
+        if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
+            CGFloat widthFactor = self.imageSize.width / self.image.size.width;
+            CGFloat heightFactor = self.imageSize.height / self.image.size.height;
+
+            x *= widthFactor;
+            y *= heightFactor;
+            width *= widthFactor;
+            heightFactor *= heightFactor;
+        }
+
+        CGFloat (^clip)(CGFloat, CGFloat, CGFloat) = ^(CGFloat value, CGFloat min, CGFloat max) {
+            return (value < min ? min : (value > max ? max : value));
+        };
+
+        // Clip rect by image size
+        x = clip(x, 0, self.imageSize.width);
+        y = clip(y, 0, self.imageSize.height);
+        width = clip(width, 0, self.imageSize.width - x);
+        height = clip(height, 0, self.imageSize.height - y);
+
+        _tesseract->SetRectangle(x, y, width, height);
         [self resetFlags];
+    }
+}
+
+- (void)setSourceResolution:(NSInteger)sourceResolution
+{
+    if (_sourceResolution != sourceResolution) {
+        _sourceResolution = sourceResolution;
+
+        _tesseract->SetSourceResolution((int)sourceResolution);
     }
 }
 
@@ -424,7 +471,7 @@ namespace tesseract {
             CGFloat y = self.imageSize.height - [boxComponents[4] floatValue];
             CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
             CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
-            CGRect box = CGRectMake(x, y, width, height);
+            CGRect box = [self normalizedRectForX:x y:y width:width height:height];
 
             G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:boxComponents[0]
                                                                    boundingBox:box
@@ -434,6 +481,15 @@ namespace tesseract {
         }
     }
     return [recognizedTextBoxes copy];
+}
+
+- (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height
+{
+    x /= self.imageSize.width;
+    y /= self.imageSize.height;
+    width /= self.imageSize.width;
+    height /= self.imageSize.height;
+    return CGRectMake(x, y, width, height);
 }
 
 - (G8RecognizedBlock *)blockFromIterator:(tesseract::ResultIterator *)iterator
@@ -456,7 +512,7 @@ namespace tesseract {
         CGFloat height = y2 - y1;
 
         NSString *text = [NSString stringWithUTF8String:word];
-        CGRect boundingBox = CGRectMake(x, y, width, height);
+        CGRect boundingBox = [self normalizedRectForX:x y:y width:width height:height];
         CGFloat confidence = iterator->Confidence(level);
         delete[] word;
 
@@ -527,17 +583,17 @@ namespace tesseract {
 {
     UIImage *image = thresholded ? self.thresholdedImage : self.image;
 
-    UIGraphicsBeginImageContextWithOptions(self.imageSize, NO, image.scale);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
 
-    [image drawInRect:(CGRect){CGPointZero, self.imageSize}];
+    [image drawInRect:(CGRect){CGPointZero, image.size}];
 
     CGContextSetLineWidth(context, 2.0f);
     CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
 
     for (G8RecognizedBlock *block in blocks) {
-        CGRect boundingBox = block.boundingBox;
+        CGRect boundingBox = [block boundingBoxAtImageOfSize:image.size];
         CGRect rect = CGRectMake(boundingBox.origin.x, boundingBox.origin.y,
                                  boundingBox.size.width, boundingBox.size.height);
         CGContextStrokeRect(context, rect);
