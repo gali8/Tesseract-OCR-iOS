@@ -41,10 +41,10 @@
 @property (nonatomic, copy) NSString* language;
 
 /**
- * The path to the tessdata file, if it was specified in a call to initWithDataPath:language:(NSString engineMode:configFileNames:
+ * The path to the tessdata file, if it was specified in a call to initWithLanguage:configDictionary:configFileNames:cachesRelatedDataPath:engineMode: as a cachesRelatedDataPath
  * Otherwise it's supposed that the tessdata folder is located in the application bundle
  */
-@property (nonatomic, readonly, copy) NSString *dataPath;
+@property (nonatomic, readonly, copy) NSString *absoluteDataPath;
 
 /**
  *  The recognition mode to use. See `G8OCREngineMode` in G8Constants.h for the
@@ -237,16 +237,16 @@
 /**
  *  Initialize Tesseract with the provided language and engine mode.
  *
- *  @param language         The language to use in recognition. See `language`.
- *  @param configDictionary A dictioanry of the config variables
- *  @param configFileNames  An array of file names containing key-value config pairs. All the config
- *                          variables can be init only and debug time both. Furthermore they could be 
- *                          specified at the same time, in such case tesseract will get variables from 
- *                          every file and dictionary all together.
- *  @param dataPath         If the dataPath is specified, the whole content of the tessdata from the
- *                          application bundle is copied to the Documents/dataPath/tessdata 
- *                          and tesseract is initialized with that path.
- *  @param engineMode       The engine mode to use in recognition. See `engineMode`.
+ *  @param language             The language to use in recognition. See `language`.
+ *  @param configDictionary     A dictioanry of the config variables
+ *  @param configFileNames      An array of file names containing key-value config pairs. All the config
+ *                              variables can be init only and debug time both. Furthermore they could be
+ *                              specified at the same time, in such case tesseract will get variables from
+ *                              every file and dictionary all together.
+ *  @param cachesRelatedPath    If the cachesRelatedDataPath is specified, the whole content of the tessdata from the
+ *                              application bundle is copied to the Library/Caches/cachesRelatedDataPath/tessdata
+ *                              and tesseract is initialized with that path.
+ *  @param engineMode           The engine mode to use in recognition. See `engineMode`.
  *
  *  @return The initialized Tesseract object, or `nil` if there was an error.
  */
@@ -254,7 +254,7 @@
 - (id)initWithLanguage:(NSString *)language
       configDictionary:(NSDictionary *)configDictionary
        configFileNames:(NSArray *)configFileNames
-              dataPath:(NSString *)dataPath
+ cachesRelatedDataPath:(NSString *)cachesRelatedDataPath
             engineMode:(G8OCREngineMode)engineMode NS_DESIGNATED_INITIALIZER;
 
 /**

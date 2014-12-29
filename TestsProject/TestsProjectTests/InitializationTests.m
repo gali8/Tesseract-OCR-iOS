@@ -32,30 +32,48 @@ describe(@"Tesseract initialization", ^{
         });
     });
 
+    let(cashesPath, ^id{
+        NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *documentPath = documentPaths.firstObject;
+        return documentPath;
+    });
+
     context(@"not nil dataPath", ^{
         
         let(tessdataPath, ^id{
             return @"tes";
         });
         
+        let(tessdataFolderName, ^id{
+            return @"tessdata";
+        });
+        
+        let(bundle, ^id{
+            return [NSBundle bundleForClass:G8Tesseract.class];
+        });
+        
         it(@"no tessdata folder in the Documents yet", ^{
+            
+            // proof Documents folder is empty
+            BOOL folderExists = [fileManager fileExistsAtPath:[cashesPath stringByAppendingPathComponent:tessdataFolderName]];
+            [[theValue(folderExists) should] equal:theValue(NO)];
             
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                           configDictionary:nil
                                                            configFileNames:nil
-                                                                  dataPath:tessdataPath
+                                                     cachesRelatedDataPath:tessdataPath
                                                                 engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
             
-            NSString *path = [[NSBundle bundleForClass:[G8Tesseract class]].bundlePath stringByAppendingPathComponent:@"tessdata"];
             NSError *error = nil;
+            NSString *path = [[NSBundle bundleForClass:[G8Tesseract class]].bundlePath stringByAppendingPathComponent:@"tessdata"];
             NSArray *contentsOfTessdataFromTheBundle = [fileManager contentsOfDirectoryAtPath:path error:&error];
             [[contentsOfTessdataFromTheBundle should] haveCountOfAtLeast:1];
             if (error != nil) {
                 NSLog(@"Error getting the content of the Tessdata folder from the app bundle: %@", error);
             }
             
-            NSArray *contentsOfTheTessdataPathFolder = [fileManager contentsOfDirectoryAtPath:[tesseract.dataPath stringByAppendingPathComponent:@"tessdata"] error:&error];
+            NSArray *contentsOfTheTessdataPathFolder = [fileManager contentsOfDirectoryAtPath:[tesseract.absoluteDataPath stringByAppendingPathComponent:@"tessdata"] error:&error];
             [[contentsOfTheTessdataPathFolder should] haveCountOfAtLeast:1];
             if (error != nil) {
                 NSLog(@"Error getting the content of the Tessdata folder from the Documents folder: %@", error);
@@ -126,19 +144,15 @@ describe(@"Tesseract initialization", ^{
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                           configDictionary:nil
                                                            configFileNames:nil
-                                                                  dataPath:tessdataPath
+                                                     cachesRelatedDataPath:tessdataPath
                                                                 engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
         });
         
         afterEach(^{
-            // make sure Documents folder is empty
-            NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentPath = documentPaths.firstObject;
-            
             NSLog(@"Removing previous tessdata folder from Documents");
             NSError *error = nil;
-            NSString *path = [documentPath stringByAppendingPathComponent:tessdataPath];
+            NSString *path = [cashesPath stringByAppendingPathComponent:tessdataPath];
             BOOL fileIsRemoved = [fileManager removeItemAtPath:path error:&error];
             [[theValue(fileIsRemoved) should] equal:theValue(YES)];
             if (error != nil) {
@@ -146,7 +160,7 @@ describe(@"Tesseract initialization", ^{
             }
             
             // check tessdata folder was deleted
-            NSArray *documentsContent = [fileManager contentsOfDirectoryAtPath:documentPath error:&error];
+            NSArray *documentsContent = [fileManager contentsOfDirectoryAtPath:cashesPath error:&error];
             [[documentsContent shouldNot] contain:tessdataPath];
             if (error != nil) {
                 NSLog(@"Error getting the contents of the Documents folder: %@", error);

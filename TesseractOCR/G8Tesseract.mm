@@ -31,7 +31,7 @@ namespace tesseract {
     ETEXT_DESC *_monitor;
 }
 
-@property (nonatomic, copy) NSString *dataPath;
+@property (nonatomic, copy) NSString *absoluteDataPath;
 @property (nonatomic, strong) NSDictionary *configDictionary;
 @property (nonatomic, strong) NSArray *configFileNames;
 @property (nonatomic, strong) NSMutableDictionary *variables;
@@ -71,23 +71,23 @@ namespace tesseract {
 
 - (id)initWithLanguage:(NSString*)language
 {
-    return [self initWithLanguage:language configDictionary:nil configFileNames:nil dataPath:nil engineMode:G8OCREngineModeTesseractOnly];
+    return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
 }
 
 - (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
 {
-    return [self initWithLanguage:language configDictionary:nil configFileNames:nil dataPath:nil engineMode:engineMode];
+    return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:engineMode];
 }
 
 - (id)initWithLanguage:(NSString *)language
       configDictionary:(NSDictionary *)configDictionary
        configFileNames:(NSArray *)configFileNames
-              dataPath:(NSString *)dataPath
+ cachesRelatedDataPath:(NSString *)cachesRelatedPath
             engineMode:(G8OCREngineMode)engineMode
 {
     self = [super init];
     if (self != nil) {
-        _dataPath = [dataPath copy];
+        _absoluteDataPath = [cachesRelatedPath copy];
         _language = [language copy];
         _configDictionary = configDictionary;
         _configFileNames = configFileNames;
@@ -101,21 +101,21 @@ namespace tesseract {
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
 
-        if (self.dataPath != nil) {
+        if (_absoluteDataPath != nil) {
             // config Tesseract to search trainedData in tessdata folder of the Documents folder];
-            NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *documentPath = documentPaths.firstObject;
             assert(documentPath);
-            _dataPath = [documentPath stringByAppendingPathComponent:self.dataPath];
+            _absoluteDataPath = [documentPath stringByAppendingPathComponent:_absoluteDataPath].copy;
 
             [self moveTessdataToDocumentsDirectoryIfNecessary];
         }
         else {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            _dataPath = [NSString stringWithFormat:@"%@/", [NSString stringWithString:[NSBundle bundleForClass:self.class].bundlePath]];
+            _absoluteDataPath = [NSString stringWithFormat:@"%@/", [NSString stringWithString:[NSBundle bundleForClass:self.class].bundlePath]].copy;
         }
         
-        setenv("TESSDATA_PREFIX", [self.dataPath stringByAppendingString:@"/"].UTF8String, 1);
+        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
 
         _tesseract = new tesseract::TessBaseAPI();
 
@@ -159,7 +159,7 @@ namespace tesseract {
     for (int i = 0; i < count; i++) {
         configs[i] = ((NSString*)self.configFileNames[i]).UTF8String;
     }
-    int returnCode = _tesseract->Init(self.dataPath.UTF8String, self.language.UTF8String,
+    int returnCode = _tesseract->Init(self.absoluteDataPath.UTF8String, self.language.UTF8String,
                                       (tesseract::OcrEngineMode)self.engineMode,
                                       (char **)configs, count,
                                       &tessKeys, &tessValues,
@@ -197,18 +197,14 @@ namespace tesseract {
     // Useful paths
     NSString *tessdataFolderName = @"tessdata";
     NSString *tessdataPath = [[NSBundle bundleForClass:self.class].resourcePath stringByAppendingPathComponent:tessdataFolderName];
-    NSString *destinationPath = [self.dataPath stringByAppendingPathComponent:tessdataFolderName];
+    NSString *destinationPath = [self.absoluteDataPath stringByAppendingPathComponent:tessdataFolderName];
     NSLog(@"Tesseract destination path: %@", destinationPath);
     
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {
         NSError *error = nil;
-        BOOL res = [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:nil];
+        [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:&error];
         if (error != nil) {
             NSLog(@"Error creating folder %@: %@", destinationPath, error);
-            return NO;
-        }
-        if (res == NO) {
-            NSLog(@"Error creating folder %@", destinationPath);
             return NO;
         }
     }
@@ -229,15 +225,14 @@ namespace tesseract {
             //NSLog(@"found %@", filePath);
             //NSLog(@"symlink in %@", destinationFileName);
             
-            BOOL res = [fileManager createSymbolicLinkAtPath:destinationFileName
-                                         withDestinationPath:filePath
-                                                       error:&error];
-            if (res == NO) {
-                NSLog(@"The result of createSymbolicLinkAtPath == NO");
-                result = NO;
-            }
+            // delete broken symlinks first
+            [fileManager removeItemAtPath:destinationFileName error:&error];
+            // than recreate it
+            [fileManager createSymbolicLinkAtPath:destinationFileName
+                              withDestinationPath:filePath
+                                            error:&error];
             if (error != nil) {
-                NSLog(@"Error creating symlink %@: %@", filePath, error);
+                NSLog(@"Error creating symlink %@: %@", destinationPath, error);
                 result = NO;
             }
         }
