@@ -93,6 +93,40 @@ describe(@"Tesseract initialization", ^{
             
             checkVariablesAreSetForTesseract(tesseract);
         });
+        
+        it(@"config dictionary", ^{
+            
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                          configDictionary:@{
+                                                                             kG8ParamTessdataManagerDebugLevel  : @"1",
+                                                                             kG8ParamLoadSystemDawg             : @"F",
+                                                                             kG8ParamLoadFreqDawg               : @"F",
+                                                                             kG8ParamUserWordsSuffix            : @"user-words",
+                                                                             kG8ParamUserPatternsSuffix         : @"user-patterns",
+                                                                             }
+                                                           configFileNames:nil
+                                                     cachesRelatedDataPath:nil
+                                                                engineMode:G8OCREngineModeTesseractOnly];
+            [[tesseract shouldNot] beNil];
+            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            
+            checkVariablesAreSetForTesseract(tesseract);
+        });
+        
+        it(@"config dictionary and a file", ^{
+            
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                          configDictionary:@{
+                                                                             kG8ParamTessdataManagerDebugLevel  : @"1",
+                                                                             }
+                                                           configFileNames:@[recognitionConfigsFilePathFromTheBundle]
+                                                     cachesRelatedDataPath:nil
+                                                                engineMode:G8OCREngineModeTesseractOnly];
+            [[tesseract shouldNot] beNil];
+            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            
+            checkVariablesAreSetForTesseract(tesseract);
+        });
     });
 
     let(cashesPath, ^id{
@@ -133,31 +167,67 @@ describe(@"Tesseract initialization", ^{
             return @"tessdata";
         });
         
-        it(@"no tessdata folder in the Caches yet", ^{
-            
-            // proof Caches folder is empty
-            BOOL folderExists = [fileManager fileExistsAtPath:cachesTessDataPath];
-            [[theValue(folderExists) should] equal:theValue(NO)];
-            
-            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
-                                                          configDictionary:nil
-                                                           configFileNames:nil
-                                                     cachesRelatedDataPath:tessdataPath
-                                                                engineMode:G8OCREngineModeTesseractOnly];
-            [[tesseract shouldNot] beNil];
-            
-            [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
-            
-            [[theValue(doFoldersContainTheSameElements()) should] equal:theValue(YES)];
-        });
-        
         let(debugConfigsFilePathFromTheCaches, ^id{
             return [[[cachesTessDataPath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingPathComponent:tessConfigsFolderName] stringByAppendingPathComponent:debugConfigsFileName];
         });
         let(recognitionConfigsFilePathFromTheCaches, ^id{
             return [[[cachesTessDataPath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingPathComponent:tessConfigsFolderName] stringByAppendingPathComponent:recognitionConfigsFileName];
         });
-
+        
+        context(@"no tessdata folder in the Caches yet", ^{
+            
+            it(@"simple init", ^{
+                // proof Caches folder is empty
+                BOOL folderExists = [fileManager fileExistsAtPath:cachesTessDataPath];
+                [[theValue(folderExists) should] equal:theValue(NO)];
+                
+                G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                              configDictionary:nil
+                                                               configFileNames:nil
+                                                         cachesRelatedDataPath:tessdataPath
+                                                                    engineMode:G8OCREngineModeTesseractOnly];
+                [[tesseract shouldNot] beNil];
+                
+                [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                [[theValue(doFoldersContainTheSameElements()) should] equal:theValue(YES)];
+            });
+            
+            it(@"config dictionary", ^{
+                
+                G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                              configDictionary:@{
+                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
+                                                                                 kG8ParamLoadSystemDawg             : @"F",
+                                                                                 kG8ParamLoadFreqDawg               : @"F",
+                                                                                 kG8ParamUserWordsSuffix            : @"user-words",
+                                                                                 kG8ParamUserPatternsSuffix         : @"user-patterns",
+                                                                                 }
+                                                               configFileNames:nil
+                                                         cachesRelatedDataPath:tessdataPath
+                                                                    engineMode:G8OCREngineModeTesseractOnly];
+                [[tesseract shouldNot] beNil];
+                [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                checkVariablesAreSetForTesseract(tesseract);
+            });
+            
+            it(@"config dictionary and a file", ^{
+                
+                G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                              configDictionary:@{
+                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
+                                                                                 }
+                                                               configFileNames:@[recognitionConfigsFilePathFromTheCaches]
+                                                         cachesRelatedDataPath:tessdataPath
+                                                                    engineMode:G8OCREngineModeTesseractOnly];
+                [[tesseract shouldNot] beNil];
+                [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                checkVariablesAreSetForTesseract(tesseract);
+            });
+        });
+        
         it(@"config file path, while there is no tessdata folder yet", ^{
             
             NSLog(@"debugConfigsFilePathFromTheCaches: %@", debugConfigsFilePathFromTheCaches);
@@ -269,10 +339,44 @@ describe(@"Tesseract initialization", ^{
                 
                 checkVariablesAreSetForTesseract(tesseract);
             });
+            
+            it(@"config dictionary", ^{
+                
+                G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                              configDictionary:@{
+                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
+                                                                                 kG8ParamLoadSystemDawg             : @"F",
+                                                                                 kG8ParamLoadFreqDawg               : @"F",
+                                                                                 kG8ParamUserWordsSuffix            : @"user-words",
+                                                                                 kG8ParamUserPatternsSuffix         : @"user-patterns",
+                                                                                 }
+                                                               configFileNames:nil
+                                                         cachesRelatedDataPath:tessdataPath
+                                                                    engineMode:G8OCREngineModeTesseractOnly];
+                [[tesseract shouldNot] beNil];
+                [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                checkVariablesAreSetForTesseract(tesseract);
+            });
+            
+            it(@"config dictionary and a file", ^{
+                
+                G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                              configDictionary:@{
+                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
+                                                                                 }
+                                                               configFileNames:@[recognitionConfigsFilePathFromTheCaches]
+                                                         cachesRelatedDataPath:tessdataPath
+                                                                    engineMode:G8OCREngineModeTesseractOnly];
+                [[tesseract shouldNot] beNil];
+                [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                checkVariablesAreSetForTesseract(tesseract);
+            });
         });
         
         afterEach(^{
-            NSLog(@"Removing previous tessdata folder from Caches folder");
+            //NSLog(@"Removing previous tessdata folder from Caches folder");
             NSError *error = nil;
             BOOL fileIsRemoved = [fileManager removeItemAtPath:cachesTessDataPath error:&error];
             [[theValue(fileIsRemoved) should] equal:theValue(YES)];
