@@ -103,10 +103,10 @@ namespace tesseract {
 
         if (_absoluteDataPath != nil) {
             // config Tesseract to search trainedData in tessdata folder of the Documents folder];
-            NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-            NSString *documentPath = documentPaths.firstObject;
-            assert(documentPath);
-            _absoluteDataPath = [documentPath stringByAppendingPathComponent:_absoluteDataPath].copy;
+            NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+            NSString *cachesPath = cachesPaths.firstObject;
+
+            _absoluteDataPath = [cachesPath stringByAppendingPathComponent:_absoluteDataPath].copy;
 
             [self moveTessdataToDocumentsDirectoryIfNecessary];
         }
@@ -227,7 +227,9 @@ namespace tesseract {
             
             // delete broken symlinks first
             [fileManager removeItemAtPath:destinationFileName error:&error];
+            
             // than recreate it
+            error = nil;    // don't care about previous error, that can heppens if we tried to remove an symlink, which doesn't exist
             [fileManager createSymbolicLinkAtPath:destinationFileName
                               withDestinationPath:filePath
                                             error:&error];

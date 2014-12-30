@@ -27,6 +27,7 @@
 		41C68DB31A41849100848AE1 /* image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 41C68DB21A41849100848AE1 /* image_sample.jpg */; };
 		41C68DB51A41854600848AE1 /* image_sample_tr.png in Resources */ = {isa = PBXBuildFile; fileRef = 41C68DB41A41854600848AE1 /* image_sample_tr.png */; };
 		732C54761A514DA6000322DA /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54751A514DA5000322DA /* InitializationTests.m */; };
+		732C54791A5288CC000322DA /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54781A5288CC000322DA /* Defaults.m */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,8 @@
 		41C68DB41A41854600848AE1 /* image_sample_tr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample_tr.png; sourceTree = "<group>"; };
 		5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestsProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		732C54751A514DA5000322DA /* InitializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitializationTests.m; sourceTree = "<group>"; };
+		732C54771A5288CC000322DA /* Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defaults.h; sourceTree = "<group>"; };
+		732C54781A5288CC000322DA /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaults.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +152,8 @@
 				732C54751A514DA5000322DA /* InitializationTests.m */,
 				4115B97A1A3EF8E90004EC0A /* RecognitionTests.m */,
 				4115B9781A3EF8E90004EC0A /* Supporting Files */,
+				732C54771A5288CC000322DA /* Defaults.h */,
+				732C54781A5288CC000322DA /* Defaults.m */,
 			);
 			path = TestsProjectTests;
 			sourceTree = "<group>";
@@ -349,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				732C54791A5288CC000322DA /* Defaults.m in Sources */,
 				414121231A4C5A5700583ED4 /* G8RecognitionTestsHelper.m in Sources */,
 				4115B97B1A3EF8E90004EC0A /* RecognitionTests.m in Sources */,
 				732C54761A514DA6000322DA /* InitializationTests.m in Sources */,

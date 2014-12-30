@@ -1,8 +1,8 @@
 //
-//  RecognitionTests.m
+//  InitializationTests.m
 //  TestsProjectTests
 //
-//  Created by Nikolay Volosatov on 15.12.14.
+//  Created by ws233 on 29.12.14.
 //  Copyright (c) 2014 Daniele Galiotto - www.g8production.com.
 //  All rights reserved.
 //
@@ -10,10 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <TesseractOCR/TesseractOCR.h>
 #import <Kiwi/Kiwi.h>
-
-#import "UIImage+G8Equal.h"
-
-static NSString *const kG8Languages = @"eng";
+#import "Defaults.h"
 
 SPEC_BEGIN(TesseractInitialization)
 
@@ -33,9 +30,9 @@ describe(@"Tesseract initialization", ^{
     });
 
     let(cashesPath, ^id{
-        NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSString *documentPath = documentPaths.firstObject;
-        return documentPath;
+        NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *cachesPath = cachesPaths.firstObject;
+        return cachesPath;
     });
 
     context(@"not nil dataPath", ^{
