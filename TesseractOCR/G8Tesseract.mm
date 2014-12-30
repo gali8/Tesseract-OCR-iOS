@@ -87,6 +87,10 @@ namespace tesseract {
 {
     self = [super init];
     if (self != nil) {
+        if (configFileNames) {
+            NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
+        }
+
         _absoluteDataPath = [cachesRelatedPath copy];
         _language = [language copy];
         _configDictionary = configDictionary;
@@ -229,7 +233,7 @@ namespace tesseract {
             [fileManager removeItemAtPath:destinationFileName error:&error];
             
             // than recreate it
-            error = nil;    // don't care about previous error, that can heppens if we tried to remove an symlink, which doesn't exist
+            error = nil;    // don't care about previous error, that can happens if we tried to remove an symlink, which doesn't exist
             [fileManager createSymbolicLinkAtPath:destinationFileName
                               withDestinationPath:filePath
                                             error:&error];
@@ -256,6 +260,13 @@ namespace tesseract {
 
     self.variables[key] = value;
     _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+}
+
+- (NSString*)variableValueForKey:(NSString *)key {
+    
+    STRING val;
+    _tesseract->GetVariableAsString(key.UTF8String, &val);
+    return [NSString stringWithUTF8String:val.string()];
 }
 
 - (void)setVariablesFromDictionary:(NSDictionary *)dictionary
