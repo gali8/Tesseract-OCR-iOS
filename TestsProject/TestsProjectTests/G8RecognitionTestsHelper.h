@@ -17,7 +17,22 @@ typedef NS_ENUM(NSUInteger, G8CustomPreprocessing) {
 
 @interface G8RecognitionTestsHelper : NSObject <G8TesseractDelegate>
 
+@property (nonatomic, strong, readonly) G8Tesseract *tesseract;
+
+@property (nonatomic, assign) G8OCREngineMode engineMode;
+@property (nonatomic, assign) G8PageSegmentationMode pageSegmentationMode;
+@property (nonatomic, copy) NSString *charWhitelist;
+@property (nonatomic, assign) NSTimeInterval waitDeadline;
+@property (nonatomic, assign) NSTimeInterval maxExpectedRecognitionTime;
+@property (nonatomic, assign) CGRect rect;
+@property (nonatomic, assign) NSInteger sourceResolution;
+@property (nonatomic, strong) UIImage *image;
+
 @property (nonatomic, assign) CGSize boundingSizeForResizing;
 @property (nonatomic, assign) G8CustomPreprocessing customPreprocessingType;
+
+- (void)recognizeImage;
+- (void)recognizeImageUsingOperation;
+- (UIImage *)thresholdedImageForImage:(UIImage *)sourceImage;
 
 @end
