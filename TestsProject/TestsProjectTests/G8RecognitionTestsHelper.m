@@ -8,17 +8,120 @@
 
 #import "G8RecognitionTestsHelper.h"
 
+static NSString *const kG8Languages = @"eng";
+
+@interface G8RecognitionTestsHelper ()
+
+@property (nonatomic, strong, readwrite) G8Tesseract *tesseract;
+
+@end
+
 @implementation G8RecognitionTestsHelper
 
 - (id)init
 {
     self = [super init];
     if (self != nil) {
+        _engineMode = G8OCREngineModeTesseractOnly;
+        _pageSegmentationMode = G8PageSegmentationModeAuto;
+        _charWhitelist = @"";
+        _waitDeadline = 180.0;
+        _maxExpectedRecognitionTime = 185.0;
+        _rect = CGRectZero;
+        _sourceResolution = 0;
+
         _customPreprocessingType = G8CustomPreprocessingNone;
         _boundingSizeForResizing = CGSizeMake(700.0f, 700.0f);
     }
     return self;
 }
+
+- (void)waitTimeLmit:(NSTimeInterval)maximumWait whileTrue:(BOOL (^)())shouldKeepRunning
+{
+    NSDate *deadlineDate = [NSDate dateWithTimeInterval:maximumWait sinceDate:[NSDate date]];
+    BOOL isDeadline = NO;
+    while (shouldKeepRunning != nil && shouldKeepRunning() && isDeadline == NO) {
+        if ([[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:deadlineDate] == NO) {
+            break;
+        }
+        isDeadline = [[NSDate date] compare:deadlineDate] == NSOrderedDescending;
+    }
+};
+
+- (void)setupTesseract
+{
+    self.tesseract.delegate = self;
+
+    self.tesseract.language = kG8Languages;
+    self.tesseract.engineMode = self.engineMode;
+    self.tesseract.pageSegmentationMode = self.pageSegmentationMode;
+
+    self.tesseract.charWhitelist = self.charWhitelist;
+    self.tesseract.maximumRecognitionTime = self.waitDeadline;
+};
+
+- (void)setupImage
+{
+    self.tesseract.image = [self.image g8_blackAndWhite];
+
+    if (CGRectEqualToRect(self.rect, CGRectZero) == NO) {
+        self.tesseract.rect = self.rect;
+    }
+
+    if (self.sourceResolution > 0) {
+        self.tesseract.sourceResolution = self.sourceResolution;
+    }
+}
+
+- (void)recognizeImage
+{
+    self.tesseract = [[G8Tesseract alloc] init];
+    [self setupTesseract];
+    [self setupImage];
+
+    [self.tesseract recognize];
+};
+
+- (void)recognizeImageUsingOperation
+{
+    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
+    self.tesseract = operation.tesseract;
+    [self setupTesseract];
+
+    [self setupImage];
+
+    __weak __typeof(self) weakSelf = self;
+
+    self.tesseract = nil;
+    operation.recognitionCompleteBlock = ^(G8Tesseract *recognizedTesseract) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+
+        strongSelf.tesseract = recognizedTesseract;
+    };
+
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [queue addOperation:operation];
+
+    [self waitTimeLmit:self.maxExpectedRecognitionTime whileTrue:^BOOL{
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+
+        return (BOOL)(strongSelf.tesseract == nil);
+    }];
+
+    if (self.tesseract == nil) {
+        [NSException raise:@"Tesseract stopped" format:@"Tesseract worked too long"];
+    }
+};
+
+- (UIImage *)thresholdedImageForImage:(UIImage *)sourceImage
+{
+    self.tesseract = [[G8Tesseract alloc] init];
+    [self setupTesseract];
+
+    self.tesseract.image = [sourceImage g8_blackAndWhite];
+
+    return self.tesseract.thresholdedImage;
+};
 
 - (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
 {
