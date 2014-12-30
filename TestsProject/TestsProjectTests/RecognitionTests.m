@@ -84,19 +84,7 @@ void (^recognizeImage)() = ^{
         tesseract.sourceResolution = sourceResolution;
     }
 
-    __block BOOL isDone = NO;
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-        [tesseract recognize];
-        isDone = YES;
-    });
-
-    wait(maxExpectedRecognitionTime, ^{
-        return (BOOL)(isDone == NO);
-    });
-
-    if (isDone == NO) {
-        [NSException raise:@"Tesseract stopped" format:@"Tesseract worked too long"];
-    }
+    [tesseract recognize];
 };
 
 void (^recognizeImageUsingOperation)() = ^{
@@ -147,12 +135,16 @@ describe(@"Simple image", ^{
     it(@"Should recognize sync", ^{
         [[theBlock(recognizeImage) shouldNot] raise];
 
+        [[theValue(tesseract.progress) should] equal:theValue(100)];
+
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
     });
 
     it(@"Should recognize by queue", ^{
         [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+
+        [[theValue(tesseract.progress) should] equal:theValue(100)];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
@@ -231,7 +223,7 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should draw blocks on image", ^{
-        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         NSArray *blocks = [tesseract confidencesByIteratorLevel:G8PageIteratorLevelSymbol];
         UIImage *blocksImage = [tesseract imageWithBlocks:blocks drawText:YES thresholded:NO];
@@ -289,6 +281,9 @@ describe(@"Blank image", ^{
 
 describe(@"Well scaned page", ^{
 
+    static NSString *const kG8WellScanedFirstTitle = @"Foreword";
+    static NSString *const kG8WellScanedFinalLongString = @"recommendations sometimes get acted on";
+
     beforeEach(^{
         image = [UIImage imageNamed:@"well_scaned_page"];
         rect = (CGRect){CGPointZero, image.size};
@@ -297,8 +292,12 @@ describe(@"Well scaned page", ^{
     it(@"Should recognize", ^{
         [[theBlock(recognizeImage) shouldNot] raise];
 
+        [[theValue(tesseract.progress) should] equal:theValue(100)];
+
         NSString *recognizedText = tesseract.recognizedText;
-        [[recognizedText should] containString:@"Foreword"];
+        [[recognizedText should] containString:kG8WellScanedFirstTitle];
+        [[recognizedText should] containString:kG8WellScanedFinalLongString];
+
         [[recognizedText should] containString:@"Division"];
         [[recognizedText should] containString:@"remove"];
         [[recognizedText should] containString:@"1954"];
@@ -314,7 +313,7 @@ describe(@"Well scaned page", ^{
     it(@"Should analyze layout", ^{
         pageSegmentationMode = G8PageSegmentationModeAutoOSD;
 
-        [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+        [[theBlock(recognizeImage) shouldNot] raise];
 
         CGFloat deskewAngle = tesseract.deskewAngle;
         [[theValue(ABS(deskewAngle)) should] beGreaterThan:theValue(FLT_EPSILON)];
@@ -325,14 +324,16 @@ describe(@"Well scaned page", ^{
     });
 
     it(@"Should break by deadline", ^{
-        waitDeadline = 2.0;
+        waitDeadline = 1.0;
 
         [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
 
         [[tesseract shouldNot] beNil];
+        [[theValue(tesseract.progress) should] beLessThan:theValue(100)];
+
         NSString *recognizedText = tesseract.recognizedText;
-        [[recognizedText should] containString:@"Foreword"];
-        [[recognizedText shouldNot] containString:@"Mathematcs"];
+        [[recognizedText should] containString:kG8WellScanedFirstTitle];
+        [[recognizedText shouldNot] containString:kG8WellScanedFinalLongString];
         [[[[tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
     });
     

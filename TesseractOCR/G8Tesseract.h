@@ -24,6 +24,12 @@
  */
 + (NSString *)version;
 
+/**
+ *  Clear any library-level memory caches.
+ *  There are a variety of expensive-to-load constant data structures (mostly
+ *  language dictionaries) that are cached globally. This function allows the
+ *  clearing of these caches.
+ */
 + (void)clearCache;
 
 /**
