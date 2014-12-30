@@ -102,13 +102,13 @@ namespace tesseract {
         _monitor->cancel_this = (__bridge void*)self;
 
         if (_absoluteDataPath != nil) {
-            // config Tesseract to search trainedData in tessdata folder of the Documents folder];
+            // config Tesseract to search trainedData in tessdata folder of the Caches folder
             NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *cachesPath = cachesPaths.firstObject;
 
             _absoluteDataPath = [cachesPath stringByAppendingPathComponent:_absoluteDataPath].copy;
 
-            [self moveTessdataToDocumentsDirectoryIfNecessary];
+            [self moveTessdataToCachesDirectoryIfNecessary];
         }
         else {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
@@ -190,7 +190,7 @@ namespace tesseract {
     return isInitDone;
 }
 
-- (BOOL)moveTessdataToDocumentsDirectoryIfNecessary
+- (BOOL)moveTessdataToCachesDirectoryIfNecessary
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
