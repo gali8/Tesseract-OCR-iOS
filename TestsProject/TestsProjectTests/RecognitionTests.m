@@ -135,12 +135,16 @@ describe(@"Simple image", ^{
     it(@"Should recognize sync", ^{
         [[theBlock(recognizeImage) shouldNot] raise];
 
+        [[theValue(tesseract.progress) should] equal:theValue(100)];
+
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
     });
 
     it(@"Should recognize by queue", ^{
         [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
+
+        [[theValue(tesseract.progress) should] equal:theValue(100)];
 
         NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
@@ -277,6 +281,9 @@ describe(@"Blank image", ^{
 
 describe(@"Well scaned page", ^{
 
+    static NSString *const kG8WellScanedFirstTitle = @"Foreword";
+    static NSString *const kG8WellScanedFinalLongString = @"recommendations sometimes get acted on";
+
     beforeEach(^{
         image = [UIImage imageNamed:@"well_scaned_page"];
         rect = (CGRect){CGPointZero, image.size};
@@ -285,8 +292,12 @@ describe(@"Well scaned page", ^{
     it(@"Should recognize", ^{
         [[theBlock(recognizeImage) shouldNot] raise];
 
+        [[theValue(tesseract.progress) should] equal:theValue(100)];
+
         NSString *recognizedText = tesseract.recognizedText;
-        [[recognizedText should] containString:@"Foreword"];
+        [[recognizedText should] containString:kG8WellScanedFirstTitle];
+        [[recognizedText should] containString:kG8WellScanedFinalLongString];
+
         [[recognizedText should] containString:@"Division"];
         [[recognizedText should] containString:@"remove"];
         [[recognizedText should] containString:@"1954"];
@@ -313,14 +324,16 @@ describe(@"Well scaned page", ^{
     });
 
     it(@"Should break by deadline", ^{
-        waitDeadline = 2.0;
+        waitDeadline = 1.0;
 
         [[theBlock(recognizeImageUsingOperation) shouldNot] raise];
 
         [[tesseract shouldNot] beNil];
+        [[theValue(tesseract.progress) should] beLessThan:theValue(100)];
+
         NSString *recognizedText = tesseract.recognizedText;
-        [[recognizedText should] containString:@"Foreword"];
-        [[recognizedText shouldNot] containString:@"Mathematcs"];
+        [[recognizedText should] containString:kG8WellScanedFirstTitle];
+        [[recognizedText shouldNot] containString:kG8WellScanedFinalLongString];
         [[[[tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
     });
     
