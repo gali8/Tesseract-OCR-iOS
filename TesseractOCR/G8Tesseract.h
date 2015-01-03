@@ -238,7 +238,7 @@
  *  Initialize Tesseract with the provided language and engine mode.
  *
  *  @param language             The language to use in recognition. See `language`.
- *  @param configDictionary     A dictioanry of the config variables
+ *  @param configDictionary     A dictionary of the config variables
  *  @param configFileNames      An array of file names containing key-value config pairs. All the config
  *                              variables can be init only and debug time both. Furthermore they could be
  *                              specified at the same time, in such case tesseract will get variables from
