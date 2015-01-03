@@ -185,14 +185,14 @@ describe(@"Tesseract initialization", ^{
                 }
                 
                 // initialize with rus now
-                G8Tesseract *rusResseract = [[G8Tesseract alloc] initWithLanguage:@"rus"
+                G8Tesseract *rusTesseract = [[G8Tesseract alloc] initWithLanguage:@"rus"
                                                                  configDictionary:nil
                                                                   configFileNames:nil
                                                             cachesRelatedDataPath:tessdataPath
                                                                        engineMode:G8OCREngineModeTesseractOnly];
-                [[rusResseract shouldNot] beNil];
+                [[rusTesseract shouldNot] beNil];
                 
-                [[rusResseract.absoluteDataPath should] equal:cachesTessDataPath];
+                [[rusTesseract.absoluteDataPath should] equal:cachesTessDataPath];
             });
             
             it(@"Should initialize with config dictionary", ^{
