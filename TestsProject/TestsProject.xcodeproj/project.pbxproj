@@ -75,6 +75,7 @@
 		732C54751A514DA5000322DA /* InitializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitializationTests.m; sourceTree = "<group>"; };
 		732C54771A5288CC000322DA /* Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defaults.h; sourceTree = "<group>"; };
 		732C54781A5288CC000322DA /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaults.m; sourceTree = "<group>"; };
+		736EFF231A5872CA0031B432 /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "TestsProjectTests/tessdata-rus"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +125,7 @@
 		4115B95D1A3EF8E90004EC0A /* TestsProject */ = {
 			isa = PBXGroup;
 			children = (
+				736EFF231A5872CA0031B432 /* tessdata-rus */,
 				41184B551A3EFCAD007F5923 /* tessdata */,
 				4115B9621A3EF8E90004EC0A /* AppDelegate.h */,
 				4115B9631A3EF8E90004EC0A /* AppDelegate.m */,
