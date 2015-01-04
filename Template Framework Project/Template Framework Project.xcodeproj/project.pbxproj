@@ -20,8 +20,23 @@
 		64DDA74E188FD7D10025590D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDEA180C5DE000443362 /* Main.storyboard */; };
 		64DDA75B188FD9140025590D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 64DDA75A188FD9140025590D /* tessdata */; };
 		64E40AB1180C6D4D00C36DDE /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */; };
-		73C0A7BF1A59565100D823D4 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BE1A59565100D823D4 /* TesseractOCR.framework */; };
+		73BE4C121A598F86002C15F1 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BE1A59565100D823D4 /* TesseractOCR.framework */; };
+		73BE4C131A598F86002C15F1 /* TesseractOCR.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BE1A59565100D823D4 /* TesseractOCR.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		73BE4C141A598F86002C15F1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				73BE4C131A598F86002C15F1 /* TesseractOCR.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		428615B61845F340005D5A2E /* image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sample.jpg; sourceTree = "<group>"; };
@@ -42,7 +57,7 @@
 		6490748F198A5CD500D728CC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		64DDA75A188FD9140025590D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
-		73C0A7BE1A59565100D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "../build/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<group>"; };
+		73C0A7BE1A59565100D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "TesseractOCR.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,11 +65,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73C0A7BF1A59565100D823D4 /* TesseractOCR.framework in Frameworks */,
 				64907490198A5CD500D728CC /* CoreImage.framework in Frameworks */,
 				64E40AB1180C6D4D00C36DDE /* libstdc++.6.0.9.dylib in Frameworks */,
 				6400DDDB180C5DE000443362 /* CoreGraphics.framework in Frameworks */,
 				6400DDDD180C5DE000443362 /* UIKit.framework in Frameworks */,
+				73BE4C121A598F86002C15F1 /* TesseractOCR.framework in Frameworks */,
 				6400DDD9180C5DE000443362 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +144,7 @@
 				6400DDD1180C5DE000443362 /* Sources */,
 				6400DDD2180C5DE000443362 /* Frameworks */,
 				6400DDD3180C5DE000443362 /* Resources */,
+				73BE4C141A598F86002C15F1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -304,6 +320,7 @@
 				GCC_PREFIX_HEADER = "Template Framework Project/Template Framework Project-Prefix.pch";
 				INFOPLIST_FILE = "Template Framework Project/Template Framework Project-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -323,6 +340,7 @@
 				GCC_PREFIX_HEADER = "Template Framework Project/Template Framework Project-Prefix.pch";
 				INFOPLIST_FILE = "Template Framework Project/Template Framework Project-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
