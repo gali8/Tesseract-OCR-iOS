@@ -41,6 +41,12 @@
 @property (nonatomic, copy) NSString* language;
 
 /**
+ * The path to the tessdata file, if it was specified in a call to initWithLanguage:configDictionary:configFileNames:cachesRelatedDataPath:engineMode: as a cachesRelatedDataPath
+ * Otherwise it's supposed that the tessdata folder is located in the application bundle
+ */
+@property (nonatomic, readonly, copy) NSString *absoluteDataPath;
+
+/**
  *  The recognition mode to use. See `G8OCREngineMode` in G8Constants.h for the
  *  available recognition modes.
  */
@@ -229,6 +235,30 @@
             engineMode:(G8OCREngineMode)engineMode;
 
 /**
+ *  Initialize Tesseract with the provided language and engine mode.
+ *
+ *  @param language             The language to use in recognition. See `language`.
+ *  @param configDictionary     A dictioanry of the config variables
+ *  @param configFileNames      An array of file names containing key-value config pairs. All the config
+ *                              variables can be init only and debug time both. Furthermore they could be
+ *                              specified at the same time, in such case tesseract will get variables from
+ *                              every file and dictionary all together. 
+ *                              The files are searched into two folders, which are tessdata/tessconfigs and tessdata/configs
+ *  @param cachesRelatedPath    If the cachesRelatedDataPath is specified, the whole content of the tessdata from the
+ *                              application bundle is copied to the Library/Caches/cachesRelatedDataPath/tessdata
+ *                              and tesseract is initialized with that path.
+ *  @param engineMode           The engine mode to use in recognition. See `engineMode`.
+ *
+ *  @return The initialized Tesseract object, or `nil` if there was an error.
+ */
+
+- (id)initWithLanguage:(NSString *)language
+      configDictionary:(NSDictionary *)configDictionary
+       configFileNames:(NSArray *)configFileNames
+ cachesRelatedDataPath:(NSString *)cachesRelatedDataPath
+            engineMode:(G8OCREngineMode)engineMode NS_DESIGNATED_INITIALIZER;
+
+/**
  *  Set a Tesseract variable. See G8TesseractParameters.h for the available
  *  options.
  *
@@ -236,6 +266,16 @@
  *  @param key   The option to set.
  */
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
+
+/**
+ *  Returns a Tesseract variable for the given key. See G8TesseractParameters.h for the available
+ *  options.
+ *
+ *  @param key  The option to get.
+ *
+ *  @return     returns the variable value for the given key, if it's beeb set. nil otherwise.
+ */
+- (NSString*)variableValueForKey:(NSString *)key;
 
 /**
  *  Set Tesseract variables using a dictionary. See G8TesseractParameters.h for 
