@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.authors                 = { 'Daniele Galiotto' => 'genius@g8production.com',
                                 'Kevin Conley' => 'kcon@stanford.edu'}
 
-  #s.source                  = { :git => 'https://github.com/gali8/Tesseract-OCR-iOS.git',                                                         :tag => s.version.to_s }
+  s.source                  = { :git => 'https://github.com/gali8/Tesseract-OCR-iOS.git',                                                         :tag => s.version.to_s }
 
   s.platform                = :ios, "8.1"
   s.source_files            = 'TesseractOCR/*.{h,m,mm}', 'TesseractOCR/include/**/*.h'
