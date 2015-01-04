@@ -6,180 +6,22 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		64A0293917307C7E002B12E7 /* TesseractOCRAggregate */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 64A0293A17307C7E002B12E7 /* Build configuration list for PBXAggregateTarget "TesseractOCRAggregate" */;
-			buildPhases = (
-				64A0293D17307CA6002B12E7 /* Run Script */,
-			);
-			dependencies = (
-			);
-			name = TesseractOCRAggregate;
-			productName = TesseractOCRAggregate;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
-		414121201A4C58B000583ED4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		418997A91A42CC8B00D6477C /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		41A95DEA1A3AF39B0085093C /* G8TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		41A95DEB1A3AF39B0085093C /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
-		41A95DEE1A3AFBF30085093C /* G8RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		41A95DEF1A3AFBF30085093C /* G8RecognitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */; };
-		41B41A511A42ED7600D46246 /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		41B41A521A42ED7600D46246 /* G8RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */; };
-		6490748D198A5A5600D728CC /* UIImage+G8Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+G8Filters.m */; };
-		64907491198A5DF200D728CC /* UIImage+G8Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 6490748A198A5A5600D728CC /* UIImage+G8Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A0293217307C1D002B12E7 /* InfoPlist.strings */; };
-		64A029E417307D65002B12E7 /* allheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294017307CCF002B12E7 /* allheaders.h */; settings = {ATTRIBUTES = (); }; };
-		64A029E517307D65002B12E7 /* alltypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294117307CCF002B12E7 /* alltypes.h */; settings = {ATTRIBUTES = (); }; };
-		64A029E617307D65002B12E7 /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294217307CCF002B12E7 /* array.h */; settings = {ATTRIBUTES = (); }; };
-		64A029E717307D65002B12E7 /* arrayaccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294317307CCF002B12E7 /* arrayaccess.h */; settings = {ATTRIBUTES = (); }; };
-		64A029E817307D65002B12E7 /* bbuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294417307CCF002B12E7 /* bbuffer.h */; settings = {ATTRIBUTES = (); }; };
-		64A029E917307D65002B12E7 /* bmf.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294517307CCF002B12E7 /* bmf.h */; settings = {ATTRIBUTES = (); }; };
-		64A029EA17307D65002B12E7 /* bmp.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294617307CCF002B12E7 /* bmp.h */; settings = {ATTRIBUTES = (); }; };
-		64A029EB17307D65002B12E7 /* ccbord.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294717307CCF002B12E7 /* ccbord.h */; settings = {ATTRIBUTES = (); }; };
-		64A029EC17307D65002B12E7 /* dewarp.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294817307CCF002B12E7 /* dewarp.h */; settings = {ATTRIBUTES = (); }; };
-		64A029ED17307D65002B12E7 /* endianness.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294917307CCF002B12E7 /* endianness.h */; settings = {ATTRIBUTES = (); }; };
-		64A029EE17307D65002B12E7 /* environ.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294A17307CCF002B12E7 /* environ.h */; settings = {ATTRIBUTES = (); }; };
-		64A029EF17307D65002B12E7 /* freetype.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294B17307CCF002B12E7 /* freetype.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F017307D65002B12E7 /* gplot.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294C17307CCF002B12E7 /* gplot.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F117307D65002B12E7 /* heap.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294D17307CCF002B12E7 /* heap.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F217307D65002B12E7 /* imageio.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294E17307CCF002B12E7 /* imageio.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F317307D65002B12E7 /* jbclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0294F17307CCF002B12E7 /* jbclass.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F417307D65002B12E7 /* leptwin.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295017307CCF002B12E7 /* leptwin.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F517307D65002B12E7 /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295117307CCF002B12E7 /* list.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F617307D65002B12E7 /* morph.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295217307CCF002B12E7 /* morph.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F717307D65002B12E7 /* pix.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295317307CCF002B12E7 /* pix.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F817307D65002B12E7 /* ptra.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295417307CCF002B12E7 /* ptra.h */; settings = {ATTRIBUTES = (); }; };
-		64A029F917307D65002B12E7 /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295517307CCF002B12E7 /* queue.h */; settings = {ATTRIBUTES = (); }; };
-		64A029FA17307D65002B12E7 /* readbarcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295617307CCF002B12E7 /* readbarcode.h */; settings = {ATTRIBUTES = (); }; };
-		64A029FB17307D65002B12E7 /* regutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295717307CCF002B12E7 /* regutils.h */; settings = {ATTRIBUTES = (); }; };
-		64A029FC17307D65002B12E7 /* stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295817307CCF002B12E7 /* stack.h */; settings = {ATTRIBUTES = (); }; };
-		64A029FD17307D65002B12E7 /* sudoku.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295917307CCF002B12E7 /* sudoku.h */; settings = {ATTRIBUTES = (); }; };
-		64A029FE17307D65002B12E7 /* watershed.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295A17307CCF002B12E7 /* watershed.h */; settings = {ATTRIBUTES = (); }; };
-		64A029FF17307D65002B12E7 /* ambigs.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295C17307CCF002B12E7 /* ambigs.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0017307D65002B12E7 /* apitypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295D17307CCF002B12E7 /* apitypes.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0117307D65002B12E7 /* baseapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295E17307CCF002B12E7 /* baseapi.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0217307D65002B12E7 /* basedir.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0295F17307CCF002B12E7 /* basedir.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0317307D65002B12E7 /* bits16.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296017307CCF002B12E7 /* bits16.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0417307D65002B12E7 /* bitvector.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296117307CCF002B12E7 /* bitvector.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0517307D65002B12E7 /* blckerr.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296217307CCF002B12E7 /* blckerr.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0617307D65002B12E7 /* blobbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296317307CCF002B12E7 /* blobbox.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0717307D65002B12E7 /* blobs.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296417307CCF002B12E7 /* blobs.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0817307D65002B12E7 /* blread.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296517307CCF002B12E7 /* blread.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0917307D65002B12E7 /* boxread.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296617307CCF002B12E7 /* boxread.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0A17307D65002B12E7 /* boxword.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296717307CCF002B12E7 /* boxword.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0B17307D65002B12E7 /* capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296817307CCF002B12E7 /* capi.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0C17307D65002B12E7 /* ccstruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296917307CCF002B12E7 /* ccstruct.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0D17307D65002B12E7 /* ccutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296A17307CCF002B12E7 /* ccutil.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0E17307D65002B12E7 /* clst.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296B17307CCF002B12E7 /* clst.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A0F17307D65002B12E7 /* control.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296C17307CCF002B12E7 /* control.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1017307D65002B12E7 /* coutln.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296D17307CCF002B12E7 /* coutln.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1117307D65002B12E7 /* crakedge.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296E17307CCF002B12E7 /* crakedge.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1217307D65002B12E7 /* cube_reco_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0296F17307CCF002B12E7 /* cube_reco_context.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1317307D65002B12E7 /* cubeclassifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297017307CCF002B12E7 /* cubeclassifier.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1417307D65002B12E7 /* detlinefit.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297117307CCF002B12E7 /* detlinefit.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1517307D65002B12E7 /* docqual.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297217307CCF002B12E7 /* docqual.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1617307D65002B12E7 /* dppoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297317307CCF002B12E7 /* dppoint.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1717307D65002B12E7 /* elst.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297417307CCF002B12E7 /* elst.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1817307D65002B12E7 /* elst2.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297517307CCF002B12E7 /* elst2.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1917307D65002B12E7 /* equationdetect.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297617307CCF002B12E7 /* equationdetect.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1A17307D65002B12E7 /* errcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297717307CCF002B12E7 /* errcode.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1B17307D65002B12E7 /* fileerr.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297817307CCF002B12E7 /* fileerr.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1C17307D65002B12E7 /* fixspace.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297917307CCF002B12E7 /* fixspace.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1D17307D65002B12E7 /* fontinfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297A17307CCF002B12E7 /* fontinfo.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1E17307D65002B12E7 /* genblob.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297B17307CCF002B12E7 /* genblob.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A1F17307D65002B12E7 /* genericvector.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297C17307CCF002B12E7 /* genericvector.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2017307D65002B12E7 /* globaloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297D17307CCF002B12E7 /* globaloc.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2117307D65002B12E7 /* hashfn.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297E17307CCF002B12E7 /* hashfn.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2217307D65002B12E7 /* helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0297F17307CCF002B12E7 /* helpers.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2317307D65002B12E7 /* host.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298017307CCF002B12E7 /* host.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2417307D65002B12E7 /* hosthplb.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298117307CCF002B12E7 /* hosthplb.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2517307D65002B12E7 /* hpddef.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298217307CCF002B12E7 /* hpddef.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2617307D65002B12E7 /* hpdsizes.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298317307CCF002B12E7 /* hpdsizes.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2717307D65002B12E7 /* imgscale.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298417307CCF002B12E7 /* imgscale.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2817307D65002B12E7 /* indexmapbidi.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298517307CCF002B12E7 /* indexmapbidi.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2917307D65002B12E7 /* ipoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298617307CCF002B12E7 /* ipoints.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2A17307D65002B12E7 /* linlsq.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298717307CCF002B12E7 /* linlsq.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2B17307D65002B12E7 /* lsterr.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298817307CCF002B12E7 /* lsterr.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2C17307D65002B12E7 /* ltrresultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298917307CCF002B12E7 /* ltrresultiterator.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2D17307D65002B12E7 /* matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298A17307CCF002B12E7 /* matrix.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2E17307D65002B12E7 /* memry.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298B17307CCF002B12E7 /* memry.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A2F17307D65002B12E7 /* mfcpch.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298C17307CCF002B12E7 /* mfcpch.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3017307D65002B12E7 /* mod128.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298D17307CCF002B12E7 /* mod128.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3117307D65002B12E7 /* mutableiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298E17307CCF002B12E7 /* mutableiterator.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3217307D65002B12E7 /* ndminx.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0298F17307CCF002B12E7 /* ndminx.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3317307D65002B12E7 /* normalis.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299017307CCF002B12E7 /* normalis.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3417307D65002B12E7 /* notdll.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299117307CCF002B12E7 /* notdll.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3517307D65002B12E7 /* nwmain.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299217307CCF002B12E7 /* nwmain.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3617307D65002B12E7 /* ocrblock.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299317307CCF002B12E7 /* ocrblock.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3717307D65002B12E7 /* ocrclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299417307CCF002B12E7 /* ocrclass.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3817307D65002B12E7 /* ocrpara.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299517307CCF002B12E7 /* ocrpara.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3917307D65002B12E7 /* ocrrow.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299617307CCF002B12E7 /* ocrrow.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3A17307D65002B12E7 /* osdetect.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299717307CCF002B12E7 /* osdetect.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3B17307D65002B12E7 /* otsuthr.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299817307CCF002B12E7 /* otsuthr.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3C17307D65002B12E7 /* output.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299917307CCF002B12E7 /* output.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3D17307D65002B12E7 /* pageiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299A17307CCF002B12E7 /* pageiterator.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3E17307D65002B12E7 /* pageres.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299B17307CCF002B12E7 /* pageres.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A3F17307D65002B12E7 /* paragraphs.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299C17307CCF002B12E7 /* paragraphs.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4017307D65002B12E7 /* paragraphs_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299D17307CCF002B12E7 /* paragraphs_internal.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4117307D65002B12E7 /* params.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299E17307CCF002B12E7 /* params.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4217307D65002B12E7 /* params_training_featdef.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A0299F17307CCF002B12E7 /* params_training_featdef.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4317307D65002B12E7 /* paramsd.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A017307CCF002B12E7 /* paramsd.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4417307D65002B12E7 /* pdblock.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A117307CCF002B12E7 /* pdblock.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4517307D65002B12E7 /* pgedit.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A217307CCF002B12E7 /* pgedit.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4617307D65002B12E7 /* platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A317307CCF002B12E7 /* platform.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4717307D65002B12E7 /* points.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A417307CCF002B12E7 /* points.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4817307D65002B12E7 /* polyaprx.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A517307CCF002B12E7 /* polyaprx.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4917307D65002B12E7 /* polyblk.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A617307CCF002B12E7 /* polyblk.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4A17307D65002B12E7 /* publictypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A717307CCF002B12E7 /* publictypes.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4B17307D65002B12E7 /* qrsequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A817307CCF002B12E7 /* qrsequence.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4C17307D65002B12E7 /* quadlsq.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029A917307CCF002B12E7 /* quadlsq.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4D17307D65002B12E7 /* quadratc.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029AA17307CCF002B12E7 /* quadratc.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4E17307D65002B12E7 /* quspline.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029AB17307CCF002B12E7 /* quspline.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A4F17307D65002B12E7 /* ratngs.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029AC17307CCF002B12E7 /* ratngs.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5017307D65002B12E7 /* rect.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029AD17307CCF002B12E7 /* rect.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5117307D65002B12E7 /* rejctmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029AE17307CCF002B12E7 /* rejctmap.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5217307D65002B12E7 /* reject.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029AF17307CCF002B12E7 /* reject.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5317307D65002B12E7 /* resultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B017307CCF002B12E7 /* resultiterator.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5417307D65002B12E7 /* scaleimg.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B117307CCF002B12E7 /* scaleimg.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5517307D65002B12E7 /* scanutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B217307CCF002B12E7 /* scanutils.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5617307D65002B12E7 /* seam.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B317307CCF002B12E7 /* seam.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5717307D65002B12E7 /* secname.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B417307CCF002B12E7 /* secname.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5817307D65002B12E7 /* serialis.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B517307CCF002B12E7 /* serialis.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5917307D65002B12E7 /* sorthelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B617307CCF002B12E7 /* sorthelper.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5A17307D65002B12E7 /* split.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B717307CCF002B12E7 /* split.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5B17307D65002B12E7 /* statistc.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B817307CCF002B12E7 /* statistc.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5C17307D65002B12E7 /* stderr.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029B917307CCF002B12E7 /* stderr.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5D17307D65002B12E7 /* stepblob.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029BA17307CCF002B12E7 /* stepblob.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5E17307D65002B12E7 /* strngs.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029BB17307CCF002B12E7 /* strngs.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A5F17307D65002B12E7 /* tessbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029BC17307CCF002B12E7 /* tessbox.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6017307D65002B12E7 /* tesscallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029BD17307CCF002B12E7 /* tesscallback.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6117307D66002B12E7 /* tessdatamanager.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029BE17307CCF002B12E7 /* tessdatamanager.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6217307D66002B12E7 /* tessedit.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029BF17307CCF002B12E7 /* tessedit.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6317307D66002B12E7 /* tesseract_cube_combiner.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C017307CCF002B12E7 /* tesseract_cube_combiner.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6417307D66002B12E7 /* tesseractclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C117307CCF002B12E7 /* tesseractclass.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6517307D66002B12E7 /* tesseractmain.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C217307CCF002B12E7 /* tesseractmain.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6617307D66002B12E7 /* tessvars.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C317307CCF002B12E7 /* tessvars.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6717307D66002B12E7 /* tfacep.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C417307CCF002B12E7 /* tfacep.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6817307D66002B12E7 /* tfacepp.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C517307CCF002B12E7 /* tfacepp.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6917307D66002B12E7 /* thresholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C617307CCF002B12E7 /* thresholder.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6A17307D66002B12E7 /* tprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C717307CCF002B12E7 /* tprintf.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6B17307D66002B12E7 /* unichar.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C817307CCF002B12E7 /* unichar.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6C17307D66002B12E7 /* unicharmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029C917307CD0002B12E7 /* unicharmap.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6D17307D66002B12E7 /* unicharset.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CA17307CD0002B12E7 /* unicharset.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6E17307D66002B12E7 /* unicity_table.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CB17307CD0002B12E7 /* unicity_table.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A6F17307D66002B12E7 /* unicodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CC17307CD0002B12E7 /* unicodes.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A7017307D66002B12E7 /* vecfuncs.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CD17307CD0002B12E7 /* vecfuncs.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A7117307D66002B12E7 /* werd.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CE17307CD0002B12E7 /* werd.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A7217307D66002B12E7 /* werdit.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029CF17307CD0002B12E7 /* werdit.h */; settings = {ATTRIBUTES = (); }; };
-		64A02A7317307D70002B12E7 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		64A02A7417307D72002B12E7 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029DD17307CED002B12E7 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		64E9A53319194B47007EE74A /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
-		64F63F87173258890077B9CC /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D117307CD0002B12E7 /* liblept.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
+		73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73C0A7991A5932D200D823D4 /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73C0A79A1A5932D700D823D4 /* G8RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */; };
+		73C0A79B1A5932F000D823D4 /* G8RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */; };
+		73C0A79D1A5932F900D823D4 /* G8TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73C0A79E1A5932FD00D823D4 /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
+		73C0A79F1A59330100D823D4 /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73C0A7A01A59330A00D823D4 /* UIImage+G8Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 6490748A198A5A5600D728CC /* UIImage+G8Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+G8Filters.m */; };
+		73C0A7A21A59337300D823D4 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D117307CD0002B12E7 /* liblept.a */; };
+		73C0A7A31A59337600D823D4 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D217307CD0002B12E7 /* libtesseract_all.a */; };
+		73C0A7B21A594A8000D823D4 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 73C0A7B11A594A8000D823D4 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -197,7 +39,6 @@
 		6490748A198A5A5600D728CC /* UIImage+G8Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+G8Filters.h"; sourceTree = "<group>"; };
 		6490748B198A5A5600D728CC /* UIImage+G8Filters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+G8Filters.m"; sourceTree = "<group>"; };
 		64907492198A6B9E00D728CC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		64A0292C17307C1D002B12E7 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A0292D17307C1D002B12E7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64A0293117307C1D002B12E7 /* TesseractOCR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesseractOCR-Info.plist"; sourceTree = "<group>"; };
 		64A0293317307C1D002B12E7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -350,18 +191,19 @@
 		64A029D317307CD0002B12E7 /* README_tesseract.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_tesseract.md; sourceTree = "<group>"; };
 		64A029D617307CD0002B12E7 /* G8Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Tesseract.h; sourceTree = "<group>"; };
 		64A029D717307CD0002B12E7 /* G8Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = G8Tesseract.mm; sourceTree = "<group>"; };
-		64A029DD17307CED002B12E7 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
 		64F74CCC172FD75F0068E657 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		73C0A7B11A594A8000D823D4 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
+		73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		64A0292917307C1C002B12E7 /* Frameworks */ = {
+		73C0A7781A592C2B00D823D4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64F63F87173258890077B9CC /* liblept.a in Frameworks */,
-				64F63F88173258890077B9CC /* libtesseract_all.a in Frameworks */,
+				73C0A7A31A59337600D823D4 /* libtesseract_all.a in Frameworks */,
+				73C0A7A21A59337300D823D4 /* liblept.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +233,7 @@
 		64A0292F17307C1D002B12E7 /* TesseractOCR */ = {
 			isa = PBXGroup;
 			children = (
-				64A029DD17307CED002B12E7 /* TesseractOCR.h */,
+				73C0A7B11A594A8000D823D4 /* TesseractOCR.h */,
 				64A029D617307CD0002B12E7 /* G8Tesseract.h */,
 				64A029D717307CD0002B12E7 /* G8Tesseract.mm */,
 				4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */,
@@ -601,21 +443,13 @@
 			children = (
 				64A0292F17307C1D002B12E7 /* TesseractOCR */,
 				64F74CCB172FD75F0068E657 /* Frameworks */,
-				64F74CCA172FD75F0068E657 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		64F74CCA172FD75F0068E657 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				64A0292C17307C1D002B12E7 /* TesseractOCR.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		64F74CCB172FD75F0068E657 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */,
 				64907492198A6B9E00D728CC /* CoreImage.framework */,
 				64F74D77172FD8E90068E657 /* UIKit.framework */,
 				64F74CCC172FD75F0068E657 /* Foundation.framework */,
@@ -627,184 +461,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		64A029E317307D38002B12E7 /* Headers */ = {
+		73C0A7791A592C2B00D823D4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64907491198A5DF200D728CC /* UIImage+G8Filters.h in Headers */,
-				64A02A7417307D72002B12E7 /* TesseractOCR.h in Headers */,
-				64A02A7317307D70002B12E7 /* G8Tesseract.h in Headers */,
-				64A029E417307D65002B12E7 /* allheaders.h in Headers */,
-				64A029E517307D65002B12E7 /* alltypes.h in Headers */,
-				64A029E617307D65002B12E7 /* array.h in Headers */,
-				64A029E717307D65002B12E7 /* arrayaccess.h in Headers */,
-				64A029E817307D65002B12E7 /* bbuffer.h in Headers */,
-				64A029E917307D65002B12E7 /* bmf.h in Headers */,
-				64A029EA17307D65002B12E7 /* bmp.h in Headers */,
-				64A029EB17307D65002B12E7 /* ccbord.h in Headers */,
-				64A029EC17307D65002B12E7 /* dewarp.h in Headers */,
-				64A029ED17307D65002B12E7 /* endianness.h in Headers */,
-				64A029EE17307D65002B12E7 /* environ.h in Headers */,
-				64A029EF17307D65002B12E7 /* freetype.h in Headers */,
-				64A029F017307D65002B12E7 /* gplot.h in Headers */,
-				64A029F117307D65002B12E7 /* heap.h in Headers */,
-				64A029F217307D65002B12E7 /* imageio.h in Headers */,
-				64A029F317307D65002B12E7 /* jbclass.h in Headers */,
-				64A029F417307D65002B12E7 /* leptwin.h in Headers */,
-				64A029F517307D65002B12E7 /* list.h in Headers */,
-				64A029F617307D65002B12E7 /* morph.h in Headers */,
-				64A029F717307D65002B12E7 /* pix.h in Headers */,
-				64A029F817307D65002B12E7 /* ptra.h in Headers */,
-				64A029F917307D65002B12E7 /* queue.h in Headers */,
-				64A029FA17307D65002B12E7 /* readbarcode.h in Headers */,
-				64A029FB17307D65002B12E7 /* regutils.h in Headers */,
-				64A029FC17307D65002B12E7 /* stack.h in Headers */,
-				64A029FD17307D65002B12E7 /* sudoku.h in Headers */,
-				64A029FE17307D65002B12E7 /* watershed.h in Headers */,
-				64A029FF17307D65002B12E7 /* ambigs.h in Headers */,
-				64A02A0017307D65002B12E7 /* apitypes.h in Headers */,
-				64A02A0117307D65002B12E7 /* baseapi.h in Headers */,
-				41B41A511A42ED7600D46246 /* G8RecognizedBlock.h in Headers */,
-				64A02A0217307D65002B12E7 /* basedir.h in Headers */,
-				64A02A0317307D65002B12E7 /* bits16.h in Headers */,
-				64A02A0417307D65002B12E7 /* bitvector.h in Headers */,
-				64A02A0517307D65002B12E7 /* blckerr.h in Headers */,
-				64A02A0617307D65002B12E7 /* blobbox.h in Headers */,
-				64A02A0717307D65002B12E7 /* blobs.h in Headers */,
-				64A02A0817307D65002B12E7 /* blread.h in Headers */,
-				64A02A0917307D65002B12E7 /* boxread.h in Headers */,
-				64A02A0A17307D65002B12E7 /* boxword.h in Headers */,
-				41A95DEE1A3AFBF30085093C /* G8RecognitionOperation.h in Headers */,
-				414121201A4C58B000583ED4 /* G8TesseractDelegate.h in Headers */,
-				64A02A0B17307D65002B12E7 /* capi.h in Headers */,
-				64A02A0C17307D65002B12E7 /* ccstruct.h in Headers */,
-				64A02A0D17307D65002B12E7 /* ccutil.h in Headers */,
-				64A02A0E17307D65002B12E7 /* clst.h in Headers */,
-				64A02A0F17307D65002B12E7 /* control.h in Headers */,
-				64A02A1017307D65002B12E7 /* coutln.h in Headers */,
-				64A02A1117307D65002B12E7 /* crakedge.h in Headers */,
-				418997A91A42CC8B00D6477C /* G8Constants.h in Headers */,
-				64A02A1217307D65002B12E7 /* cube_reco_context.h in Headers */,
-				64A02A1317307D65002B12E7 /* cubeclassifier.h in Headers */,
-				64A02A1417307D65002B12E7 /* detlinefit.h in Headers */,
-				64A02A1517307D65002B12E7 /* docqual.h in Headers */,
-				64A02A1617307D65002B12E7 /* dppoint.h in Headers */,
-				64A02A1717307D65002B12E7 /* elst.h in Headers */,
-				64A02A1817307D65002B12E7 /* elst2.h in Headers */,
-				64A02A1917307D65002B12E7 /* equationdetect.h in Headers */,
-				64A02A1A17307D65002B12E7 /* errcode.h in Headers */,
-				64A02A1B17307D65002B12E7 /* fileerr.h in Headers */,
-				64A02A1C17307D65002B12E7 /* fixspace.h in Headers */,
-				64A02A1D17307D65002B12E7 /* fontinfo.h in Headers */,
-				64A02A1E17307D65002B12E7 /* genblob.h in Headers */,
-				64A02A1F17307D65002B12E7 /* genericvector.h in Headers */,
-				64A02A2017307D65002B12E7 /* globaloc.h in Headers */,
-				64A02A2117307D65002B12E7 /* hashfn.h in Headers */,
-				64A02A2217307D65002B12E7 /* helpers.h in Headers */,
-				64A02A2317307D65002B12E7 /* host.h in Headers */,
-				64A02A2417307D65002B12E7 /* hosthplb.h in Headers */,
-				64A02A2517307D65002B12E7 /* hpddef.h in Headers */,
-				64A02A2617307D65002B12E7 /* hpdsizes.h in Headers */,
-				64A02A2717307D65002B12E7 /* imgscale.h in Headers */,
-				64A02A2817307D65002B12E7 /* indexmapbidi.h in Headers */,
-				64A02A2917307D65002B12E7 /* ipoints.h in Headers */,
-				41A95DEA1A3AF39B0085093C /* G8TesseractParameters.h in Headers */,
-				64A02A2A17307D65002B12E7 /* linlsq.h in Headers */,
-				64A02A2B17307D65002B12E7 /* lsterr.h in Headers */,
-				64A02A2C17307D65002B12E7 /* ltrresultiterator.h in Headers */,
-				64A02A2D17307D65002B12E7 /* matrix.h in Headers */,
-				64A02A2E17307D65002B12E7 /* memry.h in Headers */,
-				64A02A2F17307D65002B12E7 /* mfcpch.h in Headers */,
-				64A02A3017307D65002B12E7 /* mod128.h in Headers */,
-				64A02A3117307D65002B12E7 /* mutableiterator.h in Headers */,
-				64A02A3217307D65002B12E7 /* ndminx.h in Headers */,
-				64A02A3317307D65002B12E7 /* normalis.h in Headers */,
-				64A02A3417307D65002B12E7 /* notdll.h in Headers */,
-				64A02A3517307D65002B12E7 /* nwmain.h in Headers */,
-				64A02A3617307D65002B12E7 /* ocrblock.h in Headers */,
-				64A02A3717307D65002B12E7 /* ocrclass.h in Headers */,
-				64A02A3817307D65002B12E7 /* ocrpara.h in Headers */,
-				64A02A3917307D65002B12E7 /* ocrrow.h in Headers */,
-				64A02A3A17307D65002B12E7 /* osdetect.h in Headers */,
-				64A02A3B17307D65002B12E7 /* otsuthr.h in Headers */,
-				64A02A3C17307D65002B12E7 /* output.h in Headers */,
-				64A02A3D17307D65002B12E7 /* pageiterator.h in Headers */,
-				64A02A3E17307D65002B12E7 /* pageres.h in Headers */,
-				64A02A3F17307D65002B12E7 /* paragraphs.h in Headers */,
-				64A02A4017307D65002B12E7 /* paragraphs_internal.h in Headers */,
-				64A02A4117307D65002B12E7 /* params.h in Headers */,
-				64A02A4217307D65002B12E7 /* params_training_featdef.h in Headers */,
-				64A02A4317307D65002B12E7 /* paramsd.h in Headers */,
-				64A02A4417307D65002B12E7 /* pdblock.h in Headers */,
-				64A02A4517307D65002B12E7 /* pgedit.h in Headers */,
-				64A02A4617307D65002B12E7 /* platform.h in Headers */,
-				64A02A4717307D65002B12E7 /* points.h in Headers */,
-				64A02A4817307D65002B12E7 /* polyaprx.h in Headers */,
-				64A02A4917307D65002B12E7 /* polyblk.h in Headers */,
-				64A02A4A17307D65002B12E7 /* publictypes.h in Headers */,
-				64A02A4B17307D65002B12E7 /* qrsequence.h in Headers */,
-				64A02A4C17307D65002B12E7 /* quadlsq.h in Headers */,
-				64A02A4D17307D65002B12E7 /* quadratc.h in Headers */,
-				64A02A4E17307D65002B12E7 /* quspline.h in Headers */,
-				64A02A4F17307D65002B12E7 /* ratngs.h in Headers */,
-				64A02A5017307D65002B12E7 /* rect.h in Headers */,
-				64A02A5117307D65002B12E7 /* rejctmap.h in Headers */,
-				64A02A5217307D65002B12E7 /* reject.h in Headers */,
-				64A02A5317307D65002B12E7 /* resultiterator.h in Headers */,
-				64A02A5417307D65002B12E7 /* scaleimg.h in Headers */,
-				64A02A5517307D65002B12E7 /* scanutils.h in Headers */,
-				64A02A5617307D65002B12E7 /* seam.h in Headers */,
-				64A02A5717307D65002B12E7 /* secname.h in Headers */,
-				64A02A5817307D65002B12E7 /* serialis.h in Headers */,
-				64A02A5917307D65002B12E7 /* sorthelper.h in Headers */,
-				64A02A5A17307D65002B12E7 /* split.h in Headers */,
-				64A02A5B17307D65002B12E7 /* statistc.h in Headers */,
-				64A02A5C17307D65002B12E7 /* stderr.h in Headers */,
-				64A02A5D17307D65002B12E7 /* stepblob.h in Headers */,
-				64A02A5E17307D65002B12E7 /* strngs.h in Headers */,
-				64A02A5F17307D65002B12E7 /* tessbox.h in Headers */,
-				64A02A6017307D65002B12E7 /* tesscallback.h in Headers */,
-				64A02A6117307D66002B12E7 /* tessdatamanager.h in Headers */,
-				64A02A6217307D66002B12E7 /* tessedit.h in Headers */,
-				64A02A6317307D66002B12E7 /* tesseract_cube_combiner.h in Headers */,
-				64A02A6417307D66002B12E7 /* tesseractclass.h in Headers */,
-				64A02A6517307D66002B12E7 /* tesseractmain.h in Headers */,
-				64A02A6617307D66002B12E7 /* tessvars.h in Headers */,
-				64A02A6717307D66002B12E7 /* tfacep.h in Headers */,
-				64A02A6817307D66002B12E7 /* tfacepp.h in Headers */,
-				64A02A6917307D66002B12E7 /* thresholder.h in Headers */,
-				64A02A6A17307D66002B12E7 /* tprintf.h in Headers */,
-				64A02A6B17307D66002B12E7 /* unichar.h in Headers */,
-				64A02A6C17307D66002B12E7 /* unicharmap.h in Headers */,
-				64A02A6D17307D66002B12E7 /* unicharset.h in Headers */,
-				64A02A6E17307D66002B12E7 /* unicity_table.h in Headers */,
-				64A02A6F17307D66002B12E7 /* unicodes.h in Headers */,
-				64A02A7017307D66002B12E7 /* vecfuncs.h in Headers */,
-				64A02A7117307D66002B12E7 /* werd.h in Headers */,
-				64A02A7217307D66002B12E7 /* werdit.h in Headers */,
+				73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */,
+				73C0A79D1A5932F900D823D4 /* G8TesseractParameters.h in Headers */,
+				73C0A7A01A59330A00D823D4 /* UIImage+G8Filters.h in Headers */,
+				73C0A79B1A5932F000D823D4 /* G8RecognitionOperation.h in Headers */,
+				73C0A7B21A594A8000D823D4 /* TesseractOCR.h in Headers */,
+				73C0A7991A5932D200D823D4 /* G8RecognizedBlock.h in Headers */,
+				73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */,
+				73C0A79F1A59330100D823D4 /* G8Constants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		64A0292B17307C1C002B12E7 /* TesseractOCR */ = {
+		73C0A77B1A592C2B00D823D4 /* TesseractOCR */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 64A0293817307C1D002B12E7 /* Build configuration list for PBXNativeTarget "TesseractOCR" */;
+			buildConfigurationList = 73C0A7931A592C2B00D823D4 /* Build configuration list for PBXNativeTarget "TesseractOCR" */;
 			buildPhases = (
-				64A0292817307C1C002B12E7 /* Sources */,
-				64A029E317307D38002B12E7 /* Headers */,
-				64A0292917307C1C002B12E7 /* Frameworks */,
-				64A0292A17307C1C002B12E7 /* Resources */,
+				73C0A7771A592C2B00D823D4 /* Sources */,
+				73C0A7781A592C2B00D823D4 /* Frameworks */,
+				73C0A7791A592C2B00D823D4 /* Headers */,
+				73C0A77A1A592C2B00D823D4 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = TesseractOCR;
-			productName = TesseractOCR;
-			productReference = 64A0292C17307C1D002B12E7 /* TesseractOCR.framework */;
-			productType = "com.apple.product-type.bundle";
+			productName = "TesseractOCR-Framework";
+			productReference = 73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -815,6 +506,11 @@
 				CLASSPREFIX = G8;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Daniele Galiotto - www.g8production.com";
+				TargetAttributes = {
+					73C0A77B1A592C2B00D823D4 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
 			};
 			buildConfigurationList = 64F74CC4172FD75F0068E657 /* Build configuration list for PBXProject "Tesseract OCR iOS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -824,54 +520,35 @@
 				en,
 			);
 			mainGroup = 64F74CC0172FD75F0068E657;
-			productRefGroup = 64F74CCA172FD75F0068E657 /* Products */;
+			productRefGroup = 64F74CC0172FD75F0068E657;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				64A0292B17307C1C002B12E7 /* TesseractOCR */,
-				64A0293917307C7E002B12E7 /* TesseractOCRAggregate */,
+				73C0A77B1A592C2B00D823D4 /* TesseractOCR */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		64A0292A17307C1C002B12E7 /* Resources */ = {
+		73C0A77A1A592C2B00D823D4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64A0293417307C1D002B12E7 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		64A0293D17307CA6002B12E7 /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=TesseractOCR\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/Resources\" \"${INSTALL_DIR}/Resources\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\ncp -R \"${DEVICE_DIR}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\n\n# Removes the binary and header from the resources folder.\nrm -r \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/Headers\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/${FMK_NAME}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		64A0292817307C1C002B12E7 /* Sources */ = {
+		73C0A7771A592C2B00D823D4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64E9A53319194B47007EE74A /* G8Tesseract.mm in Sources */,
-				41A95DEF1A3AFBF30085093C /* G8RecognitionOperation.m in Sources */,
-				41A95DEB1A3AF39B0085093C /* G8TesseractParameters.m in Sources */,
-				41B41A521A42ED7600D46246 /* G8RecognizedBlock.m in Sources */,
-				6490748D198A5A5600D728CC /* UIImage+G8Filters.m in Sources */,
+				73C0A79A1A5932D700D823D4 /* G8RecognizedBlock.m in Sources */,
+				73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */,
+				73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */,
+				73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */,
+				73C0A79E1A5932FD00D823D4 /* G8TesseractParameters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -889,103 +566,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		64A0293617307C1D002B12E7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TesseractOCR/TesseractOCR-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/TesseractOCR/lib\"",
-				);
-				LINK_WITH_STANDARD_LIBRARIES = NO;
-				MACH_O_TYPE = mh_object;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT) i386 x86_64";
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Debug;
-		};
-		64A0293717307C1D002B12E7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TesseractOCR/TesseractOCR-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/TesseractOCR/lib\"",
-				);
-				LINK_WITH_STANDARD_LIBRARIES = NO;
-				MACH_O_TYPE = mh_object;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT) i386 x86_64";
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Release;
-		};
-		64A0293B17307C7E002B12E7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
-				LINK_WITH_STANDARD_LIBRARIES = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lstdc++",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		64A0293C17307C7E002B12E7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
-				LINK_WITH_STANDARD_LIBRARIES = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lstdc++",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		64F74CD5172FD75F0068E657 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1010,6 +590,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1037,6 +618,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1047,32 +629,106 @@
 			};
 			name = Release;
 		};
+		73C0A78F1A592C2B00D823D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TesseractOCR/lib",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		73C0A7901A592C2B00D823D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TesseractOCR/lib",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		64A0293817307C1D002B12E7 /* Build configuration list for PBXNativeTarget "TesseractOCR" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				64A0293617307C1D002B12E7 /* Debug */,
-				64A0293717307C1D002B12E7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		64A0293A17307C7E002B12E7 /* Build configuration list for PBXAggregateTarget "TesseractOCRAggregate" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				64A0293B17307C7E002B12E7 /* Debug */,
-				64A0293C17307C7E002B12E7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		64F74CC4172FD75F0068E657 /* Build configuration list for PBXProject "Tesseract OCR iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				64F74CD5172FD75F0068E657 /* Debug */,
 				64F74CD6172FD75F0068E657 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73C0A7931A592C2B00D823D4 /* Build configuration list for PBXNativeTarget "TesseractOCR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73C0A78F1A592C2B00D823D4 /* Debug */,
+				73C0A7901A592C2B00D823D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -17,7 +17,6 @@
 		41184B4D1A3EFA93007F5923 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B4C1A3EFA93007F5923 /* libstdc++.6.0.9.dylib */; };
 		41184B4F1A3EFA9B007F5923 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B4E1A3EFA9B007F5923 /* Foundation.framework */; };
 		41184B511A3EFAA8007F5923 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B501A3EFAA8007F5923 /* CoreGraphics.framework */; };
-		41184B531A3EFAAB007F5923 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41184B521A3EFAAB007F5923 /* TesseractOCR.framework */; };
 		41184B591A3EFD41007F5923 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 41184B551A3EFCAD007F5923 /* tessdata */; };
 		412E9EAB1A44316C007DDAA5 /* well_scaned_page.png in Resources */ = {isa = PBXBuildFile; fileRef = 412E9EAA1A44316C007DDAA5 /* well_scaned_page.png */; };
 		412E9EAD1A45872A007DDAA5 /* image_sample_bl.png in Resources */ = {isa = PBXBuildFile; fileRef = 412E9EAC1A45872A007DDAA5 /* image_sample_bl.png */; };
@@ -29,6 +28,7 @@
 		732C54761A514DA6000322DA /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54751A514DA5000322DA /* InitializationTests.m */; };
 		732C54791A5288CC000322DA /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54781A5288CC000322DA /* Defaults.m */; };
 		736EFF271A5882730031B432 /* tessdata-rus in Resources */ = {isa = PBXBuildFile; fileRef = 736EFF231A5872CA0031B432 /* tessdata-rus */; };
+		73C0A7BD1A59561F00D823D4 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
 
@@ -61,7 +61,6 @@
 		41184B4C1A3EFA93007F5923 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		41184B4E1A3EFA9B007F5923 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41184B501A3EFAA8007F5923 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		41184B521A3EFAAB007F5923 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = ../Products/TesseractOCR.framework; sourceTree = "<group>"; };
 		41184B551A3EFCAD007F5923 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tessdata; path = TestsProjectTests/tessdata; sourceTree = SOURCE_ROOT; };
 		412E9EAA1A44316C007DDAA5 /* well_scaned_page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = well_scaned_page.png; sourceTree = "<group>"; };
 		412E9EAC1A45872A007DDAA5 /* image_sample_bl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample_bl.png; sourceTree = "<group>"; };
@@ -77,6 +76,7 @@
 		732C54771A5288CC000322DA /* Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defaults.h; sourceTree = "<group>"; };
 		732C54781A5288CC000322DA /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaults.m; sourceTree = "<group>"; };
 		736EFF231A5872CA0031B432 /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "TestsProjectTests/tessdata-rus"; sourceTree = SOURCE_ROOT; };
+		73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "../build/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41184B531A3EFAAB007F5923 /* TesseractOCR.framework in Frameworks */,
+				73C0A7BD1A59561F00D823D4 /* TesseractOCR.framework in Frameworks */,
 				41184B4D1A3EFA93007F5923 /* libstdc++.6.0.9.dylib in Frameworks */,
 				41184B511A3EFAA8007F5923 /* CoreGraphics.framework in Frameworks */,
 				41184B4F1A3EFA9B007F5923 /* Foundation.framework in Frameworks */,
@@ -176,7 +176,7 @@
 		41184B541A3EFAB9007F5923 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				41184B521A3EFAAB007F5923 /* TesseractOCR.framework */,
+				73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */,
 				41184B501A3EFAA8007F5923 /* CoreGraphics.framework */,
 				41184B4E1A3EFA9B007F5923 /* Foundation.framework */,
 				41184B4C1A3EFA93007F5923 /* libstdc++.6.0.9.dylib */,
@@ -253,6 +253,7 @@
 		4115B9531A3EF8E90004EC0A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = "";
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Daniele Galiotto - www.g8production.com";
 				TargetAttributes = {
@@ -461,9 +462,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../Products",
+					"$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				INFOPLIST_FILE = TestsProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -476,9 +478,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../Products",
+					"$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				INFOPLIST_FILE = TestsProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -116,7 +116,7 @@ namespace tesseract {
         }
         else {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            _absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle bundleForClass:self.class].bundlePath]].copy;
+            _absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
         }
         
         setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
@@ -200,7 +200,7 @@ namespace tesseract {
     
     // Useful paths
     NSString *tessdataFolderName = @"tessdata";
-    NSString *tessdataPath = [[NSBundle bundleForClass:self.class].resourcePath stringByAppendingPathComponent:tessdataFolderName];
+    NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
     NSString *destinationPath = [self.absoluteDataPath stringByAppendingPathComponent:tessdataFolderName];
     NSLog(@"Tesseract destination path: %@", destinationPath);
     

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0610"
+   LastUpgradeVersion = "0600"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "64A0293917307C7E002B12E7"
-               BuildableName = "TesseractOCRAggregate"
-               BlueprintName = "TesseractOCRAggregate"
-               ReferencedContainer = "container:Tesseract OCR iOS.xcodeproj">
+               BlueprintIdentifier = "6400DDD4180C5DE000443362"
+               BuildableName = "Template Framework Project.app"
+               BlueprintName = "Template Framework Project"
+               ReferencedContainer = "container:Template Framework Project.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,6 +29,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6400DDD4180C5DE000443362"
+            BuildableName = "Template Framework Project.app"
+            BlueprintName = "Template Framework Project"
+            ReferencedContainer = "container:Template Framework Project.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -39,15 +48,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "64A0293917307C7E002B12E7"
-            BuildableName = "TesseractOCRAggregate"
-            BlueprintName = "TesseractOCRAggregate"
-            ReferencedContainer = "container:Tesseract OCR iOS.xcodeproj">
+            BlueprintIdentifier = "6400DDD4180C5DE000443362"
+            BuildableName = "Template Framework Project.app"
+            BlueprintName = "Template Framework Project"
+            ReferencedContainer = "container:Template Framework Project.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -57,15 +66,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "64A0293917307C7E002B12E7"
-            BuildableName = "TesseractOCRAggregate"
-            BlueprintName = "TesseractOCRAggregate"
-            ReferencedContainer = "container:Tesseract OCR iOS.xcodeproj">
+            BlueprintIdentifier = "6400DDD4180C5DE000443362"
+            BuildableName = "Template Framework Project.app"
+            BlueprintName = "Template Framework Project"
+            ReferencedContainer = "container:Template Framework Project.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
