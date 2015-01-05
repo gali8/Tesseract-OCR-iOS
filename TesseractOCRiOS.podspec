@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.requires_arc            = true
   s.frameworks              = 'UIKit', 'Foundation'
 
-  s.ios.deployment_target   = "8.0"
+  s.ios.deployment_target   = "7.0"
   s.ios.vendored_library    = 'TesseractOCR/lib/*.a'
   s.xcconfig                = { 'OTHER_LDFLAGS' => '-lstdc++ -weak_library /usr/lib/libstdc++.6.0.9.dylib',
                                 'CLANG_CXX_LIBRARY' => 'compiler-default' }
