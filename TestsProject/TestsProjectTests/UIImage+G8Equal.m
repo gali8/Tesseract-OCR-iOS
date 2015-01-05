@@ -8,6 +8,10 @@
 
 #import "UIImage+G8Equal.h"
 
+#import <CommonCrypto/CommonDigest.h>
+
+static CGFloat const kG8MinimalSimilarity = 0.99;
+
 @implementation UIImage (G8Equal)
 
 - (BOOL)g8_isEqualToImage:(UIImage *)image
@@ -16,16 +20,62 @@
         return YES;
     }
 
-    if (CGSizeEqualToSize(self.size, image.size) == NO) {
-        return NO;
-    }
-
-    NSData *data = [image g8_normalizedData];
-    NSData *originalData = [self g8_normalizedData];
-    return [originalData isEqualToData:data];
+    CGFloat similarity = [self g8_similarityWithImage:image];
+    return similarity > kG8MinimalSimilarity;
 }
 
-- (NSData *)g8_normalizedData
+- (uint32_t *)pixels
+{
+    CGSize size = [self size];
+    int width = size.width;
+    int height = size.height;
+
+    uint32_t *pixels = (uint32_t *) malloc(width * height * sizeof(uint32_t));
+    memset(pixels, 0, width * height * sizeof(uint32_t));
+
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+    CGContextRef context = CGBitmapContextCreate(pixels, width, height, 8, width * sizeof(uint32_t), colorSpace,
+                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), [[self g8_normalizedImage] CGImage]);
+
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+
+    return pixels;
+}
+
+- (CGFloat)g8_similarityWithImage:(UIImage *)image
+{
+    if (CGSizeEqualToSize(self.size, image.size) == NO) {
+        return 0.0;
+    }
+
+    CGSize size = [self size];
+    int width = size.width;
+    int height = size.height;
+
+    uint32_t *p1 = [self pixels];
+    uint32_t *p2 = [image pixels];
+
+    NSInteger numDifferences = 0;
+    NSInteger totalCompares = width * height;
+
+    for(int y = 0; y < height; y++) {
+        for(int x = 0; x < width; x++) {
+            if (p1[y * width + x] != p2[y * width + x]) {
+                ++numDifferences;
+            }
+        }
+    }
+
+    free(p1);
+    free(p2);
+
+    return 1.0 - (CGFloat)numDifferences / totalCompares;
+}
+
+- (UIImage *)g8_normalizedImage
 {
     const CGSize pixelSize = CGSizeMake(self.size.width * self.scale, self.size.height * self.scale);
     UIGraphicsBeginImageContext(pixelSize);
@@ -34,7 +84,7 @@
     
     UIImage *drawnImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return UIImagePNGRepresentation(drawnImage);
+    return drawnImage;
 }
 
 - (BOOL)g8_isFilledWithColor:(UIColor *)color
