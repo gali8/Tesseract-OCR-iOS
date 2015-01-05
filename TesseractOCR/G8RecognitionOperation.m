@@ -68,7 +68,7 @@
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract
 {
-    BOOL canceled = self.cancelled;
+    BOOL canceled = self.isCancelled;
     if (canceled == NO && [self.delegate respondsToSelector:@selector(shouldCancelImageRecognitionForTesseract:)]) {
         canceled = [self.delegate shouldCancelImageRecognitionForTesseract:tesseract];
     }

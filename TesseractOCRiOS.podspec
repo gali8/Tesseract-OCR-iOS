@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.module_name		     = 'TesseractOCR'
+  s.header_dir		     = 'TesseractOCR'
   s.name                    = 'TesseractOCRiOS'
   s.version                 = '3.4.0'
 
