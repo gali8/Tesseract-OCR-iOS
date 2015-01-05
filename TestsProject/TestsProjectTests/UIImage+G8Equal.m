@@ -8,8 +8,6 @@
 
 #import "UIImage+G8Equal.h"
 
-#import <CommonCrypto/CommonDigest.h>
-
 static CGFloat const kG8MinimalSimilarity = 0.99;
 
 @implementation UIImage (G8Equal)
