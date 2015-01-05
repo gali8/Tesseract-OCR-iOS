@@ -30,6 +30,7 @@
 		736EFF271A5882730031B432 /* tessdata-rus in Resources */ = {isa = PBXBuildFile; fileRef = 736EFF231A5872CA0031B432 /* tessdata-rus */; };
 		73BE4C091A598F47002C15F1 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */; };
 		73BE4C0A1A598F47002C15F1 /* TesseractOCR.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		73BE4C311A5B404C002C15F1 /* well_scaned_page.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +92,7 @@
 		732C54771A5288CC000322DA /* Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defaults.h; sourceTree = "<group>"; };
 		732C54781A5288CC000322DA /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaults.m; sourceTree = "<group>"; };
 		736EFF231A5872CA0031B432 /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "TestsProjectTests/tessdata-rus"; sourceTree = SOURCE_ROOT; };
+		73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = well_scaned_page.hOCR; sourceTree = "<group>"; };
 		73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -204,6 +206,7 @@
 		41C68DB61A41854A00848AE1 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */,
 				412E9EAA1A44316C007DDAA5 /* well_scaned_page.png */,
 				41C68DB21A41849100848AE1 /* image_sample.jpg */,
 				41C68DB41A41854600848AE1 /* image_sample_tr.png */,
@@ -314,6 +317,7 @@
 				41C68DB51A41854600848AE1 /* image_sample_tr.png in Resources */,
 				41184B591A3EFD41007F5923 /* tessdata in Resources */,
 				736EFF271A5882730031B432 /* tessdata-rus in Resources */,
+				73BE4C311A5B404C002C15F1 /* well_scaned_page.hOCR in Resources */,
 				412E9EAD1A45872A007DDAA5 /* image_sample_bl.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

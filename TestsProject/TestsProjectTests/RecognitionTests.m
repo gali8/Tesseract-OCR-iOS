@@ -239,6 +239,16 @@ describe(@"Well scaned page", ^{
         [[[[helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
     });
     
+    it(@"Should hOCR", ^{
+        
+        [helper recognizeImage];
+        NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"well_scaned_page" ofType:@"hOCR"];
+        NSError *error = nil;
+        [[hOCR should] equal:[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error]];
+        NSAssert(error == nil, @"error loading hOCR from file %@: %@", path, error);
+    });
 });
 
 SPEC_END

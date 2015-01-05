@@ -112,6 +112,12 @@
  */
 @property (nonatomic, readonly) NSString *recognizedText;
 
+/*
+* Make an HTML-formatted string with hOCR markup from the internal data structures.
+* page_number is 0-based but will appear in the output as 1-based.
+*/
+- (NSString *)recognizedHOCRForPageNumber:(int)pageNumber;
+
 /**
  *  The result of Tesseract's orientation analysis of the target image. See
  *  `G8Orientation` in G8Constants.h for the possible orientations.
