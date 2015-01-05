@@ -500,44 +500,6 @@ namespace tesseract {
     self.layoutAnalysed = YES;
 }
 
-- (NSArray *)characterBoxes
-{
-    NSMutableArray *recognizedTextBoxes = [[NSMutableArray alloc] init];
-
-    //  Get box info
-    char *boxText = _tesseract->GetBoxText(0);
-    if (boxText == NULL) {
-        NSLog(@"No boxes recognized. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
-        return nil;
-    }
-
-    NSString *stringBoxes = [NSString stringWithUTF8String:boxText];
-    delete[] boxText;
-
-    NSArray *arrayOfStringBoxes = [stringBoxes componentsSeparatedByString:@"\n"];
-    for (NSString *stringBox in arrayOfStringBoxes) {
-        //  A stringBox is of the format "c L B R T p"
-        //  (L, T) is the top left corner of the box, and (R, B) is the bottom right corner
-        //  Tesseract has (0, 0) in the bottom left corner and UIKit has (0, 0) in the top left corner
-        //  Need to flip to work with UIKit
-        //  c is the recognized character and p is the page it is recognized on
-        NSArray *boxComponents = [stringBox componentsSeparatedByString:@" "];
-        if (boxComponents.count >= 6) {
-            CGFloat x = [boxComponents[1] floatValue];
-            CGFloat y = self.imageSize.height - [boxComponents[4] floatValue];
-            CGFloat width = [boxComponents[3] floatValue] - [boxComponents[1] floatValue];
-            CGFloat height = [boxComponents[4] floatValue] - [boxComponents[2] floatValue];
-            CGRect box = [self normalizedRectForX:x y:y width:width height:height];
-
-            G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:boxComponents[0]
-                                                                   boundingBox:box
-                                                                    confidence:0.0f
-                                                                         level:G8PageIteratorLevelBlock];
-            [recognizedTextBoxes addObject:block];
-        }
-    }
-    return [recognizedTextBoxes copy];
-}
 
 - (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height
 {
@@ -557,8 +519,9 @@ namespace tesseract {
     const char *word = iterator->GetUTF8Text(level);
     if (word != NULL) {
         // BoundingBox parameters are (Left Top Right Bottom).
-        // See comment in characterBoxes() for information on the coordinate
-        // system, and changes being made.
+        //  (L, T) is the top left corner of the box, and (R, B) is the bottom right corner
+        //  Tesseract has (0, 0) in the bottom left corner and UIKit has (0, 0) in the top left corner
+        //  Need to flip to work with UIKit
         int x1, y1, x2, y2;
         iterator->BoundingBox(level, &x1, &y1, &x2, &y2);
 
@@ -614,7 +577,7 @@ namespace tesseract {
     return [array copy];
 }
 
-- (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
+- (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
 {
     tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
 

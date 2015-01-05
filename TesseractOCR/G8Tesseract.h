@@ -156,14 +156,6 @@
 @property (nonatomic, readonly) CGFloat deskewAngle;
 
 /**
- *  An array of `G8RecognizedBlock`'s representing the characters recognized
- *  in the target image, including the bounding boxes for each character. See
- *  G8RecognizedBlock.h for more information about the available fields for 
- *  this data structure.
- */
-@property (nonatomic, readonly) NSArray *characterBoxes;
-
-/**
  *  An array of arrays, where each subarray contains `G8RecognizedBlock`'s
  *  representing the choices Tesseract considered for each symbol in the target
  *  image. See G8RecognizedBlock.h for more information about the available
@@ -175,18 +167,20 @@
 @property (nonatomic, readonly) NSArray *characterChoices;
 
 /**
- *  Retrieve Tesseract's confidences for its recognition result based on a
- *  provided resolution.
+ *  Retrieve Tesseract's recognition result based on a provided resolution.
+ *  For, example for the pageIteratorLevel == G8PageIteratorLevelSymbol it returns 
+ *  an array of `G8RecognizedBlock`'s representing the characters recognized
+ *  in the target image, including the bounding boxes for each character.
  *
  *  @param pageIteratorLevel A `G8PageIteratorLevel` representing the resolution
  *                           of interest. See G8Constants.h for the available 
  *                           resolution options.
  *
- *  @return An array of `G8RecognizedBlock`'s, each containing a confidence 
- *          value for the text it represents. See G8RecognizedBlock.h for more
+ *  @return An array of `G8RecognizedBlock`'s, each containing a confidence
+ *          value and a bounding box for the text it represents. See G8RecognizedBlock.h for more
  *          information about the available fields for this data structure.
  */
-- (NSArray *)confidencesByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
+- (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
 
 #pragma mark - Debug methods
 
