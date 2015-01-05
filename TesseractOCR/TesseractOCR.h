@@ -1,12 +1,20 @@
 //
 //  TesseractOCR.h
-//  Tesseract OCR iOS
+//  TesseractOCR
 //
-//  Created by Daniele Galiotto on 01/05/13.
-//  Copyright (c) 2013 Daniele Galiotto - www.g8production.com.
-//  All rights reserved.
+//  Created by Kirill Makankov on 04.01.15.
+//  Copyright (c) 2015 Daniele Galiotto - www.g8production.com. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
+//! Project version number for TesseractOCR.
+FOUNDATION_EXPORT double TesseractOCRVersionNumber;
+
+//! Project version string for TesseractOCR.
+FOUNDATION_EXPORT const unsigned char TesseractOCRVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <TesseractOCR/PublicHeader.h>
 #ifndef Tesseract_OCR_iOS_TesseractOCR_h
 #define Tesseract_OCR_iOS_TesseractOCR_h
 
@@ -18,3 +26,4 @@
 #import "UIImage+G8Filters.h"
 
 #endif
+

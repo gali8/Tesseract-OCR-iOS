@@ -17,7 +17,7 @@ SPEC_BEGIN(TesseractInitialization)
 describe(@"Tesseract initialization", ^{
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *resourcePath = [NSBundle bundleForClass:G8Tesseract.class].resourcePath;
+    NSString *resourcePath = [NSBundle mainBundle].resourcePath;
     NSString *tessdataFolderName = @"tessdata";
     NSString *tessdataFolderPathFromTheBundle = [[resourcePath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingString:@"/"];
     NSString *debugConfigsFileName = @"debugConfigs.txt";

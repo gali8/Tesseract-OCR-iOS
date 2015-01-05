@@ -12,6 +12,14 @@
 #ifndef Tesseract_OCR_iOS_G8Constants_h
 #define Tesseract_OCR_iOS_G8Constants_h
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#if __has_attribute(objc_designated_initializer)
+#define NS_DESIGNATED_INITIALIZER __attribute__((objc_designated_initializer))
+#else
+#define NS_DESIGNATED_INITIALIZER
+#endif
+#endif
+
 /**
  * Possible modes for page layout analysis.
  */

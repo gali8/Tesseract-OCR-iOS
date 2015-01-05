@@ -1,7 +1,8 @@
 language: objective-c
 xcode_workspace: Tesseract-OCR-iOS.xcworkspace
-xcode_sdk: iphonesimulator 
+xcode_sdk:
+    - iphonesimulator7.0
+    - iphonesimulator8.1 
 xcode_scheme: 
-    - TesseractOCRAggregate 
     - TestsProject
     - Template Framework Project
