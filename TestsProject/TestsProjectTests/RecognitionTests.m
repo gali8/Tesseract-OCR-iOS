@@ -111,7 +111,7 @@ describe(@"Simple image", ^{
     it(@"Should provide confidences", ^{
         [helper recognizeImage];
 
-        NSArray *confidences = [helper.tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord];
+        NSArray *confidences = [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord];
         [[[confidences should] have:1] object];
 
         id blockObj = confidences.firstObject;
@@ -128,7 +128,7 @@ describe(@"Simple image", ^{
     it(@"Should draw blocks on image", ^{
         [helper recognizeImage];
 
-        NSArray *blocks = [helper.tesseract confidencesByIteratorLevel:G8PageIteratorLevelSymbol];
+        NSArray *blocks = [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelSymbol];
         UIImage *blocksImage = [helper.tesseract imageWithBlocks:blocks drawText:YES thresholded:NO];
         UIImage *expectedBlocksImage = [UIImage imageNamed:@"image_sample_bl"];
         
@@ -236,7 +236,7 @@ describe(@"Well scaned page", ^{
         [[recognizedText should] containString:kG8WellScanedFirstTitle];
         [[recognizedText shouldNot] containString:kG8WellScanedFinalLongString];
 
-        [[[[helper.tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
+        [[[[helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
     });
     
 });
