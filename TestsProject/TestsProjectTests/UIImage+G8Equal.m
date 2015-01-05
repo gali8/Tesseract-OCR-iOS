@@ -18,7 +18,7 @@ static CGFloat const kG8MinimalSimilarity = 0.99;
         return YES;
     }
 
-    CGFloat similarity = [self g8_similarityWithImage:image];
+    CGFloat similarity = [[self g8_normalizedImage] g8_similarityWithImage:[image g8_normalizedImage]];
     return similarity > kG8MinimalSimilarity;
 }
 
@@ -35,7 +35,7 @@ static CGFloat const kG8MinimalSimilarity = 0.99;
 
     CGContextRef context = CGBitmapContextCreate(pixels, width, height, 8, width * sizeof(uint32_t), colorSpace,
                                                  kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
-    CGContextDrawImage(context, CGRectMake(0, 0, width, height), [[self g8_normalizedImage] CGImage]);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), self.CGImage);
 
     CGContextRelease(context);
     CGColorSpaceRelease(colorSpace);
