@@ -599,9 +599,7 @@ namespace tesseract {
 }
 
 - (NSString *)recognizedHOCRForPageNumber:(int)pageNumber {
-    
-    _tesseract->SetInputName("");
-    char* hocr = _tesseract->GetHOCRText(pageNumber);
+    char *hocr = _tesseract->GetHOCRText(pageNumber);
     if (hocr) {
         NSString *text = [NSString stringWithUTF8String:hocr];
         free(hocr);
