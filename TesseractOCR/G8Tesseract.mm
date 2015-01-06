@@ -22,6 +22,8 @@
 #import "genericvector.h"
 #import "strngs.h"
 
+static int const kG8DefaultResolution = 300;
+
 namespace tesseract {
     class TessBaseAPI;
 };
@@ -98,7 +100,7 @@ namespace tesseract {
         _engineMode = engineMode;
         _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
-        _sourceResolution = 300;
+        _sourceResolution = kG8DefaultResolution;
         _rect = CGRectZero;
 
         _monitor = new ETEXT_DESC();
@@ -377,7 +379,7 @@ namespace tesseract {
         pixDestroy(&pix);
 
         _image = image;
-        _sourceResolution = 300;
+        _sourceResolution = kG8DefaultResolution;
         _rect = (CGRect){CGPointZero, self.imageSize};
 
         [self resetFlags];
@@ -774,7 +776,7 @@ namespace tesseract {
         default:
             NSLog(@"Cannot convert image to Pix with bpp = %d", bpp);
     }
-    pixSetYRes(pix, 300);
+    pixSetYRes(pix, kG8DefaultResolution);
     
     CFRelease(imageData);
     
