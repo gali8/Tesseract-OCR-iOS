@@ -31,7 +31,6 @@
 		73BE4C091A598F47002C15F1 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */; };
 		73BE4C0A1A598F47002C15F1 /* TesseractOCR.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73BE4C311A5B404C002C15F1 /* well_scaned_page.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */; };
-		73BE4C331A5BC8A6002C15F1 /* hOCR.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BE4C321A5BC8A6002C15F1 /* hOCR.m */; };
 		73BE4C351A5BD324002C15F1 /* image_sample.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C341A5BD324002C15F1 /* image_sample.hOCR */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
@@ -95,7 +94,6 @@
 		732C54781A5288CC000322DA /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaults.m; sourceTree = "<group>"; };
 		736EFF231A5872CA0031B432 /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "TestsProjectTests/tessdata-rus"; sourceTree = SOURCE_ROOT; };
 		73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = well_scaned_page.hOCR; sourceTree = "<group>"; };
-		73BE4C321A5BC8A6002C15F1 /* hOCR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hOCR.m; sourceTree = "<group>"; };
 		73BE4C341A5BD324002C15F1 /* image_sample.hOCR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = image_sample.hOCR; sourceTree = "<group>"; };
 		73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -173,7 +171,6 @@
 		4115B9771A3EF8E90004EC0A /* TestsProjectTests */ = {
 			isa = PBXGroup;
 			children = (
-				73BE4C321A5BC8A6002C15F1 /* hOCR.m */,
 				732C54751A514DA5000322DA /* InitializationTests.m */,
 				4115B97A1A3EF8E90004EC0A /* RecognitionTests.m */,
 				4115B9781A3EF8E90004EC0A /* Supporting Files */,
@@ -387,7 +384,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				732C54791A5288CC000322DA /* Defaults.m in Sources */,
-				73BE4C331A5BC8A6002C15F1 /* hOCR.m in Sources */,
 				414121231A4C5A5700583ED4 /* G8RecognitionTestsHelper.m in Sources */,
 				4115B97B1A3EF8E90004EC0A /* RecognitionTests.m in Sources */,
 				732C54761A514DA6000322DA /* InitializationTests.m in Sources */,
