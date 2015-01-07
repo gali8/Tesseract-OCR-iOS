@@ -664,6 +664,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TesseractOCR/lib",
 				);
+				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -704,6 +705,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TesseractOCR/lib",
 				);
+				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
