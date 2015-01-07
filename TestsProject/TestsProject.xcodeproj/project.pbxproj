@@ -28,10 +28,9 @@
 		732C54761A514DA6000322DA /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54751A514DA5000322DA /* InitializationTests.m */; };
 		732C54791A5288CC000322DA /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54781A5288CC000322DA /* Defaults.m */; };
 		736EFF271A5882730031B432 /* tessdata-rus in Resources */ = {isa = PBXBuildFile; fileRef = 736EFF231A5872CA0031B432 /* tessdata-rus */; };
-		73BE4C091A598F47002C15F1 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */; };
-		73BE4C0A1A598F47002C15F1 /* TesseractOCR.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73BE4C311A5B404C002C15F1 /* well_scaned_page.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */; };
 		73BE4C351A5BD324002C15F1 /* image_sample.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C341A5BD324002C15F1 /* image_sample.hOCR */; };
+		73BE4C441A5DADDD002C15F1 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73BE4C431A5DADDD002C15F1 /* TesseractOCR.framework */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 /* End PBXBuildFile section */
 
@@ -44,20 +43,6 @@
 			remoteInfo = TestsProject;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		73BE4C0B1A598F47002C15F1 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				73BE4C0A1A598F47002C15F1 /* TesseractOCR.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0AFE52DB6EB8A535E8FC8DF5 /* Pods-TestsProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestsProjectTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TestsProjectTests/Pods-TestsProjectTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -95,6 +80,7 @@
 		736EFF231A5872CA0031B432 /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "TestsProjectTests/tessdata-rus"; sourceTree = SOURCE_ROOT; };
 		73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = well_scaned_page.hOCR; sourceTree = "<group>"; };
 		73BE4C341A5BD324002C15F1 /* image_sample.hOCR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = image_sample.hOCR; sourceTree = "<group>"; };
+		73BE4C431A5DADDD002C15F1 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "../build/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<group>"; };
 		73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -103,10 +89,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73BE4C441A5DADDD002C15F1 /* TesseractOCR.framework in Frameworks */,
 				41184B4D1A3EFA93007F5923 /* libstdc++.6.0.9.dylib in Frameworks */,
 				41184B511A3EFAA8007F5923 /* CoreGraphics.framework in Frameworks */,
 				41184B4F1A3EFA9B007F5923 /* Foundation.framework in Frameworks */,
-				73BE4C091A598F47002C15F1 /* TesseractOCR.framework in Frameworks */,
 				41184B4B1A3EFA8B007F5923 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,6 +181,7 @@
 		41184B541A3EFAB9007F5923 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73BE4C431A5DADDD002C15F1 /* TesseractOCR.framework */,
 				73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */,
 				41184B501A3EFAA8007F5923 /* CoreGraphics.framework */,
 				41184B4E1A3EFA9B007F5923 /* Foundation.framework */,
@@ -238,7 +225,6 @@
 				4115B9571A3EF8E90004EC0A /* Sources */,
 				4115B9581A3EF8E90004EC0A /* Frameworks */,
 				4115B9591A3EF8E90004EC0A /* Resources */,
-				73BE4C0B1A598F47002C15F1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
