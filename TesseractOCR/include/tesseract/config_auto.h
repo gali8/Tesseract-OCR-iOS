@@ -11,7 +11,7 @@
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
 /* Disable graphics */
-/* #undef GRAPHICS_DISABLED */
+#define GRAPHICS_DISABLED /**/
 
 /* Define to 1 if you have the <cairo/cairo-version.h> header file. */
 /* #undef HAVE_CAIRO_CAIRO_VERSION_H */
