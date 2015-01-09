@@ -10,6 +10,7 @@
 #import "G8Tesseract.h"
 
 #import "UIImage+G8Filters.h"
+#import "UIImage+G8FixOrientation.h"
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
 #import "G8RecognizedBlock.h"
@@ -375,6 +376,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
             return;
         }
 
+        image = [image fixOrientation];
+        
         self.imageSize = image.size; //self.imageSize used in the characterBoxes method
 
         Pix *pix = nullptr;
