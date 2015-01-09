@@ -689,8 +689,7 @@ namespace tesseract {
 
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(colorSpace);
-    pixDestroy(&pix);
-
+    
     // Draw CGImage to create UIImage
     //      Creating UIImage by [UIImage imageWithCGImage:] worked wrong
     //      and image became broken after some releases.
@@ -707,6 +706,7 @@ namespace tesseract {
 
     UIGraphicsEndImageContext();
     CGImageRelease(cgImage);
+    pixDestroy(&pix);
 
     return image;
 }
