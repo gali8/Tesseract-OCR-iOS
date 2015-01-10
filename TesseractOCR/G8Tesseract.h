@@ -92,7 +92,9 @@
 
 /**
  *  The resolution of the source image in pixels per inch so font size
- *  information can be calculated in results. Change it after setting image.
+ *  information can be calculated in results.
+ *
+ *  @default Default value is 72
  */
 @property (nonatomic, assign) NSInteger sourceResolution;
 
