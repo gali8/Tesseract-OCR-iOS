@@ -1,5 +1,4 @@
-Tesseract OCR iOS [![Build Status](https://travis-ci.org/gali8/Tesseract-OCR-iOS.svg?branch=master)](https://travis-ci.org/gali8/Tesseract-OCR-iOS) ![](https://img.shields.io/cocoapods/v/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg)
-[![Coverage Status](https://img.shields.io/coveralls/gali8/Tesseract-OCR-iOS.svg)](https://coveralls.io/r/gali8/Tesseract-OCR-iOS)
+Tesseract OCR iOS [![Build Status](https://travis-ci.org/gali8/Tesseract-OCR-iOS.svg?branch=master)](https://travis-ci.org/gali8/Tesseract-OCR-iOS) ![](https://img.shields.io/cocoapods/v/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg) ![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg) [![Coverage Status](https://img.shields.io/coveralls/gali8/Tesseract-OCR-iOS.svg)](https://coveralls.io/r/gali8/Tesseract-OCR-iOS)
 =================
 
 **Use Tesseract OCR in iOS 7.0+ projects written in either Objective-C or Swift.
