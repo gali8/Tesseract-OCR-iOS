@@ -41,8 +41,9 @@
 @property (nonatomic, copy) NSString* language;
 
 /**
- * The path to the tessdata file, if it was specified in a call to initWithLanguage:configDictionary:configFileNames:cachesRelatedDataPath:engineMode: as a cachesRelatedDataPath
- * Otherwise it's supposed that the tessdata folder is located in the application bundle
+ *  The absolute path to the tessdata folder, which may exist in either the
+ *  application bundle or in the Caches directory depending on the argument to
+ *  `cachesRelatedDataPath` in the designated initializer.
  */
 @property (nonatomic, readonly, copy) NSString *absoluteDataPath;
 
@@ -113,6 +114,19 @@
 @property (nonatomic, readonly) NSString *recognizedText;
 
 /**
+ *  Make an HTML-formatted string with hOCR markup from the internal Tesseract
+ *  data structures.
+ *  page_number is 0-based but will appear in the output as 1-based.
+ *
+ *  @param pageNumber The page number within the image of interest. If you
+ *                    aren't using a multipage image or don't know what this
+ *                    means, use `0` for `pageNumber`.
+ *
+ *  @return The HTML-formatted string with hOCR markup.
+ */
+- (NSString *)recognizedHOCRForPageNumber:(int)pageNumber;
+
+/**
  *  The result of Tesseract's orientation analysis of the target image. See
  *  `G8Orientation` in G8Constants.h for the possible orientations.
  *  
@@ -168,7 +182,7 @@
 
 /**
  *  Retrieve Tesseract's recognition result based on a provided resolution.
- *  For, example for the pageIteratorLevel == G8PageIteratorLevelSymbol it returns 
+ *  For example, the pageIteratorLevel == G8PageIteratorLevelSymbol returns
  *  an array of `G8RecognizedBlock`'s representing the characters recognized
  *  in the target image, including the bounding boxes for each character.
  *
@@ -177,8 +191,9 @@
  *                           resolution options.
  *
  *  @return An array of `G8RecognizedBlock`'s, each containing a confidence
- *          value and a bounding box for the text it represents. See G8RecognizedBlock.h for more
- *          information about the available fields for this data structure.
+ *          value and a bounding box for the text it represents. See 
+ *          G8RecognizedBlock.h for more information about the available fields 
+ *          for this data structure.
  */
 - (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
 
@@ -231,17 +246,25 @@
 /**
  *  Initialize Tesseract with the provided language and engine mode.
  *
- *  @param language             The language to use in recognition. See `language`.
- *  @param configDictionary     A dictionary of the config variables
- *  @param configFileNames      An array of file names containing key-value config pairs. All the config
- *                              variables can be init only and debug time both. Furthermore they could be
- *                              specified at the same time, in such case tesseract will get variables from
- *                              every file and dictionary all together. 
- *                              The files are searched into two folders, which are tessdata/tessconfigs and tessdata/configs
- *  @param cachesRelatedPath    If the cachesRelatedDataPath is specified, the whole content of the tessdata from the
- *                              application bundle is copied to the Library/Caches/cachesRelatedDataPath/tessdata
- *                              and tesseract is initialized with that path.
- *  @param engineMode           The engine mode to use in recognition. See `engineMode`.
+ *  @param language             The language to use in recognition. See 
+ *                              `language`.
+ *  @param configDictionary     A dictionary of config variables to set.
+ *  @param configFileNames      An array of file names containing key-value 
+ *                              config pairs. Config settings can be set at
+ *                              initialization or run-time.  Furthermore, they 
+ *                              could be specified at the same time, in which 
+ *                              case Tesseract will get variables from every
+ *                              config file as well as the dictionary.
+ *                              The config files must exist in one of two 
+ *                              possible folders:  tessdata/tessconfigs or 
+ *                              tessdata/configs.
+ *  @param cachesRelatedPath    If the cachesRelatedDataPath is specified, the 
+ *                              whole contents of the tessdata folder in the
+ *                              application bundle will be copied to 
+ *                              Library/Caches/cachesRelatedDataPath/tessdata
+ *                              and Tesseract will be set to use that path.
+ *  @param engineMode           The engine mode to use in recognition. See 
+ *                              `engineMode`.
  *
  *  @return The initialized Tesseract object, or `nil` if there was an error.
  */
@@ -262,12 +285,13 @@
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key;
 
 /**
- *  Returns a Tesseract variable for the given key. See G8TesseractParameters.h for the available
- *  options.
+ *  Returns a Tesseract variable for the given key. See G8TesseractParameters.h 
+ *  for the available options.
  *
  *  @param key  The option to get.
  *
- *  @return     returns the variable value for the given key, if it's beeb set. nil otherwise.
+ *  @return     Returns the variable value for the given key, if it's been set. 
+ *              nil otherwise.
  */
 - (NSString*)variableValueForKey:(NSString *)key;
 

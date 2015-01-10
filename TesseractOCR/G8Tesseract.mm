@@ -598,6 +598,17 @@ namespace tesseract {
     return [array copy];
 }
 
+- (NSString *)recognizedHOCRForPageNumber:(int)pageNumber {
+    char *hocr = _tesseract->GetHOCRText(pageNumber);
+    if (hocr) {
+        NSString *text = [NSString stringWithUTF8String:hocr];
+        free(hocr);
+        return text;
+    }
+    
+    return nil;
+}
+
 - (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
 {
     UIImage *image = thresholded ? self.thresholdedImage : self.image;

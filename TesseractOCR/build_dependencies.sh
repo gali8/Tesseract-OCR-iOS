@@ -162,7 +162,7 @@ make clean 2> /dev/null
 make distclean 2> /dev/null
 eval "setenv_${archs[$n]}"
 bash autogen.sh
-LIBLEPT_HEADERSDIR=$GLOBAL_OUTDIR/include ./configure --host="${arch_names[$n]}" --enable-shared=no
+LIBLEPT_HEADERSDIR=$GLOBAL_OUTDIR/include ./configure --host="${arch_names[$n]}" --enable-shared=no --disable-graphics
 make -j12
 for i in `find . -name "lib*.a" | grep -v $LOCAL_OUTDIR`; do cp -rvf $i "$LOCAL_OUTDIR/${archs[$n]}"; done
 merge_libfiles "$LOCAL_OUTDIR/${archs[$n]}" libtesseract_all.a
