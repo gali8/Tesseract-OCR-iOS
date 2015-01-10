@@ -31,7 +31,6 @@ namespace tesseract {
     ETEXT_DESC *_monitor;
 }
 
-@property (nonatomic, copy) NSString *absoluteDataPath;
 @property (nonatomic, strong) NSDictionary *configDictionary;
 @property (nonatomic, strong) NSArray *configFileNames;
 @property (nonatomic, strong) NSMutableDictionary *variables;
@@ -49,6 +48,8 @@ namespace tesseract {
 @end
 
 @implementation G8Tesseract
+
+@synthesize absoluteDataPath=_absoluteDataPath;
 
 + (NSString *)version
 {

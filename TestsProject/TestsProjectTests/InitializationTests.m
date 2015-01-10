@@ -12,6 +12,11 @@
 #import <Kiwi/Kiwi.h>
 #import "Defaults.h"
 
+@interface G8Tesseract (Tests)
+- (BOOL)configEngine;
+- (BOOL)resetEngine;
+@end
+
 SPEC_BEGIN(TesseractInitialization)
 
 describe(@"Tesseract initialization", ^{
@@ -43,11 +48,39 @@ describe(@"Tesseract initialization", ^{
         [[recognizedText should] equal:@"1234567890\n\n"];
     };
     
+    context(@"Should check common function", ^{
+        
+        it(@"Should check version", ^{
+            [[[G8Tesseract version] should] equal:@"3.03"];
+        });
+    });
+    
     context(@"nil cachesRelatedDataPath", ^{
         
         it(@"Should initialize simple", ^{
             [[fileManager shouldNot] receive:@selector(createSymbolicLinkAtPath:withDestinationPath:error:)];
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+            [[tesseract shouldNot] beNil];
+            
+            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            
+            tesseract = [G8Tesseract alloc];
+            [[tesseract shouldNot] beNil];
+            NSAssert([tesseract respondsToSelector:@selector(configEngine)] == YES, @"Error! G8Tesseract instance does not contain configEngine selector");
+            [[tesseract should] receive:@selector(configEngine) andReturn:theValue(NO)];
+            tesseract = [tesseract init];
+            
+            [[tesseract should] beNil];
+            
+            tesseract = [[G8Tesseract alloc] init];
+            NSAssert([tesseract respondsToSelector:@selector(resetEngine)] == YES, @"Error! G8Tesseract instance does not contain resetEngine selector");
+            [[tesseract should] receive:@selector(configEngine) andReturn:theValue(NO)];
+            [[theValue([tesseract resetEngine]) should] beNo];
+        });
+        
+        it(@"Should initialize simple with engine mode", ^{
+            [[fileManager shouldNot] receive:@selector(createSymbolicLinkAtPath:withDestinationPath:error:)];
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
             
             [[tesseract.absoluteDataPath should] equal:resourcePath];
