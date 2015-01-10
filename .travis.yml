@@ -6,6 +6,8 @@ xcode_sdk:
 xcode_scheme: 
     - Template Framework Project
     - TestsProject
+before_install:
+    sudo pip install cpp-coveralls
 after_success:
-    ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include
+    ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include --exclude-folder TestsProject
 

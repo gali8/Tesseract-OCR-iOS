@@ -71,5 +71,3 @@ crashlytics-build.properties
 leptonica-*
 tesseract-*
 
-# Private Coveralls
-.coveralls.yml
