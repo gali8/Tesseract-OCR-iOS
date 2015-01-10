@@ -12,6 +12,12 @@
 
 @implementation AppDelegate
 
+#ifdef DEBUG
++ (void)load {
+    [[NSUserDefaults standardUserDefaults] setValue:@"XCTestLog"
+                                             forKey:@"XCTestObserverClass"];
+}
+#endif
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -22,6 +28,14 @@
 
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+#ifdef DEBUG
+    extern void __gcov_flush(void);
+    __gcov_flush();
+#endif
 }
 
 @end

@@ -4,5 +4,8 @@ xcode_sdk:
     - iphonesimulator7.0
     - iphonesimulator8.1 
 xcode_scheme: 
-    - TestsProject
     - Template Framework Project
+    - TestsProject
+after_success:
+    ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include
+
