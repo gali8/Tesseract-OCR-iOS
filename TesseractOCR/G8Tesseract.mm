@@ -113,7 +113,10 @@ namespace tesseract {
 
             _absoluteDataPath = [cachesPath stringByAppendingPathComponent:_absoluteDataPath].copy;
 
-            [self moveTessdataToCachesDirectoryIfNecessary];
+            BOOL succes = [self moveTessdataToCachesDirectoryIfNecessary];
+            if (succes == NO) {
+                return nil;
+            }
         }
         else {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
@@ -207,8 +210,8 @@ namespace tesseract {
     
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {
         NSError *error = nil;
-        [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:&error];
-        if (error != nil) {
+        BOOL res = [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (res == NO) {
             NSLog(@"Error creating folder %@: %@", destinationPath, error);
             return NO;
         }
@@ -217,30 +220,31 @@ namespace tesseract {
     BOOL result = YES;
     NSError *error = nil;
     NSArray *files = [fileManager contentsOfDirectoryAtPath:tessdataPath error:&error];
-    if (error != nil) {
+    if (files == nil) {
         NSLog(@"ERROR! %@", error.description);
         result = NO;
-    }
-    for (NSString *filename in files) {
-        
-        NSString *destinationFileName = [destinationPath stringByAppendingPathComponent:filename];
-        if (![fileManager fileExistsAtPath:destinationFileName]) {
+    } else {
+        for (NSString *filename in files) {
             
-            NSString *filePath = [tessdataPath stringByAppendingPathComponent:filename];
-            //NSLog(@"found %@", filePath);
-            //NSLog(@"symlink in %@", destinationFileName);
-            
-            // delete broken symlinks first
-            [fileManager removeItemAtPath:destinationFileName error:&error];
-            
-            // than recreate it
-            error = nil;    // don't care about previous error, that can happens if we tried to remove an symlink, which doesn't exist
-            [fileManager createSymbolicLinkAtPath:destinationFileName
-                              withDestinationPath:filePath
-                                            error:&error];
-            if (error != nil) {
-                NSLog(@"Error creating symlink %@: %@", destinationPath, error);
-                result = NO;
+            NSString *destinationFileName = [destinationPath stringByAppendingPathComponent:filename];
+            if (![fileManager fileExistsAtPath:destinationFileName]) {
+                
+                NSString *filePath = [tessdataPath stringByAppendingPathComponent:filename];
+                //NSLog(@"found %@", filePath);
+                //NSLog(@"symlink in %@", destinationFileName);
+                
+                // delete broken symlinks first
+                [fileManager removeItemAtPath:destinationFileName error:&error];
+                
+                // than recreate it
+                error = nil;    // don't care about previous error, that can happens if we tried to remove a symlink, which doesn't exist
+                BOOL res = [fileManager createSymbolicLinkAtPath:destinationFileName
+                                             withDestinationPath:filePath
+                                                           error:&error];
+                if (res == NO) {
+                    NSLog(@"Error creating symlink %@: %@", destinationPath, error);
+                    result = NO;
+                }
             }
         }
     }
