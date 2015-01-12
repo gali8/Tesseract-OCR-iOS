@@ -226,6 +226,16 @@ describe(@"Well scaned page", ^{
         [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
     });
 
+    it(@"Should not crash analyze layout", ^{
+        helper.pageSegmentationMode = G8PageSegmentationModeOSDOnly;
+
+        [helper recognizeImage];
+
+        [[theBlock(^{
+            [helper.tesseract deskewAngle];
+        }) shouldNot] raise];
+    });
+
     it(@"Should analyze layout", ^{
         helper.pageSegmentationMode = G8PageSegmentationModeAutoOSD;
 
