@@ -55,8 +55,8 @@ describe(@"Tesseract initialization", ^{
             [[[G8Tesseract version] should] equal:@"3.03"];
         });
         
-        it(@"Should clear cache", ^{
-            // while recognition is in progress
+        it(@"Should not raise on cache clearing", ^{
+            //
             for (int i = 0; i <= 10; i++) {
                 G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
                 operation.tesseract.image = [UIImage imageNamed:@"well_scaned_page"];
@@ -69,7 +69,9 @@ describe(@"Tesseract initialization", ^{
             [[theBlock(^{
                 [G8Tesseract clearCache];
             }) shouldNot] raise];
-            
+        });
+        
+        it(@"Should clear cache on memory warning", ^{
             // should be called on a memory warning notification
             [[G8Tesseract should] receive:@selector(didReceiveMemoryWarningNotification:)];
             [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
