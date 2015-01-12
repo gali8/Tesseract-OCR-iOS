@@ -51,6 +51,22 @@ namespace tesseract {
 
 @synthesize absoluteDataPath=_absoluteDataPath;
 
++ (void)initialize {
+    
+    [super initialize];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveMemoryWarningNotification:)
+                                                 name:UIApplicationDidReceiveMemoryWarningNotification
+                                               object:nil];
+}
+
++ (void)didReceiveMemoryWarningNotification:(NSNotification*)notification {
+    
+    [self clearCache];
+    // some more cleaning here if necessary
+}
+
 + (NSString *)version
 {
     const char *version = tesseract::TessBaseAPI::Version();

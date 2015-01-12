@@ -13,6 +13,7 @@
 #import "Defaults.h"
 
 @interface G8Tesseract (Tests)
++ (void)didReceiveMemoryWarningNotification:(NSNotification*)notification;
 - (BOOL)configEngine;
 - (BOOL)resetEngine;
 @end
@@ -52,6 +53,26 @@ describe(@"Tesseract initialization", ^{
         
         it(@"Should check version", ^{
             [[[G8Tesseract version] should] equal:@"3.03"];
+        });
+        
+        it(@"Should clear cache", ^{
+            // while recognition is in progress
+            for (int i = 0; i <= 10; i++) {
+                G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
+                operation.tesseract.image = [UIImage imageNamed:@"well_scaned_page"];
+                operation.tesseract.language = kG8Languages;
+
+                NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+                [queue addOperation:operation];
+            }
+            
+            [[theBlock(^{
+                [G8Tesseract clearCache];
+            }) shouldNot] raise];
+            
+            // should be called on a memory warning notification
+            [[G8Tesseract should] receive:@selector(didReceiveMemoryWarningNotification:)];
+            [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         });
     });
     
