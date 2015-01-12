@@ -22,7 +22,9 @@
 #import "genericvector.h"
 #import "strngs.h"
 
-static int const kG8DefaultResolution = 72;
+static NSInteger const kG8DefaultResolution = 72;
+static NSInteger const kG8MinCredibleResolution = 70;
+static NSInteger const kG8MaxCredibleResolution = 2400;
 
 namespace tesseract {
     class TessBaseAPI;
@@ -424,6 +426,15 @@ namespace tesseract {
 - (void)setSourceResolution:(NSInteger)sourceResolution
 {
     if (_sourceResolution != sourceResolution) {
+        if (sourceResolution > kG8MaxCredibleResolution) {
+            NSLog(@"Source resolution is too big: %ld > %ld", (long)sourceResolution, (long)kG8MaxCredibleResolution);
+            sourceResolution = kG8MaxCredibleResolution;
+        }
+        else if (sourceResolution < kG8MinCredibleResolution) {
+            NSLog(@"Source resolution is too small: %ld < %ld", (long)sourceResolution, (long)kG8MinCredibleResolution);
+            sourceResolution = kG8MinCredibleResolution;
+        }
+        
         _sourceResolution = sourceResolution;
 
         _tesseract->SetSourceResolution((int)sourceResolution);

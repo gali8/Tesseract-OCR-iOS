@@ -125,6 +125,16 @@ describe(@"Simple image", ^{
         [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelWord)];
     });
 
+    it(@"Should clamp source resolution", ^{
+        [helper setupTesseract];
+
+        helper.tesseract.sourceResolution = 50;
+        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(70) to:theValue(2400)];
+
+        helper.tesseract.sourceResolution = 3000;
+        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(70) to:theValue(2400)];
+    });
+
     it(@"Should draw blocks on image", ^{
         [helper recognizeImage];
 

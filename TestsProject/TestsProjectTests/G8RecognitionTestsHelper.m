@@ -50,6 +50,10 @@ static NSString *const kG8Languages = @"eng";
 
 - (void)setupTesseract
 {
+    if (self.tesseract == nil) {
+        self.tesseract = [[G8Tesseract alloc] init];
+    }
+    
     self.tesseract.delegate = self;
 
     self.tesseract.language = kG8Languages;

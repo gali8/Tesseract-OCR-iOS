@@ -92,7 +92,8 @@
 
 /**
  *  The resolution of the source image in pixels per inch so font size
- *  information can be calculated in results.
+ *  information can be calculated in results. It should be from 70 to
+ *  2400 or it will be clamped.
  *
  *  @default Default value is 72
  */
