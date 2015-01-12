@@ -113,8 +113,8 @@ namespace tesseract {
 
             _absoluteDataPath = [cachesPath stringByAppendingPathComponent:_absoluteDataPath].copy;
 
-            BOOL succes = [self moveTessdataToCachesDirectoryIfNecessary];
-            if (succes == NO) {
+            BOOL success = [self moveTessdataToCachesDirectoryIfNecessary];
+            if (success == NO) {
                 return nil;
             }
         }
