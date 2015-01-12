@@ -1,0 +1,8 @@
+  <div class='ocr_page' id='page_1' title='image ""; bbox 0 0 1121 156; ppageno 0'>
+   <div class='ocr_carea' id='block_1_1' title="bbox 32 20 1091 148">
+    <p class='ocr_par' dir='ltr' id='par_1_1' title="bbox 32 20 1091 148">
+     <span class='ocr_line' id='line_1_1' title="bbox 32 20 1091 148; baseline -0.008 0"><span class='ocrx_word' id='word_1_1' title='bbox 32 20 1091 148; x_wconf 84' lang='eng'>1234567890</span> 
+     </span>
+    </p>
+   </div>
+  </div>
