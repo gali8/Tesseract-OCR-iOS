@@ -12,6 +12,11 @@
 #import <Kiwi/Kiwi.h>
 #import "Defaults.h"
 
+@interface G8Tesseract (Tests)
+- (BOOL)configEngine;
+- (BOOL)resetEngine;
+@end
+
 SPEC_BEGIN(TesseractInitialization)
 
 describe(@"Tesseract initialization", ^{
@@ -43,11 +48,39 @@ describe(@"Tesseract initialization", ^{
         [[recognizedText should] equal:@"1234567890\n\n"];
     };
     
+    context(@"Should check common function", ^{
+        
+        it(@"Should check version", ^{
+            [[[G8Tesseract version] should] equal:@"3.03"];
+        });
+    });
+    
     context(@"nil cachesRelatedDataPath", ^{
         
         it(@"Should initialize simple", ^{
             [[fileManager shouldNot] receive:@selector(createSymbolicLinkAtPath:withDestinationPath:error:)];
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+            [[tesseract shouldNot] beNil];
+            
+            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            
+            tesseract = [G8Tesseract alloc];
+            [[tesseract shouldNot] beNil];
+            NSAssert([tesseract respondsToSelector:@selector(configEngine)] == YES, @"Error! G8Tesseract instance does not contain configEngine selector");
+            [[tesseract should] receive:@selector(configEngine) andReturn:theValue(NO)];
+            tesseract = [tesseract init];
+            
+            [[tesseract should] beNil];
+            
+            tesseract = [[G8Tesseract alloc] init];
+            NSAssert([tesseract respondsToSelector:@selector(resetEngine)] == YES, @"Error! G8Tesseract instance does not contain resetEngine selector");
+            [[tesseract should] receive:@selector(configEngine) andReturn:theValue(NO)];
+            [[theValue([tesseract resetEngine]) should] beNo];
+        });
+        
+        it(@"Should initialize simple with engine mode", ^{
+            [[fileManager shouldNot] receive:@selector(createSymbolicLinkAtPath:withDestinationPath:error:)];
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
             
             [[tesseract.absoluteDataPath should] equal:resourcePath];
@@ -114,22 +147,66 @@ describe(@"Tesseract initialization", ^{
             checkVariablesAreSetForTesseract(tesseract);
         });
     });
-
+    
     NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesPath = cachesPaths.firstObject;
     NSString *tessdataPath = @"foo/bar";
     NSString *cachesTessDataPath = [cachesPath stringByAppendingPathComponent:tessdataPath];
+    
+    void(^cleanTessdataFolder)() = ^{
+        //NSLog(@"Removing previous tessdata folder from Caches folder");
+        NSError *error = nil;
+        BOOL fileIsRemoved = [fileManager removeItemAtPath:cachesTessDataPath error:&error];
+        if (error != nil) {
+            NSLog(@"Error deleting tessdata folder from the Caches folder: %@", error);
+        }
+        NSAssert(fileIsRemoved == YES, @"Error cleaning tessdata from the Caches folder");
+        
+        // check tessdata folder was deleted
+        NSArray *cachesContent = [fileManager contentsOfDirectoryAtPath:cachesPath error:&error];
+        if (error != nil) {
+            NSLog(@"Error getting the contents of the Caches folder: %@", error);
+        }
+        NSAssert([cachesContent containsObject:tessdataPath] == NO, @"Assert! Tessdata path was not removed from the Caches folder");
+    };
+    
+    context(@"moveTessdataToCachesDirectoryIfNecessary", ^{
+        
+        void (^checkInitializationWithFailedSelectorReturnValueAndCount)(SEL selector, id returnValue, int count) = ^(SEL selector, id returnValue, int count){
+            G8Tesseract *wrongTesseract = [G8Tesseract alloc];
+            [[wrongTesseract shouldNot] beNil];
+            [[[NSFileManager defaultManager] should] receive:selector andReturn:returnValue withCount:count];
+            wrongTesseract = [wrongTesseract initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil cachesRelatedDataPath:tessdataPath engineMode:G8OCREngineModeTesseractOnly];
+            [[wrongTesseract should] beNil];
+        };
+        
+        it(@"Should return nil if createDirectoryAtPath fails", ^{
+            checkInitializationWithFailedSelectorReturnValueAndCount(@selector(createDirectoryAtPath:withIntermediateDirectories:attributes:error:), theValue(NO), 1);
+        });
+        
+        it(@"Should return nil if createSymbolicLinkAtPath fails", ^{
+            NSError *error = nil;
+            NSArray *contentsOfTessdataFromTheBundle = [fileManager contentsOfDirectoryAtPath:tessdataFolderPathFromTheBundle error:&error];
+            NSAssert (error == nil, @"Error getting the content of the Tessdata folder from the app bundle: %@", error);
 
+            checkInitializationWithFailedSelectorReturnValueAndCount(@selector(createSymbolicLinkAtPath:withDestinationPath:error:), theValue(NO), contentsOfTessdataFromTheBundle.count);
+            cleanTessdataFolder();
+        });
+        
+        it(@"Should return nil if contentsOfDirectoryAtPath fails", ^{
+            checkInitializationWithFailedSelectorReturnValueAndCount(@selector(contentsOfDirectoryAtPath:error:), nil, 2);
+            cleanTessdataFolder();
+        });
+    });
+    
     context(@"not nil cachesRelatedDataPath", ^{
         
         // helper
         BOOL (^doFoldersContainTheSameElements)(void) = ^(void){
             NSError *error = nil;
             NSArray *contentsOfTessdataFromTheBundle = [fileManager contentsOfDirectoryAtPath:tessdataFolderPathFromTheBundle error:&error];
-            [[contentsOfTessdataFromTheBundle should] haveCountOfAtLeast:1];
-            if (error != nil) {
-                NSLog(@"Error getting the content of the Tessdata folder from the app bundle: %@", error);
-            }
+            NSAssert(contentsOfTessdataFromTheBundle.count >= 1, @"Error! Tessdata folder is empty");
+            NSAssert(error == nil, @"Error getting the content of the Tessdata folder from the app bundle: %@", error);
             
             NSArray *contentsOfTheTessdataPathFolder = [fileManager contentsOfDirectoryAtPath:[cachesTessDataPath stringByAppendingPathComponent:tessdataFolderName] error:&error];
             [[contentsOfTheTessdataPathFolder should] haveCountOfAtLeast:1];
@@ -148,7 +225,7 @@ describe(@"Tesseract initialization", ^{
             it(@"Should simple init, download rus language files and reinitialize tess with them", ^{
                 // proof Caches folder is empty
                 BOOL folderExists = [fileManager fileExistsAtPath:cachesTessDataPath];
-                [[theValue(folderExists) should] beNo];
+                NSAssert(folderExists == NO, @"Error! Tessdata folder is already here: %@", cachesTessDataPath);
                 
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:nil
@@ -196,7 +273,7 @@ describe(@"Tesseract initialization", ^{
             });
             
             it(@"Should initialize with config dictionary", ^{
-                
+
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:@{
                                                                                  kG8ParamTessdataManagerDebugLevel  : @"1",
@@ -235,8 +312,8 @@ describe(@"Tesseract initialization", ^{
             
             it(@"Should initialize with 2 config files", ^{
                 
-                [[[fileManager attributesOfItemAtPath:debugConfigsFilePathFromTheCaches error:nil] should] beNil];
-                [[[fileManager attributesOfItemAtPath:recognitionConfigsFilePathFromTheCaches error:nil] should] beNil];
+                NSAssert([fileManager attributesOfItemAtPath:debugConfigsFilePathFromTheCaches error:nil] == nil, @"Error! %@ is already here!", debugConfigsFilePathFromTheCaches);
+                NSAssert([fileManager attributesOfItemAtPath:recognitionConfigsFilePathFromTheCaches error:nil] == nil, @"Error! %@ cannot is already here!", recognitionConfigsFilePathFromTheCaches);
                 
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:nil
@@ -380,20 +457,7 @@ describe(@"Tesseract initialization", ^{
         });
         
         afterEach(^{
-            //NSLog(@"Removing previous tessdata folder from Caches folder");
-            NSError *error = nil;
-            BOOL fileIsRemoved = [fileManager removeItemAtPath:cachesTessDataPath error:&error];
-            if (error != nil) {
-                NSLog(@"Error deleting tessdata folder from the Caches folder: %@", error);
-            }
-            NSAssert(fileIsRemoved == YES, @"Error cleaning tessdata from the Caches folder");
-            
-            // check tessdata folder was deleted
-            NSArray *cachesContent = [fileManager contentsOfDirectoryAtPath:cachesPath error:&error];
-            if (error != nil) {
-                NSLog(@"Error getting the contents of the Caches folder: %@", error);
-            }
-            NSAssert([cachesContent containsObject:tessdataPath] == NO, @"Assert! Tessdata path was not removed from the Caches folder");
+            cleanTessdataFolder();
         });
     });
 });
