@@ -195,7 +195,7 @@ describe(@"Tesseract initialization", ^{
     
     context(@"moveTessdataToCachesDirectoryIfNecessary", ^{
         
-        void (^checkInitializationWithFailedSelectorReturnValueAndCount)(SEL selector, id returnValue, int count) = ^(SEL selector, id returnValue, int count){
+        void (^checkInitializationWithFailedSelectorReturnValueAndCount)(SEL selector, id returnValue, NSUInteger count) = ^(SEL selector, id returnValue, NSUInteger count){
             G8Tesseract *wrongTesseract = [G8Tesseract alloc];
             [[wrongTesseract shouldNot] beNil];
             [[[NSFileManager defaultManager] should] receive:selector andReturn:returnValue withCount:count];
