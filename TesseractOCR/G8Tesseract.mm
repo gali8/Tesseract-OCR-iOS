@@ -37,7 +37,6 @@ namespace tesseract {
 
 @property (readwrite, assign) CGSize imageSize;
 
-@property (nonatomic, readwrite, copy) NSString *absoluteDataPath;
 @property (nonatomic, assign, getter=isRecognized) BOOL recognized;
 @property (nonatomic, assign, getter=isLayoutAnalysed) BOOL layoutAnalysed;
 
@@ -107,7 +106,7 @@ namespace tesseract {
             NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
         }
 
-        self.absoluteDataPath = [cachesRelatedPath copy];
+        _absoluteDataPath = [cachesRelatedPath copy];
         _language = [language copy];
         _configDictionary = configDictionary;
         _configFileNames = configFileNames;
@@ -126,7 +125,7 @@ namespace tesseract {
             NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *cachesPath = cachesPaths.firstObject;
 
-            self.absoluteDataPath = [cachesPath stringByAppendingPathComponent:self.absoluteDataPath].copy;
+            _absoluteDataPath = [cachesPath stringByAppendingPathComponent:_absoluteDataPath].copy;
 
             BOOL success = [self moveTessdataToCachesDirectoryIfNecessary];
             if (success == NO) {
@@ -135,10 +134,10 @@ namespace tesseract {
         }
         else {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            self.absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
+            _absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
         }
         
-        setenv("TESSDATA_PREFIX", [self.absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
+        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
 
         _tesseract = new tesseract::TessBaseAPI();
 
