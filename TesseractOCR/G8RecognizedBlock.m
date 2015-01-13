@@ -63,13 +63,12 @@
     if (other == self) {
         return YES;
     }
-    else if ([super isEqual:other] == NO) {
-        return NO;
-    }
     else if ([other isKindOfClass:[self class]] == NO) {
         return NO;
     }
-    else {
+    else if (self.hash != ((G8RecognizedBlock*)other).hash) {
+        return NO;
+    } else {
         G8RecognizedBlock *otherBlock = other;
 
         BOOL result = self.level == otherBlock.level;

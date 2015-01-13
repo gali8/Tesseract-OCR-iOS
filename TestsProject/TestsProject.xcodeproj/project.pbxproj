@@ -28,6 +28,7 @@
 		732C54761A514DA6000322DA /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54751A514DA5000322DA /* InitializationTests.m */; };
 		732C54791A5288CC000322DA /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C54781A5288CC000322DA /* Defaults.m */; };
 		733DD5CD1A5E7CE50042374D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 733DD5CC1A5E7CE50042374D /* TesseractOCR.framework */; };
+		733DD5E71A64300E0042374D /* RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 733DD5E61A64300E0042374D /* RecognizedBlock.m */; };
 		736EFF271A5882730031B432 /* tessdata-rus in Resources */ = {isa = PBXBuildFile; fileRef = 736EFF231A5872CA0031B432 /* tessdata-rus */; };
 		73BE4C311A5B404C002C15F1 /* well_scaned_page.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */; };
 		73BE4C351A5BD324002C15F1 /* image_sample.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C341A5BD324002C15F1 /* image_sample.hOCR */; };
@@ -79,6 +80,7 @@
 		732C54771A5288CC000322DA /* Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defaults.h; sourceTree = "<group>"; };
 		732C54781A5288CC000322DA /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaults.m; sourceTree = "<group>"; };
 		733DD5CC1A5E7CE50042374D /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "../build/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<group>"; };
+		733DD5E61A64300E0042374D /* RecognizedBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecognizedBlock.m; sourceTree = "<group>"; };
 		736EFF231A5872CA0031B432 /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "TestsProjectTests/tessdata-rus"; sourceTree = SOURCE_ROOT; };
 		73BE4C301A5B404C002C15F1 /* well_scaned_page.hOCR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = well_scaned_page.hOCR; sourceTree = "<group>"; };
 		73BE4C341A5BD324002C15F1 /* image_sample.hOCR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = image_sample.hOCR; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				732C54751A514DA5000322DA /* InitializationTests.m */,
 				4115B97A1A3EF8E90004EC0A /* RecognitionTests.m */,
+				733DD5E61A64300E0042374D /* RecognizedBlock.m */,
 				4115B9781A3EF8E90004EC0A /* Supporting Files */,
 				732C54771A5288CC000322DA /* Defaults.h */,
 				732C54781A5288CC000322DA /* Defaults.m */,
@@ -380,6 +383,7 @@
 				4115B97B1A3EF8E90004EC0A /* RecognitionTests.m in Sources */,
 				732C54761A514DA6000322DA /* InitializationTests.m in Sources */,
 				41C68DAF1A41825500848AE1 /* UIImage+G8Equal.m in Sources */,
+				733DD5E71A64300E0042374D /* RecognizedBlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
