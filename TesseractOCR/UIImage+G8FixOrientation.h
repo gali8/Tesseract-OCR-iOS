@@ -14,6 +14,9 @@
 
 @interface UIImage (G8FixOrientation)
 
+- (CGAffineTransform)transformForOrientationFix;
+- (CGSize)sizeForOrientationFix;
+
 - (UIImage *)fixOrientation;
 
 @end

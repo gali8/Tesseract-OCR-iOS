@@ -14,11 +14,8 @@
 
 @implementation UIImage (G8FixOrientation)
 
-- (UIImage *)fixOrientation
+- (CGAffineTransform)transformForOrientationFix
 {
-    // No-op if the orientation is already correct
-    if (self.imageOrientation == UIImageOrientationUp) return self;
-
     // We need to calculate the proper transformation to make the image upright.
     // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
     CGAffineTransform transform = CGAffineTransformIdentity;
@@ -68,26 +65,40 @@
             break;
     }
 
-    // Now we draw the underlying CGImage into a new context, applying the transform
-    // calculated above.
-    CGContextRef ctx = CGBitmapContextCreate(NULL, self.size.width, self.size.height,
-                                             CGImageGetBitsPerComponent(self.CGImage), 0,
-                                             CGImageGetColorSpace(self.CGImage),
-                                             CGImageGetBitmapInfo(self.CGImage));
-    CGContextConcatCTM(ctx, transform);
+    return transform;
+}
+
+- (CGSize)sizeForOrientationFix
+{
     switch (self.imageOrientation) {
         case UIImageOrientationLeft:
         case UIImageOrientationLeftMirrored:
         case UIImageOrientationRight:
         case UIImageOrientationRightMirrored:
-            // Grr...
-            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.height,self.size.width), self.CGImage);
-            break;
+            return CGSizeMake(self.size.height, self.size.width);
 
         default:
-            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.width,self.size.height), self.CGImage);
-            break;
+            return self.size;
     }
+}
+
+- (UIImage *)fixOrientation
+{
+    // No-op if the orientation is already correct
+    if (self.imageOrientation == UIImageOrientationUp) return self;
+
+    CGAffineTransform transform = [self transformForOrientationFix];
+
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGImageRef cgImage = self.CGImage;
+    CGSize size = [self sizeForOrientationFix];
+    CGContextRef ctx = CGBitmapContextCreate(NULL, size.width, size.height,
+                                             CGImageGetBitsPerComponent(cgImage), 0,
+                                             CGImageGetColorSpace(cgImage),
+                                             CGImageGetBitmapInfo(cgImage));
+    CGContextConcatCTM(ctx, transform);
+    CGContextDrawImage(ctx, (CGRect){CGPointZero, size}, cgImage);
 
     // And now we just create a new UIImage from the drawing context
     CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
