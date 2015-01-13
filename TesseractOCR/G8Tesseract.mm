@@ -37,6 +37,7 @@ namespace tesseract {
 
 @property (readwrite, assign) CGSize imageSize;
 
+@property (nonatomic, readwrite, copy) NSString *absoluteDataPath;
 @property (nonatomic, assign, getter=isRecognized) BOOL recognized;
 @property (nonatomic, assign, getter=isLayoutAnalysed) BOOL layoutAnalysed;
 
@@ -48,8 +49,6 @@ namespace tesseract {
 @end
 
 @implementation G8Tesseract
-
-@synthesize absoluteDataPath=_absoluteDataPath;
 
 + (void)initialize {
     
@@ -108,7 +107,7 @@ namespace tesseract {
             NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
         }
 
-        _absoluteDataPath = [cachesRelatedPath copy];
+        self.absoluteDataPath = [cachesRelatedPath copy];
         _language = [language copy];
         _configDictionary = configDictionary;
         _configFileNames = configFileNames;
@@ -122,12 +121,12 @@ namespace tesseract {
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
 
-        if (_absoluteDataPath != nil) {
+        if (self.absoluteDataPath != nil) {
             // config Tesseract to search trainedData in tessdata folder of the Caches folder
             NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *cachesPath = cachesPaths.firstObject;
 
-            _absoluteDataPath = [cachesPath stringByAppendingPathComponent:_absoluteDataPath].copy;
+            self.absoluteDataPath = [cachesPath stringByAppendingPathComponent:self.absoluteDataPath].copy;
 
             BOOL success = [self moveTessdataToCachesDirectoryIfNecessary];
             if (success == NO) {
@@ -136,10 +135,10 @@ namespace tesseract {
         }
         else {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            _absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
+            self.absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
         }
         
-        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
+        setenv("TESSDATA_PREFIX", [self.absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
 
         _tesseract = new tesseract::TessBaseAPI();
 
