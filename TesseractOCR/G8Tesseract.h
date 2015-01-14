@@ -12,6 +12,21 @@
 #import "G8TesseractDelegate.h"
 
 /**
+ *  Default value of `sourceResolution` property.
+ */
+extern NSInteger const kG8DefaultResolution;
+
+/**
+ *  Minimum alowed value of `sourceResolution` property.
+ */
+extern NSInteger const kG8MinCredibleResolution;
+
+/**
+ *  Maximum alowed value of `sourceResolution` property.
+ */
+extern NSInteger const kG8MaxCredibleResolution;
+
+/**
  *  `G8Tesseract` encapsulates the Tesseract library and provides properties
  *  and methods for performing text recognition and analysis on a target image.
  */

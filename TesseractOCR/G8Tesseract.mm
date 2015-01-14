@@ -22,9 +22,9 @@
 #import "genericvector.h"
 #import "strngs.h"
 
-static NSInteger const kG8DefaultResolution = 72;
-static NSInteger const kG8MinCredibleResolution = 70;
-static NSInteger const kG8MaxCredibleResolution = 2400;
+NSInteger const kG8DefaultResolution = 72;
+NSInteger const kG8MinCredibleResolution = 70;
+NSInteger const kG8MaxCredibleResolution = 2400;
 
 namespace tesseract {
     class TessBaseAPI;

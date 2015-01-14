@@ -128,11 +128,15 @@ describe(@"Simple image", ^{
     it(@"Should clamp source resolution", ^{
         [helper setupTesseract];
 
+        [[theValue(helper.tesseract.sourceResolution) should] equal:theValue(kG8DefaultResolution)];
+
         helper.tesseract.sourceResolution = 50;
-        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(70) to:theValue(2400)];
+        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(kG8MinCredibleResolution)
+                                                                               to:theValue(kG8MaxCredibleResolution)];
 
         helper.tesseract.sourceResolution = 3000;
-        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(70) to:theValue(2400)];
+        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(kG8MinCredibleResolution)
+                                                                               to:theValue(kG8MaxCredibleResolution)];
     });
 
     it(@"Should draw blocks on image", ^{
