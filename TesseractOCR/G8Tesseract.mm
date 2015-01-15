@@ -49,7 +49,21 @@ namespace tesseract {
 
 @implementation G8Tesseract
 
-@synthesize absoluteDataPath=_absoluteDataPath;
++ (void)initialize {
+    
+    [super initialize];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveMemoryWarningNotification:)
+                                                 name:UIApplicationDidReceiveMemoryWarningNotification
+                                               object:nil];
+}
+
++ (void)didReceiveMemoryWarningNotification:(NSNotification*)notification {
+    
+    [self clearCache];
+    // some more cleaning here if necessary
+}
 
 + (NSString *)version
 {
@@ -106,7 +120,7 @@ namespace tesseract {
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
 
-        if (_absoluteDataPath != nil) {
+        if (self.absoluteDataPath != nil) {
             // config Tesseract to search trainedData in tessdata folder of the Caches folder
             NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *cachesPath = cachesPaths.firstObject;
