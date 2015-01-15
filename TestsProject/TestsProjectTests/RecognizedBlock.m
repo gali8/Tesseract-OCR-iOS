@@ -53,7 +53,54 @@ describe(@"RecognizedBlock Tests", ^{
     });
     
     context(@"Not empty block", ^{
+        NSString *originalText = @"not empty block";
+        CGRect originalRect = CGRectMake(10.f, 10.7f, 134.95f, 5.2f);
+        CGFloat originalConfidence = 0.29f;
+        G8PageIteratorLevel originalLevel = G8PageIteratorLevelWord;
         
+        let(notEmptyWordBlock, ^id{
+            G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:originalText
+                                                                   boundingBox:originalRect
+                                                                    confidence:originalConfidence
+                                                                         level:originalLevel];
+            [[block shouldNot] beNil];
+            return block;
+        });
+
+        it(@"should isEqual", ^{
+            BOOL isEqual = [notEmptyWordBlock isEqual:notEmptyWordBlock];
+            [[theValue(isEqual) should] beYes];
+        });
+        
+        it(@"Should not isEqual", ^{
+            
+            BOOL isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] init]];
+            [[theValue(isEqual) should] beNo];
+            
+            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:@"different text"
+                                                                             boundingBox:originalRect
+                                                                              confidence:originalConfidence
+                                                                                   level:originalLevel]];
+            [[theValue(isEqual) should] beNo];
+            
+            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
+                                                                             boundingBox:CGRectMake(10.00001f, 10.69999f, 134.95001f, 5.19999f)
+                                                                              confidence:originalConfidence
+                                                                                   level:originalLevel]];
+            [[theValue(isEqual) should] beNo];
+            
+            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
+                                                                             boundingBox:originalRect
+                                                                              confidence:0.78f
+                                                                                   level:originalLevel]];
+            [[theValue(isEqual) should] beNo];
+            
+            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
+                                                                             boundingBox:originalRect
+                                                                              confidence:originalConfidence
+                                                                                   level:G8PageIteratorLevelParagraph]];
+            [[theValue(isEqual) should] beNo];
+        });
     });
 });
 

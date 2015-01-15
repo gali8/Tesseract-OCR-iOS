@@ -11,11 +11,6 @@
 
 @interface G8RecognizedBlock ()
 
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic, assign) CGRect boundingBox;
-@property (nonatomic, assign) CGFloat confidence;
-@property (nonatomic, assign) G8PageIteratorLevel level;
-
 @end
 
 @implementation G8RecognizedBlock
