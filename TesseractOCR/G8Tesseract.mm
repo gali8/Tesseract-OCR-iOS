@@ -163,7 +163,7 @@ namespace tesseract {
     }
     
     int count = (int)self.configFileNames.count;
-    const char **configs = (const char **)malloc(sizeof(int) * count);
+    const char **configs = (const char **)malloc(sizeof(const char *) * count);
     for (int i = 0; i < count; i++) {
         configs[i] = ((NSString*)self.configFileNames[i]).UTF8String;
     }
