@@ -11,11 +11,6 @@
 
 @interface G8RecognizedBlock ()
 
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic, assign) CGRect boundingBox;
-@property (nonatomic, assign) CGFloat confidence;
-@property (nonatomic, assign) G8PageIteratorLevel level;
-
 @end
 
 @implementation G8RecognizedBlock
@@ -63,22 +58,23 @@
     if (other == self) {
         return YES;
     }
-    else if ([super isEqual:other] == NO) {
-        return NO;
-    }
-    else if ([other isKindOfClass:[self class]] == NO) {
-        return NO;
-    }
-    else {
+    else if ([other isKindOfClass:[self class]] == YES) {
+        
         G8RecognizedBlock *otherBlock = other;
-
-        BOOL result = self.level == otherBlock.level;
-        result = result && ABS(self.confidence - otherBlock.confidence) < FLT_EPSILON;
-        result = result && CGRectEqualToRect(self.boundingBox, otherBlock.boundingBox);
-        result = result && (self.text == otherBlock.text || [self.text isEqual:otherBlock.text]);
-
-        return result;
+        if (self.hash == otherBlock.hash) {
+            
+            if (self.level == otherBlock.level &&
+                ABS(self.confidence - otherBlock.confidence) < FLT_EPSILON &&
+                CGRectEqualToRect(self.boundingBox, otherBlock.boundingBox) &&
+                (self.text == otherBlock.text || [self.text isEqualToString:otherBlock.text])
+                )
+            {
+                return YES;
+            }
+        }
     }
+    
+    return NO;
 }
 
 - (NSUInteger)hash
