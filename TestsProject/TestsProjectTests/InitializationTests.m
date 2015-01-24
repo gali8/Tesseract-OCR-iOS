@@ -305,32 +305,48 @@ describe(@"Tesseract initialization", ^{
                 [[rusTesseract shouldNot] beNil];
                 
                 [[rusTesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                recognizeSimpleImageWithTesseract(tesseract);
             });
             
             it(@"Should set variables from dictionary and reinit correctly", ^{
                 
                 G8Tesseract *tesseract = tesseractInitializedWithTessData();
-                
+
                 NSDictionary *dictionaryForRuntime = @{
                                                        kG8ParamTessdataManagerDebugLevel  : @"1",
                                                        kG8ParamUserWordsSuffix            : @"user-words",
                                                        };
+                NSString *whitelistString = @"1234567890";
+                NSString *blacklistString = @"aAbBcC";
                 void (^checkVariablesSetOnRuntime)(void) = ^{
                     [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
                     [[[tesseract variableValueForKey:kG8ParamUserWordsSuffix] shouldNot] equal:@"user-words"];  // initial only, should not be set
+                    [[[tesseract variableValueForKey:kG8ParamTesseditCharWhitelist] should] equal:whitelistString];
+                    [[[tesseract variableValueForKey:kG8ParamTesseditCharBlacklist] should] equal:blacklistString];
+                    
+                    [[tesseract.charWhitelist should] equal:whitelistString];
+                    [[tesseract.charBlacklist should] equal:blacklistString];
                 };
                 
+                tesseract.charWhitelist = whitelistString;
+                tesseract.charBlacklist = blacklistString;
                 [tesseract setVariablesFromDictionary:dictionaryForRuntime];
                 checkVariablesSetOnRuntime();
-                
+
                 moveRusLanguageFilesToTheCachesFolder();
-                
                 // reinit tesseract with different language to check that all the variables are reset after reinitialization
                 tesseract.language = @"rus";
+                
                 checkVariablesSetOnRuntime();
                 
+                recognizeSimpleImageWithTesseract(tesseract);
+
                 tesseract.engineMode = G8OCREngineModeCubeOnly;
                 checkVariablesSetOnRuntime();
+                
+                // uncomment this to see the error in cube mode with rus locale
+                //recognizeSimpleImageWithTesseract(tesseract);
             });
             
             it(@"Should initialize with config dictionary", ^{
