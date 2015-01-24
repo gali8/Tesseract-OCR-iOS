@@ -68,10 +68,7 @@ namespace tesseract {
 + (NSString *)version
 {
     const char *version = tesseract::TessBaseAPI::Version();
-    if (version != NULL) {
-        return [NSString stringWithUTF8String:version];
-    }
-    return @"n/a";
+    return [NSString stringWithUTF8String:version];
 }
 
 + (void)clearCache
