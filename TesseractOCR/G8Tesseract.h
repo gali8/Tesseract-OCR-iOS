@@ -299,7 +299,9 @@
 
 /**
  *  Set Tesseract variables using a dictionary. See G8TesseractParameters.h for 
- *  the available options.
+ *  the available options. Only runtime variables could be set. To set up 
+ *  initial time variables use 
+ *  initWithLanguage:configDictionary:configFileNames:cachesRelatedDataPath:engineMode:
  *
  *  @param dictionary The dictionary of key/value pairs to set for Tesseract.
  */
