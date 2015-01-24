@@ -307,7 +307,7 @@ describe(@"Tesseract initialization", ^{
                 [[rusTesseract.absoluteDataPath should] equal:cachesTessDataPath];
             });
             
-            it(@"Should set variables from dictionary", ^{
+            it(@"Should set variables from dictionary and reinit correctly", ^{
                 
                 G8Tesseract *tesseract = tesseractInitializedWithTessData();
                 
@@ -327,6 +327,9 @@ describe(@"Tesseract initialization", ^{
                 
                 // reinit tesseract with different language to check that all the variables are reset after reinitialization
                 tesseract.language = @"rus";
+                checkVariablesSetOnRuntime();
+                
+                tesseract.engineMode = G8OCREngineModeCubeOnly;
                 checkVariablesSetOnRuntime();
             });
             
