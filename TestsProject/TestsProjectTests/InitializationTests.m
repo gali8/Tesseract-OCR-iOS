@@ -30,6 +30,14 @@ describe(@"Tesseract initialization", ^{
     NSString *recognitionConfigsFileName = @"recognitionConfigs.txt";
     NSString *tessConfigsFolderName = @"tessconfigs";
     
+    // config dictionary and its proving block
+    NSDictionary *initOnlyConfigDictionary = @{
+                           kG8ParamTessdataManagerDebugLevel  : @"1",
+                           kG8ParamLoadSystemDawg             : @"F",
+                           kG8ParamLoadFreqDawg               : @"F",
+                           kG8ParamUserWordsSuffix            : @"user-words",
+                           kG8ParamUserPatternsSuffix         : @"user-patterns",
+                           };
     void (^checkVariablesAreSetForTesseract)(G8Tesseract *tesseract) = ^(G8Tesseract *tesseract){
         // these variable could be set up during the initialization
         [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
@@ -49,9 +57,9 @@ describe(@"Tesseract initialization", ^{
         [[recognizedText should] equal:@"1234567890\n\n"];
     };
     
-    context(@"Should check common function", ^{
+    context(@"Should check common functions", ^{
         
-        it(@"Should check version", ^{
+        it(@"Should print version", ^{
             [[[G8Tesseract version] should] equal:@"3.03"];
         });
         
@@ -139,13 +147,7 @@ describe(@"Tesseract initialization", ^{
         it(@"Should initialize with config dictionary", ^{
             
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
-                                                          configDictionary:@{
-                                                                             kG8ParamTessdataManagerDebugLevel  : @"1",
-                                                                             kG8ParamLoadSystemDawg             : @"F",
-                                                                             kG8ParamLoadFreqDawg               : @"F",
-                                                                             kG8ParamUserWordsSuffix            : @"user-words",
-                                                                             kG8ParamUserPatternsSuffix         : @"user-patterns",
-                                                                             }
+                                                          configDictionary:initOnlyConfigDictionary
                                                            configFileNames:nil
                                                      cachesRelatedDataPath:nil
                                                                 engineMode:G8OCREngineModeTesseractOnly];
@@ -245,25 +247,8 @@ describe(@"Tesseract initialization", ^{
 
         context(@"no tessdata folder in the Caches yet", ^{
             
-            it(@"Should simple init, download rus language files and reinitialize tess with them", ^{
-                // proof Caches folder is empty
-                BOOL folderExists = [fileManager fileExistsAtPath:cachesTessDataPath];
-                NSAssert(folderExists == NO, @"Error! Tessdata folder is already here: %@", cachesTessDataPath);
-                
-                G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
-                                                              configDictionary:nil
-                                                               configFileNames:nil
-                                                         cachesRelatedDataPath:tessdataPath
-                                                                    engineMode:G8OCREngineModeTesseractOnly];
-                [[tesseract shouldNot] beNil];
-                
-                [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
-                
-                [[theValue(doFoldersContainTheSameElements()) should] beYes];
-                
-                recognizeSimpleImageWithTesseract(tesseract);
-                
-                // move rus langiage files to the folder created on previous steps
+            void (^moveRusLanguageFilesToTheCachesFolder)() = ^{
+                // move rus language files to the folder created on previous steps
                 NSString *rusTessdataSourcePath = [[resourcePath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingString:@"-rus"];
                 NSString *destinationPath = [[cachesPath stringByAppendingPathComponent:tessdataPath] stringByAppendingPathComponent:tessdataFolderName];
                 
@@ -283,6 +268,33 @@ describe(@"Tesseract initialization", ^{
                     }
                     assert(res == YES);
                 }
+            };
+            
+            G8Tesseract* (^tesseractInitializedWithTessData)() = ^{
+                // prove Caches folder is empty
+                BOOL folderExists = [fileManager fileExistsAtPath:cachesTessDataPath];
+                NSAssert(folderExists == NO, @"Error! Tessdata folder is already here: %@", cachesTessDataPath);
+                
+                G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                              configDictionary:nil
+                                                               configFileNames:nil
+                                                         cachesRelatedDataPath:tessdataPath
+                                                                    engineMode:G8OCREngineModeTesseractOnly];
+                [[tesseract shouldNot] beNil];
+                
+                [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                NSAssert(doFoldersContainTheSameElements() == YES, @"Error! The tessdata folder in the caches folder contains different elements!");
+                
+                return tesseract;
+            };
+            
+            it(@"Should simple init, download rus language files and reinitialize tess with them", ^{
+                G8Tesseract *tesseract = tesseractInitializedWithTessData();
+                
+                recognizeSimpleImageWithTesseract(tesseract);
+                
+                moveRusLanguageFilesToTheCachesFolder();
                 
                 // initialize with rus now
                 G8Tesseract *rusTesseract = [[G8Tesseract alloc] initWithLanguage:@"rus"
@@ -293,18 +305,54 @@ describe(@"Tesseract initialization", ^{
                 [[rusTesseract shouldNot] beNil];
                 
                 [[rusTesseract.absoluteDataPath should] equal:cachesTessDataPath];
+                
+                recognizeSimpleImageWithTesseract(tesseract);
+            });
+            
+            it(@"Should set variables from dictionary and reinit correctly", ^{
+                
+                G8Tesseract *tesseract = tesseractInitializedWithTessData();
+
+                NSDictionary *dictionaryForRuntime = @{
+                                                       kG8ParamTessdataManagerDebugLevel  : @"1",
+                                                       kG8ParamUserWordsSuffix            : @"user-words",
+                                                       };
+                NSString *whitelistString = @"1234567890";
+                NSString *blacklistString = @"aAbBcC";
+                void (^checkVariablesSetOnRuntime)(void) = ^{
+                    [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
+                    [[[tesseract variableValueForKey:kG8ParamUserWordsSuffix] shouldNot] equal:@"user-words"];  // initial only, should not be set
+                    [[[tesseract variableValueForKey:kG8ParamTesseditCharWhitelist] should] equal:whitelistString];
+                    [[[tesseract variableValueForKey:kG8ParamTesseditCharBlacklist] should] equal:blacklistString];
+                    
+                    [[tesseract.charWhitelist should] equal:whitelistString];
+                    [[tesseract.charBlacklist should] equal:blacklistString];
+                };
+                
+                tesseract.charWhitelist = whitelistString;
+                tesseract.charBlacklist = blacklistString;
+                [tesseract setVariablesFromDictionary:dictionaryForRuntime];
+                checkVariablesSetOnRuntime();
+
+                moveRusLanguageFilesToTheCachesFolder();
+                // reinit tesseract with different language to check that all the variables are reset after reinitialization
+                tesseract.language = @"rus";
+                
+                checkVariablesSetOnRuntime();
+                
+                recognizeSimpleImageWithTesseract(tesseract);
+
+                tesseract.engineMode = G8OCREngineModeCubeOnly;
+                checkVariablesSetOnRuntime();
+                
+                // uncomment this to see the error in cube mode with rus locale
+                //recognizeSimpleImageWithTesseract(tesseract);
             });
             
             it(@"Should initialize with config dictionary", ^{
 
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
-                                                              configDictionary:@{
-                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
-                                                                                 kG8ParamLoadSystemDawg             : @"F",
-                                                                                 kG8ParamLoadFreqDawg               : @"F",
-                                                                                 kG8ParamUserWordsSuffix            : @"user-words",
-                                                                                 kG8ParamUserPatternsSuffix         : @"user-patterns",
-                                                                                 }
+                                                              configDictionary:initOnlyConfigDictionary
                                                                configFileNames:nil
                                                          cachesRelatedDataPath:tessdataPath
                                                                     engineMode:G8OCREngineModeTesseractOnly];
@@ -447,13 +495,7 @@ describe(@"Tesseract initialization", ^{
             it(@"Should initialize with config dictionary", ^{
                 
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
-                                                              configDictionary:@{
-                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
-                                                                                 kG8ParamLoadSystemDawg             : @"F",
-                                                                                 kG8ParamLoadFreqDawg               : @"F",
-                                                                                 kG8ParamUserWordsSuffix            : @"user-words",
-                                                                                 kG8ParamUserPatternsSuffix         : @"user-patterns",
-                                                                                 }
+                                                              configDictionary:initOnlyConfigDictionary
                                                                configFileNames:nil
                                                          cachesRelatedDataPath:tessdataPath
                                                                     engineMode:G8OCREngineModeTesseractOnly];
