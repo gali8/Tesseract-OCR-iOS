@@ -10,6 +10,7 @@
 #import "G8Tesseract.h"
 
 #import "UIImage+G8Filters.h"
+#import "UIImage+G8FixOrientation.h"
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
 #import "G8RecognizedBlock.h"
@@ -360,7 +361,7 @@ namespace tesseract {
             NSLog(@"ERROR: Image has not size!");
             return;
         }
-
+        
         self.imageSize = image.size; //self.imageSize used in the characterBoxes method
 
         Pix *pix = nullptr;
@@ -370,7 +371,7 @@ namespace tesseract {
             if (thresholdedImage != nil) {
                 self.imageSize = thresholdedImage.size;
 
-                Pix *pixs = [self pixForImage:thresholdedImage];
+                Pix *pixs = [self pixFromImage:thresholdedImage];
                 pix = pixConvertTo1(pixs, UINT8_MAX / 2);
                 pixDestroy(&pixs);
 
@@ -381,7 +382,7 @@ namespace tesseract {
         }
 
         if (pix == nullptr) {
-            pix = [self pixForImage:image];
+            pix = [self pixFromImage:image];
         }
 
         @try {
@@ -468,7 +469,7 @@ namespace tesseract {
 - (G8Orientation)orientation
 {
     if (self.layoutAnalysed == NO) {
-        [self analyzeLayout];
+        [self analyseLayout];
     }
     return _orientation;
 }
@@ -476,7 +477,7 @@ namespace tesseract {
 - (G8WritingDirection)writingDirection
 {
     if (self.layoutAnalysed == NO) {
-        [self analyzeLayout];
+        [self analyseLayout];
     }
     return _writingDirection;
 }
@@ -484,7 +485,7 @@ namespace tesseract {
 - (G8TextlineOrder)textlineOrder
 {
     if (self.layoutAnalysed == NO) {
-        [self analyzeLayout];
+        [self analyseLayout];
     }
     return _textlineOrder;
 }
@@ -492,12 +493,12 @@ namespace tesseract {
 - (CGFloat)deskewAngle
 {
     if (self.layoutAnalysed == NO) {
-        [self analyzeLayout];
+        [self analyseLayout];
     }
     return _deskewAngle;
 }
 
-- (void)analyzeLayout
+- (void)analyseLayout
 {
     tesseract::Orientation orientation;
     tesseract::WritingDirection direction;
@@ -505,6 +506,11 @@ namespace tesseract {
     float deskewAngle;
 
     tesseract::PageIterator *iterator = _tesseract->AnalyseLayout();
+    if (iterator == NULL) {
+        NSLog(@"Can't analyse layout. Make sure 'osd.traineddata' available in 'tessdata'.");
+        return;
+    }
+
     iterator->Orientation(&orientation, &direction, &order, &deskewAngle);
     delete iterator;
 
@@ -738,74 +744,37 @@ namespace tesseract {
     return image;
 }
 
-- (Pix *)pixForImage:(UIImage *)image
+- (Pix *)pixFromImage:(UIImage *)image
 {
-    int width = image.size.width;
-    int height = image.size.height;
-
-    CGImage *cgImage = image.CGImage;
-    CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-    const UInt8 *pixels = CFDataGetBytePtr(imageData);
+    CGImageRef cgImage = image.CGImage;
+    CGAffineTransform transform = [image transformForOrientationFix];
+    CGSize size = [image sizeForOrientationFix];
 
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
-    size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
+    size_t bytesPerRow = CGImageGetBytesPerRow(cgImage) / (int)image.size.width * (int)size.width;
 
-    int bpp = MAX(1, (int)bitsPerPixel);
-    Pix *pix = pixCreate(width, height, bpp == 24 ? 32 : bpp);
-    l_uint32 *data = pixGetData(pix);
-    int wpl = pixGetWpl(pix);
-    switch (bpp) {
-        case 1:
-            for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
-                for (int x = 0; x < width; ++x) {
-                    if (pixels[x / 8] & (0x80 >> (x % 8))) {
-                        CLEAR_DATA_BIT(data, x);
-                    }
-                    else {
-                        SET_DATA_BIT(data, x);
-                    }
-                }
-            }
-            break;
+    Pix *pix = pixCreateHeader(size.width, size.height, (int)bitsPerPixel);
+    pixSetPadBits(pix, 0);
+    pixSetYRes(pix, (l_uint32)self.sourceResolution);
 
-        case 8:
-            // Greyscale just copies the bytes in the right order.
-            for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
-                for (int x = 0; x < width; ++x) {
-                    SET_DATA_BYTE(data, x, pixels[x]);
-                }
-            }
-            break;
+    void *data = malloc(4 * pixGetWpl(pix) * pixGetHeight(pix));
+    CGContextRef ctx = CGBitmapContextCreate(data, size.width, size.height,
+                                             CGImageGetBitsPerComponent(cgImage), bytesPerRow,
+                                             CGImageGetColorSpace(cgImage),
+                                             CGImageGetBitmapInfo(cgImage));
+    CGContextConcatCTM(ctx, transform);
+    CGContextDrawImage(ctx, (CGRect){CGPointZero, size}, cgImage);
 
-        case 24:
-            // Put the colors in the correct places in the line buffer.
-            for (int y = 0; y < height; ++y, pixels += bytesPerRow) {
-                for (int x = 0; x < width; ++x, ++data) {
-                    SET_DATA_BYTE(data, COLOR_RED, pixels[3 * x]);
-                    SET_DATA_BYTE(data, COLOR_GREEN, pixels[3 * x + 1]);
-                    SET_DATA_BYTE(data, COLOR_BLUE, pixels[3 * x + 2]);
-                }
-            }
-            break;
+    pixSetData(pix, (l_uint32 *)data);
 
-        case 32:
-            // Maintain byte order consistency across different endianness.
-            for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
-                for (int x = 0; x < width; ++x) {
-                    data[x] = (pixels[x * 4] << 24) | (pixels[x * 4 + 1] << 16) |
-                        (pixels[x * 4 + 2] << 8) | pixels[x * 4 + 3];
-                }
-            }
-            break;
-            
-        default:
-            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp);
-    }
-    pixSetYRes(pix, 300);
-    
-    CFRelease(imageData);
-    
+    CGContextRelease(ctx);
+
     return pix;
+}
+
+- (UIImage *)imageByPixConvertation:(UIImage *)image
+{
+    return [self imageFromPix:[self pixFromImage:image]];
 }
 
 - (void)tesseractProgressCallbackFunction:(int)words

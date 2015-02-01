@@ -14,6 +14,12 @@
 #import "G8RecognitionTestsHelper.h"
 #import "UIImage+G8Equal.h"
 
+@interface G8Tesseract (Tests)
+
+- (UIImage *)imageByPixConvertation:(UIImage *)image;
+
+@end
+
 SPEC_BEGIN(RecognitionTests)
 
 __block G8RecognitionTestsHelper *helper;
@@ -58,6 +64,14 @@ describe(@"Simple image", ^{
         [[recognizedText should] containString:@"1234567890"];
     });
 
+    it(@"Should pass image conversion", ^{
+        [helper recognizeImage];
+
+        UIImage *newImage = [helper.tesseract imageByPixConvertation:helper.image];
+
+        [[theValue([helper.image g8_isEqualToImage:newImage]) should] beYes];
+    });
+
     describe(@"Subimage", ^{
 
         beforeEach(^{
@@ -74,12 +88,23 @@ describe(@"Simple image", ^{
 
         it(@"Should recognize subimage after resizing", ^{
             helper.customPreprocessingType = G8CustomPreprocessingSimpleThresholdAndResize;
+            helper.sourceResolution = 70;
 
             [helper recognizeImage];
 
-            NSString *recognizedText = helper.tesseract.recognizedText;
-            [[recognizedText should] containString:@"123456"];
-            [[recognizedText shouldNot] containString:@"7890"];
+            NSMutableSet *expectedBlocksTexts = [NSMutableSet setWithArray:@[@"1", @"2", @"3", @"4", @"5", @"6"]];
+            NSMutableSet *unexpectedBlocksTexts = [NSMutableSet set];
+
+            NSArray *blocks = [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelSymbol];
+            for (G8RecognizedBlock *block in blocks) {
+                if ([expectedBlocksTexts containsObject:block.text] == NO) {
+                    [unexpectedBlocksTexts addObject:block.text];
+                }
+                [expectedBlocksTexts removeObject:block.text];
+            }
+
+            [[expectedBlocksTexts should] beEmpty];
+            [[unexpectedBlocksTexts should] beEmpty];
         });
 
     });
@@ -209,6 +234,16 @@ describe(@"Well scaned page", ^{
         UIImage *twiceThresholded = [helper thresholdedImageForImage:onceThresholded];
 
         [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
+    });
+
+    it(@"Should not crash analyze layout", ^{
+        helper.pageSegmentationMode = G8PageSegmentationModeOSDOnly;
+
+        [helper recognizeImage];
+
+        [[theBlock(^{
+            [helper.tesseract deskewAngle];
+        }) shouldNot] raise];
     });
 
     it(@"Should analyze layout", ^{

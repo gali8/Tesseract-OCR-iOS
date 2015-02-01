@@ -31,7 +31,7 @@ static NSString *const kG8Languages = @"eng";
         _sourceResolution = 0;
 
         _customPreprocessingType = G8CustomPreprocessingNone;
-        _boundingSizeForResizing = CGSizeMake(700.0f, 700.0f);
+        _boundingSizeForResizing = CGSizeMake(900.0f, 900.0f);
     }
     return self;
 }
