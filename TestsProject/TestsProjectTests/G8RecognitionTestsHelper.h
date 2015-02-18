@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, G8CustomPreprocessing) {
 @property (nonatomic, assign) CGSize boundingSizeForResizing;
 @property (nonatomic, assign) G8CustomPreprocessing customPreprocessingType;
 
+- (void)setupTesseract;
 - (void)recognizeImage;
 - (void)recognizeImageUsingOperation;
 - (UIImage *)thresholdedImageForImage:(UIImage *)sourceImage;

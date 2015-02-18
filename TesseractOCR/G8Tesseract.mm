@@ -22,6 +22,10 @@
 #import "genericvector.h"
 #import "strngs.h"
 
+NSInteger const kG8DefaultResolution = 72;
+NSInteger const kG8MinCredibleResolution = 70;
+NSInteger const kG8MaxCredibleResolution = 2400;
+
 namespace tesseract {
     class TessBaseAPI;
 };
@@ -110,7 +114,7 @@ namespace tesseract {
         _engineMode = engineMode;
         _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
-        _sourceResolution = 300;
+        _sourceResolution = kG8DefaultResolution;
         _rect = CGRectZero;
 
         _monitor = new ETEXT_DESC();
@@ -393,7 +397,6 @@ namespace tesseract {
         pixDestroy(&pix);
 
         _image = image;
-        _sourceResolution = 300;
         _rect = (CGRect){CGPointZero, self.imageSize};
 
         [self resetFlags];
@@ -439,6 +442,15 @@ namespace tesseract {
 - (void)setSourceResolution:(NSInteger)sourceResolution
 {
     if (_sourceResolution != sourceResolution) {
+        if (sourceResolution > kG8MaxCredibleResolution) {
+            NSLog(@"Source resolution is too big: %ld > %ld", (long)sourceResolution, (long)kG8MaxCredibleResolution);
+            sourceResolution = kG8MaxCredibleResolution;
+        }
+        else if (sourceResolution < kG8MinCredibleResolution) {
+            NSLog(@"Source resolution is too small: %ld < %ld", (long)sourceResolution, (long)kG8MinCredibleResolution);
+            sourceResolution = kG8MinCredibleResolution;
+        }
+        
         _sourceResolution = sourceResolution;
 
         _tesseract->SetSourceResolution((int)sourceResolution);
@@ -801,7 +813,7 @@ namespace tesseract {
         default:
             NSLog(@"Cannot convert image to Pix with bpp = %d", bpp);
     }
-    pixSetYRes(pix, 300);
+    pixSetYRes(pix, (l_int32)self.sourceResolution);
     
     CFRelease(imageData);
     
