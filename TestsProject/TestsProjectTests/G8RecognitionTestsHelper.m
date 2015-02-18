@@ -51,7 +51,7 @@ static NSString *const kG8Languages = @"eng";
 - (void)setupTesseract
 {
     if (self.tesseract == nil) {
-        self.tesseract = [[G8Tesseract alloc] init];
+        self.tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     }
     
     self.tesseract.delegate = self;
@@ -79,7 +79,7 @@ static NSString *const kG8Languages = @"eng";
 
 - (void)recognizeImage
 {
-    self.tesseract = [[G8Tesseract alloc] init];
+    self.tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     [self setupTesseract];
     [self setupImage];
 
@@ -88,7 +88,7 @@ static NSString *const kG8Languages = @"eng";
 
 - (void)recognizeImageUsingOperation
 {
-    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
+    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] initWithLanguage:kG8Languages];
     self.tesseract = operation.tesseract;
     [self setupTesseract];
 
@@ -119,7 +119,7 @@ static NSString *const kG8Languages = @"eng";
 
 - (UIImage *)thresholdedImageForImage:(UIImage *)sourceImage
 {
-    self.tesseract = [[G8Tesseract alloc] init];
+    self.tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     [self setupTesseract];
 
     self.tesseract.image = [sourceImage g8_blackAndWhite];

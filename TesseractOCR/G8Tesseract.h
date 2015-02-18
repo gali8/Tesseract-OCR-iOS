@@ -243,6 +243,10 @@ extern NSInteger const kG8MaxCredibleResolution;
  */
 @property (nonatomic, weak) id<G8TesseractDelegate> delegate;
 
+/// The default initializer should not be used since the language Tesseract
+/// uses needs to be explicit.
+- (instancetype)init __attribute__((unavailable("Use initWithLanguage:language instead")));
+
 /**
  *  Initialize Tesseract with the provided language.
  *

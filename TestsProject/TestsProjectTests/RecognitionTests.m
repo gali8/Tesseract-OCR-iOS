@@ -13,6 +13,7 @@
 
 #import "G8RecognitionTestsHelper.h"
 #import "UIImage+G8Equal.h"
+#import "Defaults.h"
 
 SPEC_BEGIN(RecognitionTests)
 
@@ -288,7 +289,7 @@ describe(@"hOCR", ^{
     });
     
     it(@"Should return nil without prerecognition", ^{
-        G8Tesseract *tesseract = [[G8Tesseract alloc] init];
+        G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
         
         NSString *hOCR = [tesseract recognizedHOCRForPageNumber:0];
         [[hOCR should] beNil];

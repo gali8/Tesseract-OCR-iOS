@@ -66,7 +66,7 @@ describe(@"Tesseract initialization", ^{
         it(@"Should not raise on cache clearing", ^{
             //
             for (int i = 0; i <= 10; i++) {
-                G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
+                G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] initWithLanguage:kG8Languages];
                 operation.tesseract.image = [UIImage imageNamed:@"well_scaned_page"];
                 operation.tesseract.language = kG8Languages;
 
@@ -99,11 +99,11 @@ describe(@"Tesseract initialization", ^{
             [[tesseract shouldNot] beNil];
             NSAssert([tesseract respondsToSelector:@selector(configEngine)] == YES, @"Error! G8Tesseract instance does not contain configEngine selector");
             [[tesseract should] receive:@selector(configEngine) andReturn:theValue(NO)];
-            tesseract = [tesseract init];
+            tesseract = [tesseract initWithLanguage:kG8Languages];
             
             [[tesseract should] beNil];
             
-            tesseract = [[G8Tesseract alloc] init];
+            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
             NSAssert([tesseract respondsToSelector:@selector(resetEngine)] == YES, @"Error! G8Tesseract instance does not contain resetEngine selector");
             [[tesseract should] receive:@selector(configEngine) andReturn:theValue(NO)];
             [[theValue([tesseract resetEngine]) should] beNo];

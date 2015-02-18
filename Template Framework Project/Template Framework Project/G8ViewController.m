@@ -42,14 +42,12 @@
     self.imageToRecognize.image = bwImage;
 
     // Create a new `G8RecognitionOperation` to perform the OCR asynchronously
-    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] init];
-    
     // It is assumed that there is a .traineddata file for the language pack
     // you want Tesseract to use in the "tessdata" folder in the root of the
     // project AND that the "tessdata" folder is a referenced folder and NOT
     // a symbolic group in your project
-    operation.tesseract.language = @"eng";
-    
+    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] initWithLanguage:@"eng"];
+
     // Use the original Tesseract engine mode in performing the recognition
     // (see G8Constants.h) for other engine mode options
     operation.tesseract.engineMode = G8OCREngineModeTesseractOnly;
