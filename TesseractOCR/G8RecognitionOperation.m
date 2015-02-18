@@ -20,11 +20,11 @@
 
 @implementation G8RecognitionOperation
 
-- (id)init
+- (id) initWithLanguage:(NSString *)language
 {
     self = [super init];
     if (self != nil) {
-        _tesseract = [[G8Tesseract alloc] init];
+        _tesseract = [[G8Tesseract alloc] initWithLanguage:language];
         _tesseract.delegate = self;
 
         __weak __typeof(self) weakSelf = self;

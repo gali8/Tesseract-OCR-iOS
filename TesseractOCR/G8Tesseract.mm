@@ -80,11 +80,6 @@ namespace tesseract {
     tesseract::TessBaseAPI::ClearPersistentCache();
 }
 
-- (id)init
-{
-    return [self initWithLanguage:nil];
-}
-
 - (id)initWithLanguage:(NSString*)language
 {
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
