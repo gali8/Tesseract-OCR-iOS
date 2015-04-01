@@ -24,6 +24,7 @@ describe(@"Tesseract initialization", ^{
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *resourcePath = [NSBundle mainBundle].resourcePath;
+    NSString *customDirectoryPath = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"testDirectory"];
     NSString *tessdataFolderName = @"tessdata";
     NSString *tessdataFolderPathFromTheBundle = [[resourcePath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingString:@"/"];
     NSString *debugConfigsFileName = @"debugConfigs.txt";
@@ -84,6 +85,120 @@ describe(@"Tesseract initialization", ^{
             [[G8Tesseract should] receive:@selector(didReceiveMemoryWarningNotification:)];
             [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         });
+    });
+
+    NSString *customTessDataPath = [customDirectoryPath stringByAppendingPathComponent:@"tessdata"];
+    void(^cleanCustomTessdataFolder)() = ^{
+        NSError *error = nil;
+        BOOL fileIsRemoved = [fileManager removeItemAtPath:customTessDataPath error:&error];
+        if (error != nil) {
+            NSLog(@"Error deleting tessdata folder from the custom directory: %@", error);
+        }
+        NSAssert(fileIsRemoved == YES, @"Error cleaning tessdata from the custom directory");
+
+        // check tessdata folder was deleted
+        NSArray *directoryContent = [fileManager contentsOfDirectoryAtPath:customDirectoryPath error:&error];
+        if (error != nil) {
+            NSLog(@"Error getting the contents of the custom directory: %@", error);
+        }
+        NSAssert([directoryContent containsObject:customDirectoryPath] == NO, @"Assert! Tessdata path was not removed from the Caches folder");
+    };
+
+    BOOL(^copyDataToCustomDirectory)() = ^{
+        {
+            // Useful paths
+            NSString *tessdataFolderName = @"tessdata";
+            NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
+            NSString *destinationPath = customTessDataPath;
+            NSLog(@"Tesseract destination path: %@", destinationPath);
+
+            if ([fileManager fileExistsAtPath:destinationPath] == NO) {
+                NSError *error = nil;
+                BOOL res = [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:&error];
+                if (res == NO) {
+                    NSLog(@"Error creating folder %@: %@", destinationPath, error);
+                    return NO;
+                }
+            }
+
+            BOOL result = YES;
+            NSError *error = nil;
+            NSArray *files = [fileManager contentsOfDirectoryAtPath:tessdataPath error:&error];
+            if (files == nil) {
+                NSLog(@"ERROR! %@", error.description);
+                result = NO;
+            } else {
+                for (NSString *filename in files) {
+
+                    NSString *destinationFileName = [destinationPath stringByAppendingPathComponent:filename];
+                    if (![fileManager fileExistsAtPath:destinationFileName]) {
+
+                        NSString *filePath = [tessdataPath stringByAppendingPathComponent:filename];
+
+                        // delete broken symlinks first
+                        [fileManager removeItemAtPath:destinationFileName error:&error];
+
+                        // than recreate it
+                        error = nil;    // don't care about previous error, that can happens if we tried to remove a symlink, which doesn't exist
+                        BOOL res = [fileManager createSymbolicLinkAtPath:destinationFileName
+                                                     withDestinationPath:filePath
+                                                                   error:&error];
+                        if (res == NO) {
+                            NSLog(@"Error creating symlink %@: %@", destinationPath, error);
+                            result = NO;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+    };
+
+    context(@"initialize with absoluteDataPath", ^{
+
+        it(@"Should initialize simple", ^{
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:NO];
+            [[tesseract shouldNot] beNil];
+
+            [[tesseract.absoluteDataPath should] equal:resourcePath];
+
+            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:NO];
+            [[tesseract should] beNil];
+
+            BOOL isDirectory = NO;
+            [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beNo];
+            [[theValue(isDirectory) should] beNo];
+
+            copyDataToCustomDirectory();
+
+            isDirectory = NO;
+            [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beYes];
+            [[theValue(isDirectory) should] beYes];
+
+            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:NO];
+            [[tesseract shouldNot] beNil];
+
+            [[tesseract.absoluteDataPath should] equal:customDirectoryPath];
+
+            isDirectory = NO;
+            [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beYes];
+            [[theValue(isDirectory) should] beYes];
+
+            cleanCustomTessdataFolder();
+
+            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:YES];
+            [[tesseract shouldNot] beNil];
+
+            [[tesseract.absoluteDataPath should] equal:customDirectoryPath];
+
+            isDirectory = NO;
+            [[theValue([fileManager fileExistsAtPath:[customDirectoryPath stringByAppendingPathComponent:@"tessdata"] isDirectory:&isDirectory]) should] beYes];
+            [[theValue(isDirectory) should] beYes];
+
+            cleanCustomTessdataFolder();
+
+        });
+
     });
     
     context(@"nil cachesRelatedDataPath", ^{
