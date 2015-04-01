@@ -95,15 +95,13 @@ namespace tesseract {
  cachesRelatedDataPath:(NSString *)cachesRelatedPath
             engineMode:(G8OCREngineMode)engineMode
 {
-    // config Tesseract to search trainedData in tessdata folder of the Caches folder
-    NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachesPath = cachesPaths.firstObject;
+    NSString *absoluteDataPath = nil;
+    if (cachesRelatedPath) {
+        // config Tesseract to search trainedData in tessdata folder of the Caches folder
+        NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *cachesPath = cachesPaths.firstObject;
 
-    NSString *absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
-
-    BOOL success = [self moveTessdataToCachesDirectoryIfNecessary];
-    if (success == NO) {
-        return nil;
+        absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
     }
     return [self initWithLanguage:language
                  configDictionary:configDictionary
@@ -123,7 +121,12 @@ namespace tesseract {
         if (configFileNames) {
             NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
         }
-
+        if (absoluteDataPath) {
+            BOOL moveDataSuccess = [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
+            if (moveDataSuccess == NO) {
+                return nil;
+            }
+        }
         _absoluteDataPath = [absoluteDataPath copy];
         _language = [language copy];
         _configDictionary = configDictionary;
@@ -218,14 +221,14 @@ namespace tesseract {
     return isInitDone;
 }
 
-- (BOOL)moveTessdataToCachesDirectoryIfNecessary
+- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     // Useful paths
     NSString *tessdataFolderName = @"tessdata";
     NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
-    NSString *destinationPath = [self.absoluteDataPath stringByAppendingPathComponent:tessdataFolderName];
+    NSString *destinationPath = [directoryPath stringByAppendingPathComponent:tessdataFolderName];
     NSLog(@"Tesseract destination path: %@", destinationPath);
     
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {
