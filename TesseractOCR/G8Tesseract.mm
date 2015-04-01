@@ -107,7 +107,8 @@ namespace tesseract {
                  configDictionary:configDictionary
                   configFileNames:configFileNames
                  absoluteDataPath:absoluteDataPath
-                       engineMode:engineMode];
+                       engineMode:engineMode
+            copyFilesFromResources:cachesRelatedPath != nil];
 }
 
 - (id)initWithLanguage:(NSString *)language
@@ -115,13 +116,14 @@ namespace tesseract {
        configFileNames:(NSArray *)configFileNames
       absoluteDataPath:(NSString *)absoluteDataPath
             engineMode:(G8OCREngineMode)engineMode
+copyFilesFromResources:(BOOL)copyFilesFromResources
 {
     self = [super init];
     if (self != nil) {
         if (configFileNames) {
             NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
         }
-        if (absoluteDataPath) {
+        if (copyFilesFromResources && absoluteDataPath != nil) {
             BOOL moveDataSuccess = [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
             if (moveDataSuccess == NO) {
                 return nil;
