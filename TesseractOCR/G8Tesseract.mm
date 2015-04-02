@@ -89,20 +89,47 @@ namespace tesseract {
 {
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:engineMode];
 }
-
 - (id)initWithLanguage:(NSString *)language
       configDictionary:(NSDictionary *)configDictionary
        configFileNames:(NSArray *)configFileNames
  cachesRelatedDataPath:(NSString *)cachesRelatedPath
             engineMode:(G8OCREngineMode)engineMode
 {
+    NSString *absoluteDataPath = nil;
+    if (cachesRelatedPath) {
+        // config Tesseract to search trainedData in tessdata folder of the Caches folder
+        NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *cachesPath = cachesPaths.firstObject;
+
+        absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
+    }
+    return [self initWithLanguage:language
+                 configDictionary:configDictionary
+                  configFileNames:configFileNames
+                 absoluteDataPath:absoluteDataPath
+                       engineMode:engineMode
+            copyFilesFromResources:cachesRelatedPath != nil];
+}
+
+- (id)initWithLanguage:(NSString *)language
+      configDictionary:(NSDictionary *)configDictionary
+       configFileNames:(NSArray *)configFileNames
+      absoluteDataPath:(NSString *)absoluteDataPath
+            engineMode:(G8OCREngineMode)engineMode
+copyFilesFromResources:(BOOL)copyFilesFromResources
+{
     self = [super init];
     if (self != nil) {
         if (configFileNames) {
             NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
         }
-
-        _absoluteDataPath = [cachesRelatedPath copy];
+        if (copyFilesFromResources && absoluteDataPath != nil) {
+            BOOL moveDataSuccess = [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
+            if (moveDataSuccess == NO) {
+                return nil;
+            }
+        }
+        _absoluteDataPath = [absoluteDataPath copy];
         _language = [language copy];
         _configDictionary = configDictionary;
         _configFileNames = configFileNames;
@@ -116,19 +143,7 @@ namespace tesseract {
         _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
         _monitor->cancel_this = (__bridge void*)self;
 
-        if (self.absoluteDataPath != nil) {
-            // config Tesseract to search trainedData in tessdata folder of the Caches folder
-            NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-            NSString *cachesPath = cachesPaths.firstObject;
-
-            _absoluteDataPath = [cachesPath stringByAppendingPathComponent:_absoluteDataPath].copy;
-
-            BOOL success = [self moveTessdataToCachesDirectoryIfNecessary];
-            if (success == NO) {
-                return nil;
-            }
-        }
-        else {
+        if (self.absoluteDataPath == nil) {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
             _absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
         }
@@ -208,14 +223,14 @@ namespace tesseract {
     return isInitDone;
 }
 
-- (BOOL)moveTessdataToCachesDirectoryIfNecessary
+- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     // Useful paths
     NSString *tessdataFolderName = @"tessdata";
     NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
-    NSString *destinationPath = [self.absoluteDataPath stringByAppendingPathComponent:tessdataFolderName];
+    NSString *destinationPath = [directoryPath stringByAppendingPathComponent:tessdataFolderName];
     NSLog(@"Tesseract destination path: %@", destinationPath);
     
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {

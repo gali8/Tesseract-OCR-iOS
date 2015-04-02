@@ -297,7 +297,49 @@ extern NSInteger const kG8MaxCredibleResolution;
       configDictionary:(NSDictionary *)configDictionary
        configFileNames:(NSArray *)configFileNames
  cachesRelatedDataPath:(NSString *)cachesRelatedDataPath
-            engineMode:(G8OCREngineMode)engineMode NS_DESIGNATED_INITIALIZER;
+            engineMode:(G8OCREngineMode)engineMode;
+
+/**
+ *  Initialize Tesseract with the provided language and engine mode.
+ *
+ *  @param language                 The language to use in recognition. See
+ *                                  `language`.
+ *  @param configDictionary         A dictionary of config variables to set.
+ *  @param configFileNames          An array of file names containing key-value
+ *                                  config pairs. Config settings can be set at
+ *                                  initialization or run-time.  Furthermore, they
+ *                                  could be specified at the same time, in which
+ *                                  case Tesseract will get variables from every
+ *                                  config file as well as the dictionary.
+ *                                  The config files must exist in one of two
+ *                                  possible folders:  tessdata/tessconfigs or
+ *                                  tessdata/configs.
+ *  @param absoluteDataPath         If specified, Tesseract will be initialized to
+ *                                  use this path as the path prefix for the
+ *                                  tessdata folder. Consequently, you must have a
+ *                                  folder named "tessdata" in this path for
+ *                                  Tesseract to initialize properly (unless you
+ *                                  also set the `copyFilesFromResources` flag to
+ *                                  true, in which case the tessdata folder will
+ *                                  be created for you in this path). If nil, the
+ *                                  application bundle will be used instead as the
+ *                                  path prefix for the tessdata folder.
+ *  @param engineMode               The engine mode to use in recognition. See
+ *                                  `engineMode`.
+ *  @param copyFilesFromResources   Flag to determine if Tesseract should copy the
+ *                                  whole contents of the tessdata folder in the
+ *                                  application bundle to the
+ *                                  absoluteDataPath/tessdata directory
+ *
+ *
+ *  @return The initialized Tesseract object, or `nil` if there was an error.
+ */
+- (id)initWithLanguage:(NSString *)language
+      configDictionary:(NSDictionary *)configDictionary
+       configFileNames:(NSArray *)configFileNames
+      absoluteDataPath:(NSString *)absoluteDataPath
+            engineMode:(G8OCREngineMode)engineMode
+copyFilesFromResources:(BOOL)copyFilesFromResources NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Set a Tesseract variable. See G8TesseractParameters.h for the available
