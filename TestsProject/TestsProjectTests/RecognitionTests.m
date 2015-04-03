@@ -59,6 +59,25 @@ describe(@"Simple image", ^{
         [[recognizedText should] containString:@"1234567890"];
     });
 
+    it(@"Should recognize regardless of orientation", ^{
+        UIImage *image = helper.image;
+        UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage
+                                                    scale:image.scale
+                                              orientation:UIImageOrientationLeft];
+
+        [[theValue(image.imageOrientation) shouldNot] equal:theValue(rotatedImage.imageOrientation)];
+
+        [[theBlock(^{
+            [helper recognizeImage];
+        }) shouldNot] raise];
+
+        NSString *recognizedText = helper.tesseract.recognizedText;
+        [[recognizedText should] containString:@"1234567890"];
+
+        UIImage *thresholdedImage = helper.tesseract.thresholdedImage;
+        [[theValue(thresholdedImage.imageOrientation) should] equal:theValue(UIImageOrientationUp)];
+    });
+
     describe(@"Subimage", ^{
 
         beforeEach(^{
@@ -224,6 +243,16 @@ describe(@"Well scaned page", ^{
         UIImage *twiceThresholded = [helper thresholdedImageForImage:onceThresholded];
 
         [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
+    });
+
+    it(@"Should not crash analyze layout", ^{
+        helper.pageSegmentationMode = G8PageSegmentationModeOSDOnly;
+
+        [helper recognizeImage];
+
+        [[theBlock(^{
+            [helper.tesseract deskewAngle];
+        }) shouldNot] raise];
     });
 
     it(@"Should analyze layout", ^{
