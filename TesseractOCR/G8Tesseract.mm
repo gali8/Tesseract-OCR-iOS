@@ -492,38 +492,33 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
 - (G8Orientation)orientation
 {
-    if (self.layoutAnalysed == NO) {
-        [self analyseLayout];
-    }
+    [self analyseLayout];
     return _orientation;
 }
 
 - (G8WritingDirection)writingDirection
 {
-    if (self.layoutAnalysed == NO) {
-        [self analyseLayout];
-    }
+    [self analyseLayout];
     return _writingDirection;
 }
 
 - (G8TextlineOrder)textlineOrder
 {
-    if (self.layoutAnalysed == NO) {
-        [self analyseLayout];
-    }
+    [self analyseLayout];
     return _textlineOrder;
 }
 
 - (CGFloat)deskewAngle
 {
-    if (self.layoutAnalysed == NO) {
-        [self analyseLayout];
-    }
+    [self analyseLayout];
     return _deskewAngle;
 }
 
 - (void)analyseLayout
 {
+    // Only perform the layout analysis if we haven't already
+    if (self.layoutAnalysed) return;
+
     tesseract::Orientation orientation;
     tesseract::WritingDirection direction;
     tesseract::TextlineOrder order;
