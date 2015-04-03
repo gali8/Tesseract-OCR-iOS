@@ -50,4 +50,4 @@ Contributors
 Daniele Galiotto (founder) - iOS Freelance Developer -
 **[www.g8production.com](http://www.g8production.com)**
 
-Kevin Conley - Stanford Graduate Fellow - **[www.kevintechnology.com](http://www.kevintechnology.com)**
+Kevin Conley - **[www.kevintechnology.com](http://www.kevintechnology.com)**
