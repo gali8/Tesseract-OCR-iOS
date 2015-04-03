@@ -147,6 +147,15 @@ extern NSInteger const kG8MaxCredibleResolution;
 - (NSString *)recognizedHOCRForPageNumber:(int)pageNumber;
 
 /**
+ *  Run Tesseract's page analysis on the target image.
+ *
+ *  @note You must have a file called "osd.traineddata" in the "tessdata"
+ *        folder to use this method. You can download this file from:
+ *        https://code.google.com/p/tesseract-ocr/downloads/list
+ */
+- (void)analyseLayout;
+
+/**
  *  The result of Tesseract's orientation analysis of the target image. See
  *  `G8Orientation` in G8Constants.h for the possible orientations.
  *  

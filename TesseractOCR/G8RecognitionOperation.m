@@ -49,6 +49,9 @@
 - (void)main
 {
     @autoreleasepool {
+        // Analyzing the layout must be performed before recognition
+        [self.tesseract analyseLayout];
+        
         [self.tesseract recognize];
     }
 }
