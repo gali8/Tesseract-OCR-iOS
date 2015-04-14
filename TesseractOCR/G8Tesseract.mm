@@ -164,7 +164,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 - (void)dealloc
 {
     if (_monitor != nullptr) {
-        free(_monitor);
+        delete _monitor;
         _monitor = nullptr;
     }
     if (_tesseract != nullptr) {
