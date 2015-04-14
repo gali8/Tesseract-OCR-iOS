@@ -146,7 +146,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
         if (self.absoluteDataPath == nil) {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            _absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
+            _absoluteDataPath = [NSBundle mainBundle].bundlePath;
         }
         
         setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
