@@ -141,7 +141,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
         _rect = CGRectZero;
 
         _monitor = new ETEXT_DESC();
-        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
+        _monitor->cancel = tesseractCancelCallbackFunction;
         _monitor->cancel_this = (__bridge void*)self;
 
         if (self.absoluteDataPath == nil) {
@@ -853,6 +853,10 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
         isCancel = [self.delegate shouldCancelImageRecognitionForTesseract:self];
     }
     return isCancel;
+}
+
+static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
+    return [(__bridge G8Tesseract *)cancel_this tesseractCancelCallbackFunction:words];
 }
 
 @end
