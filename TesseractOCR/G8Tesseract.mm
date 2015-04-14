@@ -178,15 +178,12 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
 - (BOOL)configEngine
 {
-    GenericVector<STRING> tessKeys;
-    for( NSString *key in self.configDictionary.allKeys ){
+    __block GenericVector<STRING> tessKeys;
+    __block GenericVector<STRING> tessValues;
+    [self.configDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *val, BOOL *stop) {
         tessKeys.push_back(STRING(key.UTF8String));
-    }
-
-    GenericVector<STRING> tessValues;
-    for( NSString *val in self.configDictionary.allValues ){
         tessValues.push_back(STRING(val.UTF8String));
-    }
+    }];
     
     int count = (int)self.configFileNames.count;
     const char **configs = count ? (const char **)malloc(sizeof(const char *) * count) : NULL;
