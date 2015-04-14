@@ -149,7 +149,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
             _absoluteDataPath = [NSBundle mainBundle].bundlePath;
         }
         
-        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
+        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
 
         _tesseract = new tesseract::TessBaseAPI();
 
@@ -191,9 +191,9 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     int count = (int)self.configFileNames.count;
     const char **configs = count ? (const char **)malloc(sizeof(const char *) * count) : NULL;
     for (int i = 0; i < count; i++) {
-        configs[i] = ((NSString*)self.configFileNames[i]).UTF8String;
+        configs[i] = ((NSString*)self.configFileNames[i]).fileSystemRepresentation;
     }
-    int returnCode = _tesseract->Init(self.absoluteDataPath.UTF8String, self.language.UTF8String,
+    int returnCode = _tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
                                       (tesseract::OcrEngineMode)self.engineMode,
                                       (char **)configs, count,
                                       &tessKeys, &tessValues,
