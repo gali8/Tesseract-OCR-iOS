@@ -299,18 +299,16 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
 - (void)setVariablesFromDictionary:(NSDictionary *)dictionary
 {
-    for (NSString *key in dictionary.allKeys) {
-        NSString *value = dictionary[key];
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         [self setVariableValue:value forKey:key];
-    }
+    }];
 }
 
 - (void)loadVariables
 {
-    for (NSString *key in self.variables.allKeys) {
-        NSString *value = self.variables[key];
+    [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         _tesseract->SetVariable(key.UTF8String, value.UTF8String);
-    }
+    }];
 }
 
 #pragma mark - Getters and setters
