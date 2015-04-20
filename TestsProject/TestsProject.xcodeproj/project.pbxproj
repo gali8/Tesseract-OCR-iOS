@@ -34,6 +34,7 @@
 		73BE4C351A5BD324002C15F1 /* image_sample.hOCR in Resources */ = {isa = PBXBuildFile; fileRef = 73BE4C341A5BD324002C15F1 /* image_sample.hOCR */; };
 		73BE4C441A5DADDD002C15F1 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73BE4C431A5DADDD002C15F1 /* TesseractOCR.framework */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
+		F1DF11991AE5772400FA6F5D /* rotated_image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F1DF11981AE5772400FA6F5D /* rotated_image_sample.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		73BE4C431A5DADDD002C15F1 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "../build/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<group>"; };
 		73C0A7BC1A59561F00D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA185A06F5E788CE0DC28EB /* Pods-TestsProjectTests.coverage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestsProjectTests.coverage.xcconfig"; path = "../Pods/Target Support Files/Pods-TestsProjectTests/Pods-TestsProjectTests.coverage.xcconfig"; sourceTree = "<group>"; };
+		F1DF11981AE5772400FA6F5D /* rotated_image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = rotated_image_sample.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 				412E9EAC1A45872A007DDAA5 /* image_sample_bl.png */,
 				73BE4C341A5BD324002C15F1 /* image_sample.hOCR */,
 				4141211D1A4B1E3900583ED4 /* image_blank.png */,
+				F1DF11981AE5772400FA6F5D /* rotated_image_sample.jpg */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				412E9EAB1A44316C007DDAA5 /* well_scaned_page.png in Resources */,
+				F1DF11991AE5772400FA6F5D /* rotated_image_sample.jpg in Resources */,
 				41C68DB31A41849100848AE1 /* image_sample.jpg in Resources */,
 				73BE4C351A5BD324002C15F1 /* image_sample.hOCR in Resources */,
 				4115B96C1A3EF8E90004EC0A /* Images.xcassets in Resources */,

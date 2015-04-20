@@ -60,21 +60,24 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should recognize regardless of orientation", ^{
-        UIImage *image = helper.image;
+        UIImage *image = [UIImage imageNamed:@"rotated_image_sample.jpg"];
         UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage
                                                     scale:image.scale
-                                              orientation:UIImageOrientationLeft];
+                                              orientation:UIImageOrientationRight];
 
-        [[theValue(image.imageOrientation) shouldNot] equal:theValue(rotatedImage.imageOrientation)];
+        NSAssert(image.imageOrientation != rotatedImage.imageOrientation, @"Error! Image has not been rotated");
 
+        G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+        tesseract.image = rotatedImage;
+        
         [[theBlock(^{
-            [helper recognizeImage];
+            [tesseract recognize];
         }) shouldNot] raise];
 
-        NSString *recognizedText = helper.tesseract.recognizedText;
+        NSString *recognizedText = tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
 
-        UIImage *thresholdedImage = helper.tesseract.thresholdedImage;
+        UIImage *thresholdedImage = tesseract.thresholdedImage;
         [[theValue(thresholdedImage.imageOrientation) should] equal:theValue(UIImageOrientationUp)];
     });
 
