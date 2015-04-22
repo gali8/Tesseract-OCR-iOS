@@ -11,14 +11,18 @@
 #import <TesseractOCR/TesseractOCR.h>
 #import <Kiwi/Kiwi.h>
 #import "Defaults.h"
+#import "G8RecognitionTestsHelper.h"
 
 @interface G8Tesseract (Tests)
 + (void)didReceiveMemoryWarningNotification:(NSNotification*)notification;
 - (BOOL)configEngine;
 - (BOOL)resetEngine;
+- (void*)pixForImage:(UIImage *)image;
 @end
 
 SPEC_BEGIN(TesseractInitialization)
+
+
 
 describe(@"Tesseract initialization", ^{
     
@@ -84,6 +88,34 @@ describe(@"Tesseract initialization", ^{
             // should be called on a memory warning notification
             [[G8Tesseract should] receive:@selector(didReceiveMemoryWarningNotification:)];
             [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+        });
+        
+        it(@"Should test pixForImage returns nil", ^{
+            G8RecognitionTestsHelper *helper = [[G8RecognitionTestsHelper alloc] init];
+            [helper setupTesseract];
+            helper.customPreprocessingType = G8CustomPreprocessingSimpleThreshold;
+            
+            G8Tesseract *tesseract = helper.tesseract;
+            NSAssert(tesseract, @"Error! tesseract has not been initialized!");
+            
+            [tesseract stub:@selector(pixForImage:) andReturn:nil];
+            tesseract.image = [UIImage imageNamed:@"image_sample.jpg"];
+        });
+        
+        it(@"Should test pixForImage with zero image size", ^{
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+            
+            [[tesseract should] receive:@selector(pixForImage:) withCount:0];
+            tesseract.image = [[UIImage alloc] init];
+            
+            [[tesseract.image should] beNil];
+        });
+        
+        it(@"Should call recognizedText before recognize", ^{
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+            NSString *text = tesseract.recognizedText;
+            
+            [[text should] beNil];
         });
     });
 

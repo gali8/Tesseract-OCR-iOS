@@ -58,10 +58,12 @@ namespace tesseract {
     
     [super initialize];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveMemoryWarningNotification:)
-                                                 name:UIApplicationDidReceiveMemoryWarningNotification
-                                               object:nil];
+    if (self == [G8Tesseract self]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveMemoryWarningNotification:)
+                                                     name:UIApplicationDidReceiveMemoryWarningNotification
+                                                   object:nil];
+    }
 }
 
 + (void)didReceiveMemoryWarningNotification:(NSNotification*)notification {
@@ -775,6 +777,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     l_uint32 *data = pixGetData(pix);
     int wpl = pixGetWpl(pix);
     switch (bpp) {
+#if 0 // BPP1 start. Uncomment this if UIImage can support 1bpp someday
         case 1:
             for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
                 for (int x = 0; x < width; ++x) {
@@ -787,7 +790,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
                 }
             }
             break;
-
+#endif // BPP1 end
         case 8:
             // Greyscale just copies the bytes in the right order.
             for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
@@ -796,7 +799,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
                 }
             }
             break;
-
+#if 0 // BPP24 start. Uncomment this if UIImage can support 24bpp someday
         case 24:
             // Put the colors in the correct places in the line buffer.
             for (int y = 0; y < height; ++y, pixels += bytesPerRow) {
@@ -807,7 +810,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
                 }
             }
             break;
-
+#endif // BPP24 end
         case 32:
             // Maintain byte order consistency across different endianness.
             for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
