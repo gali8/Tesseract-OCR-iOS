@@ -12,6 +12,7 @@
 #import <Kiwi/Kiwi.h>
 #import "Defaults.h"
 #import "G8RecognitionTestsHelper.h"
+#import "UIImage+G8Equal.h"
 
 @interface G8Tesseract (Tests)
 + (void)didReceiveMemoryWarningNotification:(NSNotification*)notification;
@@ -100,6 +101,17 @@ describe(@"Tesseract initialization", ^{
             
             [tesseract stub:@selector(pixForImage:) andReturn:nil];
             tesseract.image = [UIImage imageNamed:@"image_sample.jpg"];
+        });
+        
+        it(@"Should grayscale", ^{
+            UIImage *image = [UIImage imageNamed:@"image_sample_bl.png"];
+            UIImage *grayscaledImage = [image g8_grayScale];
+            
+            UIImage *patternImage = [UIImage imageNamed:@"grayscaledImage.png"];
+            NSAssert(patternImage, @"Error! Pattern image doesn't exist");
+            
+            BOOL equal = [grayscaledImage g8_isEqualToImage:patternImage];
+            [[theValue(equal) should] beYes];
         });
         
         it(@"Should test pixForImage with zero image size", ^{
