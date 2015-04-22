@@ -189,25 +189,18 @@ describe(@"Tesseract initialization", ^{
     context(@"initialize with absoluteDataPath", ^{
 
         it(@"Should initialize simple", ^{
-            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:NO];
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
 
             [[tesseract.absoluteDataPath should] equal:resourcePath];
 
-            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:NO];
-            [[tesseract should] beNil];
-
-            BOOL isDirectory = NO;
-            [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beNo];
-            [[theValue(isDirectory) should] beNo];
-
             copyDataToCustomDirectory();
 
-            isDirectory = NO;
+            BOOL isDirectory = NO;
             [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beYes];
             [[theValue(isDirectory) should] beYes];
 
-            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:NO];
+            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
 
             [[tesseract.absoluteDataPath should] equal:customDirectoryPath];
@@ -218,7 +211,7 @@ describe(@"Tesseract initialization", ^{
 
             cleanCustomTessdataFolder();
 
-            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:YES];
+            tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
 
             [[tesseract.absoluteDataPath should] equal:customDirectoryPath];
