@@ -11,9 +11,9 @@
 
 #import "TesseractOCR.h"
 
-@interface G8RecognitionOperation() <G8TesseractDelegate>
-
-@property (nonatomic, strong, readwrite) G8Tesseract *tesseract;
+@interface G8RecognitionOperation() <G8TesseractDelegate> {
+    G8Tesseract *_tesseract;
+}
 @property (nonatomic, assign, readwrite) CGFloat progress;
 
 @end
