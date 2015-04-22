@@ -55,9 +55,6 @@ namespace tesseract {
 @implementation G8Tesseract
 
 + (void)initialize {
-    
-    [super initialize];
-    
     if (self == [G8Tesseract self]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didReceiveMemoryWarningNotification:)
