@@ -55,9 +55,6 @@ namespace tesseract {
 @implementation G8Tesseract
 
 + (void)initialize {
-    
-    [super initialize];
-    
     if (self == [G8Tesseract self]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didReceiveMemoryWarningNotification:)
@@ -143,15 +140,15 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
         _rect = CGRectZero;
 
         _monitor = new ETEXT_DESC();
-        _monitor->cancel = (CANCEL_FUNC)[self methodForSelector:@selector(tesseractCancelCallbackFunction:)];
+        _monitor->cancel = tesseractCancelCallbackFunction;
         _monitor->cancel_this = (__bridge void*)self;
 
         if (self.absoluteDataPath == nil) {
             // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            _absoluteDataPath = [NSString stringWithFormat:@"%@", [NSString stringWithString:[NSBundle mainBundle].bundlePath]].copy;
+            _absoluteDataPath = [NSBundle mainBundle].bundlePath;
         }
         
-        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].UTF8String, 1);
+        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
 
         _tesseract = new tesseract::TessBaseAPI();
 
@@ -166,7 +163,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 - (void)dealloc
 {
     if (_monitor != nullptr) {
-        free(_monitor);
+        delete _monitor;
         _monitor = nullptr;
     }
     if (_tesseract != nullptr) {
@@ -180,22 +177,19 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
 - (BOOL)configEngine
 {
-    GenericVector<STRING> tessKeys;
-    for( NSString *key in self.configDictionary.allKeys ){
+    __block GenericVector<STRING> tessKeys;
+    __block GenericVector<STRING> tessValues;
+    [self.configDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *val, BOOL *stop) {
         tessKeys.push_back(STRING(key.UTF8String));
-    }
-
-    GenericVector<STRING> tessValues;
-    for( NSString *val in self.configDictionary.allValues ){
         tessValues.push_back(STRING(val.UTF8String));
-    }
+    }];
     
     int count = (int)self.configFileNames.count;
     const char **configs = count ? (const char **)malloc(sizeof(const char *) * count) : NULL;
     for (int i = 0; i < count; i++) {
-        configs[i] = ((NSString*)self.configFileNames[i]).UTF8String;
+        configs[i] = ((NSString*)self.configFileNames[i]).fileSystemRepresentation;
     }
-    int returnCode = _tesseract->Init(self.absoluteDataPath.UTF8String, self.language.UTF8String,
+    int returnCode = _tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
                                       (tesseract::OcrEngineMode)self.engineMode,
                                       (char **)configs, count,
                                       &tessKeys, &tessValues,
@@ -304,18 +298,16 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
 - (void)setVariablesFromDictionary:(NSDictionary *)dictionary
 {
-    for (NSString *key in dictionary.allKeys) {
-        NSString *value = dictionary[key];
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         [self setVariableValue:value forKey:key];
-    }
+    }];
 }
 
 - (void)loadVariables
 {
-    for (NSString *key in self.variables.allKeys) {
-        NSString *value = self.variables[key];
+    [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         _tesseract->SetVariable(key.UTF8String, value.UTF8String);
-    }
+    }];
 }
 
 #pragma mark - Getters and setters
@@ -856,6 +848,10 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
         isCancel = [self.delegate shouldCancelImageRecognitionForTesseract:self];
     }
     return isCancel;
+}
+
+static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
+    return [(__bridge G8Tesseract *)cancel_this tesseractCancelCallbackFunction:words];
 }
 
 @end

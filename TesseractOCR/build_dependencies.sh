@@ -124,7 +124,7 @@ cd -
 # Start clean
 #######################
 
-rm -rf GLOBAL_OUTDIR lib include
+rm -rf $GLOBAL_OUTDIR lib include
 
 #######################
 # LEPTONLIB
