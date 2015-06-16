@@ -134,7 +134,7 @@ typedef NS_ENUM(NSUInteger, G8PageIteratorLevel){
  */
 typedef NS_ENUM(NSUInteger, G8Orientation){
     G8OrientationPageUp,
-    G8OrientationPareRight,
+    G8OrientationPageRight,
     G8OrientationPageDown,
     G8OrientationPageLeft,
 };
