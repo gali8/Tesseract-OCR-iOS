@@ -8,7 +8,10 @@ Easy and fast.**
 These are the current versions of the upstream bundled libraries within the framework that this repository provides:
 
 * Tesseract 3.03-rc1 ([homepage](https://code.google.com/p/tesseract-ocr/))
-* Leptonica 1.71 ([homepage](http://leptonica.org/))
+* Leptonica 1.72 ([homepage](http://leptonica.org/))
+* Libtiff 4.0.4 ([homepage](http://www.remotesensing.org/libtiff/))
+* Libpng 1.6.17 ([homepage](http://www.libpng.org/pub/png/libpng.html))
+* Libjpeg 9a ([homepage](http://libjpeg.sourceforge.net/))
 
 Getting Started
 =================

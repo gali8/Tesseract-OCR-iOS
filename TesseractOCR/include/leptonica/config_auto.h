@@ -20,22 +20,31 @@
 /* #undef HAVE_LIBJP2K */
 
 /* Define to 1 if you have jpeg. */
-/* #undef HAVE_LIBJPEG */
+#define HAVE_LIBJPEG 1
 
 /* Define to 1 if you have libpng. */
-/* #undef HAVE_LIBPNG */
+#define HAVE_LIBPNG 1
 
 /* Define to 1 if you have libtiff. */
-/* #undef HAVE_LIBTIFF */
+#define HAVE_LIBTIFF 1
 
 /* Define to 1 if you have libwebp. */
 /* #undef HAVE_LIBWEBP */
 
 /* Define to 1 if you have zlib. */
-/* #undef HAVE_LIBZ */
+#define HAVE_LIBZ 1
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
+
+/* Define to 1 if you have the <openjpeg-2.0/openjpeg.h> header file. */
+/* #undef HAVE_OPENJPEG_2_0_OPENJPEG_H */
+
+/* Define to 1 if you have the <openjpeg-2.1/openjpeg.h> header file. */
+/* #undef HAVE_OPENJPEG_2_1_OPENJPEG_H */
+
+/* Define to 1 if you have the <openjpeg-2.2/openjpeg.h> header file. */
+/* #undef HAVE_OPENJPEG_2_2_OPENJPEG_H */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -58,6 +67,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Path to <openjpeg.h> header file. */
+/* #undef LIBJP2K_HEADER */
+
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
 #define LT_OBJDIR ".libs/"
@@ -72,7 +84,7 @@
 #define PACKAGE_NAME "leptonica"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "leptonica 1.71"
+#define PACKAGE_STRING "leptonica 1.72"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "leptonica"
@@ -81,13 +93,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.71"
+#define PACKAGE_VERSION "1.72"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.71"
+#define VERSION "1.72"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

@@ -147,6 +147,14 @@ extern NSInteger const kG8MaxCredibleResolution;
 - (NSString *)recognizedHOCRForPageNumber:(int)pageNumber;
 
 /**
+ *  Produces a PDF output with the pages sent to the function
+ *  @param  images  An array of the input images being recognized and 
+ *                  included into the output PDF file.
+ *  @return NSData representing output PDF file
+ */
+- (NSData *)recognizedPDFForImages:(NSArray*)images;
+
+/**
  *  Run Tesseract's page analysis on the target image.
  *
  *  @note You must have a file called "osd.traineddata" in the "tessdata"

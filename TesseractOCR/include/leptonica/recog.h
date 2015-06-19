@@ -153,12 +153,11 @@ struct L_Recog {
     struct Pix    *pixdb_range;  /* debug: best matches within range         */
     struct Pixa   *pixadb_boot;  /* debug: bootstrap training results        */
     struct Pixa   *pixadb_split; /* debug: splitting results                 */
-    char          *fontdir;      /* directory for bitmapped fonts            */
     struct L_Bmf  *bmf;          /* bmf fonts                                */
     l_int32        bmf_size;     /* font size of bmf; default is 6 pt        */
-    struct L_Rdid  *did;         /* temp data used for image decoding        */
-    struct L_Rch   *rch;         /* temp data used for holding best char     */
-    struct L_Rcha  *rcha;        /* temp data used for array of best chars   */
+    struct L_Rdid *did;          /* temp data used for image decoding        */
+    struct L_Rch  *rch;          /* temp data used for holding best char     */
+    struct L_Rcha *rcha;         /* temp data used for array of best chars   */
     l_int32        bootrecog;    /* 1 if using bootstrap samples; else 0     */
     l_int32        index;        /* recog index in recoga; -1 if no parent   */
     struct L_Recoga  *parent;    /* ptr to parent array; can be null         */

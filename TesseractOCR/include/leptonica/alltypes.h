@@ -56,6 +56,7 @@
 #include "pix.h"
 #include "recog.h"
 #include "regutils.h"
+#include "stringcode.h"
 #include "sudoku.h"
 #include "watershed.h"
 
