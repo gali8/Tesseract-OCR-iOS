@@ -28,8 +28,6 @@
         _tesseract.delegate = self;
 
         __weak __typeof(self) weakSelf = self;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
         self.completionBlock = ^{
             __strong __typeof(weakSelf) strongSelf = weakSelf;
 
@@ -41,7 +39,6 @@
                 }];
             }
         };
-#pragma clang diagnostic pop
     }
     return self;
 }
