@@ -58,9 +58,6 @@ typedef void(^G8RecognitionOperationCallback)(G8Tesseract *tesseract);
  */
 @property (nonatomic, copy) G8RecognitionOperationCallback progressCallbackBlock;
 
-/// @deprecated	Use property recognitionCompleteBlock instead
-@property (copy) void (^completionBlock)(void) DEPRECATED_ATTRIBUTE;
-
 /// The default initializer should not be used since the language Tesseract
 /// uses needs to be explicit.
 - (instancetype)init __attribute__((unavailable("Use initWithLanguage:language instead")));
