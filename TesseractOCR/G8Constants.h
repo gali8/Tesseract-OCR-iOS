@@ -95,7 +95,7 @@ typedef NS_ENUM(NSUInteger, G8OCREngineMode){
      *  Run both and combine results - best accuracy
      */
     G8OCREngineModeTesseractCubeCombined,
-//    G8OCREngineModeDefault,
+    G8OCREngineModeDefault
 };
 
 /**

@@ -22,6 +22,7 @@
 #import "allheaders.h"
 #import "genericvector.h"
 #import "strngs.h"
+#include <stdexcept>
 
 NSInteger const kG8DefaultResolution = 72;
 NSInteger const kG8MinCredibleResolution = 70;
@@ -689,12 +690,12 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
     self.recognized = NO;
     int returnCode = 0;
-    @try {
+    try {
         returnCode = _tesseract->Recognize(_monitor);
         self.recognized = YES;
     }
-    @catch (NSException *exception) {
-        NSLog(@"Exception was raised while recognizing: %@", exception);
+    catch (std::invalid_argument exception) {
+        NSLog(@"Exception was raised while recognizing.");
     }
     return returnCode == 0 && self.recognized;
 }
