@@ -323,22 +323,20 @@ extern NSInteger const kG8MaxCredibleResolution;
  *                                  The config files must exist in one of two
  *                                  possible folders:  tessdata/tessconfigs or
  *                                  tessdata/configs.
- *  @param absoluteDataPath         If specified, Tesseract will be initialized to
- *                                  use this path as the path prefix for the
- *                                  tessdata folder. Consequently, you must have a
- *                                  folder named "tessdata" in this path for
- *                                  Tesseract to initialize properly (unless you
- *                                  also set the `copyFilesFromResources` flag to
- *                                  true, in which case the tessdata folder will
- *                                  be created for you in this path). If nil, the
+ *  @param absoluteDataPath         If specified, the whole contents of the 
+ *                                  tessdata folder in the application bundle
+ *                                  (if present) will be copied to
+ *                                  <absoluteDataPath>/tessdata and Tesseract will
+ *                                  be initialized to use this path as the path
+ *                                  prefix for the tessdata folder.
+ *                                  Consequently, you must have a folder named
+ *                                  "tessdata" in this path for Tesseract to
+ *                                  initialize properly if there is no tessdata
+ *                                  folder in the application bundle. If nil, the
  *                                  application bundle will be used instead as the
  *                                  path prefix for the tessdata folder.
  *  @param engineMode               The engine mode to use in recognition. See
  *                                  `engineMode`.
- *  @param copyFilesFromResources   Flag to determine if Tesseract should copy the
- *                                  whole contents of the tessdata folder in the
- *                                  application bundle to the
- *                                  absoluteDataPath/tessdata directory
  *
  *
  *  @return The initialized Tesseract object, or `nil` if there was an error.
@@ -347,8 +345,7 @@ extern NSInteger const kG8MaxCredibleResolution;
       configDictionary:(NSDictionary *)configDictionary
        configFileNames:(NSArray *)configFileNames
       absoluteDataPath:(NSString *)absoluteDataPath
-            engineMode:(G8OCREngineMode)engineMode
-copyFilesFromResources:(BOOL)copyFilesFromResources NS_DESIGNATED_INITIALIZER;
+            engineMode:(G8OCREngineMode)engineMode NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Set a Tesseract variable. See G8TesseractParameters.h for the available

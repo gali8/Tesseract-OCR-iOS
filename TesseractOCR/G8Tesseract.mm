@@ -107,8 +107,7 @@ namespace tesseract {
                  configDictionary:configDictionary
                   configFileNames:configFileNames
                  absoluteDataPath:absoluteDataPath
-                       engineMode:engineMode
-            copyFilesFromResources:cachesRelatedPath != nil];
+                       engineMode:engineMode];
 }
 
 - (id)initWithLanguage:(NSString *)language
@@ -116,14 +115,13 @@ namespace tesseract {
        configFileNames:(NSArray *)configFileNames
       absoluteDataPath:(NSString *)absoluteDataPath
             engineMode:(G8OCREngineMode)engineMode
-copyFilesFromResources:(BOOL)copyFilesFromResources
 {
     self = [super init];
     if (self != nil) {
         if (configFileNames) {
             NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
         }
-        if (copyFilesFromResources && absoluteDataPath != nil) {
+        if (absoluteDataPath != nil) {
             BOOL moveDataSuccess = [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
             if (moveDataSuccess == NO) {
                 return nil;
@@ -229,7 +227,13 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
     NSString *destinationPath = [directoryPath stringByAppendingPathComponent:tessdataFolderName];
     NSLog(@"Tesseract destination path: %@", destinationPath);
-    
+
+    BOOL isDirectory = YES;
+    if (![fileManager fileExistsAtPath:tessdataPath isDirectory:&isDirectory] || !isDirectory) {
+        // No tessdata directory in application bundle, nothing to do.
+        return YES;
+    }
+
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {
         NSError *error = nil;
         BOOL res = [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:&error];
