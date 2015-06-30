@@ -36,7 +36,7 @@ namespace tesseract {
 
 @interface G8Tesseract () {
     tesseract::TessBaseAPI *_tesseract;
-    tesseract::TessResultRenderer *_renderer;
+    tesseract::TessPDFRenderer *_renderer;
     ETEXT_DESC *_monitor;
 }
 
@@ -872,11 +872,11 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
         NSLog(@"ERROR: There is already a renderer running. Call endPDF().");
         return NO;
     }
-    
     const char *outputBase = pdfOutputURL.fileSystemRepresentation;
     const char *dataPath = _tesseract->GetDatapath();
+    
     _renderer = new tesseract::TessPDFRenderer(outputBase, dataPath);
-    bool success = _renderer->BeginDocument("");
+    bool success = _renderer->BeginDocument("Scanbot SDK");
     if (!success) {
         NSLog(@"ERROR: Unable to create PDF renderer.");
         delete _renderer;
