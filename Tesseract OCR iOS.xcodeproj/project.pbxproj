@@ -21,8 +21,8 @@
 		73C0A79F1A59330100D823D4 /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73C0A7A01A59330A00D823D4 /* UIImage+G8Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 6490748A198A5A5600D728CC /* UIImage+G8Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+G8Filters.m */; };
-		73C0A7A21A59337300D823D4 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A029D117307CD0002B12E7 /* liblept.a */; };
 		73C0A7B21A594A8000D823D4 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 73C0A7B11A594A8000D823D4 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9EBE7FA41B428F5800BF18E3 /* G8Tesseract+PDFRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBE7FA21B428F5800BF18E3 /* G8Tesseract+PDFRendering.h */; };
 		9ECE97AD1B3D5546004B661A /* apitypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ECE97951B3D5546004B661A /* apitypes.h */; };
 		9ECE97AE1B3D5546004B661A /* baseapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ECE97961B3D5546004B661A /* baseapi.h */; };
 		9ECE97AF1B3D5546004B661A /* errcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ECE97971B3D5546004B661A /* errcode.h */; };
@@ -98,7 +98,6 @@
 		64A0295817307CCF002B12E7 /* stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stack.h; sourceTree = "<group>"; };
 		64A0295917307CCF002B12E7 /* sudoku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sudoku.h; sourceTree = "<group>"; };
 		64A0295A17307CCF002B12E7 /* watershed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = watershed.h; sourceTree = "<group>"; };
-		64A029D117307CD0002B12E7 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		64A029D317307CD0002B12E7 /* README_tesseract.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_tesseract.md; sourceTree = "<group>"; };
 		64A029D617307CD0002B12E7 /* G8Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Tesseract.h; sourceTree = "<group>"; };
 		64A029D717307CD0002B12E7 /* G8Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = G8Tesseract.mm; sourceTree = "<group>"; };
@@ -106,6 +105,7 @@
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		73C0A7B11A594A8000D823D4 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
 		73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EBE7FA21B428F5800BF18E3 /* G8Tesseract+PDFRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "G8Tesseract+PDFRendering.h"; sourceTree = "<group>"; };
 		9ECE97951B3D5546004B661A /* apitypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apitypes.h; sourceTree = "<group>"; };
 		9ECE97961B3D5546004B661A /* baseapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = baseapi.h; sourceTree = "<group>"; };
 		9ECE97971B3D5546004B661A /* errcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errcode.h; sourceTree = "<group>"; };
@@ -139,7 +139,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9ECE97C61B3D5569004B661A /* libtesseract.a in Frameworks */,
-				73C0A7A21A59337300D823D4 /* liblept.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				73C0A7B11A594A8000D823D4 /* TesseractOCR.h */,
+				9EBE7FA21B428F5800BF18E3 /* G8Tesseract+PDFRendering.h */,
 				64A029D617307CD0002B12E7 /* G8Tesseract.h */,
 				64A029D717307CD0002B12E7 /* G8Tesseract.mm */,
 				4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */,
@@ -247,7 +247,6 @@
 		64A029D017307CD0002B12E7 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				64A029D117307CD0002B12E7 /* liblept.a */,
 				9ECE97C51B3D5569004B661A /* libtesseract.a */,
 			);
 			path = lib;
@@ -339,6 +338,7 @@
 				73C0A79F1A59330100D823D4 /* G8Constants.h in Headers */,
 				9ECE97BD1B3D5546004B661A /* resultiterator.h in Headers */,
 				9ECE97AD1B3D5546004B661A /* apitypes.h in Headers */,
+				9EBE7FA41B428F5800BF18E3 /* G8Tesseract+PDFRendering.h in Headers */,
 				9ECE97B51B3D5546004B661A /* memry.h in Headers */,
 				9ECE97AF1B3D5546004B661A /* errcode.h in Headers */,
 				9ECE97B11B3D5546004B661A /* genericvector.h in Headers */,

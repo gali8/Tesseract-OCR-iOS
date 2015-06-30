@@ -14,12 +14,14 @@
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
 #import "G8RecognizedBlock.h"
+#import "G8Tesseract+PDFRendering.h"
 
 #import "baseapi.h"
 #import "environ.h"
 #import "pix.h"
 #import "ocrclass.h"
 #import "allheaders.h"
+#import "renderer.h"
 #import "genericvector.h"
 #import "strngs.h"
 #include <stdexcept>
@@ -34,6 +36,7 @@ namespace tesseract {
 
 @interface G8Tesseract () {
     tesseract::TessBaseAPI *_tesseract;
+    tesseract::TessResultRenderer *_renderer;
     ETEXT_DESC *_monitor;
 }
 
@@ -856,3 +859,59 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
 }
 
 @end
+
+
+@implementation G8Tesseract (PDFRendering)
+
+- (void)setImageURL:(NSURL *)imageURL {
+    _tesseract->SetInputName(imageURL.fileSystemRepresentation);
+}
+
+- (BOOL)beginPDF:(NSURL *)pdfOutputURL {
+    if (_renderer != NULL) {
+        NSLog(@"ERROR: There is already a renderer running. Call endPDF().");
+        return NO;
+    }
+    
+    const char *outputBase = pdfOutputURL.fileSystemRepresentation;
+    const char *dataPath = _tesseract->GetDatapath();
+    _renderer = new tesseract::TessPDFRenderer(outputBase, dataPath);
+    bool success = _renderer->BeginDocument("");
+    if (!success) {
+        NSLog(@"ERROR: Unable to create PDF renderer.");
+        delete _renderer;
+        _renderer = NULL;
+    }
+    return success;
+}
+
+- (BOOL)endPDF {
+    if (_renderer == NULL) {
+        NSLog(@"ERROR: There is no renderer running. Call beginPDF(...).");
+        return NO;
+    }
+    bool success = _renderer->EndDocument();
+    delete _renderer;
+    _renderer = NULL;
+    return success;
+}
+
+- (BOOL)addCurrentPageWithResolution:(int)dpi {
+    int currentDPI = _tesseract->GetSourceYResolution();
+    _tesseract->SetSourceResolution(dpi);
+    if (_renderer == NULL) {
+        NSLog(@"ERROR: There is no renderer running. Call beginPDF(...).");
+        return NO;
+    }
+    
+    bool success = _renderer->AddImage(_tesseract);
+    if (!success) {
+        NSLog(@"ERROR: Unable to add page while rendering PDF.");
+    }
+    _tesseract->SetSourceResolution(currentDPI);
+    return success;
+}
+
+
+@end
+
