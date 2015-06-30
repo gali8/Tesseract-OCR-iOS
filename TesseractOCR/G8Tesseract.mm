@@ -867,7 +867,7 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
     _tesseract->SetInputName(imageURL.fileSystemRepresentation);
 }
 
-- (BOOL)beginPDF:(NSURL *)pdfOutputURL {
+- (BOOL)beginPDF:(NSURL *)pdfOutputURL creatorString:(NSString *)creator {
     if (_renderer != NULL) {
         NSLog(@"ERROR: There is already a renderer running. Call endPDF().");
         return NO;
@@ -876,6 +876,7 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
     const char *dataPath = _tesseract->GetDatapath();
     
     _renderer = new tesseract::TessPDFRenderer(outputBase, dataPath);
+    _renderer->setCreator([creator cStringUsingEncoding:NSUTF8StringEncoding]);
     bool success = _renderer->BeginDocument("");
     if (!success) {
         NSLog(@"ERROR: Unable to create PDF renderer.");

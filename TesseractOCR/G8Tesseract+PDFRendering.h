@@ -10,7 +10,7 @@
 
 @interface G8Tesseract (PDFRendering)
 - (void)setImageURL:(NSURL *)imageURL;
-- (BOOL)beginPDF:(NSURL *)pdfOutputURL;
+- (BOOL)beginPDF:(NSURL *)pdfOutputURL creatorString:(NSString *)creator;
 - (BOOL)addCurrentPageWithResolution:(int)dpi;
 - (BOOL)endPDF;
 

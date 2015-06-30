@@ -170,7 +170,9 @@ class TESS_API TessPDFRenderer : public TessResultRenderer {
   // datadir is the location of the TESSDATA. We need it because
   // we load a custom PDF font from this location.
   TessPDFRenderer(const char *outputbase, const char *datadir);
-
+  virtual void setCreator(const char *creator) { creator_ = creator; }
+  const char *creator() { return creator_; }
+    
 protected:
   virtual bool BeginDocumentHandler();
   virtual bool AddImageHandler(TessBaseAPI* api);
@@ -186,6 +188,7 @@ private:
   GenericVector<long int> offsets_;  // offset of every PDF object in bytes
   GenericVector<long int> pages_;    // object number for every /Page object
   const char *datadir_;              // where to find the custom font
+  const char *creator_ = "Scanbot";
   // Bookkeeping only. DIY = Do It Yourself.
   void AppendPDFObjectDIY(size_t objectsize);
   // Bookkeeping + emit data.
