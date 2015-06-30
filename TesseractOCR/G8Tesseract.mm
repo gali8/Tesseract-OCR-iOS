@@ -876,7 +876,7 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
     const char *dataPath = _tesseract->GetDatapath();
     
     _renderer = new tesseract::TessPDFRenderer(outputBase, dataPath);
-    bool success = _renderer->BeginDocument("Scanbot SDK");
+    bool success = _renderer->BeginDocument("");
     if (!success) {
         NSLog(@"ERROR: Unable to create PDF renderer.");
         delete _renderer;
