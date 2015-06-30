@@ -131,22 +131,24 @@ describe(@"Tesseract initialization", ^{
         });
     });
 
-    NSString *customTessDataPath = [customDirectoryPath stringByAppendingPathComponent:@"tessdata"];
-    void(^cleanCustomTessdataFolder)() = ^{
+    NSString *tessdataPath = @"foo/bar";
+    void (^cleanTessdataFolderAtPath)(NSString *dataPath) = ^(NSString *dataPath) {
+        //NSLog(@"Removing previous tessdata folder from Caches folder");
         NSError *error = nil;
-        BOOL fileIsRemoved = [fileManager removeItemAtPath:customTessDataPath error:&error];
+        BOOL fileIsRemoved = [fileManager removeItemAtPath:dataPath error:&error];
         if (error != nil) {
-            NSLog(@"Error deleting tessdata folder from the custom directory: %@", error);
+            NSLog(@"Error deleting tessdata folder from the folder %@: %@", dataPath, error);
         }
-        NSAssert(fileIsRemoved == YES, @"Error cleaning tessdata from the custom directory");
-
+        NSAssert(fileIsRemoved == YES, @"Error cleaning tessdata from the folder: %@", error);
+        
         // check tessdata folder was deleted
-        NSArray *directoryContent = [fileManager contentsOfDirectoryAtPath:customDirectoryPath error:&error];
+        NSArray *cachesContent = [fileManager contentsOfDirectoryAtPath:dataPath error:&error];
         if (error != nil) {
-            NSLog(@"Error getting the contents of the custom directory: %@", error);
+            NSLog(@"Error getting the contents of the folder %@: %@", dataPath, error);
         }
-        NSAssert([directoryContent containsObject:customDirectoryPath] == NO, @"Assert! Tessdata path was not removed from the Caches folder");
+        NSAssert([cachesContent containsObject:tessdataPath] == NO, @"Assert! Tessdata path was not removed from the Caches folder");
     };
+
 
     // helper
     BOOL (^moveTessdataToFolderIfNecessary)(NSString *dataPath) = ^(NSString *dataPath){
@@ -209,6 +211,7 @@ describe(@"Tesseract initialization", ^{
             moveTessdataToFolderIfNecessary(customDirectoryPath);
 
             BOOL isDirectory = NO;
+            NSString *customTessDataPath = [customDirectoryPath stringByAppendingPathComponent:tessdataFolderName];
             [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beYes];
             [[theValue(isDirectory) should] beYes];
 
@@ -221,7 +224,7 @@ describe(@"Tesseract initialization", ^{
             [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beYes];
             [[theValue(isDirectory) should] beYes];
 
-            cleanCustomTessdataFolder();
+            cleanTessdataFolderAtPath(customDirectoryPath);
 
             tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
@@ -232,7 +235,7 @@ describe(@"Tesseract initialization", ^{
             [[theValue([fileManager fileExistsAtPath:[customDirectoryPath stringByAppendingPathComponent:@"tessdata"] isDirectory:&isDirectory]) should] beYes];
             [[theValue(isDirectory) should] beYes];
 
-            cleanCustomTessdataFolder();
+            cleanTessdataFolderAtPath(customDirectoryPath);
 
         });
 
@@ -327,25 +330,7 @@ describe(@"Tesseract initialization", ^{
     
     NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesPath = cachesPaths.firstObject;
-    NSString *tessdataPath = @"foo/bar";
     NSString *cachesTessDataPath = [cachesPath stringByAppendingPathComponent:tessdataPath];
-    
-    void(^cleanTessdataFolder)() = ^{
-        //NSLog(@"Removing previous tessdata folder from Caches folder");
-        NSError *error = nil;
-        BOOL fileIsRemoved = [fileManager removeItemAtPath:cachesTessDataPath error:&error];
-        if (error != nil) {
-            NSLog(@"Error deleting tessdata folder from the Caches folder: %@", error);
-        }
-        NSAssert(fileIsRemoved == YES, @"Error cleaning tessdata from the Caches folder");
-        
-        // check tessdata folder was deleted
-        NSArray *cachesContent = [fileManager contentsOfDirectoryAtPath:cachesPath error:&error];
-        if (error != nil) {
-            NSLog(@"Error getting the contents of the Caches folder: %@", error);
-        }
-        NSAssert([cachesContent containsObject:tessdataPath] == NO, @"Assert! Tessdata path was not removed from the Caches folder");
-    };
     
     context(@"moveTessdataToCachesDirectoryIfNecessary", ^{
         
@@ -367,12 +352,12 @@ describe(@"Tesseract initialization", ^{
             NSAssert (error == nil, @"Error getting the content of the Tessdata folder from the app bundle: %@", error);
 
             checkInitializationWithFailedSelectorReturnValueAndCount(@selector(createSymbolicLinkAtPath:withDestinationPath:error:), theValue(NO), contentsOfTessdataFromTheBundle.count);
-            cleanTessdataFolder();
+            cleanTessdataFolderAtPath(cachesTessDataPath);
         });
         
         it(@"Should return nil if contentsOfDirectoryAtPath fails", ^{
             checkInitializationWithFailedSelectorReturnValueAndCount(@selector(contentsOfDirectoryAtPath:error:), nil, 2);
-            cleanTessdataFolder();
+            cleanTessdataFolderAtPath(cachesTessDataPath);
         });
     });
     
@@ -624,7 +609,7 @@ describe(@"Tesseract initialization", ^{
         });
         
         afterEach(^{
-            cleanTessdataFolder();
+            cleanTessdataFolderAtPath(cachesTessDataPath);
         });
     });
 });
