@@ -913,6 +913,71 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
     return success;
 }
 
+- (NSArray *)recognizedWordsForSandwiching {
+    G8PageIteratorLevel pageIteratorLevel = G8PageIteratorLevelWord;
+    tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
+    
+    NSMutableArray *array = [NSMutableArray array];
+    tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
+    NSCharacterSet *illegalCharacters = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+    
+    CGFloat line = 0;
+    CGFloat lineHeight = 0;
+    if (resultIterator != NULL) {
+        BOOL shouldBeFirst = NO;
+        G8RecognizedBlock *lastBlock = nil;
+        do {
+            G8RecognizedBlock *block = [self blockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
+            block.isFirstBlockInLine = resultIterator->IsAtBeginningOf(tesseract::RIL_TEXTLINE);
+            if (!block.isFirstBlockInLine ) {
+                block.isFirstBlockInLine = shouldBeFirst;
+                shouldBeFirst = NO;
+                CGRect lastRect = lastBlock.boundingBox;
+                CGFloat distance = (lastRect.origin.x + lastRect.size.width - block.boundingBox.origin.x);
+                if ((ABS(lastRect.origin.y - block.boundingBox.origin.y) > block.boundingBox.size.height / 3 &&
+                     distance > 0.012) || distance > 0.02) {
+                    block.isFirstBlockInLine = YES;
+                }
+            }
+            
+            // Allign block to one baseline and make height the same.
+            CGRect box = block.boundingBox;
+            if (block.isFirstBlockInLine) {
+                line = box.origin.y;
+                lineHeight = box.size.height;
+            } else {
+                box.origin.y = line;
+                box.size.height = lineHeight;
+            }
+            block.boundingBox = box;
+            
+            if (pageIteratorLevel == G8PageIteratorLevelBlock) {
+                if (block != nil) {
+                    [array addObject:block];
+                }
+            }
+            
+            NSString *trimmedString = [block.text stringByTrimmingCharactersInSet:illegalCharacters];
+            NSInteger trimmedCharacters = block.text.length - trimmedString.length;
+            BOOL shouldIgnore = ((block.boundingBox.size.width < 0.001 || block.boundingBox.size.height < 0.001)
+                                 || (block.text.length < 3 && (block.boundingBox.size.width > 0.3 ||
+                                                               block.boundingBox.size.height > 0.3))
+                                 || (block.text.length > 3 && (trimmedString.length == 0 || block.text.length / 2 < trimmedCharacters))
+                                 || block.confidence < 20);
+            if (block != nil && !shouldIgnore) {
+                lastBlock = block;
+                [array addObject:block];
+            } else {
+                shouldBeFirst = block.isFirstBlockInLine;
+            }
+        } while (resultIterator->Next(level));
+        delete resultIterator;
+    }
+    
+    return [array copy];
+}
+
+
 
 @end
 
