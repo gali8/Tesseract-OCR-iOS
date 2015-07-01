@@ -13,6 +13,7 @@
 
 #import "G8RecognitionTestsHelper.h"
 #import "UIImage+G8Equal.h"
+#import "NSData+G8Equal.h"
 #import "Defaults.h"
 
 SPEC_BEGIN(RecognitionTests)
@@ -224,7 +225,7 @@ describe(@"Well scaned page", ^{
     static NSString *const kG8WellScanedFinalLongString = @"recommendations sometimes get acted on";
 
     beforeEach(^{
-        helper.image = [UIImage imageNamed:@"well_scaned_page"];
+        helper.image = [UIImage imageNamed:@"well_scaned_page.jpg"];
     });
 
     it(@"Should recognize", ^{
@@ -306,11 +307,11 @@ describe(@"hOCR", ^{
         NSAssert(error == nil, @"error loading hOCR from file %@: %@", path, error);
     });
     
-    it(@"Should well scanced page", ^{
+    it(@"Should well scanned page", ^{
         
         NSString *path = [[NSBundle mainBundle] pathForResource:@"well_scaned_page" ofType:@"hOCR"];
         
-        helper.image = [UIImage imageNamed:@"well_scaned_page"];
+        helper.image = [UIImage imageNamed:@"well_scaned_page.jpg"];
         
         [helper recognizeImage];
         NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
@@ -326,6 +327,20 @@ describe(@"hOCR", ^{
         NSString *hOCR = [tesseract recognizedHOCRForPageNumber:0];
         [[hOCR should] beNil];
     });
+});
+
+describe(@"PDF", ^{
+  
+  it(@"Should recognize well scanced page", ^{
+    G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
+    UIImage *image = [UIImage imageNamed:@"well_scaned_page.jpg"];
+    NSData *pdfData = [tesseract recognizedPDFForImages:@[image]];
+    
+    NSString *wellScannedPDFPath = [[NSBundle mainBundle] pathForResource:@"well_scaned_page" ofType:@"pdf"];
+    NSData *wellScannedPDF = [NSData dataWithContentsOfFile:wellScannedPDFPath];
+    NSAssert(wellScannedPDF, @"There is not %@ file to compare to", wellScannedPDFPath);
+    [[theValue([pdfData g8_isEqualToData:wellScannedPDF]) should] beYes];
+  });
 });
 
 SPEC_END

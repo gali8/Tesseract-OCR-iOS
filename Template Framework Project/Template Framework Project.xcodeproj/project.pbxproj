@@ -312,6 +312,7 @@
 				OTHER_LDFLAGS = (
 					"-lstdc++",
 					"-ObjC",
+					"-lz",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -337,6 +338,7 @@
 				OTHER_LDFLAGS = (
 					"-lstdc++",
 					"-ObjC",
+					"-lz",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

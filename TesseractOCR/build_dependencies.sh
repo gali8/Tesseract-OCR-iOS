@@ -7,8 +7,9 @@
 
 GLOBAL_OUTDIR="`pwd`/build"
 LOCAL_OUTDIR="./outdir"
-LEPTON_LIB="`pwd`/leptonica-1.71"
-TESSERACT_LIB="`pwd`/tesseract-3.03"
+TESSERACT_LIB="`pwd`/tesseract-ocr"
+LEPTON_LIB="`pwd`/leptonica-1.72"
+IMAGE_LIBS="`pwd`/libtiff-ios/dependencies"
 
 IOS_BASE_SDK="7.0"
 IOS_DEPLOY_TGT="7.0"
@@ -37,9 +38,10 @@ arch_names=(arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-d
 
 setenv_all() {
 # Add internal libs
-export CFLAGS="$CFLAGS -I$GLOBAL_OUTDIR/include -L$GLOBAL_OUTDIR/lib -Qunused-arguments"
+export LIBS="-lz -lpng -ljpeg -ltiff"
+export CFLAGS="$CFLAGS -I$IMAGE_LIBS/include -L$IMAGE_LIBS/lib -I$GLOBAL_OUTDIR/include -L$GLOBAL_OUTDIR/lib -Qunused-arguments"
 
-export LDFLAGS="-L$SDKROOT/usr/lib/"
+export LDFLAGS="-L$SDKROOT/usr/lib/ -L$IMAGE_LIBS/lib/"
 
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CFLAGS
@@ -127,6 +129,25 @@ cd -
 rm -rf $GLOBAL_OUTDIR lib include
 
 #######################
+# Download dependencies
+#######################
+
+git submodule init
+git submodule update
+
+#######################
+# Build libtiff and all of it's dependencies
+#######################
+
+cd libtiff-ios
+./build-png.sh
+./build-jpg.sh
+./build-tiff.sh
+cd ..
+
+mkdir -p $GLOBAL_OUTDIR/lib && cp -rvf $IMAGE_LIBS/lib/lib*.a $GLOBAL_OUTDIR/lib
+
+#######################
 # LEPTONLIB
 #######################
 cd $LEPTON_LIB
@@ -138,7 +159,8 @@ mkdir -p "$LOCAL_OUTDIR/${archs[$n]}"
 make clean 2> /dev/null
 make distclean 2> /dev/null
 eval "setenv_${archs[$n]}"
-./configure --host="${arch_names[$n]}" --enable-shared=no --disable-programs --without-zlib --without-libpng --without-jpeg --without-giflib --without-libtiff
+env
+./configure --host="${arch_names[$n]}" --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
 make -j12
 cp -rvf src/.libs/lib*.a "$LOCAL_OUTDIR/${archs[$n]}"
 done
@@ -182,6 +204,6 @@ cd ..
 
 cp -rf $GLOBAL_OUTDIR/include .
 mkdir -p lib
-cp -rf $GLOBAL_OUTDIR/lib/libtesseract_all.a $GLOBAL_OUTDIR/lib/liblept.a lib/
+cp -rf $GLOBAL_OUTDIR/lib/lib*.a lib/
 
 echo "Finished!"
