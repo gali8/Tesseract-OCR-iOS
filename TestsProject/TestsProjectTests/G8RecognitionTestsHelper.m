@@ -13,6 +13,9 @@ static NSString *const kG8Languages = @"eng";
 @interface G8RecognitionTestsHelper ()
 
 @property (nonatomic, strong, readwrite) G8Tesseract *tesseract;
+@property (nonatomic) BOOL progressDelegateCallbackCalledByQueue;
+@property (nonatomic) BOOL cancelDelegateCallbackCalledByQueue;
+@property (nonatomic) BOOL preprocessingDelegateCallbackCalledByQueue;
 
 @end
 
@@ -125,6 +128,15 @@ static NSString *const kG8Languages = @"eng";
     
     NSAssert(recognitionCompleteBlockInvoked == YES, @"Error! recognitionCompleteBlock has not been invoked");
     NSAssert(progressCallbackBlockInvoked == YES, @"Error! progressCallbackBlock has not been invoked");
+    
+    NSAssert(self.progressDelegateCallbackCalledByQueue == YES, @"Error! progressImageRecognitionForTesseract has not been invoked by queue");
+    self.progressDelegateCallbackCalledByQueue = NO;
+    
+    NSAssert(self.cancelDelegateCallbackCalledByQueue == YES, @"Error! shouldCancelImageRecognitionForTesseract has not been invoked by queue");
+    self.cancelDelegateCallbackCalledByQueue = NO;
+    
+    NSAssert(self.preprocessingDelegateCallbackCalledByQueue == YES, @"Error! preprocessedImageForTesseract has not been invoked by queue");
+    self.preprocessingDelegateCallbackCalledByQueue = NO;
 };
 
 - (UIImage *)thresholdedImageForImage:(UIImage *)sourceImage
@@ -142,16 +154,19 @@ static NSString *const kG8Languages = @"eng";
 
 - (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract
 {
-    
+    self.progressDelegateCallbackCalledByQueue = YES;
 }
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract
 {
+    self.cancelDelegateCallbackCalledByQueue = YES;
     return NO;
 }
 
 - (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
 {
+    self.preprocessingDelegateCallbackCalledByQueue = YES;
+    
     switch (self.customPreprocessingType) {
         case G8CustomPreprocessingNone:
             return nil;
