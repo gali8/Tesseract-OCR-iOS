@@ -225,7 +225,7 @@ describe(@"Well scaned page", ^{
     static NSString *const kG8WellScanedFinalLongString = @"recommendations sometimes get acted on";
 
     beforeEach(^{
-        helper.image = [UIImage imageNamed:@"well_scaned_page.jpg"];
+        helper.image = [UIImage imageNamed:@"well_scaned_page"];
     });
 
     it(@"Should recognize", ^{
@@ -311,7 +311,7 @@ describe(@"hOCR", ^{
         
         NSString *path = [[NSBundle mainBundle] pathForResource:@"well_scaned_page" ofType:@"hOCR"];
         
-        helper.image = [UIImage imageNamed:@"well_scaned_page.jpg"];
+        helper.image = [UIImage imageNamed:@"well_scaned_page"];
         
         [helper recognizeImage];
         NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
@@ -333,7 +333,7 @@ describe(@"PDF", ^{
   
   it(@"Should recognize well scanced page", ^{
     G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
-    UIImage *image = [UIImage imageNamed:@"well_scaned_page.jpg"];
+    UIImage *image = [UIImage imageNamed:@"well_scaned_page"];
     NSData *pdfData = [tesseract recognizedPDFForImages:@[image]];
     
     NSString *wellScannedPDFPath = [[NSBundle mainBundle] pathForResource:@"well_scaned_page" ofType:@"pdf"];
