@@ -399,8 +399,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
         @try {
             _tesseract->SetImage(pix);
         }
-        @catch (NSException *exception) {
-            NSLog(@"ERROR: Can't set image: %@", exception);
+        @catch (NSException *exception) {                     // LCOV_EXCL_LINE
+            NSLog(@"ERROR: Can't set image: %@", exception);  // LCOV_EXCL_LINE
         }
         pixDestroy(&pix);
 
@@ -653,7 +653,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
   // Begin producing output
   const char* kUnknownTitle = "Unknown Title";
   if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
-    return nil;
+    return nil; // LCOV_EXCL_LINE
   }
   
   bool result = YES;
@@ -672,12 +672,12 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
   
   //  error
   if (!result) {
-    return nil;
+    return nil; // LCOV_EXCL_LINE
   }
 
   // Finish producing output
   if (renderer && !renderer->EndDocument()) {
-    return nil;
+    return nil; // LCOV_EXCL_LINE
   }
   
   const char *pdfData = NULL;
@@ -737,8 +737,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
         returnCode = _tesseract->Recognize(_monitor);
         self.recognized = YES;
     }
-    @catch (NSException *exception) {
-        NSLog(@"Exception was raised while recognizing: %@", exception);
+    @catch (NSException *exception) {                                     // LCOV_EXCL_LINE
+        NSLog(@"Exception was raised while recognizing: %@", exception);  // LCOV_EXCL_LINE
     }
     return returnCode == 0 && self.recognized;
 }
@@ -863,7 +863,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
             break;
             
         default:
-            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp);
+            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
     }
     pixSetYRes(pix, (l_int32)self.sourceResolution);
     
