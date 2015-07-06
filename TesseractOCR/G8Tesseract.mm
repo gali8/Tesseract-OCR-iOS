@@ -403,9 +403,11 @@ namespace tesseract {
         @try {
             _tesseract->SetImage(pix);
         }
-        @catch (NSException *exception) {                     // LCOV_EXCL_LINE
-            NSLog(@"ERROR: Can't set image: %@", exception);  // LCOV_EXCL_LINE
+        //LCOV_EXCL_START
+        @catch (NSException *exception) {
+            NSLog(@"ERROR: Can't set image: %@", exception);
         }
+        //LCOV_EXCL_STOP
         pixDestroy(&pix);
 
         _image = image;
@@ -741,9 +743,11 @@ namespace tesseract {
         returnCode = _tesseract->Recognize(_monitor);
         self.recognized = YES;
     }
-    @catch (NSException *exception) {                                     // LCOV_EXCL_LINE
-        NSLog(@"Exception was raised while recognizing: %@", exception);  // LCOV_EXCL_LINE
+    //LCOV_EXCL_START
+    @catch (NSException *exception) {
+        NSLog(@"Exception was raised while recognizing: %@", exception);
     }
+    //LCOV_EXCL_STOP
     return returnCode == 0 && self.recognized;
 }
 
