@@ -240,9 +240,16 @@ describe(@"Tesseract initialization", ^{
             [[theValue(isDirectory) should] beYes];
 
             cleanCustomTessdataFolder();
-
         });
-
+      
+        it(@"Should not initialize if no tessdata folder in app bundle", ^{
+          
+          NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
+          [[NSFileManager defaultManager] stub:@selector(fileExistsAtPath:isDirectory:) andReturn:NO withArguments:tessdataPath, nil];
+          
+          G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources:NO];
+          [[tesseract shouldNot] beNil];
+        });
     });
     
     context(@"nil cachesRelatedDataPath", ^{
