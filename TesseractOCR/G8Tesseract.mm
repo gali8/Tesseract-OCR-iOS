@@ -232,7 +232,7 @@ namespace tesseract {
     BOOL isDirectory = YES;
     if (![fileManager fileExistsAtPath:tessdataPath isDirectory:&isDirectory] || !isDirectory) {
         // No tessdata directory in application bundle, nothing to do.
-        return YES;
+        return NO;
     }
 
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {
