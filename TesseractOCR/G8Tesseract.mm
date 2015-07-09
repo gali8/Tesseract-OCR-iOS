@@ -232,7 +232,7 @@ namespace tesseract {
     BOOL isDirectory = YES;
     if (![fileManager fileExistsAtPath:tessdataPath isDirectory:&isDirectory] || !isDirectory) {
         // No tessdata directory in application bundle, nothing to do.
-        return YES;
+        return NO;
     }
 
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {
@@ -403,9 +403,11 @@ namespace tesseract {
         @try {
             _tesseract->SetImage(pix);
         }
+        //LCOV_EXCL_START
         @catch (NSException *exception) {
             NSLog(@"ERROR: Can't set image: %@", exception);
         }
+        //LCOV_EXCL_STOP
         pixDestroy(&pix);
 
         _image = image;
@@ -657,7 +659,7 @@ namespace tesseract {
   // Begin producing output
   const char* kUnknownTitle = "Unknown Title";
   if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
-    return nil;
+    return nil; // LCOV_EXCL_LINE
   }
   
   bool result = YES;
@@ -676,12 +678,12 @@ namespace tesseract {
   
   //  error
   if (!result) {
-    return nil;
+    return nil; // LCOV_EXCL_LINE
   }
 
   // Finish producing output
   if (renderer && !renderer->EndDocument()) {
-    return nil;
+    return nil; // LCOV_EXCL_LINE
   }
   
   const char *pdfData = NULL;
@@ -741,9 +743,11 @@ namespace tesseract {
         returnCode = _tesseract->Recognize(_monitor);
         self.recognized = YES;
     }
+    //LCOV_EXCL_START
     @catch (NSException *exception) {
         NSLog(@"Exception was raised while recognizing: %@", exception);
     }
+    //LCOV_EXCL_STOP
     return returnCode == 0 && self.recognized;
 }
 
@@ -867,7 +871,7 @@ namespace tesseract {
             break;
             
         default:
-            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp);
+            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
     }
     pixSetYRes(pix, (l_int32)self.sourceResolution);
     

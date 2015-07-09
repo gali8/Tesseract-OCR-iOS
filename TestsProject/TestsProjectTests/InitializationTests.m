@@ -129,6 +129,19 @@ describe(@"Tesseract initialization", ^{
             
             [[text should] beNil];
         });
+      
+        it(@"Should set original image if pixForImage for preprocessed image retuens nil", ^{
+            G8RecognitionTestsHelper *helper = [[G8RecognitionTestsHelper alloc] init];
+            [helper setupTesseract];
+            helper.tesseract.delegate = helper;
+            helper.customPreprocessingType = G8CustomPreprocessingSimpleThreshold;
+            [helper.tesseract stub:@selector(pixForImage:) andReturn:nil];
+          
+            UIImage *inputImage = [UIImage imageNamed:@"image_sample.jpg"];
+            helper.tesseract.image = inputImage;
+          
+            [[helper.tesseract.image should] equal:inputImage];
+        });
     });
 
     NSString *tessdataPath = @"foo/bar";
@@ -236,9 +249,18 @@ describe(@"Tesseract initialization", ^{
             [[theValue(isDirectory) should] beYes];
 
             cleanTessdataFolderAtPath(customDirectoryPath);
-
         });
-
+      
+        it(@"Should not initialize if no tessdata folder in app bundle", ^{
+          
+          [[NSFileManager defaultManager] stub:@selector(fileExistsAtPath:isDirectory:) andReturn:NO];
+          G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                        configDictionary:nil
+                                                         configFileNames:nil
+                                                        absoluteDataPath:customDirectoryPath
+                                                              engineMode:G8OCREngineModeTesseractOnly];
+          [[tesseract should] beNil];
+        });
     });
     
     context(@"nil cachesRelatedDataPath", ^{
