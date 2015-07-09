@@ -140,7 +140,7 @@ class TESS_API TessBaseAPI {
    * is stored in the PDF so we need that as well.
    */
   const char* GetInputName();
-  void SetInputImage(Pix *pix);
+  void SetInputImage(Pix *pix, bool copy = true);
   Pix* GetInputImage();
   int GetSourceYResolution();
   const char* GetDatapath();
@@ -351,7 +351,7 @@ class TESS_API TessBaseAPI {
    * Because of that, an implementation that sources and targets Pix may end up
    * with less copies than an implementation that does not.
    */
-  void SetImage(Pix* pix);
+  void SetImage(Pix* pix, bool copy = false);
 
   /**
    * Set the resolution of the source image in pixels per inch so font size
@@ -849,6 +849,7 @@ class TESS_API TessBaseAPI {
   PAGE_RES*         page_res_;        ///< The page-level data.
   STRING*           input_file_;      ///< Name used by training code.
   Pix*              input_image_;     ///< Image used for searchable PDF
+  bool              input_image_copied; // Whether input image copied or not.
   STRING*           output_file_;     ///< Name used by debug code.
   STRING*           datapath_;        ///< Current location of tessdata.
   STRING*           language_;        ///< Last initialized language.

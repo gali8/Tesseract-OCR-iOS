@@ -122,7 +122,7 @@ class TESS_API TessResultRenderer {
     // the output string returned by GetOutput. Note that s is not necessarily
     // '\0' terminated (and can contain '\0' within it).
     // This method will grow the output buffer if needed.
-    void AppendData(const char* s, int len);
+    void AppendData(const char* s, size_t len);
 
   private:
     const char* file_extension_;  // standard extension for generated output
@@ -170,7 +170,10 @@ class TESS_API TessPDFRenderer : public TessResultRenderer {
   // datadir is the location of the TESSDATA. We need it because
   // we load a custom PDF font from this location.
   TessPDFRenderer(const char *outputbase, const char *datadir);
+  
+  // Sets the PDFs creator property to the given value.
   virtual void setCreator(const char *creator) { creator_ = creator; }
+  // Returns the current PDFs creator property value. Default is "Scanbot".
   const char *creator() { return creator_; }
     
 protected:
