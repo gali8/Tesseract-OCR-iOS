@@ -153,7 +153,7 @@ extern NSInteger const kG8MaxCredibleResolution;
  *        folder to use this method. You can download this file from:
  *        https://code.google.com/p/tesseract-ocr/downloads/list
  */
-- (void)analyseLayout;
+- (BOOL)analyseLayout;
 
 /**
  *  The result of Tesseract's orientation analysis of the target image. See

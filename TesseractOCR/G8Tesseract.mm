@@ -484,9 +484,11 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return _deskewAngle;
 }
 
-- (void)analyseLayout {
+- (BOOL)analyseLayout {
     // Only perform the layout analysis if we haven't already
-    if (self.layoutAnalysed) return;
+    if (self.layoutAnalysed) {
+        return YES;
+    }
 
     tesseract::Orientation orientation;
     tesseract::WritingDirection direction;
@@ -495,8 +497,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
 
     tesseract::PageIterator *iterator = _tesseract->AnalyseLayout();
     if (iterator == NULL) {
-        NSLog(@"Can't analyse layout. Make sure 'osd.traineddata' available in 'tessdata'.");
-        return;
+        return NO;
     }
 
     iterator->Orientation(&orientation, &direction, &order, &deskewAngle);
@@ -508,6 +509,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     self.deskewAngle = deskewAngle;
 
     self.layoutAnalysed = YES;
+    return YES;
 }
 
 
