@@ -11,8 +11,7 @@
 
 @implementation UIImage (G8Filters)
 
-- (UIImage *)g8_blackAndWhite
-{
+- (UIImage *)g8_blackAndWhite {
     CIImage *beginImage = [CIImage imageWithCGImage:self.CGImage];
 
     CIImage *blackAndWhite = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", @0.0, @"inputContrast", @1.1, @"inputSaturation", @0.0, nil].outputImage;
@@ -33,8 +32,7 @@ typedef NS_ENUM(NSUInteger, PIXELS) {
     RED = 3
 };
 
-- (UIImage *)g8_grayScale
-{
+- (UIImage *)g8_grayScale {
     CGSize size = [self size];
     int width = size.width;
     int height = size.height;

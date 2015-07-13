@@ -20,8 +20,7 @@
 
 @implementation G8RecognitionOperation
 
-- (id) initWithLanguage:(NSString *)language
-{
+- (id) initWithLanguage:(NSString *)language {
     self = [super init];
     if (self != nil) {
         _tesseract = [[G8Tesseract alloc] initWithLanguage:language];
@@ -43,8 +42,7 @@
     return self;
 }
 
-- (void)main
-{
+- (void)main {
     @autoreleasepool {
         // Analyzing the layout must be performed before recognition
         [self.tesseract analyseLayout];
@@ -53,8 +51,7 @@
     }
 }
 
-- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract
-{
+- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract {
     self.progress = self.tesseract.progress / 100.0f;
 
     if (self.progressCallbackBlock != nil) {
@@ -66,8 +63,7 @@
     }
 }
 
-- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract
-{
+- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract {
     BOOL canceled = self.isCancelled;
     if (canceled == NO && [self.delegate respondsToSelector:@selector(shouldCancelImageRecognitionForTesseract:)]) {
         canceled = [self.delegate shouldCancelImageRecognitionForTesseract:tesseract];

@@ -73,32 +73,27 @@ namespace tesseract {
     // some more cleaning here if necessary
 }
 
-+ (NSString *)version
-{
++ (NSString *)version {
     const char *version = tesseract::TessBaseAPI::Version();
     return [NSString stringWithUTF8String:version];
 }
 
-+ (void)clearCache
-{
++ (void)clearCache {
     tesseract::TessBaseAPI::ClearPersistentCache();
 }
 
-- (id)initWithLanguage:(NSString*)language
-{
+- (id)initWithLanguage:(NSString*)language {
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
 }
 
-- (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
-{
+- (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode {
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:engineMode];
 }
 - (id)initWithLanguage:(NSString *)language
       configDictionary:(NSDictionary *)configDictionary
        configFileNames:(NSArray *)configFileNames
  cachesRelatedDataPath:(NSString *)cachesRelatedPath
-            engineMode:(G8OCREngineMode)engineMode
-{
+            engineMode:(G8OCREngineMode)engineMode {
     NSString *absoluteDataPath = nil;
     if (cachesRelatedPath) {
         // config Tesseract to search trainedData in tessdata folder of the Caches folder
@@ -120,8 +115,7 @@ namespace tesseract {
        configFileNames:(NSArray *)configFileNames
       absoluteDataPath:(NSString *)absoluteDataPath
             engineMode:(G8OCREngineMode)engineMode
-copyFilesFromResources:(BOOL)copyFilesFromResources
-{
+copyFilesFromResources:(BOOL)copyFilesFromResources {
     self = [super init];
     if (self != nil) {
         if (configFileNames) {
@@ -164,8 +158,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     if (_monitor != nullptr) {
         delete _monitor;
         _monitor = nullptr;
@@ -179,8 +172,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (BOOL)configEngine
-{
+- (BOOL)configEngine {
     __block GenericVector<STRING> tessKeys;
     __block GenericVector<STRING> tessValues;
     [self.configDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *val, BOOL *stop) {
@@ -204,14 +196,12 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return returnCode == 0;
 }
 
-- (void)resetFlags
-{
+- (void)resetFlags {
     self.recognized = NO;
     self.layoutAnalysed = NO;
 }
 
-- (BOOL)resetEngine
-{
+- (BOOL)resetEngine {
     BOOL isInitDone = [self configEngine];
     if (isInitDone) {
         [self loadVariables];
@@ -224,8 +214,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return isInitDone;
 }
 
-- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath
-{
+- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     // Useful paths
@@ -278,8 +267,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return result;
 }
 
-- (void)setVariableValue:(NSString *)value forKey:(NSString *)key
-{
+- (void)setVariableValue:(NSString *)value forKey:(NSString *)key {
     /*
      * Example:
      * _tesseract->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -300,15 +288,13 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return [NSString stringWithUTF8String:val.string()];
 }
 
-- (void)setVariablesFromDictionary:(NSDictionary *)dictionary
-{
+- (void)setVariablesFromDictionary:(NSDictionary *)dictionary {
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         [self setVariableValue:value forKey:key];
     }];
 }
 
-- (void)loadVariables
-{
+- (void)loadVariables {
     [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         _tesseract->SetVariable(key.UTF8String, value.UTF8String);
     }];
@@ -316,8 +302,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
 #pragma mark - Getters and setters
 
-- (void)setLanguage:(NSString *)language
-{
+- (void)setLanguage:(NSString *)language {
     if ([_language isEqualToString:language] == NO) {
         _language = [language copy];
 
@@ -329,8 +314,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (void)setEngineMode:(G8OCREngineMode)engineMode
-{
+- (void)setEngineMode:(G8OCREngineMode)engineMode {
     if (_engineMode != engineMode) {
         _engineMode = engineMode;
 
@@ -338,8 +322,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (void)setPageSegmentationMode:(G8PageSegmentationMode)pageSegmentationMode
-{
+- (void)setPageSegmentationMode:(G8PageSegmentationMode)pageSegmentationMode {
     if (_pageSegmentationMode != pageSegmentationMode) {
         _pageSegmentationMode = pageSegmentationMode;
 
@@ -348,8 +331,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (void)setCharWhitelist:(NSString *)charWhitelist
-{
+- (void)setCharWhitelist:(NSString *)charWhitelist {
     if ([_charWhitelist isEqualToString:charWhitelist] == NO) {
         _charWhitelist = [charWhitelist copy];
 
@@ -357,8 +339,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (void)setCharBlacklist:(NSString *)charBlacklist
-{
+- (void)setCharBlacklist:(NSString *)charBlacklist {
     if ([_charBlacklist isEqualToString:charBlacklist] == NO) {
         _charBlacklist = [charBlacklist copy];
 
@@ -366,8 +347,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (void)setImage:(UIImage *)image
-{
+- (void)setImage:(UIImage *)image {
     if (_image != image) {
         if (image.size.width <= 0 || image.size.height <= 0) {
             NSLog(@"ERROR: Image has not size!");
@@ -414,8 +394,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (void)setRect:(CGRect)rect
-{
+- (void)setRect:(CGRect)rect {
     if (CGRectEqualToRect(_rect, rect) == NO) {
         _rect = rect;
 
@@ -450,8 +429,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (void)setSourceResolution:(NSInteger)sourceResolution
-{
+- (void)setSourceResolution:(NSInteger)sourceResolution {
     if (_sourceResolution != sourceResolution) {
         if (sourceResolution > kG8MaxCredibleResolution) {
             NSLog(@"Source resolution is too big: %ld > %ld", (long)sourceResolution, (long)kG8MaxCredibleResolution);
@@ -468,15 +446,13 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     }
 }
 
-- (NSUInteger)progress
-{
+- (NSUInteger)progress {
     return _monitor->progress;
 }
 
 #pragma mark - Result fetching
 
-- (NSString *)recognizedText
-{
+- (NSString *)recognizedText {
     char *utf8Text = _tesseract->GetUTF8Text();
     if (utf8Text == NULL) {
         NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
@@ -488,32 +464,27 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return text;
 }
 
-- (G8Orientation)orientation
-{
+- (G8Orientation)orientation {
     [self analyseLayout];
     return _orientation;
 }
 
-- (G8WritingDirection)writingDirection
-{
+- (G8WritingDirection)writingDirection {
     [self analyseLayout];
     return _writingDirection;
 }
 
-- (G8TextlineOrder)textlineOrder
-{
+- (G8TextlineOrder)textlineOrder {
     [self analyseLayout];
     return _textlineOrder;
 }
 
-- (CGFloat)deskewAngle
-{
+- (CGFloat)deskewAngle {
     [self analyseLayout];
     return _deskewAngle;
 }
 
-- (void)analyseLayout
-{
+- (void)analyseLayout {
     // Only perform the layout analysis if we haven't already
     if (self.layoutAnalysed) return;
 
@@ -540,8 +511,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 }
 
 
-- (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height
-{
+- (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height {
     x /= self.imageSize.width;
     y /= self.imageSize.height;
     width /= self.imageSize.width;
@@ -550,8 +520,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 }
 
 - (G8RecognizedBlock *)blockFromIterator:(tesseract::ResultIterator *)iterator
-                           iteratorLevel:(G8PageIteratorLevel)iteratorLevel
-{
+                           iteratorLevel:(G8PageIteratorLevel)iteratorLevel {
     tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)iteratorLevel;
 
     G8RecognizedBlock *block = nil;
@@ -582,8 +551,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return block;
 }
 
-- (NSArray *)characterChoices
-{
+- (NSArray *)characterChoices {
     NSMutableArray *array = [NSMutableArray array];
     //  Get iterators
     tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
@@ -616,8 +584,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return [array copy];
 }
 
-- (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
-{
+- (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel {
     tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
 
     NSMutableArray *array = [NSMutableArray array];
@@ -648,8 +615,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return nil;
 }
 
-- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
-{
+- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded {
     UIImage *image = thresholded ? self.thresholdedImage : self.image;
 
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
@@ -685,8 +651,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
 
 #pragma mark - Other functions
 
-- (BOOL)recognize
-{
+- (BOOL)recognize {
     if (self.maximumRecognitionTime > FLT_EPSILON) {
         _monitor->set_deadline_msecs((inT32)(self.maximumRecognitionTime * 1000));
     }
@@ -703,8 +668,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return returnCode == 0 && self.recognized;
 }
 
-- (UIImage *)thresholdedImage
-{
+- (UIImage *)thresholdedImage {
     Pix *pixs = _tesseract->GetThresholdedImage();
     Pix *pix = pixUnpackBinary(pixs, 32, 0);
 
@@ -713,8 +677,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return [self imageFromPix:pix];
 }
 
-- (UIImage *)imageFromPix:(Pix *)pix
-{
+- (UIImage *)imageFromPix:(Pix *)pix {
     // Get Pix parameters
     l_uint32 width = pixGetWidth(pix);
     l_uint32 height = pixGetHeight(pix);
@@ -761,8 +724,7 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return image;
 }
 
-- (Pix *)pixForImage:(UIImage *)image
-{
+- (Pix *)pixForImage:(UIImage *)image {
     int width = image.size.width;
     int height = image.size.height;
 
@@ -832,15 +794,13 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return pix;
 }
 
-- (void)tesseractProgressCallbackFunction:(int)words
-{
+- (void)tesseractProgressCallbackFunction:(int)words {
     if([self.delegate respondsToSelector:@selector(progressImageRecognitionForTesseract:)]) {
         [self.delegate progressImageRecognitionForTesseract:self];
     }
 }
 
-- (BOOL)tesseractCancelCallbackFunction:(int)words
-{
+- (BOOL)tesseractCancelCallbackFunction:(int)words {
     if (_monitor->ocr_alive == 1) {
         _monitor->ocr_alive = 0;
     }

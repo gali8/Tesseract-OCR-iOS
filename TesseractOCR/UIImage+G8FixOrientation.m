@@ -14,8 +14,7 @@
 
 @implementation UIImage (G8FixOrientation)
 
-- (UIImage *)fixOrientation
-{
+- (UIImage *)fixOrientation {
     // No-op if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return self;
 
