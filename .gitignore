@@ -71,3 +71,6 @@ crashlytics-build.properties
 leptonica-*
 tesseract-*
 
+# GCOV code coverage files
+*.gcda
+*.gcno
