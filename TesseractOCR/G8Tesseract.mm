@@ -81,20 +81,25 @@ namespace tesseract {
     tesseract::TessBaseAPI::ClearPersistentCache();
 }
 
-- (id)initWithLanguage:(NSString*)language
+- (instancetype)init {
+    
+    return [self initWithLanguage:nil];
+}
+
+- (instancetype)initWithLanguage:(NSString*)language
 {
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
 }
 
-- (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
+- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
 {
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:engineMode];
 }
-- (id)initWithLanguage:(NSString *)language
-      configDictionary:(NSDictionary *)configDictionary
-       configFileNames:(NSArray *)configFileNames
- cachesRelatedDataPath:(NSString *)cachesRelatedPath
-            engineMode:(G8OCREngineMode)engineMode
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+           cachesRelatedDataPath:(NSString *)cachesRelatedPath
+                      engineMode:(G8OCREngineMode)engineMode
 {
     NSString *absoluteDataPath = nil;
     if (cachesRelatedPath) {
@@ -111,11 +116,11 @@ namespace tesseract {
                        engineMode:engineMode];
 }
 
-- (id)initWithLanguage:(NSString *)language
-      configDictionary:(NSDictionary *)configDictionary
-       configFileNames:(NSArray *)configFileNames
-      absoluteDataPath:(NSString *)absoluteDataPath
-            engineMode:(G8OCREngineMode)engineMode
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+                absoluteDataPath:(NSString *)absoluteDataPath
+                      engineMode:(G8OCREngineMode)engineMode
 {
     self = [super init];
     if (self != nil) {

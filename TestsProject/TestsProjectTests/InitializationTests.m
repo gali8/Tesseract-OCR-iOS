@@ -212,6 +212,14 @@ describe(@"Tesseract initialization", ^{
         
         return YES;
     };
+    
+    it(@"Should initialize without any parameters", ^{
+        G8Tesseract *tesseract = [[G8Tesseract alloc] init];
+        [[tesseract shouldNot] beNil];
+        
+        tesseract.language = kG8Languages;
+        recognizeSimpleImageWithTesseract(tesseract);
+    });
 
     context(@"initialize with absoluteDataPath", ^{
 
@@ -253,7 +261,8 @@ describe(@"Tesseract initialization", ^{
       
         it(@"Should not initialize if no tessdata folder in app bundle", ^{
           
-          [[NSFileManager defaultManager] stub:@selector(fileExistsAtPath:isDirectory:) andReturn:NO];
+          [[NSFileManager defaultManager] stub:@selector(fileExistsAtPath:isDirectory:)
+                                     andReturn:theValue(NO)];
           G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                         configDictionary:nil
                                                          configFileNames:nil
