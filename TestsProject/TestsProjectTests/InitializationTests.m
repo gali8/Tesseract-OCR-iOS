@@ -217,7 +217,14 @@ describe(@"Tesseract initialization", ^{
         G8Tesseract *tesseract = [[G8Tesseract alloc] init];
         [[tesseract shouldNot] beNil];
         
+        recognizeSimpleImageWithTesseract(tesseract);
+
+        tesseract.language = @"rus";
+        [[tesseract.language should] beNil];
+        [[theValue([tesseract recognize]) should] beNo];
+
         tesseract.language = kG8Languages;
+        [[tesseract.language should] equal:kG8Languages];
         recognizeSimpleImageWithTesseract(tesseract);
     });
 
@@ -286,8 +293,7 @@ describe(@"Tesseract initialization", ^{
             NSAssert([tesseract respondsToSelector:@selector(configEngine)] == YES, @"Error! G8Tesseract instance does not contain configEngine selector");
             [[tesseract should] receive:@selector(configEngine) andReturn:theValue(NO)];
             tesseract = [tesseract initWithLanguage:kG8Languages];
-            
-            [[tesseract should] beNil];
+            [[tesseract shouldNot] beNil];
             
             tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
             NSAssert([tesseract respondsToSelector:@selector(resetEngine)] == YES, @"Error! G8Tesseract instance does not contain resetEngine selector");

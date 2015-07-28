@@ -54,6 +54,9 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  file must exist in the "tessdata" folder of the project. For example, if
  *  you set `language` to "foo", then "foo.traineddata" must exist in the
  *  "tessdata" folder.
+ *  You should always check that the languages have been set correctly and
+ *  and tesseract has been initialized its engine for the languages specified 
+ *  with isEngineConfigured property.
  */
 @property (nonatomic, copy) NSString* language;
 
@@ -75,6 +78,11 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  G8Constants.h for the available page segmentation modes.
  */
 @property (nonatomic, assign) G8PageSegmentationMode pageSegmentationMode;
+
+/**
+ *  YES when tesseract of succesfully initialized, NO otherwise.
+ */
+@property (nonatomic, readonly, getter=isEngineConfigured) BOOL engineConfigured;
 
 /**
  *  A white list of characters that Tesseract should recognize. Any
@@ -273,7 +281,10 @@ extern NSInteger const kG8MaxCredibleResolution;
  *
  *  @param language The language to use in recognition. See `language`.
  *
- *  @return The initialized Tesseract object, or `nil` if there was an error.
+ *  @return The initialized Tesseract object. You should check 
+ *          that the language property match the languages you have specified.
+ *          Also you may ensure that tesseract is properly initialized with
+ *          isEngineConfigured property.
  */
 - (instancetype)initWithLanguage:(NSString*)language;
 
@@ -283,7 +294,10 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  @param language   The language to use in recognition. See `language`.
  *  @param engineMode The engine mode to use in recognition. See `engineMode`.
  *
- *  @return The initialized Tesseract object, or `nil` if there was an error.
+ *  @return The initialized Tesseract object. You should check
+ *          that the language property match the languages you have specified.
+ *          Also you may ensure that tesseract is properly initialized with
+ *          isEngineConfigured property.
  */
 - (instancetype)initWithLanguage:(NSString*)language
                       engineMode:(G8OCREngineMode)engineMode;
@@ -311,7 +325,10 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  @param engineMode           The engine mode to use in recognition. See 
  *                              `engineMode`.
  *
- *  @return The initialized Tesseract object, or `nil` if there was an error.
+ *  @return The initialized Tesseract object.You should check
+ *          that the language property match the languages you have specified.
+ *          Also you may ensure that tesseract is properly initialized with
+ *          isEngineConfigured property.
  */
 
 - (instancetype)initWithLanguage:(NSString *)language
@@ -351,7 +368,10 @@ extern NSInteger const kG8MaxCredibleResolution;
  *                                  `engineMode`.
  *
  *
- *  @return The initialized Tesseract object, or `nil` if there was an error.
+ *  @return The initialized Tesseract object. You should check
+ *          that the language property match the languages you have specified.
+ *          Also you may ensure that tesseract is properly initialized with
+ *          isEngineConfigured property.
  */
 - (instancetype)initWithLanguage:(NSString *)language
                 configDictionary:(NSDictionary *)configDictionary

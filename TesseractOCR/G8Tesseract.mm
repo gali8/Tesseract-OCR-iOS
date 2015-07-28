@@ -37,6 +37,8 @@ namespace tesseract {
     ETEXT_DESC *_monitor;
 }
 
+@property (nonatomic, assign, readonly) tesseract::TessBaseAPI *tesseract;
+
 @property (nonatomic, strong) NSDictionary *configDictionary;
 @property (nonatomic, strong) NSArray *configFileNames;
 @property (nonatomic, strong) NSMutableDictionary *variables;
@@ -133,8 +135,7 @@ namespace tesseract {
                 return nil;
             }
         }
-        _absoluteDataPath = [absoluteDataPath copy];
-        _language = [language copy];
+        _absoluteDataPath = absoluteDataPath.copy;
         _configDictionary = configDictionary;
         _configFileNames = configFileNames;
         _engineMode = engineMode;
@@ -154,12 +155,7 @@ namespace tesseract {
         
         setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
 
-        _tesseract = new tesseract::TessBaseAPI();
-
-        BOOL success = [self configEngine];
-        if (success == NO) {
-            self = nil;
-        }
+        self.language = language.copy;
     }
     return self;
 }
@@ -170,6 +166,11 @@ namespace tesseract {
         delete _monitor;
         _monitor = nullptr;
     }
+    [self freeTesseract];
+}
+
+- (void)freeTesseract {
+    
     if (_tesseract != nullptr) {
         // There is no needs to call Clear() and End() explicitly.
         // End() is sufficient to free up all memory of TessBaseAPI.
@@ -193,15 +194,16 @@ namespace tesseract {
     for (int i = 0; i < count; i++) {
         configs[i] = ((NSString*)self.configFileNames[i]).fileSystemRepresentation;
     }
-    int returnCode = _tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
-                                      (tesseract::OcrEngineMode)self.engineMode,
-                                      (char **)configs, count,
-                                      &tessKeys, &tessValues,
-                                      false);
+    int returnCode = self.tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
+                                          (tesseract::OcrEngineMode)self.engineMode,
+                                          (char **)configs, count,
+                                          &tessKeys, &tessValues,
+                                          false);
     if (configs != nullptr) {
         free(configs);
     }
-    return returnCode == 0;
+    self.engineConfigured = returnCode == 0;
+    return self.engineConfigured;
 }
 
 - (void)resetFlags
@@ -216,9 +218,14 @@ namespace tesseract {
     if (isInitDone) {
         [self loadVariables];
         [self resetFlags];
-    }
-    else {
+        if (_image) {
+            [self setEngineImage:_image];
+        }
+    } else {
         NSLog(@"ERROR! Can't init Tesseract engine.");
+        _language = nil;
+        _engineMode = G8OCREngineModeTesseractOnly;
+        [self freeTesseract];
     }
 
     return isInitDone;
@@ -322,11 +329,22 @@ namespace tesseract {
 
 #pragma mark - Getters and setters
 
+- (tesseract::TessBaseAPI *)tesseract {
+    
+    if (!_tesseract) {
+        _tesseract = new tesseract::TessBaseAPI();
+    }
+    return _tesseract;
+}
+
 - (void)setLanguage:(NSString *)language
 {
-    if ([_language isEqualToString:language] == NO) {
-        _language = [language copy];
-
+    if ([language isEqualToString:_language] == NO || (!language && _language) ) {
+        
+        _language = language.copy;
+        if (!self.language) {
+            NSLog(@"WARNING: Setting G8Tesseract language to nill defaults to English, so make sure you either set the language afterward or have eng.traineddata in your tessdata folder, otherwise Tesseract will crash!");
+        }
         /*
          * "WARNING: On changing languages, all Tesseract parameters
          * are reset back to their default values."
@@ -375,51 +393,56 @@ namespace tesseract {
 - (void)setImage:(UIImage *)image
 {
     if (_image != image) {
-        if (image.size.width <= 0 || image.size.height <= 0) {
-            NSLog(@"ERROR: Image has not size!");
-            return;
-        }
+        [self setEngineImage:image];
+    }
+}
 
-        image = [image fixOrientation];
-        
-        self.imageSize = image.size; //self.imageSize used in the characterBoxes method
-
-        Pix *pix = nullptr;
-
-        if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
-            UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
-            if (thresholdedImage != nil) {
-                self.imageSize = thresholdedImage.size;
-
-                Pix *pixs = [self pixForImage:thresholdedImage];
-                pix = pixConvertTo1(pixs, UINT8_MAX / 2);
-                pixDestroy(&pixs);
-
-                if (pix == nullptr) {
-                    NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
-                }
+- (void)setEngineImage:(UIImage *)image {
+    
+    if (image.size.width <= 0 || image.size.height <= 0) {
+        NSLog(@"ERROR: Image has not size!");
+        return;
+    }
+    
+    image = [image fixOrientation];
+    
+    self.imageSize = image.size; //self.imageSize used in the characterBoxes method
+    
+    Pix *pix = nullptr;
+    
+    if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+        UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
+        if (thresholdedImage != nil) {
+            self.imageSize = thresholdedImage.size;
+            
+            Pix *pixs = [self pixForImage:thresholdedImage];
+            pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+            pixDestroy(&pixs);
+            
+            if (pix == nullptr) {
+                NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
             }
         }
-
-        if (pix == nullptr) {
-            pix = [self pixForImage:image];
-        }
-
-        @try {
-            _tesseract->SetImage(pix);
-        }
-        //LCOV_EXCL_START
-        @catch (NSException *exception) {
-            NSLog(@"ERROR: Can't set image: %@", exception);
-        }
-        //LCOV_EXCL_STOP
-        pixDestroy(&pix);
-
-        _image = image;
-        _rect = (CGRect){CGPointZero, self.imageSize};
-
-        [self resetFlags];
     }
+    
+    if (pix == nullptr) {
+        pix = [self pixForImage:image];
+    }
+    
+    @try {
+        _tesseract->SetImage(pix);
+    }
+    //LCOV_EXCL_START
+    @catch (NSException *exception) {
+        NSLog(@"ERROR: Can't set image: %@", exception);
+    }
+    //LCOV_EXCL_STOP
+    pixDestroy(&pix);
+    
+    _image = image;
+    _rect = (CGRect){CGPointZero, self.imageSize};
+    
+    [self resetFlags];
 }
 
 - (void)setRect:(CGRect)rect
@@ -646,57 +669,63 @@ namespace tesseract {
 }
 
 - (NSString *)recognizedHOCRForPageNumber:(int)pageNumber {
-    char *hocr = _tesseract->GetHOCRText(pageNumber);
-    if (hocr) {
-        NSString *text = [NSString stringWithUTF8String:hocr];
-        free(hocr);
-        return text;
-    }
     
+    if (self.isEngineConfigured) {
+        char *hocr = _tesseract->GetHOCRText(pageNumber);
+        if (hocr) {
+            NSString *text = [NSString stringWithUTF8String:hocr];
+            free(hocr);
+            return text;
+        }
+    }
     return nil;
 }
 
 - (NSData *)recognizedPDFForImages:(NSArray*)images {
   
-  NSString *path = [self.absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
-  tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(path.fileSystemRepresentation);
-
-  // Begin producing output
-  const char* kUnknownTitle = "Unknown Title";
-  if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
-    return nil; // LCOV_EXCL_LINE
-  }
-  
-  bool result = YES;
-  for (int page = 0; page < images.count && result; page++) {
-    UIImage *image = images[page];
-    if ([image isKindOfClass:[UIImage class]]) {
-      Pix *pixs = [self pixForImage:image];
-      Pix *pix = pixConvertTo1(pixs, UINT8_MAX / 2);
-      pixDestroy(&pixs);
-      
-      const char *pagename = [NSString stringWithFormat:@"page #%i", page].UTF8String;
-      result = _tesseract->ProcessPage(pix, page, pagename, NULL, 0, renderer);
-      pixDestroy(&pix);
+    if (!self.isEngineConfigured) {
+        return nil;
     }
-  }
-  
-  //  error
-  if (!result) {
-    return nil; // LCOV_EXCL_LINE
-  }
-
-  // Finish producing output
-  if (renderer && !renderer->EndDocument()) {
-    return nil; // LCOV_EXCL_LINE
-  }
-  
-  const char *pdfData = NULL;
-  int pdfDataLength = 0;
-  renderer->GetOutput(&pdfData, &pdfDataLength);
-  
-  NSData *data = [NSData dataWithBytes:pdfData length:pdfDataLength];
-  return data;
+    
+    NSString *path = [self.absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
+    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(path.fileSystemRepresentation);
+    
+    // Begin producing output
+    const char* kUnknownTitle = "Unknown Title";
+    if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
+        return nil; // LCOV_EXCL_LINE
+    }
+    
+    bool result = YES;
+    for (int page = 0; page < images.count && result; page++) {
+        UIImage *image = images[page];
+        if ([image isKindOfClass:[UIImage class]]) {
+            Pix *pixs = [self pixForImage:image];
+            Pix *pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+            pixDestroy(&pixs);
+            
+            const char *pagename = [NSString stringWithFormat:@"page #%i", page].UTF8String;
+            result = _tesseract->ProcessPage(pix, page, pagename, NULL, 0, renderer);
+            pixDestroy(&pix);
+        }
+    }
+    
+    //  error
+    if (!result) {
+        return nil; // LCOV_EXCL_LINE
+    }
+    
+    // Finish producing output
+    if (renderer && !renderer->EndDocument()) {
+        return nil; // LCOV_EXCL_LINE
+    }
+    
+    const char *pdfData = NULL;
+    int pdfDataLength = 0;
+    renderer->GetOutput(&pdfData, &pdfDataLength);
+    
+    NSData *data = [NSData dataWithBytes:pdfData length:pdfDataLength];
+    return data;
 }
 
 - (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
@@ -738,6 +767,10 @@ namespace tesseract {
 
 - (BOOL)recognize
 {
+    if (!self.isEngineConfigured) {
+        return NO;
+    }
+
     if (self.maximumRecognitionTime > FLT_EPSILON) {
         _monitor->set_deadline_msecs((inT32)(self.maximumRecognitionTime * 1000));
     }
