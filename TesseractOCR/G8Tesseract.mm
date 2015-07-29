@@ -202,8 +202,7 @@ namespace tesseract {
     if (configs != nullptr) {
         free(configs);
     }
-    self.engineConfigured = returnCode == 0;
-    return self.engineConfigured;
+    return returnCode == 0;
 }
 
 - (void)resetFlags
@@ -217,10 +216,8 @@ namespace tesseract {
     BOOL isInitDone = [self configEngine];
     if (isInitDone) {
         [self loadVariables];
+        [self setOtherCachedValues];
         [self resetFlags];
-        if (_image) {
-            [self setEngineImage:_image];
-        }
     } else {
         NSLog(@"ERROR! Can't init Tesseract engine.");
         _language = nil;
@@ -229,6 +226,19 @@ namespace tesseract {
     }
 
     return isInitDone;
+}
+
+- (void)setOtherCachedValues {
+    
+    if (_image) {
+        [self setEngineImage:_image];
+    }
+    [self setSourceResolution:_sourceResolution];
+    [self setEngineRect:_rect];
+    [self setVariableValue:_charWhitelist forKey:kG8ParamTesseditCharWhitelist];
+    [self setVariableValue:_charBlacklist forKey:kG8ParamTesseditCharBlacklist];
+    [self setVariableValue:[NSString stringWithFormat:@"%lu", (unsigned long)_pageSegmentationMode]
+                    forKey:kG8ParamTesseditPagesegMode];
 }
 
 - (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath
@@ -299,18 +309,28 @@ namespace tesseract {
      * _tesseract->SetVariable("language_model_penalty_non_freq_dict_word", "0");
      * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
      */
-
+    
     [self resetFlags];
 
+    if (!value) {
+        value = @"";
+    }
     self.variables[key] = value;
-    _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+    
+    if (self.isEngineConfigured) {
+        _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+    }
 }
 
 - (NSString*)variableValueForKey:(NSString *)key {
     
-    STRING val;
-    _tesseract->GetVariableAsString(key.UTF8String, &val);
-    return [NSString stringWithUTF8String:val.string()];
+    if (!self.isEngineConfigured) {
+        return self.variables[key];
+    } else {
+        STRING val;
+        _tesseract->GetVariableAsString(key.UTF8String, &val);
+        return [NSString stringWithUTF8String:val.string()];
+    }
 }
 
 - (void)setVariablesFromDictionary:(NSDictionary *)dictionary
@@ -322,12 +342,14 @@ namespace tesseract {
 
 - (void)loadVariables
 {
-    [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
-        _tesseract->SetVariable(key.UTF8String, value.UTF8String);
-    }];
+    if (self.isEngineConfigured) {
+        [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+            _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+        }];
+    }
 }
 
-#pragma mark - Getters and setters
+#pragma mark - Internal getters and setters
 
 - (tesseract::TessBaseAPI *)tesseract {
     
@@ -336,6 +358,99 @@ namespace tesseract {
     }
     return _tesseract;
 }
+
+- (void)setEngineImage:(UIImage *)image {
+    
+    if (image.size.width <= 0 || image.size.height <= 0) {
+        NSLog(@"ERROR: Image has not size!");
+        return;
+    }
+    
+    image = [image fixOrientation];
+    
+    self.imageSize = image.size; //self.imageSize used in the characterBoxes method
+    
+    if (self.isEngineConfigured) {
+        Pix *pix = nullptr;
+        
+        if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+            UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
+            if (thresholdedImage != nil) {
+                self.imageSize = thresholdedImage.size;
+                
+                Pix *pixs = [self pixForImage:thresholdedImage];
+                pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+                pixDestroy(&pixs);
+                
+                if (pix == nullptr) {
+                    NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
+                }
+            }
+        }
+        
+        if (pix == nullptr) {
+            pix = [self pixForImage:image];
+        }
+        
+        @try {
+            _tesseract->SetImage(pix);
+        }
+        //LCOV_EXCL_START
+        @catch (NSException *exception) {
+            NSLog(@"ERROR: Can't set image: %@", exception);
+        }
+        //LCOV_EXCL_STOP
+        pixDestroy(&pix);
+    }
+    
+    _image = image;
+
+    [self resetFlags];
+}
+
+- (void)setEngineSourceResolution:(NSUInteger)sourceResolution {
+    
+    if (self.isEngineConfigured) {
+        _tesseract->SetSourceResolution((int)sourceResolution);
+    }
+}
+
+- (void)setEngineRect:(CGRect)rect {
+    
+    if (!self.isEngineConfigured) {
+        return;
+    }
+    
+    CGFloat x = CGRectGetMinX(rect);
+    CGFloat y = CGRectGetMinY(rect);
+    CGFloat width = CGRectGetWidth(rect);
+    CGFloat height = CGRectGetHeight(rect);
+    
+    // Because of custom preprocessing we may have to resize rect
+    if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
+        CGFloat widthFactor = self.imageSize.width / self.image.size.width;
+        CGFloat heightFactor = self.imageSize.height / self.image.size.height;
+        
+        x *= widthFactor;
+        y *= heightFactor;
+        width *= widthFactor;
+        heightFactor *= heightFactor;
+    }
+    
+    CGFloat (^clip)(CGFloat, CGFloat, CGFloat) = ^(CGFloat value, CGFloat min, CGFloat max) {
+        return (value < min ? min : (value > max ? max : value));
+    };
+    
+    // Clip rect by image size
+    x = clip(x, 0, self.imageSize.width);
+    y = clip(y, 0, self.imageSize.height);
+    width = clip(width, 0, self.imageSize.width - x);
+    height = clip(height, 0, self.imageSize.height - y);
+    
+    _tesseract->SetRectangle(x, y, width, height);
+}
+
+#pragma mark - Public getters and setters
 
 - (void)setLanguage:(NSString *)language
 {
@@ -375,18 +490,18 @@ namespace tesseract {
 - (void)setCharWhitelist:(NSString *)charWhitelist
 {
     if ([_charWhitelist isEqualToString:charWhitelist] == NO) {
-        _charWhitelist = [charWhitelist copy];
+        _charWhitelist = charWhitelist.copy;
 
-        [self setVariableValue:charWhitelist forKey:kG8ParamTesseditCharWhitelist];
+        [self setVariableValue:_charWhitelist forKey:kG8ParamTesseditCharWhitelist];
     }
 }
 
 - (void)setCharBlacklist:(NSString *)charBlacklist
 {
     if ([_charBlacklist isEqualToString:charBlacklist] == NO) {
-        _charBlacklist = [charBlacklist copy];
+        _charBlacklist = charBlacklist.copy;
 
-        [self setVariableValue:charBlacklist forKey:kG8ParamTesseditCharBlacklist];
+        [self setVariableValue:_charBlacklist forKey:kG8ParamTesseditCharBlacklist];
     }
 }
 
@@ -394,96 +509,23 @@ namespace tesseract {
 {
     if (_image != image) {
         [self setEngineImage:image];
+        _rect = (CGRect){CGPointZero, self.imageSize};
     }
-}
-
-- (void)setEngineImage:(UIImage *)image {
-    
-    if (image.size.width <= 0 || image.size.height <= 0) {
-        NSLog(@"ERROR: Image has not size!");
-        return;
-    }
-    
-    image = [image fixOrientation];
-    
-    self.imageSize = image.size; //self.imageSize used in the characterBoxes method
-    
-    Pix *pix = nullptr;
-    
-    if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
-        UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
-        if (thresholdedImage != nil) {
-            self.imageSize = thresholdedImage.size;
-            
-            Pix *pixs = [self pixForImage:thresholdedImage];
-            pix = pixConvertTo1(pixs, UINT8_MAX / 2);
-            pixDestroy(&pixs);
-            
-            if (pix == nullptr) {
-                NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
-            }
-        }
-    }
-    
-    if (pix == nullptr) {
-        pix = [self pixForImage:image];
-    }
-    
-    @try {
-        _tesseract->SetImage(pix);
-    }
-    //LCOV_EXCL_START
-    @catch (NSException *exception) {
-        NSLog(@"ERROR: Can't set image: %@", exception);
-    }
-    //LCOV_EXCL_STOP
-    pixDestroy(&pix);
-    
-    _image = image;
-    _rect = (CGRect){CGPointZero, self.imageSize};
-    
-    [self resetFlags];
 }
 
 - (void)setRect:(CGRect)rect
 {
     if (CGRectEqualToRect(_rect, rect) == NO) {
         _rect = rect;
-
-        CGFloat x = CGRectGetMinX(rect);
-        CGFloat y = CGRectGetMinY(rect);
-        CGFloat width = CGRectGetWidth(rect);
-        CGFloat height = CGRectGetHeight(rect);
-
-        // Because of custom preprocessing we may have to resize rect
-        if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
-            CGFloat widthFactor = self.imageSize.width / self.image.size.width;
-            CGFloat heightFactor = self.imageSize.height / self.image.size.height;
-
-            x *= widthFactor;
-            y *= heightFactor;
-            width *= widthFactor;
-            heightFactor *= heightFactor;
-        }
-
-        CGFloat (^clip)(CGFloat, CGFloat, CGFloat) = ^(CGFloat value, CGFloat min, CGFloat max) {
-            return (value < min ? min : (value > max ? max : value));
-        };
-
-        // Clip rect by image size
-        x = clip(x, 0, self.imageSize.width);
-        y = clip(y, 0, self.imageSize.height);
-        width = clip(width, 0, self.imageSize.width - x);
-        height = clip(height, 0, self.imageSize.height - y);
-
-        _tesseract->SetRectangle(x, y, width, height);
+        [self setEngineRect:_rect];
         [self resetFlags];
     }
 }
 
-- (void)setSourceResolution:(NSInteger)sourceResolution
+- (void)setSourceResolution:(NSUInteger)sourceResolution
 {
     if (_sourceResolution != sourceResolution) {
+        
         if (sourceResolution > kG8MaxCredibleResolution) {
             NSLog(@"Source resolution is too big: %ld > %ld", (long)sourceResolution, (long)kG8MaxCredibleResolution);
             sourceResolution = kG8MaxCredibleResolution;
@@ -492,10 +534,8 @@ namespace tesseract {
             NSLog(@"Source resolution is too small: %ld < %ld", (long)sourceResolution, (long)kG8MinCredibleResolution);
             sourceResolution = kG8MinCredibleResolution;
         }
-        
         _sourceResolution = sourceResolution;
-
-        _tesseract->SetSourceResolution((int)sourceResolution);
+        [self setEngineSourceResolution:_sourceResolution];
     }
 }
 
@@ -504,10 +544,19 @@ namespace tesseract {
     return _monitor->progress;
 }
 
+- (BOOL)isEngineConfigured {
+    
+    return _tesseract != nullptr;
+}
+
 #pragma mark - Result fetching
 
 - (NSString *)recognizedText
 {
+    if (!self.isEngineConfigured) {
+        NSLog(@"Error! Cannot get recognized text, because engine is not properly configurred!");
+        return nil;
+    }
     char *utf8Text = _tesseract->GetUTF8Text();
     if (utf8Text == NULL) {
         NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
@@ -547,6 +596,11 @@ namespace tesseract {
 {
     // Only perform the layout analysis if we haven't already
     if (self.layoutAnalysed) return;
+    
+    if (!self.isEngineConfigured) {
+        NSLog(@"Error! cannot perform layout analysis, because the engine is not properly configured!");
+        return;
+    }
 
     tesseract::Orientation orientation;
     tesseract::WritingDirection direction;
@@ -615,6 +669,9 @@ namespace tesseract {
 
 - (NSArray *)characterChoices
 {
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
     NSMutableArray *array = [NSMutableArray array];
     //  Get iterators
     tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
@@ -649,6 +706,9 @@ namespace tesseract {
 
 - (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
 {
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
     tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
 
     NSMutableArray *array = [NSMutableArray array];
@@ -791,6 +851,9 @@ namespace tesseract {
 
 - (UIImage *)thresholdedImage
 {
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
     Pix *pixs = _tesseract->GetThresholdedImage();
     Pix *pix = pixUnpackBinary(pixs, 32, 0);
 
