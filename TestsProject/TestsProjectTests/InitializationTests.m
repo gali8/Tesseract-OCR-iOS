@@ -270,16 +270,17 @@ describe(@"Tesseract initialization", ^{
             cleanTessdataFolderAtPath(customDirectoryPath);
         });
       
-        it(@"Should not initialize if no tessdata folder in app bundle", ^{
+        it(@"Should not initialize engine if no tessdata folder in app bundle", ^{
           
-          [[NSFileManager defaultManager] stub:@selector(fileExistsAtPath:isDirectory:)
-                                     andReturn:theValue(NO)];
-          G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
-                                                        configDictionary:nil
-                                                         configFileNames:nil
-                                                        absoluteDataPath:customDirectoryPath
-                                                              engineMode:G8OCREngineModeTesseractOnly];
-          [[tesseract should] beNil];
+            [[NSFileManager defaultManager] stub:@selector(fileExistsAtPath:isDirectory:)
+                                       andReturn:theValue(NO)];
+            G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
+                                                          configDictionary:nil
+                                                           configFileNames:nil
+                                                          absoluteDataPath:customDirectoryPath
+                                                                engineMode:G8OCREngineModeTesseractOnly];
+            [[tesseract shouldNot] beNil];
+            [[theValue(tesseract.isEngineConfigured) should] beNo];
         });
     });
     
@@ -380,14 +381,15 @@ describe(@"Tesseract initialization", ^{
             [[wrongTesseract shouldNot] beNil];
             [[[NSFileManager defaultManager] should] receive:selector andReturn:returnValue withCount:count];
             wrongTesseract = [wrongTesseract initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil cachesRelatedDataPath:tessdataPath engineMode:G8OCREngineModeTesseractOnly];
-            [[wrongTesseract should] beNil];
+            [[wrongTesseract shouldNot] beNil];
+            [[theValue(wrongTesseract.isEngineConfigured) should] beNo];
         };
         
-        it(@"Should return nil if createDirectoryAtPath fails", ^{
+        it(@"Should not initialize engine if createDirectoryAtPath fails", ^{
             checkInitializationWithFailedSelectorReturnValueAndCount(@selector(createDirectoryAtPath:withIntermediateDirectories:attributes:error:), theValue(NO), 1);
         });
         
-        it(@"Should return nil if createSymbolicLinkAtPath fails", ^{
+        it(@"Should not initialize engine if createSymbolicLinkAtPath fails", ^{
             NSError *error = nil;
             NSArray *contentsOfTessdataFromTheBundle = [fileManager contentsOfDirectoryAtPath:tessdataFolderPathFromTheBundle error:&error];
             NSAssert (error == nil, @"Error getting the content of the Tessdata folder from the app bundle: %@", error);
@@ -396,7 +398,7 @@ describe(@"Tesseract initialization", ^{
             cleanTessdataFolderAtPath(cachesTessDataPath);
         });
         
-        it(@"Should return nil if contentsOfDirectoryAtPath fails", ^{
+        it(@"Should not initialize engine if contentsOfDirectoryAtPath fails", ^{
             checkInitializationWithFailedSelectorReturnValueAndCount(@selector(contentsOfDirectoryAtPath:error:), nil, 2);
             cleanTessdataFolderAtPath(cachesTessDataPath);
         });
