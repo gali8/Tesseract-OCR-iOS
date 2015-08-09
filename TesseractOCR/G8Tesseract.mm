@@ -816,7 +816,7 @@ namespace tesseract {
     const UInt8 *pixels = CFDataGetBytePtr(imageData);
 
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
-    int bytesPerPixel = (int)bitsPerPixel / 8;
+    size_t bytesPerPixel = bitsPerPixel / 8;
     size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
 
     int bpp = MAX(1, (int)bitsPerPixel);
@@ -824,7 +824,7 @@ namespace tesseract {
     l_uint32 *data = pixGetData(pix);
     int wpl = pixGetWpl(pix);
     
-    void (^copyBlock)(l_uint32 *toAddr, int toOffset, const UInt8 *fromAddr, int fromOffset) = nil;
+    void (^copyBlock)(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) = nil;
     switch (bpp) {
             
 #if 0 // BPP1 start. Uncomment this if UIImage can support 1bpp someday
@@ -844,7 +844,7 @@ namespace tesseract {
 #endif // BPP1 end
             
         case 8: {
-            copyBlock = ^(l_uint32 *toAddr, int toOffset, const UInt8 *fromAddr, int fromOffset) {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
                 SET_DATA_BYTE(toAddr, toOffset, fromAddr[fromOffset]);
             };
             break;
@@ -865,7 +865,7 @@ namespace tesseract {
 #endif // BPP24 end
             
         case 32: {
-            copyBlock = ^(l_uint32 *toAddr, int toOffset, const UInt8 *fromAddr, int fromOffset) {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
                 toAddr[toOffset] = (fromAddr[fromOffset] << 24) | (fromAddr[fromOffset + 1] << 16) |
                                    (fromAddr[fromOffset + 2] << 8) | fromAddr[fromOffset + 3];
             };
