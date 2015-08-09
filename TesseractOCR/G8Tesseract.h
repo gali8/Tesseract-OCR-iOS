@@ -56,8 +56,8 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  "tessdata" folder.
  *
  *  @note   You should always check that the languages have been set correctly 
- *          and tesseract has been configured its engine for the languages 
- *          specified by isEngineConfigured property.
+ *          and Tesseract has been configured its engine for the languages
+ *          specified by `isEngineConfigured` property.
  */
 @property (nonatomic, copy) NSString* language;
 
@@ -81,7 +81,7 @@ extern NSInteger const kG8MaxCredibleResolution;
 @property (nonatomic, assign) G8PageSegmentationMode pageSegmentationMode;
 
 /**
- *  YES when tesseract is succesfully configured, NO otherwise.
+ *  YES when Tesseract is succesfully configured, NO otherwise.
  */
 @property (nonatomic, readonly, getter=isEngineConfigured) BOOL engineConfigured;
 
@@ -277,7 +277,7 @@ extern NSInteger const kG8MaxCredibleResolution;
 
 /**
  *  The default initializer.
- *  @return A G8Tesseract instance initialized with niether language,
+ *  @return A G8Tesseract instance initialized with neither language,
  *          nor any other settings specified. You can set the language later, 
  *          using language property.
  */
@@ -290,9 +290,9 @@ extern NSInteger const kG8MaxCredibleResolution;
  *
  *  @return The initialized Tesseract object. 
  *
- *  @note   You should check that the language property match the languages 
- *          you have specified. Also you may ensure that tesseract is properly
- *          initialized by checking isEngineConfigured property.
+ *  @note   You should check that the `language` property matches the languages
+ *          you have specified. Also you may ensure that Tesseract is properly
+ *          initialized by checking `isEngineConfigured` property.
  */
 - (instancetype)initWithLanguage:(NSString*)language;
 
@@ -304,9 +304,9 @@ extern NSInteger const kG8MaxCredibleResolution;
  *
  *  @return The initialized Tesseract object. 
  *
- *  @note   You should check that the language property match the languages
- *          you have specified. Also you may ensure that tesseract is properly
- *          initialized by checking isEngineConfigured property.
+ *  @note   You should check that the `language` property matches the languages
+ *          you have specified. Also you may ensure that Tesseract is properly
+ *          initialized by checking `isEngineConfigured` property.
  */
 - (instancetype)initWithLanguage:(NSString*)language
                       engineMode:(G8OCREngineMode)engineMode;
@@ -336,9 +336,9 @@ extern NSInteger const kG8MaxCredibleResolution;
  *
  *  @return The initialized Tesseract object.
  *
- *  @note   You should check that the language property match the languages
- *          you have specified. Also you may ensure that tesseract is properly
- *          initialized by checking isEngineConfigured property.
+ *  @note   You should check that the `language` property matches the languages
+ *          you have specified. Also you may ensure that Tesseract is properly
+ *          initialized by checking `isEngineConfigured` property.
  */
 
 - (instancetype)initWithLanguage:(NSString *)language
@@ -380,9 +380,9 @@ extern NSInteger const kG8MaxCredibleResolution;
  *
  *  @return The initialized Tesseract object.
  *
- *  @note   You should check that the language property match the languages
- *          you have specified. Also you may ensure that tesseract is properly
- *          initialized by checking isEngineConfigured property.
+ *  @note   You should check that the `language` property matches the languages
+ *          you have specified. Also you may ensure that Tesseract is properly
+ *          initialized by checking `isEngineConfigured` property.
  */
 - (instancetype)initWithLanguage:(NSString *)language
                 configDictionary:(NSDictionary *)configDictionary
@@ -407,7 +407,7 @@ extern NSInteger const kG8MaxCredibleResolution;
  *
  *  @return     Returns the variable value for the given key, if it's been set. 
  *              nil otherwise. Also returns nil if the engine is not properly 
- *              configured. Refer to isEngineConfigured property.
+ *              configured. Refer to `isEngineConfigured` property.
  */
 - (NSString*)variableValueForKey:(NSString *)key;
 

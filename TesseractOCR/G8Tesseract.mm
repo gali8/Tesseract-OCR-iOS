@@ -360,7 +360,7 @@ namespace tesseract {
 - (void)setEngineImage:(UIImage *)image {
     
     if (image.size.width <= 0 || image.size.height <= 0) {
-        NSLog(@"ERROR: Image has not size!");
+        NSLog(@"ERROR: Image has invalid size!");
         return;
     }
     
@@ -456,7 +456,7 @@ namespace tesseract {
         
         _language = language.copy;
         if (!self.language) {
-            NSLog(@"WARNING: Setting G8Tesseract language to nill defaults to English, so make sure you either set the language afterward or have eng.traineddata in your tessdata folder, otherwise Tesseract will crash!");
+            NSLog(@"WARNING: Setting G8Tesseract language to nil defaults to English, so make sure you either set the language afterward or have eng.traineddata in your tessdata folder, otherwise Tesseract will crash!");
         }
         /*
          * "WARNING: On changing languages, all Tesseract parameters
@@ -552,7 +552,7 @@ namespace tesseract {
 - (NSString *)recognizedText
 {
     if (!self.isEngineConfigured) {
-        NSLog(@"Error! Cannot get recognized text, because engine is not properly configurred!");
+        NSLog(@"Error! Cannot get recognized text because the Tesseract engine is not properly configured!");
         return nil;
     }
     char *utf8Text = _tesseract->GetUTF8Text();
@@ -596,7 +596,7 @@ namespace tesseract {
     if (self.layoutAnalysed) return;
     
     if (!self.isEngineConfigured) {
-        NSLog(@"Error! cannot perform layout analysis, because the engine is not properly configured!");
+        NSLog(@"Error! Cannot perform layout analysis because the engine is not properly configured!");
         return;
     }
 
@@ -826,6 +826,7 @@ namespace tesseract {
 - (BOOL)recognize
 {
     if (!self.isEngineConfigured) {
+        NSLog(@"Error! Cannot recognize text because the Tesseract engine is not properly configured!");
         return NO;
     }
 
