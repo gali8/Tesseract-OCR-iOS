@@ -14,8 +14,15 @@ Requirements
 ------------
 
  - iOS SDK 6.0, iOS 5.0+ (there is no support for armv6)
- - Tesseract and Leptonica libraries from the [tesseract-ios-lib](https://github.com/ldiqual/tesseract-ios-lib) repo.
  
+To build the framework you need to install these tools:
+
+ - Xcode 6.1 (6A1052d) with command line tools
+ - M4
+ - Autoconf
+ - Automake
+ - Libtool
+
 
 Installation
 ------------
