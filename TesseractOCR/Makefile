@@ -93,7 +93,7 @@ $(libtessall) : $(libtess)
 $(libtess) : $(liblept) $(libtessmakefile)
 	echo $(libtessmakefile)
 	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -j8 && $(MAKE) install
+	$(MAKE) -sj8 && $(MAKE) install
 
 $(TESSERACT_SRC)/%/Makefile : $(libtessconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
@@ -123,7 +123,7 @@ $(libleptfat) : $(liblept)
 
 $(liblept) : $(libleptmakefile)
 	cd $(abspath $(@D)/../..) ; \
-	$(MAKE) -j8 && $(MAKE) install
+	$(MAKE) -sj8 && $(MAKE) install
 
 $(LEPTON_SRC)/%/Makefile : $(libjpegfat) $(libpngfat) $(libtifffat) $(libleptconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
@@ -147,7 +147,7 @@ $(libtifffat) : $(libtiff)
 
 $(libtiff) :  $(libtiffmakefile)
 	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -j8 && $(MAKE) install
+	$(MAKE) -sj8 && $(MAKE) install
 
 $(TIFF_SRC)/%/Makefile : $(libtiffconfig)
 	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
@@ -166,7 +166,7 @@ $(libpngfat) : $(libpng)
 
 $(libpng) : $(libpngmakefile)
 	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -j8 && $(MAKE) install
+	$(MAKE) -sj8 && $(MAKE) install
 
 $(PNG_SRC)/%/Makefile : $(libpngconfig)
 	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
@@ -185,7 +185,7 @@ $(libjpegfat) : $(libjpeg)
 
 $(libjpeg) : $(libjpegmakefile)
 	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -j8 && $(MAKE) install
+	$(MAKE) -sj8 && $(MAKE) install
 
 $(JPEG_SRC)/%/Makefile : $(libjpegconfig)
 	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
