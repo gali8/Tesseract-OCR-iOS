@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		413F03321A5FBBDD000C194B /* UIImage+G8FixOrientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F03301A5FBBDD000C194B /* UIImage+G8FixOrientation.h */; };
-		413F03331A5FBBDD000C194B /* UIImage+G8FixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 413F03311A5FBBDD000C194B /* UIImage+G8FixOrientation.m */; };
 		73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
 		73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -331,8 +329,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		413F03301A5FBBDD000C194B /* UIImage+G8FixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+G8FixOrientation.h"; sourceTree = "<group>"; };
-		413F03311A5FBBDD000C194B /* UIImage+G8FixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+G8FixOrientation.m"; sourceTree = "<group>"; };
 		4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = G8TesseractDelegate.h; sourceTree = "<group>"; };
 		418997A71A42CC8B00D6477C /* G8Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Constants.h; sourceTree = "<group>"; };
 		41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8TesseractParameters.h; sourceTree = "<group>"; };
@@ -747,8 +743,6 @@
 				418997A71A42CC8B00D6477C /* G8Constants.h */,
 				6490748A198A5A5600D728CC /* UIImage+G8Filters.h */,
 				6490748B198A5A5600D728CC /* UIImage+G8Filters.m */,
-				413F03301A5FBBDD000C194B /* UIImage+G8FixOrientation.h */,
-				413F03311A5FBBDD000C194B /* UIImage+G8FixOrientation.m */,
 				41C7E8231A3F0682000DC42B /* Core */,
 				41C7E8211A3F0650000DC42B /* Readme */,
 				64A0293017307C1D002B12E7 /* Supporting Files */,
@@ -1171,7 +1165,6 @@
 				F1A7AAA71B334C7200FE9650 /* edgblob.h in Headers */,
 				F1A7AAD61B334C7200FE9650 /* intfeaturespace.h in Headers */,
 				F1A7AAD91B334C7200FE9650 /* intproto.h in Headers */,
-				413F03321A5FBBDD000C194B /* UIImage+G8FixOrientation.h in Headers */,
 				F1A7AAB81B334C7200FE9650 /* fileerr.h in Headers */,
 				F1A7AB331B334C7300FE9650 /* scanedg.h in Headers */,
 				F1A7AB471B334C7300FE9650 /* stringrenderer.h in Headers */,
@@ -1539,7 +1532,6 @@
 				73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */,
 				73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */,
 				73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */,
-				413F03331A5FBBDD000C194B /* UIImage+G8FixOrientation.m in Sources */,
 				73C0A79E1A5932FD00D823D4 /* G8TesseractParameters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
