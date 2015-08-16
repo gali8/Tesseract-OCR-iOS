@@ -10,7 +10,6 @@
 #import "G8Tesseract.h"
 
 #import "UIImage+G8Filters.h"
-#import "UIImage+G8FixOrientation.h"
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
 #import "G8RecognizedBlock.h"
@@ -363,8 +362,6 @@ namespace tesseract {
         NSLog(@"ERROR: Image has invalid size!");
         return;
     }
-    
-    image = [image fixOrientation];
     
     self.imageSize = image.size; //self.imageSize used in the characterBoxes method
     
@@ -919,14 +916,19 @@ namespace tesseract {
     const UInt8 *pixels = CFDataGetBytePtr(imageData);
 
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
+    size_t bytesPerPixel = bitsPerPixel / 8;
     size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
 
     int bpp = MAX(1, (int)bitsPerPixel);
     Pix *pix = pixCreate(width, height, bpp == 24 ? 32 : bpp);
     l_uint32 *data = pixGetData(pix);
     int wpl = pixGetWpl(pix);
+    
+    void (^copyBlock)(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) = nil;
     switch (bpp) {
+            
 #if 0 // BPP1 start. Uncomment this if UIImage can support 1bpp someday
+      // Just a reference for the copyBlock
         case 1:
             for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
                 for (int x = 0; x < width; ++x) {
@@ -940,15 +942,16 @@ namespace tesseract {
             }
             break;
 #endif // BPP1 end
-        case 8:
-            // Greyscale just copies the bytes in the right order.
-            for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
-                for (int x = 0; x < width; ++x) {
-                    SET_DATA_BYTE(data, x, pixels[x]);
-                }
-            }
+            
+        case 8: {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
+                SET_DATA_BYTE(toAddr, toOffset, fromAddr[fromOffset]);
+            };
             break;
+        }
+            
 #if 0 // BPP24 start. Uncomment this if UIImage can support 24bpp someday
+      // Just a reference for the copyBlock
         case 24:
             // Put the colors in the correct places in the line buffer.
             for (int y = 0; y < height; ++y, pixels += bytesPerRow) {
@@ -960,19 +963,106 @@ namespace tesseract {
             }
             break;
 #endif // BPP24 end
-        case 32:
+            
+        case 32: {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
+                toAddr[toOffset] = (fromAddr[fromOffset] << 24) | (fromAddr[fromOffset + 1] << 16) |
+                                   (fromAddr[fromOffset + 2] << 8) | fromAddr[fromOffset + 3];
+            };
+            break;
+        }
+            
+        default:
+            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
+    }
+    
+    switch (image.imageOrientation) {
+        case UIImageOrientationUp:
             // Maintain byte order consistency across different endianness.
             for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
                 for (int x = 0; x < width; ++x) {
-                    data[x] = (pixels[x * 4] << 24) | (pixels[x * 4 + 1] << 16) |
-                        (pixels[x * 4 + 2] << 8) | pixels[x * 4 + 3];
+                    copyBlock(data, x, pixels, x * bytesPerPixel);
+                }
+            }
+            break;
+            
+        case UIImageOrientationUpMirrored:
+            // Maintain byte order consistency across different endianness.
+            for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+                int maxX = width - 1;
+                for (int x = maxX; x >= 0; --x) {
+                    copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                }
+            }
+            break;
+            
+        case UIImageOrientationDown:
+            // Maintain byte order consistency across different endianness.
+            pixels += (height - 1) * bytesPerRow;
+            for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+                int maxX = width - 1;
+                for (int x = maxX; x >= 0; --x) {
+                    copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                }
+            }
+            break;
+            
+        case UIImageOrientationDownMirrored:
+            // Maintain byte order consistency across different endianness.
+            pixels += (height - 1) * bytesPerRow;
+            for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+                for (int x = 0; x < width; ++x) {
+                    copyBlock(data, x, pixels, x * bytesPerPixel);
+                }
+            }
+            break;
+            
+        case UIImageOrientationLeft:
+            // Maintain byte order consistency across different endianness.
+            for (int x = 0; x < height; ++x, data += wpl) {
+                int maxY = width - 1;
+                for (int y = maxY; y >= 0; --y) {
+                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                    copyBlock(data, maxY - y, pixels, x0);
+                }
+            }
+            break;
+            
+        case UIImageOrientationLeftMirrored:
+            // Maintain byte order consistency across different endianness.
+            for (int x = height - 1; x >= 0; --x, data += wpl) {
+                int maxY = width - 1;
+                for (int y = maxY; y >= 0; --y) {
+                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                    copyBlock(data, maxY - y, pixels, x0);
+                }
+            }
+            break;
+            
+        case UIImageOrientationRight:
+            // Maintain byte order consistency across different endianness.
+            for (int x = height - 1; x >=0; --x, data += wpl) {
+                for (int y = 0; y < width; ++y) {
+                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                    copyBlock(data, y, pixels, x0);
+                }
+            }
+            break;
+            
+        case UIImageOrientationRightMirrored:
+            // Maintain byte order consistency across different endianness.
+            for (int x = 0; x < height; ++x, data += wpl) {
+                for (int y = 0; y < width; ++y) {
+                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                    copyBlock(data, y, pixels, x0);
                 }
             }
             break;
             
         default:
-            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
+            break;  // LCOV_EXCL_LINE
     }
+
     pixSetYRes(pix, (l_int32)self.sourceResolution);
     
     CFRelease(imageData);
