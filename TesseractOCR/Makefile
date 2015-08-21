@@ -16,8 +16,8 @@ PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
 JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
 TIFF_SRC = $(IMAGE_SRC)/$(TIFF_NAME)
 
-IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/lib/
-IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/include/
+IMAGE_LIB_DIR = $(shell pwd)/lib/
+IMAGE_INC_DIR = $(shell pwd)/include/
 LEPT_INC_DIR  = $(shell pwd)/include
 TESS_INC_DIR  = $(shell pwd)/include
 LIB_FAT_DIR   = $(shell pwd)/lib
@@ -252,6 +252,8 @@ mostlycleantess :
 
 .PHONY : distcleanimage
 distcleanimage :
+	-rm -rf $(IMAGE_LIB_DIR)
+	-rm -rf $(IMAGE_INC_DIR)
 	-rm -rf $(IMAGE_SRC)
 
 PHONY : distcleanlept
