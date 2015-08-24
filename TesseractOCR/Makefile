@@ -223,32 +223,40 @@ cleanimage :
 .PHONY : cleanlept
 cleanlept :
 	for folder in $(libleptfolders); do \
-		cd $$folder; \
-		$(MAKE) clean; \
-	done ; \
+		if [ -d $$folder ]; then \
+			cd $$folder; \
+			$(MAKE) clean; \
+		fi; \
+	done ;
 
 .PHONY : cleantess
 cleantess :
 	for folder in $(libtessfolders); do \
-		cd $$folder; \
-		$(MAKE) clean; \
-    done ; \
+		if [ -d $$folder ]; then \
+            cd $$folder; \
+			$(MAKE) clean; \
+		fi; \
+    done ;
 
 mostlycleanimage :
 
 .PHONY : mostlycleanlept
 mostlycleanlept :
 	for folder in $(libleptfolders); do \
-		cd $$folder; \
-		$(MAKE) mostlyclean; \
-    done ; \
+		if [ -d $$folder ]; then \
+			cd $$folder; \
+			$(MAKE) mostlyclean; \
+		fi; \
+    done ;
 
 .PHONY : mostlycleantess
 mostlycleantess :
 	for folder in $(libtessfolders); do \
-		cd $$folder; \
-		$(MAKE) mostlyclean; \
-    done ; \
+		if [ -d $$folder ]; then \
+			cd $$folder; \
+			$(MAKE) mostlyclean; \
+		fi; \
+    done ;
 
 .PHONY : distcleanimage
 distcleanimage :
