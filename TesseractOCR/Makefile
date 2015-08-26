@@ -16,18 +16,14 @@ PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
 JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
 TIFF_SRC = $(IMAGE_SRC)/$(TIFF_NAME)
 
-IMAGE_LIB_DIR = $(shell pwd)/lib/
-IMAGE_INC_DIR = $(shell pwd)/include/
-LEPT_INC_DIR  = $(shell pwd)/include
-TESS_INC_DIR  = $(shell pwd)/include
+IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/lib/
+IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/include/
+INCLUDE_DIR   = $(shell pwd)/include
+LEPT_INC_DIR  = $(INCLUDE_DIR)
+TESS_INC_DIR  = $(INCLUDE_DIR)
 LIB_FAT_DIR   = $(shell pwd)/lib
 
-libtessallfiles = libtesseract_all.a
-libtessfiles = ccmain/.libs/libtesseract_main.a ccstruct/.libs/libtesseract_ccstruct.a \
-                ccutil/.libs/libtesseract_ccutil.a classify/.libs/libtesseract_classify.a cube/.libs/libtesseract_cube.a cutil/.libs/libtesseract_cutil.a \
-                dict/.libs/libtesseract_dict.a neural_networks/runtime/.libs/libtesseract_neural.a opencl/.libs/libtesseract_opencl.a \
-                textord/.libs/libtesseract_textord.a viewer/.libs/libtesseract_viewer.a wordrec/.libs/libtesseract_wordrec.a \
-				api/.libs/libtesseract.a api/.libs/libtesseract_api.a
+libtessfiles = libtesseract.a
 libleptfiles = liblept.a
 libpngfiles = libpng.a
 libjpegfiles = libjpeg.a
@@ -39,35 +35,28 @@ arch_names = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-
 
 libleptfolders = $(foreach arch, $(arch_names), $(LEPTON_SRC)/$(arch)/)
 libtessfolders = $(foreach arch, $(arch_names), $(TESSERACT_SRC)/$(arch)/)
-libpngfolders  = $(foreach arch, $(arch_names), $(PNG_SRC)/$(arch)/)
-libjpegfolders = $(foreach arch, $(arch_names), $(JPEG_SRC)/$(arch)/)
-libtifffolders = $(foreach arch, $(arch_names), $(TIFF_SRC)/$(arch)/)
 
 libleptmakefile = $(foreach folder, $(libleptfolders), $(addprefix $(folder), Makefile) )
 libtessmakefile = $(foreach folder, $(libtessfolders), $(addprefix $(folder), Makefile) )
-libpngmakefile  = $(foreach folder, $(libpngfolders), $(addprefix $(folder), Makefile) )
-libjpegmakefile = $(foreach folder, $(libjpegfolders), $(addprefix $(folder), Makefile) )
-libtiffmakefile = $(foreach folder, $(libtifffolders), $(addprefix $(folder), Makefile) )
+imagesmakefile  = $(addprefix $(IMAGE_SRC)/, Makefile)
 
 libleptfat = $(LIB_FAT_DIR)/$(libleptfiles)
-libtessfat = $(LIB_FAT_DIR)/$(libtessallfiles)
-libpngfat  = $(addprefix $(IMAGE_LIB_DIR), $(libpngfiles))
-libjpegfat = $(addprefix $(IMAGE_LIB_DIR), $(libjpegfiles))
-libtifffat = $(addprefix $(IMAGE_LIB_DIR), $(libtifffiles))
+libtessfat = $(LIB_FAT_DIR)/$(libtessfiles)
+imagesfat  = $(libpngfat) $(libjpegfat) $(libtifffat)
+libpngfat  = $(LIB_FAT_DIR)/$(libpngfiles)
+libjpegfat = $(LIB_FAT_DIR)/$(libjpegfiles)
+libtifffat = $(LIB_FAT_DIR)/$(libtifffiles)
 
-libtessall = $(foreach folder, $(libtessfolders), $(addprefix $(folder), $(libtessallfiles)) )
-libtess    = $(foreach folder, $(libtessfolders), $(addprefix $(folder), $(libtessfiles)) )
-liblept    = $(foreach folder, $(addsuffix src/.libs/, $(libleptfolders) ), $(addprefix $(folder), $(libleptfiles)) )
-libpng     = $(foreach folder, $(libpngfolders), $(addprefix $(folder)/lib/, $(libpngfiles)) )
-libjpeg    = $(foreach folder, $(libjpegfolders), $(addprefix $(folder)/lib/, $(libjpegfiles)) )
-libtiff    = $(foreach folder, $(libtifffolders), $(addprefix $(folder)/lib/, $(libtifffiles)) )
+libtess    = $(foreach folder, $(libtessfolders), $(addprefix $(folder)/lib/, $(libtessfiles)) )
+liblept    = $(foreach folder, $(libleptfolders), $(addprefix $(folder)/lib/, $(libleptfiles)) )
+images     = $(libpng) $(libjpeg) $(libtiff)
+libpng     = $(addprefix $(IMAGE_LIB_DIR), $(libpngfiles))
+libjpeg    = $(addprefix $(IMAGE_LIB_DIR), $(libjpegfiles))
+libtiff    = $(addprefix $(IMAGE_LIB_DIR), $(libtifffiles))
 
 libtessautogen = $(TESSERACT_SRC)/autogen.sh
 libtessconfig = $(TESSERACT_SRC)/configure
 libleptconfig = $(LEPTON_SRC)/configure
-libpngconfig  = $(PNG_SRC)/configure
-libjpegconfig = $(JPEG_SRC)/configure
-libtiffconfig = $(TIFF_SRC)/configure
 
 index = $(words $(shell a="$(2)";echo $${a/$(1)*/$(1)} ))
 swap  = $(word $(call index,$(1),$(2)),$(3))
@@ -80,25 +69,21 @@ all : $(dependant_libs)
 #######################
 # TESSERACT-OCR
 #######################
-$(libtessfat) : $(libtessall)
+$(libtessfat) : $(libtess)
 	mkdir -p $(LIB_FAT_DIR)
 	xcrun lipo $^ -create -output $@
 	mkdir -p $(TESS_INC_DIR)
 	cp -rvf $(firstword $(libtessfolders))/include/tesseract $(TESS_INC_DIR)
 
-$(libtessall) : $(libtess)
-	cd $(@D) ; \
-	xcrun libtool -static -o $@ `find . -name "lib*.a"` -no_warning_for_no_symbols
-
 $(libtess) : $(liblept) $(libtessmakefile)
-	echo $(libtessmakefile)
+	echo $(libtess)
 	cd $(abspath $(@D)/..) ; \
 	$(MAKE) -sj8 && $(MAKE) install
 
 $(TESSERACT_SRC)/%/Makefile : $(libtessconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-I$(TESSERACT_SRC)/$*/ -L$(IMAGE_LIB_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
+	export CFLAGS="-I$(TESSERACT_SRC)/$*/ -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
@@ -122,16 +107,16 @@ $(libleptfat) : $(liblept)
 	cp -rvf $(firstword $(libleptfolders))/include/leptonica $(LEPT_INC_DIR)
 
 $(liblept) : $(libleptmakefile)
-	cd $(abspath $(@D)/../..) ; \
-	$(MAKE) -sj8 && $(MAKE) install
+	cd $(abspath $(@D)/..) ; \
+	$(MAKE) -s && $(MAKE) install
 
-$(LEPTON_SRC)/%/Makefile : $(libjpegfat) $(libpngfat) $(libtifffat) $(libleptconfig)
+$(LEPTON_SRC)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-I$(IMAGE_INC_DIR) -L$(IMAGE_LIB_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
+	export CFLAGS="-I$(INCLUDE_DIR) -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
-    export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(IMAGE_LIB_DIR)" ; \
+    export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
     ../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
@@ -139,67 +124,20 @@ $(LEPTON_SRC)/%/Makefile : $(libjpegfat) $(libpngfat) $(libtifffat) $(libleptcon
 #######################
 # Build libtiff and all of it's dependencies
 #######################
-$(libtifffat) : $(libtiff)
+$(imagesfat) : $(images)
 	mkdir -p $(@D)
-	xcrun lipo $(addsuffix lib/$(@F), $(libtifffolders)) -create -output $@
-	mkdir -p $(IMAGE_INC_DIR)
-	cp -rvf $(firstword $(libtifffolders))/include/*.h $(IMAGE_INC_DIR)
+	cp -rvf $? $(@D)
+	mkdir -p $(INCLUDE_DIR)
+	cp -rvf $(IMAGE_INC_DIR) $(INCLUDE_DIR)
 
-$(libtiff) :  $(libtiffmakefile)
-	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -sj8 && $(MAKE) install
-
-$(TIFF_SRC)/%/Makefile : $(libtiffconfig)
-	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
-	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
-	mkdir -p $(@D) ; \
-	cd $(@D) ; \
-	../configure --host=$* --enable-fast-install --enable-shared=no --prefix=`pwd` --without-x --with-jpeg-include-dir=$(abspath $(@D)/../../$(JPEG_NAME)/$*/include) --with-jpeg-lib-dir=$(abspath $(@D)/../../$(JPEG_NAME)/$*/lib)
-
-$(libpngfat) : $(libpng)
-	mkdir -p $(@D)
-	xcrun lipo $(addsuffix lib/$(@F), $(libpngfolders)) -create -output $@
-	mkdir -p $(IMAGE_INC_DIR)
-	cp -rvf $(firstword $(libpngfolders))/include/*.h $(IMAGE_INC_DIR)
-
-$(libpng) : $(libpngmakefile)
-	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -sj8 && $(MAKE) install
-
-$(PNG_SRC)/%/Makefile : $(libpngconfig)
-	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
-	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
-	mkdir -p $(@D) ; \
-	cd $(@D) ; \
-    ../configure --host=$* --enable-shared=no --prefix=`pwd`
-
-$(libjpegfat) : $(libjpeg)
-	mkdir -p $(@D)
-	xcrun lipo $(addsuffix lib/$(@F), $(libjpegfolders)) -create -output $@
-	mkdir -p $(IMAGE_INC_DIR)
-	cp -rvf $(firstword $(libjpegfolders))/include/*.h $(IMAGE_INC_DIR)
-
-$(libjpeg) : $(libjpegmakefile)
-	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -sj8 && $(MAKE) install
-
-$(JPEG_SRC)/%/Makefile : $(libjpegconfig)
-	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
-	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
-	mkdir -p $(@D) ; \
-	cd $(@D) ; \
-	../configure --host=$* --enable-shared=no --prefix=`pwd`
+$(images) : $(imagesmakefile)
+	cd $(IMAGE_SRC) ; \
+	$(MAKE) -s
 
 #######################
 # Download dependencies
 #######################
-$(libtiffconfig) $(libpngconfig) $(libjpegconfig) $(libtessautogen) :
+$(imagesmakefile) $(libtessautogen) :
 	git submodule init
 	git submodule update
 
@@ -210,15 +148,18 @@ $(libleptconfig) :
 # Clean
 #######################
 .PHONY : clean
-clean : cleanimage cleanlept cleantess
+clean : cleanimages cleanlept cleantess
 
 .PHONY : distclean
-distclean : distcleanimage distcleanlept distcleantess
+distclean : distcleanimages distcleanlept distcleantess
 
 .PHONY : mostlyclean
-mostlyclean : mostlycleanimage mostlycleanlept mostlycleantess
+mostlyclean : mostlycleanimages mostlycleanlept mostlycleantess
 
-cleanimage :
+.PHONY : cleanimages
+cleanimages :
+	cd $(IMAGE_SRC) ; \
+	$(MAKE) clean
 
 .PHONY : cleanlept
 cleanlept :
@@ -238,7 +179,8 @@ cleantess :
 		fi; \
     done ;
 
-mostlycleanimage :
+.PHONY : mostlycleanimages
+mostlycleanimages :
 
 .PHONY : mostlycleanlept
 mostlycleanlept :
@@ -258,10 +200,8 @@ mostlycleantess :
 		fi; \
     done ;
 
-.PHONY : distcleanimage
-distcleanimage :
-	-rm -rf $(IMAGE_LIB_DIR)
-	-rm -rf $(IMAGE_INC_DIR)
+.PHONY : distcleanimages
+distcleanimages :
 	-rm -rf $(IMAGE_SRC)
 
 PHONY : distcleanlept
