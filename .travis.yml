@@ -1,15 +1,15 @@
 language: objective-c
 os: osx
-osx_image: xcode7
 xcode_workspace: Tesseract-OCR-iOS.xcworkspace
-# these sdks are not yet supported in xcode7 build envirenment
 xcode_sdk:
-#    - iphonesimulator7.1
-#    - iphonesimulator8.1 
-     - iphonesimulator
-xcode_scheme: 
+    - iphonesimulator8.4
+    - iphonesimulator9.0 
+xcode_scheme:
     - Template Framework Project
     - TestsProject
+env:
+    - BUILD_DEPENDENT_LIBRARIES=true
+    - BUILD_DEPENDENT_LIBRARIES=false
 before_install:
     ./scripts/before_install.sh
 after_success:
