@@ -14,6 +14,8 @@ These are the current versions of the upstream bundled libraries within the fram
 - Libpng 1.6.18 ([homepage](http://www.libpng.org/pub/png/libpng.html))
 - Libjpeg 9a ([homepage](http://libjpeg.sourceforge.net/))
 
+**All libs are with bitcode integrated**
+
 Getting Started
 =================
 See the [Installation](https://github.com/gali8/Tesseract-OCR-iOS/wiki/Installation) page in the wiki. Once you're setup see some [usage examples](https://github.com/gali8/Tesseract-OCR-iOS/wiki/Using-Tesseract-OCR-iOS).

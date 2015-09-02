@@ -1,8 +1,12 @@
 language: objective-c
+os: osx
+osx_image: xcode7
 xcode_workspace: Tesseract-OCR-iOS.xcworkspace
+# these sdks are not yet supported in xcode7 build envirenment
 xcode_sdk:
-    - iphonesimulator7.1
-    - iphonesimulator8.1 
+#    - iphonesimulator7.1
+#    - iphonesimulator8.1 
+    - iphonesimulator9.0
 xcode_scheme: 
     - Template Framework Project
     - TestsProject
@@ -10,7 +14,10 @@ env:
     - BUILD_DEPENDENT_LIBRARIES=true
     - BUILD_DEPENDENT_LIBRARIES=false
 before_install:
-    sudo pip install PyYAML; sudo pip install cpp-coveralls
+    - brew uninstall xctool
+    - brew install xctool --HEAD
+    - xctool --version
+    - ./scripts/before_install.sh
 after_success:
     ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include --exclude-folder TestsProject
 

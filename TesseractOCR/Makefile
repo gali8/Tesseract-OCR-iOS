@@ -87,9 +87,9 @@ $(libtess) : $(libtessmakefile)
 $(TESSERACT_SRC)/%/Makefile : $(libtessconfig) $(libleptfat)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names_all), $(sdks))" ; \
-	export CFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags)" ; \
+	export CFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
+	export CXXFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
 	export LIBLEPT_HEADERSDIR=$(TESSERACT_SRC)/$*/ ; \
 	mkdir -p $(@D) ; \
@@ -116,9 +116,9 @@ $(liblept) : $(libleptmakefile)
 $(LEPTON_SRC)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names_all), $(sdks))" ; \
-	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags)" ; \
+	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
+	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
     export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
