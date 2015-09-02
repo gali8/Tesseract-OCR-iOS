@@ -63,6 +63,8 @@ swap  = $(word $(call index,$(1),$(2)),$(3))
 
 dependant_libs = $(libtessfat) $(libleptfat) $(libpngfat) $(libjpegfat) $(libtifffat)
 
+common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2
+
 .PHONY : all
 all : $(dependant_libs)
 
@@ -83,9 +85,9 @@ $(libtess) : $(liblept) $(libtessmakefile)
 $(TESSERACT_SRC)/%/Makefile : $(libtessconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-I$(TESSERACT_SRC)/$*/ -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
+	export CFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
+	export CXXFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
 	export LIBLEPT_HEADERSDIR=$(TESSERACT_SRC)/$*/ ; \
 	mkdir -p $(@D) ; \
@@ -113,9 +115,9 @@ $(liblept) : $(libleptmakefile)
 $(LEPTON_SRC)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-I$(INCLUDE_DIR) -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
+	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
+	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
     export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
