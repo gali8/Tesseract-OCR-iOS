@@ -1,13 +1,22 @@
 language: objective-c
+os: osx
+osx_image: xcode7
 xcode_workspace: Tesseract-OCR-iOS.xcworkspace
+# these sdks are not yet supported in xcode7 build envirenment
 xcode_sdk:
-    - iphonesimulator7.1
-    - iphonesimulator8.1 
-xcode_scheme: 
-    - Template Framework Project
-    - TestsProject
+#    - iphonesimulator7.1
+#    - iphonesimulator8.1 
+     - iphonesimulator
+# since the projects are built in different modes (build only or test)
+# instead of specifying schemes, lets's specify scripts below
+#xcode_scheme: 
+#    - Template Framework Project
+#    - TestsProject
+script:
+    - xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme "Template Framework Project" -sdk $TRAVIS_XCODE_SDK build
+    - xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme "TestsProject" -sdk $TRAVIS_XCODE_SDK build test
 before_install:
-    sudo pip install PyYAML; sudo pip install cpp-coveralls
+    ./scripts/before_install.sh
 after_success:
     ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include --exclude-folder TestsProject
 
