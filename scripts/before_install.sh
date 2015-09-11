@@ -4,8 +4,9 @@ sudo easy_install pip
 sudo pip install PyYAML
 sudo pip install cpp-coveralls
 
-#build TesseractOCR
-cd TesseractOCR
-make
-cd ..
+# uncomment the following to build TesseractOCR under Travis,
+# but be aware that it takes quiet long and Travis may fail due to build time limit, which is 50 min
+#cd TesseractOCR
+#make
+#cd ..
 
