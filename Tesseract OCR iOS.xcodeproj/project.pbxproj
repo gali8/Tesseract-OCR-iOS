@@ -557,7 +557,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/usr/local/bin\" # That's the path where the aclocal is installed\ncd TesseractOCR\n#make\n";
+			shellScript = "export PATH=\"$PATH:/usr/local/bin\" # That's the path where the aclocal is installed\n# just uncomment the following line if you wish to make dependent libraries from xcode\n#export BUILD_DEPENDENT_LIBRARIES=\"true\"\nif [ $BUILD_DEPENDENT_LIBRARIES = \"true\" ]\nthen\n    cd TesseractOCR\n    make\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

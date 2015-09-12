@@ -30,11 +30,15 @@ libjpegfiles = libjpeg.a
 libtifffiles = libtiff.a
 
 sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH) $(SDK_IPHONESIMULATOR_PATH)
-archs = armv7 armv7s arm64 i386 x86_64
-arch_names = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-darwin x86_64-apple-darwin
+archs_all = armv7 armv7s arm64 i386 x86_64
+arch_names_all = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-darwin x86_64-apple-darwin
+arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
+ARCHS ?= $(archs_all)
 
 libleptfolders = $(foreach arch, $(arch_names), $(LEPTON_SRC)/$(arch)/)
 libtessfolders = $(foreach arch, $(arch_names), $(TESSERACT_SRC)/$(arch)/)
+libleptfolders_all = $(foreach arch, $(arch_names_all), $(LEPTON_SRC)/$(arch)/)
+libtessfolders_all = $(foreach arch, $(arch_names_all), $(TESSERACT_SRC)/$(arch)/)
 
 libleptmakefile = $(foreach folder, $(libleptfolders), $(addprefix $(folder), Makefile) )
 libtessmakefile = $(foreach folder, $(libtessfolders), $(addprefix $(folder), Makefile) )
@@ -63,6 +67,8 @@ swap  = $(word $(call index,$(1),$(2)),$(3))
 
 dependant_libs = $(libtessfat) $(libleptfat) $(libpngfat) $(libjpegfat) $(libtifffat)
 
+common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2
+
 .PHONY : all
 all : $(dependant_libs)
 
@@ -71,19 +77,17 @@ all : $(dependant_libs)
 #######################
 $(libtessfat) : $(libtess)
 	mkdir -p $(LIB_FAT_DIR)
-	xcrun lipo $^ -create -output $@
+	xcrun lipo $(realpath $(addsuffix lib/$(@F), $(libtessfolders_all)) ) -create -output $@
 	mkdir -p $(TESS_INC_DIR)
 	cp -rvf $(firstword $(libtessfolders))/include/tesseract $(TESS_INC_DIR)
 
-$(libtess) : $(liblept) $(libtessmakefile)
-	echo $(libtess)
-	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -sj8 && $(MAKE) install
+$(libtess) : $(libtessmakefile)
+	cd $(abspath $(@D)/..) && $(MAKE) -sj8 && $(MAKE) install
 
-$(TESSERACT_SRC)/%/Makefile : $(libtessconfig)
+$(TESSERACT_SRC)/%/Makefile : $(libtessconfig) $(libleptfat)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
-	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-I$(TESSERACT_SRC)/$*/ -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
+	export SDKROOT="$(call swap, $*, $(arch_names_all), $(sdks))" ; \
+	export CFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags)" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
@@ -94,26 +98,25 @@ $(TESSERACT_SRC)/%/Makefile : $(libtessconfig)
 	../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-graphics
 
 $(libtessconfig) : $(libtessautogen)
-	cd $(@D) ; \
-	./autogen.sh
+	cd $(@D) && ./autogen.sh 2> /dev/null
 
 #######################
 # LEPTONLIB
 #######################
 $(libleptfat) : $(liblept)
 	mkdir -p $(LIB_FAT_DIR)
-	xcrun lipo $^ -create -output $@
+	xcrun lipo $(realpath $(addsuffix lib/$(@F), $(libleptfolders_all)) ) -create -output $@
 	mkdir -p $(LEPT_INC_DIR)
 	cp -rvf $(firstword $(libleptfolders))/include/leptonica $(LEPT_INC_DIR)
 
 $(liblept) : $(libleptmakefile)
 	cd $(abspath $(@D)/..) ; \
-	$(MAKE) -s && $(MAKE) install
+	$(MAKE) -sj8 && $(MAKE) install
 
 $(LEPTON_SRC)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
-	export SDKROOT="$(call swap, $*, $(arch_names), $(sdks))" ; \
-	export CFLAGS="-I$(INCLUDE_DIR) -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names), $(archs)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2" ; \
+	export SDKROOT="$(call swap, $*, $(arch_names_all), $(sdks))" ; \
+	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags)" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="$$CFLAGS -Wno-deprecated-register"; \
     export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
@@ -130,9 +133,9 @@ $(imagesfat) : $(images)
 	mkdir -p $(INCLUDE_DIR)
 	cp -rvf $(IMAGE_INC_DIR) $(INCLUDE_DIR)
 
-$(images) : $(imagesmakefile)
+$(images) : $(imagesmakefile) FORCE
 	cd $(IMAGE_SRC) ; \
-	$(MAKE) -s
+	until `$(MAKE) -s`; do sleep 5; done
 
 #######################
 # Download dependencies
@@ -163,20 +166,16 @@ cleanimages :
 
 .PHONY : cleanlept
 cleanlept :
-	for folder in $(libleptfolders); do \
-		if [ -d $$folder ]; then \
-			cd $$folder; \
-			$(MAKE) clean; \
-		fi; \
+	for folder in $(realpath $(libleptfolders_all) ); do \
+        cd $$folder; \
+        $(MAKE) clean; \
 	done ;
 
 .PHONY : cleantess
 cleantess :
-	for folder in $(libtessfolders); do \
-		if [ -d $$folder ]; then \
-            cd $$folder; \
-			$(MAKE) clean; \
-		fi; \
+	for folder in $(realpath $(libtessfolders_all) ); do \
+        cd $$folder; \
+        $(MAKE) clean; \
     done ;
 
 .PHONY : mostlycleanimages
@@ -184,20 +183,16 @@ mostlycleanimages :
 
 .PHONY : mostlycleanlept
 mostlycleanlept :
-	for folder in $(libleptfolders); do \
-		if [ -d $$folder ]; then \
-			cd $$folder; \
-			$(MAKE) mostlyclean; \
-		fi; \
+	for folder in $(realpath $(libleptfolders) ); do \
+        cd $$folder; \
+        $(MAKE) mostlyclean; \
     done ;
 
 .PHONY : mostlycleantess
 mostlycleantess :
-	for folder in $(libtessfolders); do \
-		if [ -d $$folder ]; then \
-			cd $$folder; \
-			$(MAKE) mostlyclean; \
-		fi; \
+	for folder in $(realpath $(libtessfolders_all) ); do \
+        cd $$folder; \
+        $(MAKE) mostlyclean; \
     done ;
 
 .PHONY : distcleanimages
@@ -216,3 +211,5 @@ distcleantess :
 	-rm -rf $(libtessfat)
 	-rm -rf $(TESSERACT_SRC)
 
+.PHONY : FORCE
+FORCE :
