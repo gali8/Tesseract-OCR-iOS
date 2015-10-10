@@ -6,6 +6,9 @@ xcode_sdk:
 xcode_scheme: 
     - Template Framework Project
     - TestsProject
+env:
+    - BUILD_DEPENDENT_LIBRARIES=true
+    - BUILD_DEPENDENT_LIBRARIES=false
 before_install:
     sudo pip install PyYAML; sudo pip install cpp-coveralls
 after_success:
