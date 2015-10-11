@@ -2,7 +2,7 @@
 ### Step 1 - Prerequisites
 First you need to install these tools:
 
-- Xcode 6.1 (6A1052d) with command line tools
+- Xcode 7 with command line tools
 - M4
 - Autoconf
 - Automake
