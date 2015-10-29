@@ -32,14 +32,8 @@
 
 -(void)recognizeImageWithTesseract:(UIImage *)image
 {
-    // Preprocess the image so Tesseract's recognition will be more accurate
-    UIImage *bwImage = [image g8_blackAndWhite];
-
     // Animate a progress activity indicator
     [self.activityIndicator startAnimating];
-
-    // Display the preprocessed image to be recognized in the view
-    self.imageToRecognize.image = bwImage;
 
     // Create a new `G8RecognitionOperation` to perform the OCR asynchronously
     // It is assumed that there is a .traineddata file for the language pack
@@ -72,7 +66,7 @@
     //operation.tesseract.charBlacklist = @"56789";
     
     // Set the image on which Tesseract should perform recognition
-    operation.tesseract.image = bwImage;
+    operation.tesseract.image = image;
 
     // Optionally limit the region in the image on which Tesseract should
     // perform recognition to a rectangle
@@ -97,6 +91,9 @@
                                               otherButtonTitles:nil];
         [alert show];
     };
+    
+    // Display the image to be recognized in the view
+    self.imageToRecognize.image = operation.tesseract.thresholdedImage;
 
     // Finally, add the recognition operation to the queue
     [self.operationQueue addOperation:operation];
