@@ -67,7 +67,7 @@ static NSString *const kG8Languages = @"eng";
 
 - (void)setupImage
 {
-    self.tesseract.image = [self.image g8_blackAndWhite];
+    self.tesseract.image = self.image;
 
     if (CGRectEqualToRect(self.rect, CGRectZero) == NO) {
         self.tesseract.rect = self.rect;
@@ -145,7 +145,7 @@ static NSString *const kG8Languages = @"eng";
     [self setupTesseract];
     self.tesseract.delegate = self;
     
-    self.tesseract.image = [sourceImage g8_blackAndWhite];
+    self.tesseract.image = sourceImage;
 
     return self.tesseract.thresholdedImage;
 };

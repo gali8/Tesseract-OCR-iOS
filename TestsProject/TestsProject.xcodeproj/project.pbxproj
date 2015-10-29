@@ -47,7 +47,6 @@
 		84E136421B66BEE80062F5A2 /* well_scaned_page_up_mirrored.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E1363B1B66BEE80062F5A2 /* well_scaned_page_up_mirrored.png */; };
 		8FA2F9CE23919BEC8C64A5EA /* libPods-TestsProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD3C116A45C293ADAC81D1B /* libPods-TestsProjectTests.a */; };
 		F120B54A1B45D642003F38A7 /* empty.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F120B5491B45D642003F38A7 /* empty.pdf */; };
-		F18F53451AE7A6C9005F3843 /* grayscaledImage.png in Resources */ = {isa = PBXBuildFile; fileRef = F18F53441AE7A6C9005F3843 /* grayscaledImage.png */; };
 		F19D834A1B34C97D00EB8D2E /* NSData+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = F19D83491B34C97D00EB8D2E /* NSData+G8Equal.m */; };
 		F1A7AB8E1B34B91000FE9650 /* well_scaned_page.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F1A7AB8D1B34B91000FE9650 /* well_scaned_page.pdf */; };
 		F1D1AFF21B4580C100AB59EE /* well_scaned_page.png in Resources */ = {isa = PBXBuildFile; fileRef = F1D1AFF11B4580C100AB59EE /* well_scaned_page.png */; };
@@ -118,7 +117,6 @@
 		84E1363B1B66BEE80062F5A2 /* well_scaned_page_up_mirrored.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = well_scaned_page_up_mirrored.png; sourceTree = "<group>"; };
 		8CA185A06F5E788CE0DC28EB /* Pods-TestsProjectTests.coverage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestsProjectTests.coverage.xcconfig"; path = "../Pods/Target Support Files/Pods-TestsProjectTests/Pods-TestsProjectTests.coverage.xcconfig"; sourceTree = "<group>"; };
 		F120B5491B45D642003F38A7 /* empty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = empty.pdf; sourceTree = "<group>"; };
-		F18F53441AE7A6C9005F3843 /* grayscaledImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayscaledImage.png; sourceTree = "<group>"; };
 		F19D83481B34C97D00EB8D2E /* NSData+G8Equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+G8Equal.h"; sourceTree = "<group>"; };
 		F19D83491B34C97D00EB8D2E /* NSData+G8Equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+G8Equal.m"; sourceTree = "<group>"; };
 		F1A7AB8D1B34B91000FE9650 /* well_scaned_page.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = well_scaned_page.pdf; sourceTree = "<group>"; };
@@ -265,7 +263,6 @@
 				84E136311B66BAB00062F5A2 /* image_sample_left_mirrored.jpg */,
 				84E1362F1B66BA6B0062F5A2 /* image_sample_right_mirrored.jpg */,
 				84E1362D1B66B7950062F5A2 /* image_sample_down_mirrored.jpg */,
-				F18F53441AE7A6C9005F3843 /* grayscaledImage.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -327,7 +324,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = "";
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Daniele Galiotto - www.g8production.com";
 				TargetAttributes = {
 					4115B95A1A3EF8E90004EC0A = {
@@ -380,7 +377,6 @@
 				F1A7AB8E1B34B91000FE9650 /* well_scaned_page.pdf in Resources */,
 				4141211E1A4B1E3900583ED4 /* image_blank.png in Resources */,
 				84E136401B66BEE80062F5A2 /* well_scaned_page_right_mirrored.png in Resources */,
-				F18F53451AE7A6C9005F3843 /* grayscaledImage.png in Resources */,
 				84E136341B66BC430062F5A2 /* image_sample_up_mirrored.jpg in Resources */,
 				84E136411B66BEE80062F5A2 /* well_scaned_page_right.png in Resources */,
 				41C68DB51A41854600848AE1 /* image_sample_tr.png in Resources */,
@@ -492,6 +488,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
@@ -570,6 +567,7 @@
 					"-ObjC",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -591,6 +589,7 @@
 					"-ObjC",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -614,6 +613,7 @@
 					"$(inherited)",
 					"-lstdc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestsProject.app/TestsProject";
 			};
@@ -634,6 +634,7 @@
 					"$(inherited)",
 					"-lstdc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestsProject.app/TestsProject";
 			};
@@ -700,6 +701,7 @@
 					"-ObjC",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Coverage;
@@ -723,6 +725,7 @@
 					"$(inherited)",
 					"-lstdc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestsProject.app/TestsProject";
 			};

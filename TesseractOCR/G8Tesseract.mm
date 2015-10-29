@@ -976,91 +976,93 @@ namespace tesseract {
             NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
     }
     
-    switch (image.imageOrientation) {
-        case UIImageOrientationUp:
-            // Maintain byte order consistency across different endianness.
-            for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
-                for (int x = 0; x < width; ++x) {
-                    copyBlock(data, x, pixels, x * bytesPerPixel);
+    if (copyBlock) {
+        switch (image.imageOrientation) {
+            case UIImageOrientationUp:
+                // Maintain byte order consistency across different endianness.
+                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+                    for (int x = 0; x < width; ++x) {
+                        copyBlock(data, x, pixels, x * bytesPerPixel);
+                    }
                 }
-            }
-            break;
-            
-        case UIImageOrientationUpMirrored:
-            // Maintain byte order consistency across different endianness.
-            for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
-                int maxX = width - 1;
-                for (int x = maxX; x >= 0; --x) {
-                    copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                break;
+                
+            case UIImageOrientationUpMirrored:
+                // Maintain byte order consistency across different endianness.
+                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+                    int maxX = width - 1;
+                    for (int x = maxX; x >= 0; --x) {
+                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                    }
                 }
-            }
-            break;
-            
-        case UIImageOrientationDown:
-            // Maintain byte order consistency across different endianness.
-            pixels += (height - 1) * bytesPerRow;
-            for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
-                int maxX = width - 1;
-                for (int x = maxX; x >= 0; --x) {
-                    copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                break;
+                
+            case UIImageOrientationDown:
+                // Maintain byte order consistency across different endianness.
+                pixels += (height - 1) * bytesPerRow;
+                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+                    int maxX = width - 1;
+                    for (int x = maxX; x >= 0; --x) {
+                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                    }
                 }
-            }
-            break;
-            
-        case UIImageOrientationDownMirrored:
-            // Maintain byte order consistency across different endianness.
-            pixels += (height - 1) * bytesPerRow;
-            for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
-                for (int x = 0; x < width; ++x) {
-                    copyBlock(data, x, pixels, x * bytesPerPixel);
+                break;
+                
+            case UIImageOrientationDownMirrored:
+                // Maintain byte order consistency across different endianness.
+                pixels += (height - 1) * bytesPerRow;
+                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+                    for (int x = 0; x < width; ++x) {
+                        copyBlock(data, x, pixels, x * bytesPerPixel);
+                    }
                 }
-            }
-            break;
-            
-        case UIImageOrientationLeft:
-            // Maintain byte order consistency across different endianness.
-            for (int x = 0; x < height; ++x, data += wpl) {
-                int maxY = width - 1;
-                for (int y = maxY; y >= 0; --y) {
-                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                    copyBlock(data, maxY - y, pixels, x0);
+                break;
+                
+            case UIImageOrientationLeft:
+                // Maintain byte order consistency across different endianness.
+                for (int x = 0; x < height; ++x, data += wpl) {
+                    int maxY = width - 1;
+                    for (int y = maxY; y >= 0; --y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, maxY - y, pixels, x0);
+                    }
                 }
-            }
-            break;
-            
-        case UIImageOrientationLeftMirrored:
-            // Maintain byte order consistency across different endianness.
-            for (int x = height - 1; x >= 0; --x, data += wpl) {
-                int maxY = width - 1;
-                for (int y = maxY; y >= 0; --y) {
-                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                    copyBlock(data, maxY - y, pixels, x0);
+                break;
+                
+            case UIImageOrientationLeftMirrored:
+                // Maintain byte order consistency across different endianness.
+                for (int x = height - 1; x >= 0; --x, data += wpl) {
+                    int maxY = width - 1;
+                    for (int y = maxY; y >= 0; --y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, maxY - y, pixels, x0);
+                    }
                 }
-            }
-            break;
-            
-        case UIImageOrientationRight:
-            // Maintain byte order consistency across different endianness.
-            for (int x = height - 1; x >=0; --x, data += wpl) {
-                for (int y = 0; y < width; ++y) {
-                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                    copyBlock(data, y, pixels, x0);
+                break;
+                
+            case UIImageOrientationRight:
+                // Maintain byte order consistency across different endianness.
+                for (int x = height - 1; x >=0; --x, data += wpl) {
+                    for (int y = 0; y < width; ++y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, y, pixels, x0);
+                    }
                 }
-            }
-            break;
-            
-        case UIImageOrientationRightMirrored:
-            // Maintain byte order consistency across different endianness.
-            for (int x = 0; x < height; ++x, data += wpl) {
-                for (int y = 0; y < width; ++y) {
-                    int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                    copyBlock(data, y, pixels, x0);
+                break;
+                
+            case UIImageOrientationRightMirrored:
+                // Maintain byte order consistency across different endianness.
+                for (int x = 0; x < height; ++x, data += wpl) {
+                    for (int y = 0; y < width; ++y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, y, pixels, x0);
+                    }
                 }
-            }
-            break;
-            
-        default:
-            break;  // LCOV_EXCL_LINE
+                break;
+                
+            default:
+                break;  // LCOV_EXCL_LINE
+        }
     }
 
     pixSetYRes(pix, (l_int32)self.sourceResolution);
