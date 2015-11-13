@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target   = "7.0"
   s.ios.vendored_library    = 'TesseractOCR/lib/*.a'
-  s.xcconfig                = { 'OTHER_LDFLAGS' => '-lstdc++ -weak_library /usr/lib/libstdc++.6.0.9.dylib',
+  s.xcconfig                = { 'OTHER_LDFLAGS' => '-lstdc++ -lz',
                                 'CLANG_CXX_LIBRARY' => 'compiler-default' }
 
 end
