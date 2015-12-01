@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58D7B1321C0C945E006BE575 /* G8HierarchicalRecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 58D7B1301C0C945E006BE575 /* G8HierarchicalRecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		58D7B1331C0C945E006BE575 /* G8HierarchicalRecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7B1311C0C945E006BE575 /* G8HierarchicalRecognizedBlock.m */; };
 		73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
 		73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -104,6 +106,8 @@
 		41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8RecognitionOperation.m; sourceTree = "<group>"; };
 		41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8RecognizedBlock.h; sourceTree = "<group>"; };
 		41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8RecognizedBlock.m; sourceTree = "<group>"; };
+		58D7B1301C0C945E006BE575 /* G8HierarchicalRecognizedBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8HierarchicalRecognizedBlock.h; sourceTree = "<group>"; };
+		58D7B1311C0C945E006BE575 /* G8HierarchicalRecognizedBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8HierarchicalRecognizedBlock.m; sourceTree = "<group>"; };
 		645C864A18698EBA00B27B19 /* README_howto_compile_libaries.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_howto_compile_libaries.md; sourceTree = "<group>"; };
 		646772C318083B5600C85662 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		6490748A198A5A5600D728CC /* UIImage+G8Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+G8Filters.h"; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 				4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */,
 				41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */,
 				41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */,
+				58D7B1301C0C945E006BE575 /* G8HierarchicalRecognizedBlock.h */,
+				58D7B1311C0C945E006BE575 /* G8HierarchicalRecognizedBlock.m */,
 				41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */,
 				41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */,
 				41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */,
@@ -410,6 +416,7 @@
 				84B790A31B7B7CD100B1C726 /* stack.h in Headers */,
 				84B790D11B7B7CE500B1C726 /* params.h in Headers */,
 				84B7909A1B7B7CD100B1C726 /* leptwin.h in Headers */,
+				58D7B1321C0C945E006BE575 /* G8HierarchicalRecognizedBlock.h in Headers */,
 				73C0A79D1A5932F900D823D4 /* G8TesseractParameters.h in Headers */,
 				84B790C71B7B7CE500B1C726 /* fileerr.h in Headers */,
 				73C0A7A01A59330A00D823D4 /* UIImage+G8Filters.h in Headers */,
@@ -567,6 +574,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73C0A79A1A5932D700D823D4 /* G8RecognizedBlock.m in Sources */,
+				58D7B1331C0C945E006BE575 /* G8HierarchicalRecognizedBlock.m in Sources */,
 				73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */,
 				73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */,
 				73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */,
