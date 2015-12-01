@@ -708,7 +708,7 @@ namespace tesseract {
 			}
 		} while (choiceIterator.Next());
 		
-		block.characterChoices = choices;
+		block.characterChoices = [choices copy];
 	}
 
 	return block;
@@ -776,7 +776,7 @@ namespace tesseract {
 	BOOL endOfBlock = NO;
 	
 	do {
-		G8HierarchicalRecognizedBlock *block = [[G8HierarchicalRecognizedBlock alloc] initWithBlock:[self hierarchicalBlockFromIterator:resultIterator iteratorLevel:pageIteratorLevel]];
+		G8HierarchicalRecognizedBlock *block = [self hierarchicalBlockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
 		[blocks addObject:block];
 		
 		// if we are on a higher level than symbol call the getblocks function for the next deeper level
