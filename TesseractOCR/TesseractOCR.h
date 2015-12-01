@@ -26,6 +26,7 @@ FOUNDATION_EXPORT const unsigned char TesseractOCRVersionString[];
 
 #import "G8Tesseract.h"
 #import "G8RecognizedBlock.h"
+#import "G8HierarchicalRecognizedBlock.h"
 #import "G8TesseractParameters.h"
 #import "G8RecognitionOperation.h"
 #import "G8Constants.h"

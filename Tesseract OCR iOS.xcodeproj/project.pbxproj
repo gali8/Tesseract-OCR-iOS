@@ -21,6 +21,10 @@
 		338758B0206A6A7F006E5B96 /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		338758BB206A6A7F006E5B96 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		338758CA206A6A7F006E5B96 /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33A5167B211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */; };
+		33A5167C211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */; };
+		33A5167D211E55C900754CFA /* G8HierarchicalRecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A5167A211E55C900754CFA /* G8HierarchicalRecognizedBlock.m */; };
+		33A5167E211E55C900754CFA /* G8HierarchicalRecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A5167A211E55C900754CFA /* G8HierarchicalRecognizedBlock.m */; };
 		33A5D6D320B98B730038CE67 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 333B8E4D2095CE630084EE39 /* libjpeg.a */; };
 		33A5D6D420B98B730038CE67 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 333B8E4C2095CE630084EE39 /* liblept.a */; };
 		33A5D6D520B98B730038CE67 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 333B8E492095CE630084EE39 /* libpng.a */; };
@@ -239,6 +243,8 @@
 		333B8EA02095CF7C0084EE39 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
 		333B8EA12095CF7C0084EE39 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		334A67C820AF6BEC00AAA630 /* TesseractOCRmacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCRmacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8HierarchicalRecognizedBlock.h; sourceTree = "<group>"; };
+		33A5167A211E55C900754CFA /* G8HierarchicalRecognizedBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = G8HierarchicalRecognizedBlock.m; sourceTree = "<group>"; };
 		33A5D6C720B983690038CE67 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33A5D87020B98FB10038CE67 /* jpeglib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jpeglib.h; sourceTree = "<group>"; };
 		33A5D87120B98FB10038CE67 /* jerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jerror.h; sourceTree = "<group>"; };
@@ -375,15 +381,15 @@
 				333B8E562095CF7C0084EE39 /* jerror.h */,
 				333B8E572095CF7C0084EE39 /* tiff.h */,
 				333B8E582095CF7C0084EE39 /* tiffvers.h */,
-				333B8E592095CF7C0084EE39 /* tesseract */,
 				333B8E752095CF7C0084EE39 /* png.h */,
 				333B8E762095CF7C0084EE39 /* pnglibconf.h */,
 				333B8E772095CF7C0084EE39 /* pngconf.h */,
 				333B8E782095CF7C0084EE39 /* jconfig.h */,
 				333B8E792095CF7C0084EE39 /* jmorecfg.h */,
 				333B8E7A2095CF7C0084EE39 /* tiffio.h */,
-				333B8E7B2095CF7C0084EE39 /* leptonica */,
 				333B8E9B2095CF7C0084EE39 /* tiffconf.h */,
+				333B8E7B2095CF7C0084EE39 /* leptonica */,
+				333B8E592095CF7C0084EE39 /* tesseract */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -480,15 +486,15 @@
 				33A5D87120B98FB10038CE67 /* jerror.h */,
 				33A5D87220B98FB10038CE67 /* tiff.h */,
 				33A5D87320B98FB10038CE67 /* tiffvers.h */,
-				33A5D87420B98FB10038CE67 /* tesseract */,
 				33A5D8AF20B98FB10038CE67 /* png.h */,
 				33A5D8B020B98FB10038CE67 /* pnglibconf.h */,
 				33A5D8B120B98FB10038CE67 /* pngconf.h */,
 				33A5D8B220B98FB10038CE67 /* jconfig.h */,
 				33A5D8B320B98FB10038CE67 /* jmorecfg.h */,
 				33A5D8B420B98FB10038CE67 /* tiffio.h */,
-				33A5D8B520B98FB10038CE67 /* leptonica */,
 				33A5D8D520B98FB10038CE67 /* tiffconf.h */,
+				33A5D8B520B98FB10038CE67 /* leptonica */,
+				33A5D87420B98FB10038CE67 /* tesseract */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -617,6 +623,8 @@
 				41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */,
 				41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */,
 				41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */,
+				33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */,
+				33A5167A211E55C900754CFA /* G8HierarchicalRecognizedBlock.m */,
 				418997A71A42CC8B00D6477C /* G8Constants.h */,
 				41C7E8211A3F0650000DC42B /* Readme */,
 				64A0293017307C1D002B12E7 /* Supporting Files */,
@@ -716,6 +724,7 @@
 				33A5D97D20B990E70038CE67 /* list.h in Headers */,
 				33A5D97E20B990E70038CE67 /* rbtree.h in Headers */,
 				33A5D97F20B990E70038CE67 /* stringcode.h in Headers */,
+				33A5167C211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */,
 				33A5D98020B990E70038CE67 /* array.h in Headers */,
 				33A5D98120B990E70038CE67 /* ptra.h in Headers */,
 				33A5D98220B990E70038CE67 /* stack.h in Headers */,
@@ -791,6 +800,7 @@
 				33A5D91920B990CD0038CE67 /* list.h in Headers */,
 				33A5D91A20B990CD0038CE67 /* rbtree.h in Headers */,
 				33A5D91B20B990CD0038CE67 /* stringcode.h in Headers */,
+				33A5167B211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */,
 				33A5D91C20B990CD0038CE67 /* array.h in Headers */,
 				33A5D91D20B990CD0038CE67 /* ptra.h in Headers */,
 				33A5D91E20B990CD0038CE67 /* stack.h in Headers */,
@@ -934,6 +944,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33A5167E211E55C900754CFA /* G8HierarchicalRecognizedBlock.m in Sources */,
 				3387587E206A6A7F006E5B96 /* G8RecognizedBlock.m in Sources */,
 				33875880206A6A7F006E5B96 /* G8RecognitionOperation.m in Sources */,
 				33875881206A6A7F006E5B96 /* G8Tesseract.mm in Sources */,
@@ -945,6 +956,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33A5167D211E55C900754CFA /* G8HierarchicalRecognizedBlock.m in Sources */,
 				73C0A79A1A5932D700D823D4 /* G8RecognizedBlock.m in Sources */,
 				73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */,
 				73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */,
