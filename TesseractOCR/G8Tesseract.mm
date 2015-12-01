@@ -831,7 +831,7 @@ namespace tesseract {
 			}
 		} while (choiceIterator.Next());
 		
-		block.characterChoices = choices;
+		block.characterChoices = [choices copy];
 	}
 	return block;
 }
