@@ -21,8 +21,8 @@
 		338758B0206A6A7F006E5B96 /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		338758BB206A6A7F006E5B96 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		338758CA206A6A7F006E5B96 /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		33A5167B211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */; };
-		33A5167C211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */; };
+		33A5167B211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33A5167C211E55C900754CFA /* G8HierarchicalRecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 33A51679211E55C900754CFA /* G8HierarchicalRecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		33A5167D211E55C900754CFA /* G8HierarchicalRecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A5167A211E55C900754CFA /* G8HierarchicalRecognizedBlock.m */; };
 		33A5167E211E55C900754CFA /* G8HierarchicalRecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A5167A211E55C900754CFA /* G8HierarchicalRecognizedBlock.m */; };
 		33A5D6D320B98B730038CE67 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 333B8E4D2095CE630084EE39 /* libjpeg.a */; };

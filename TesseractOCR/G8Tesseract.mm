@@ -791,15 +791,12 @@ namespace tesseract {
     return block;
 }
 
-
-
 - (G8HierarchicalRecognizedBlock *)hierarchicalBlockFromIterator:(tesseract::ResultIterator *)iterator
 									   iteratorLevel:(G8PageIteratorLevel)iteratorLevel {
 
 	G8HierarchicalRecognizedBlock* block = [[G8HierarchicalRecognizedBlock alloc] initWithBlock:[self blockFromIterator:iterator iteratorLevel:iteratorLevel]];
 
 	if (iteratorLevel == G8PageIteratorLevelWord) {
-		
 		bool isBold;
 		bool isItalic;
 		bool isUnderlined;
@@ -815,9 +812,7 @@ namespace tesseract {
 		block.isNumeric = iterator->WordIsNumeric();
 		block.isBold = isBold;
 		block.isItalic = isItalic;
-		
 	} else if (iteratorLevel == G8PageIteratorLevelSymbol) {
-	
 		// get character choices
 		NSMutableArray *choices = [NSMutableArray array];
 		
@@ -838,7 +833,6 @@ namespace tesseract {
 		
 		block.characterChoices = choices;
 	}
-
 	return block;
 }
 
@@ -879,36 +873,32 @@ namespace tesseract {
     return [array copy];
 }
 
-
-
 - (NSArray *) recognizedHierarchicalBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel {
-	
 	if (!self.engineConfigured) {
 		return nil;
 	}
 	
 	tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
 	
-	NSArray* blocks = [self getBlocksFromIterator:resultIterator forLevel:pageIteratorLevel highestLevel:pageIteratorLevel];
+	NSArray *blocks = [self getBlocksFromIterator:resultIterator forLevel:pageIteratorLevel highestLevel:pageIteratorLevel];
 	
 	return blocks;
 }
 
-
 -(NSArray*) getBlocksFromIterator:(tesseract::ResultIterator*)resultIterator forLevel:(G8PageIteratorLevel)pageIteratorLevel highestLevel:(G8PageIteratorLevel)highestLevel {
 	
-	NSMutableArray* blocks = [[NSMutableArray alloc] init];
+	NSMutableArray *blocks = [[NSMutableArray alloc] init];
 	
 	tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
 	
 	BOOL endOfBlock = NO;
 	
 	do {
-		G8HierarchicalRecognizedBlock *block = [[G8HierarchicalRecognizedBlock alloc] initWithBlock:[self hierarchicalBlockFromIterator:resultIterator iteratorLevel:pageIteratorLevel]];
+        G8HierarchicalRecognizedBlock *block = [self hierarchicalBlockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
 		[blocks addObject:block];
 		
 		// if we are on a higher level than symbol call the getblocks function for the next deeper level
-		if(pageIteratorLevel != G8PageIteratorLevelSymbol) {
+		if (pageIteratorLevel != G8PageIteratorLevelSymbol) {
 			block.childBlocks = [self getBlocksFromIterator:resultIterator forLevel:[self getDeeperIteratorLevel:pageIteratorLevel] highestLevel:highestLevel];
 		}
 
@@ -922,7 +912,6 @@ namespace tesseract {
 }
 
 -(G8PageIteratorLevel)getDeeperIteratorLevel:(G8PageIteratorLevel)iteratorLevel {
-	
 	switch (iteratorLevel) {
 		case G8PageIteratorLevelBlock: return G8PageIteratorLevelParagraph;
 		case G8PageIteratorLevelParagraph: return G8PageIteratorLevelTextline;
@@ -934,7 +923,6 @@ namespace tesseract {
 
 
 -(G8PageIteratorLevel)getHigherIteratorLevel:(G8PageIteratorLevel)iteratorLevel {
-	
 	switch (iteratorLevel) {
 		case G8PageIteratorLevelBlock: return G8PageIteratorLevelBlock;
 		case G8PageIteratorLevelParagraph: return G8PageIteratorLevelBlock;
@@ -970,7 +958,6 @@ namespace tesseract {
 }
 
 - (NSString *)recognizedHOCRForPageNumber:(int)pageNumber {
-
     if (self.isEngineConfigured) {
 
         char *hocr = _tesseract->GetHOCRText(pageNumber);
@@ -986,7 +973,6 @@ namespace tesseract {
 // outputbase is the name of the output file excluding
 // extension. For example, "/path/to/chocolate-chip-cookie-recipe"
 - (NSData *)recognizedPDFForImages:(NSArray*)images outputbase:(NSString*)outputbase {
-
     if (!self.isEngineConfigured) {
         return nil;
     }
