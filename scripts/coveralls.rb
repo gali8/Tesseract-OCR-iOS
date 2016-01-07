@@ -8,7 +8,7 @@ require 'optparse'
 # arraw of source subfolders to exclude
 excludedFolders = []
 extensionsToProcess = []
-coveralls_cmd = "cpp-coveralls"
+coveralls_cmd = "cpp-coveralls --verbose"
 
 excludeHeaders = false
 
