@@ -637,7 +637,7 @@ namespace tesseract {
 
     G8RecognizedBlock *block = nil;
     const char *word = iterator->GetUTF8Text(level);
-    if (word != NULL) {
+    if (word != NULL && strlen(word) > 0) {
         // BoundingBox parameters are (Left Top Right Bottom).
         //  (L, T) is the top left corner of the box, and (R, B) is the bottom right corner
         //  Tesseract has (0, 0) in the bottom left corner and UIKit has (0, 0) in the top left corner
@@ -688,7 +688,7 @@ namespace tesseract {
 		block.isBold = isBold;
 		block.isItalic = isItalic;
 		
-	} else if (iteratorLevel == G8PageIteratorLevelSymbol) {
+    } else if (iteratorLevel == G8PageIteratorLevelSymbol && block.text != nil) {
 	
 		// get character choices
 		NSMutableArray *choices = [NSMutableArray array];
