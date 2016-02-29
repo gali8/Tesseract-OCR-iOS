@@ -90,4 +90,12 @@ copyFilesFromResources:(BOOL)copyFilesFromResources
     return canceled;
 }
 
+- (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
+{
+    if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+        return [self.delegate preprocessedImageForTesseract:tesseract sourceImage:sourceImage];
+    }
+    return nil;
+}
+
 @end
