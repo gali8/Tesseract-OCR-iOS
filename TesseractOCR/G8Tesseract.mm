@@ -785,7 +785,10 @@ namespace tesseract {
 
 - (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
 {
-    UIImage *image = thresholded ? self.thresholdedImage : self.image;
+    // Have to rotate the original image to the right or it shows upside down
+    UIImage *image2 = thresholded ? self.thresholdedImage : self.image;
+    CGImageRef imageRef = image2.CGImage;
+    UIImage *image = [[UIImage alloc] initWithCGImage:imageRef scale:image2.scale orientation:UIImageOrientationRight];
 
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
