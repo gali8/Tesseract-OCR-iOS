@@ -8,6 +8,7 @@
 //
 
 #import "G8ViewController.h"
+#import "UIImage+FixRotation.h"
 
 @interface G8ViewController ()
 
@@ -149,7 +150,9 @@
 didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image = info[UIImagePickerControllerOriginalImage];
+    UIImage *rotatedImage = [image fixOrientation];
     [picker dismissViewControllerAnimated:YES completion:nil];
-    [self recognizeImageWithTesseract:image];
+
+    [self recognizeImageWithTesseract:rotatedImage];
 }
 @end

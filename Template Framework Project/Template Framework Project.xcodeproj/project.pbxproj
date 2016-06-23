@@ -21,6 +21,7 @@
 		64DDA75B188FD9140025590D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 64DDA75A188FD9140025590D /* tessdata */; };
 		64E40AB1180C6D4D00C36DDE /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */; };
 		73BE4C421A5D83AB002C15F1 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73BE4C411A5D83AB002C15F1 /* TesseractOCR.framework */; };
+		E2345E101D1BF8C200D789AF /* UIImage+FixRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E2345E0F1D1BF8C200D789AF /* UIImage+FixRotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		64E40AB0180C6D4D00C36DDE /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		73BE4C411A5D83AB002C15F1 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "../build/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<group>"; };
 		73C0A7BE1A59565100D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2345E0E1D1BF8C200D789AF /* UIImage+FixRotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FixRotation.h"; sourceTree = "<group>"; };
+		E2345E0F1D1BF8C200D789AF /* UIImage+FixRotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FixRotation.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,8 @@
 				6400DDEE180C5DE000443362 /* G8ViewController.m */,
 				6400DDF0180C5DE000443362 /* Images.xcassets */,
 				6400DDDF180C5DE000443362 /* Supporting Files */,
+				E2345E0E1D1BF8C200D789AF /* UIImage+FixRotation.h */,
+				E2345E0F1D1BF8C200D789AF /* UIImage+FixRotation.m */,
 			);
 			path = "Template Framework Project";
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 				6400DDE5180C5DE000443362 /* main.m in Sources */,
 				6400DDE9180C5DE000443362 /* G8AppDelegate.m in Sources */,
 				6400DDEF180C5DE000443362 /* G8ViewController.m in Sources */,
+				E2345E101D1BF8C200D789AF /* UIImage+FixRotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
