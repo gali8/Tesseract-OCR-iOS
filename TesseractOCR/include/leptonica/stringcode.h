@@ -24,11 +24,25 @@
  -  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *====================================================================*/
 
-#ifndef  LEPTONICA_FREETYPE_H
-#define  LEPTONICA_FREETYPE_H
+#ifndef  LEPTONICA_STRINGCODE_H
+#define  LEPTONICA_STRINGCODE_H
 
-#define  LEPTONICA_FT_RESOLUTION 96
+/*
+ *  stringcode.h
+ *
+ *     Data structure to hold accumulating generated code for storing
+ *     and extracing serializable leptonica objects (e.g., pixa, recog).
+ */
 
-typedef struct ft_library_st FT_LIBRARY;
+struct L_StrCode
+{
+    l_int32       fileno;      /* index for function and output file names   */
+    l_int32       ifunc;       /* index into struct currently being stored   */
+    SARRAY       *function;    /* store case code for extraction             */
+    SARRAY       *data;        /* store base64 encoded data as strings       */
+    SARRAY       *descr;       /* store line in description table            */
+    l_int32       n;           /* number of data strings                     */
+};
+typedef struct L_StrCode  L_STRCODE;
 
-#endif  /* LEPTONICA_FREETYPE_H */
+#endif  /* LEPTONICA_STRINGCODE_H */

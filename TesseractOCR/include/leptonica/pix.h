@@ -94,6 +94,7 @@
  *       Box size adjustment flags
  *       Flags for selecting box boundaries from two choices
  *       Handling overlapping bounding boxes in boxa
+ *       Flags for replacing invalid boxes
  *       Horizontal warp
  *       Pixel selection for resampling
  *       Thinning flags
@@ -940,7 +941,9 @@ enum {
 enum {
     L_USE_MINSIZE = 1,             /* use boundaries giving min size       */
     L_USE_MAXSIZE = 2,             /* use boundaries giving max size       */
-    L_SUB_ON_BIG_DIFF = 3          /* substitute boundary if big abs diff  */
+    L_SUB_ON_BIG_DIFF = 3,         /* substitute boundary if big abs diff  */
+    L_USE_CAPPED_MIN = 4,          /* substitute boundary with capped min  */
+    L_USE_CAPPED_MAX = 5           /* substitute boundary with capped max  */
 };
 
 /*-------------------------------------------------------------------------*
@@ -949,6 +952,14 @@ enum {
 enum {
     L_COMBINE = 1,           /* resize to bounding region; remove smaller  */
     L_REMOVE_SMALL = 2       /* only remove smaller                        */
+};
+
+/*-------------------------------------------------------------------------*
+ *                    Flags for replacing invalid boxes                    *
+ *-------------------------------------------------------------------------*/
+enum {
+    L_USE_ALL_BOXES = 1,         /* consider all boxes in the sequence     */
+    L_USE_SAME_PARITY_BOXES = 2  /* consider boxes with the same parity    */
 };
 
 /*-------------------------------------------------------------------------*

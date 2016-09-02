@@ -82,7 +82,6 @@ typedef unsigned int uintptr_t;
 
 typedef intptr_t l_intptr_t;
 typedef uintptr_t l_uintptr_t;
-typedef void *L_TIMER;
 
 
 /*--------------------------------------------------------------------*
@@ -97,7 +96,7 @@ typedef void *L_TIMER;
  *  I/O libraries, plus zlib.  Setting any of these to 0 here causes
  *  non-functioning stubs to be linked.
  */
-#ifndef HAVE_CONFIG_H
+#if !defined(HAVE_CONFIG_H) && !defined(ANDROID_BUILD)
 #define  HAVE_LIBJPEG     1
 #define  HAVE_LIBTIFF     1
 #define  HAVE_LIBPNG      1
@@ -106,20 +105,26 @@ typedef void *L_TIMER;
 #define  HAVE_LIBUNGIF    0
 #define  HAVE_LIBWEBP     0
 #define  HAVE_LIBJP2K     0
-#endif  /* ~HAVE_CONFIG_H */
+
+    /* Leptonica supports both OpenJPEG 2.0 and 2.1.  If you have a
+     * version of openjpeg (HAVE_LIBJP2K) that is not 2.1, set the
+     * path to the openjpeg.h header in angle brackets here. */
+#define  LIBJP2K_HEADER   <openjpeg-2.1/openjpeg.h>
+#endif  /* ! HAVE_CONFIG_H etc. */
 
 /*
  * On linux systems, you can do I/O between Pix and memory.  Specifically,
  * you can compress (write compressed data to memory from a Pix) and
  * uncompress (read from compressed data in memory to a Pix).
- * For jpeg, png, pnm and bmp, these use the non-posix GNU functions
- * fmemopen() and open_memstream().  These functions are not
- * available on other systems.  To use these functions in linux,
- * you must define HAVE_FMEMOPEN to be 1 here.
+ * For jpeg, png, jp2k, gif, pnm and bmp, these use the non-posix GNU
+ * functions fmemopen() and open_memstream().  These functions are not
+ * available on other systems.
+ * To use these functions in linux, you must define HAVE_FMEMOPEN to 1.
+ * To use them on MacOS, which does not support these functions, set it to 0.
  */
-#ifndef HAVE_CONFIG_H
-#define  HAVE_FMEMOPEN    0
-#endif  /* ~HAVE_CONFIG_H */
+#if !defined(HAVE_CONFIG_H) && !defined(ANDROID_BUILD) && !defined(_MSC_VER)
+#define  HAVE_FMEMOPEN    1
+#endif  /* ! HAVE_CONFIG_H etc. */
 
 
 /*--------------------------------------------------------------------*
@@ -140,6 +145,33 @@ typedef void *L_TIMER;
 #define  USE_JP2KHEADER   1
 #define  USE_PDFIO        1
 #define  USE_PSIO         1
+
+
+/*--------------------------------------------------------------------*
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
+ *                          USER CONFIGURABLE                         *
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
+ *     Optional subdirectory translation for read/write to /tmp       *
+ *--------------------------------------------------------------------*/
+/*
+ * It is desirable on Windows to have all temp files written to the same
+ * subdirectory of the Windows <Temp> directory, because files under <Temp>
+ * persist after reboot, and the regression tests write a lot of files.
+ * Consequently, all temp files on Windows are written to <Temp>/leptonica/
+ * or subdirectories of it, with the translation:
+ *        /tmp/xxx  -->   <Temp>/leptonica/xxx
+ *
+ * This is not the case for Unix, but we provide an option for reading
+ * and writing on Unix with this translation:
+ *        /tmp/xxx  -->   /tmp/leptonica/xxx
+ * By default, leptonica is distributed for Unix without this translation
+ * (except on Cygwin, which runs on Windows).
+ */
+#if defined (__CYGWIN__)
+  #define  ADD_LEPTONICA_SUBDIR    1
+#else
+  #define  ADD_LEPTONICA_SUBDIR    0
+#endif
 
 
 /*--------------------------------------------------------------------*
@@ -228,6 +260,19 @@ enum {
     UNIX_PATH_SEPCHAR = 0,
     WIN_PATH_SEPCHAR = 1
 };
+
+
+/*------------------------------------------------------------------------*
+ *                          Timing structs                                *
+ *------------------------------------------------------------------------*/
+typedef void *L_TIMER;
+struct L_WallTimer {
+    l_int32  start_sec;
+    l_int32  start_usec;
+    l_int32  stop_sec;
+    l_int32  stop_usec;
+};
+typedef struct L_WallTimer  L_WALLTIMER;
 
 
 /*------------------------------------------------------------------------*
