@@ -66,8 +66,8 @@ class ViewController: UIViewController, G8TesseractDelegate, UIImagePickerContro
 			self?.activityIndicator.stopAnimating()
 			
 			// Spawn an alert with the recognized text
-			let alert = UIAlertController(title: "OCR Result", message:recognizedText, preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in })
+			let alert = UIAlertController(title: "OCR Result", message: recognizedText, preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default))
 			self?.present(alert, animated: true, completion: nil)
 		}
 		
