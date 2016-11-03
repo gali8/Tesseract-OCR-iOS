@@ -122,7 +122,8 @@ class ViewController: UIViewController, G8TesseractDelegate, UIImagePickerContro
 	// MARK - UIImagePickerControllerDelegate
 	
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-		let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+		let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+		let image = originalImage.fixOrientation()
 		picker.dismiss(animated: true, completion: nil)
 		recognizeImageWithTesseract(image: image)
 	}

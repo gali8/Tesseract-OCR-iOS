@@ -10,6 +10,7 @@
 		421958391DC9F87700179A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421958381DC9F87700179A7C /* AppDelegate.swift */; };
 		421958591DC9F97000179A7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421958581DC9F97000179A7C /* ViewController.swift */; };
 		428615B71845F340005D5A2E /* image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 428615B61845F340005D5A2E /* image_sample.jpg */; };
+		429D15231DCB56BD009F6A22 /* UIImage+FixOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D15221DCB56BD009F6A22 /* UIImage+FixOrientation.swift */; };
 		42F42CDF1DCB4FAB008C1433 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F42CDE1DCB4FAB008C1433 /* Launch Screen.storyboard */; };
 		6400DDD9180C5DE000443362 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6400DDD8180C5DE000443362 /* Foundation.framework */; };
 		6400DDDB180C5DE000443362 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6400DDDA180C5DE000443362 /* CoreGraphics.framework */; };
@@ -28,6 +29,7 @@
 		421958381DC9F87700179A7C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		421958581DC9F97000179A7C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		428615B61845F340005D5A2E /* image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sample.jpg; sourceTree = "<group>"; };
+		429D15221DCB56BD009F6A22 /* UIImage+FixOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+FixOrientation.swift"; sourceTree = "<group>"; };
 		42F42CDE1DCB4FAB008C1433 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		6400DDD5180C5DE000443362 /* Template Framework Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Template Framework Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6400DDD8180C5DE000443362 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -102,6 +104,7 @@
 				6400DDDF180C5DE000443362 /* Supporting Files */,
 				421958371DC9F87700179A7C /* Template Framework Project-Bridging-Header.h */,
 				64DDA75A188FD9140025590D /* tessdata */,
+				429D15221DCB56BD009F6A22 /* UIImage+FixOrientation.swift */,
 				421958581DC9F97000179A7C /* ViewController.swift */,
 			);
 			path = "Template Framework Project";
@@ -192,6 +195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				429D15231DCB56BD009F6A22 /* UIImage+FixOrientation.swift in Sources */,
 				421958591DC9F97000179A7C /* ViewController.swift in Sources */,
 				421958391DC9F87700179A7C /* AppDelegate.swift in Sources */,
 			);
