@@ -23,7 +23,7 @@ See the [Installation](https://github.com/gali8/Tesseract-OCR-iOS/wiki/Installat
 Known Limitations
 =================
 
-- No OS X support.
+- No MacOS support.
 - Strict requirement on language files existing in a referenced "tessdata" folder.
 
 Release Notes
