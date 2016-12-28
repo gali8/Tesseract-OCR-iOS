@@ -164,7 +164,6 @@ namespace tesseract {
         _monitor = nullptr;
     }
     [self freeTesseract];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)freeTesseract {
