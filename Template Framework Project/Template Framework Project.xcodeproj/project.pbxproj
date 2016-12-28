@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		421958391DC9F87700179A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421958381DC9F87700179A7C /* AppDelegate.swift */; };
-		421958591DC9F97000179A7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421958581DC9F97000179A7C /* ViewController.swift */; };
 		428615B71845F340005D5A2E /* image_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 428615B61845F340005D5A2E /* image_sample.jpg */; };
-		429D15231DCB56BD009F6A22 /* UIImage+FixOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D15221DCB56BD009F6A22 /* UIImage+FixOrientation.swift */; };
-		42F42CDF1DCB4FAB008C1433 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F42CDE1DCB4FAB008C1433 /* Launch Screen.storyboard */; };
 		6400DDD9180C5DE000443362 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6400DDD8180C5DE000443362 /* Foundation.framework */; };
 		6400DDDB180C5DE000443362 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6400DDDA180C5DE000443362 /* CoreGraphics.framework */; };
 		6400DDDD180C5DE000443362 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6400DDDC180C5DE000443362 /* UIKit.framework */; };
 		6400DDE3180C5DE000443362 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDE1180C5DE000443362 /* InfoPlist.strings */; };
+		6400DDE5180C5DE000443362 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400DDE4180C5DE000443362 /* main.m */; };
+		6400DDE9180C5DE000443362 /* G8AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400DDE8180C5DE000443362 /* G8AppDelegate.m */; };
+		6400DDEF180C5DE000443362 /* G8ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6400DDEE180C5DE000443362 /* G8ViewController.m */; };
 		6400DDF1180C5DE000443362 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDF0180C5DE000443362 /* Images.xcassets */; };
 		64907490198A5CD500D728CC /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6490748F198A5CD500D728CC /* CoreImage.framework */; };
 		64DDA74E188FD7D10025590D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6400DDEA180C5DE000443362 /* Main.storyboard */; };
@@ -25,19 +24,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		421958371DC9F87700179A7C /* Template Framework Project-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Template Framework Project-Bridging-Header.h"; sourceTree = "<group>"; };
-		421958381DC9F87700179A7C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		421958581DC9F97000179A7C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		428615B61845F340005D5A2E /* image_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sample.jpg; sourceTree = "<group>"; };
-		429D15221DCB56BD009F6A22 /* UIImage+FixOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+FixOrientation.swift"; sourceTree = "<group>"; };
-		42F42CDE1DCB4FAB008C1433 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		6400DDD5180C5DE000443362 /* Template Framework Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Template Framework Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6400DDD8180C5DE000443362 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6400DDDA180C5DE000443362 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6400DDDC180C5DE000443362 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6400DDE0180C5DE000443362 /* Template Framework Project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Template Framework Project-Info.plist"; sourceTree = "<group>"; };
 		6400DDE2180C5DE000443362 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6400DDE4180C5DE000443362 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6400DDE6180C5DE000443362 /* Template Framework Project-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Template Framework Project-Prefix.pch"; sourceTree = "<group>"; };
+		6400DDE7180C5DE000443362 /* G8AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = G8AppDelegate.h; sourceTree = "<group>"; };
+		6400DDE8180C5DE000443362 /* G8AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = G8AppDelegate.m; sourceTree = "<group>"; };
 		6400DDEB180C5DE000443362 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6400DDED180C5DE000443362 /* G8ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = G8ViewController.h; sourceTree = "<group>"; };
+		6400DDEE180C5DE000443362 /* G8ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = G8ViewController.m; sourceTree = "<group>"; };
 		6400DDF0180C5DE000443362 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6490748F198A5CD500D728CC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		64DDA75A188FD9140025590D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
@@ -97,15 +97,14 @@
 		6400DDDE180C5DE000443362 /* Template Framework Project */ = {
 			isa = PBXGroup;
 			children = (
-				421958381DC9F87700179A7C /* AppDelegate.swift */,
-				6400DDF0180C5DE000443362 /* Images.xcassets */,
-				42F42CDE1DCB4FAB008C1433 /* Launch Screen.storyboard */,
-				6400DDEA180C5DE000443362 /* Main.storyboard */,
-				6400DDDF180C5DE000443362 /* Supporting Files */,
-				421958371DC9F87700179A7C /* Template Framework Project-Bridging-Header.h */,
 				64DDA75A188FD9140025590D /* tessdata */,
-				429D15221DCB56BD009F6A22 /* UIImage+FixOrientation.swift */,
-				421958581DC9F97000179A7C /* ViewController.swift */,
+				6400DDE7180C5DE000443362 /* G8AppDelegate.h */,
+				6400DDE8180C5DE000443362 /* G8AppDelegate.m */,
+				6400DDEA180C5DE000443362 /* Main.storyboard */,
+				6400DDED180C5DE000443362 /* G8ViewController.h */,
+				6400DDEE180C5DE000443362 /* G8ViewController.m */,
+				6400DDF0180C5DE000443362 /* Images.xcassets */,
+				6400DDDF180C5DE000443362 /* Supporting Files */,
 			);
 			path = "Template Framework Project";
 			sourceTree = "<group>";
@@ -116,6 +115,8 @@
 				428615B61845F340005D5A2E /* image_sample.jpg */,
 				6400DDE0180C5DE000443362 /* Template Framework Project-Info.plist */,
 				6400DDE1180C5DE000443362 /* InfoPlist.strings */,
+				6400DDE4180C5DE000443362 /* main.m */,
+				6400DDE6180C5DE000443362 /* Template Framework Project-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -147,14 +148,8 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = G8;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Daniele Galiotto - www.g8production.com";
-				TargetAttributes = {
-					6400DDD4180C5DE000443362 = {
-						DevelopmentTeam = 22DR89XVRF;
-						LastSwiftMigration = 0810;
-					};
-				};
 			};
 			buildConfigurationList = 6400DDD0180C5DE000443362 /* Build configuration list for PBXProject "Template Framework Project" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -179,7 +174,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42F42CDF1DCB4FAB008C1433 /* Launch Screen.storyboard in Resources */,
 				6400DDF1180C5DE000443362 /* Images.xcassets in Resources */,
 				428615B71845F340005D5A2E /* image_sample.jpg in Resources */,
 				64DDA75B188FD9140025590D /* tessdata in Resources */,
@@ -195,9 +189,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				429D15231DCB56BD009F6A22 /* UIImage+FixOrientation.swift in Sources */,
-				421958591DC9F97000179A7C /* ViewController.swift in Sources */,
-				421958391DC9F87700179A7C /* AppDelegate.swift in Sources */,
+				6400DDE5180C5DE000443362 /* main.m in Sources */,
+				6400DDE9180C5DE000443362 /* G8AppDelegate.m in Sources */,
+				6400DDEF180C5DE000443362 /* G8ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,19 +230,14 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -261,7 +250,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-lstdc++";
@@ -283,25 +272,20 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-lstdc++";
 				SDKROOT = iphoneos;
@@ -315,16 +299,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 22DR89XVRF;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Template Framework Project/Template Framework Project-Prefix.pch";
 				INFOPLIST_FILE = "Template Framework Project/Template Framework Project-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -334,9 +317,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Template Framework Project/Template Framework Project-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -346,16 +326,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 22DR89XVRF;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Template Framework Project/Template Framework Project-Prefix.pch";
 				INFOPLIST_FILE = "Template Framework Project/Template Framework Project-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -365,8 +344,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Template Framework Project/Template Framework Project-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
