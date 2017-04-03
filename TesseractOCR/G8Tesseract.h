@@ -163,7 +163,7 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  @return NSData  representing output PDF file or nil if error occured or
  *                  the engine is not properly configured.
  */
-- (NSData *)recognizedPDFForImages:(NSArray*)images;
+//- (NSData *)recognizedPDFForImages:(NSArray*)images;
 
 /**
  *  Run Tesseract's page analysis on the target image.

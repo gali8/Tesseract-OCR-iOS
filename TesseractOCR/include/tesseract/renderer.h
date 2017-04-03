@@ -185,7 +185,14 @@ protected:
  */
 class TESS_API TessPDFRenderer : public TessResultRenderer {
  public:
-  TessPDFRenderer(const char *datadir);
+    // datadir is the location of the TESSDATA. We need it because
+    // we load a custom PDF font from this location.
+    TessPDFRenderer(const char *outputbase, const char *datadir);
+    
+    // Sets the PDFs creator property to the given value.
+    virtual void setCreator(const char *creator) { creator_ = creator; }
+    // Returns the current PDFs creator property value. Default is "Scanbot".
+    const char *creator() { return creator_; }
 
 protected:
   virtual bool BeginDocumentHandler();
@@ -193,29 +200,26 @@ protected:
   virtual bool EndDocumentHandler();
 
 private:
-  // We don't want to have every image in memory at once,
-  // so we store some metadata as we go along producing
-  // PDFs one page at a time. At the end that metadata is
-  // used to make everything that isn't easily handled in a
-  // streaming fashion.
-  long int obj_;                     // counter for PDF objects
-  GenericVector<long int> offsets_;  // offset of every PDF object in bytes
-  GenericVector<long int> pages_;    // object number for every /Page object
-  const char *datadir_;              // where to find the custom font
-  // Bookkeeping only. DIY = Do It Yourself.
-  void AppendPDFObjectDIY(size_t objectsize);
-  // Bookkeeping + emit data.
-  void AppendPDFObject(const char *data);
-  // Create the /Contents object for an entire page.
-  static char* GetPDFTextObjects(TessBaseAPI* api,
-                                 double width, double height,
-                                 int page_number);
-  // Attempt to create PFD object from an image without transcoding.
-  static bool fileToPDFObj(char *filename, long int objnum,
-                           char **pdf_object, long int *pdf_object_size);
-  // Turn a Pix into a the very best PDF object that we can.
-  static bool pixToPDFObj(Pix *pix, long int objnum,
-                          char **pdf_object, long int *pdf_object_size);
+    // We don't want to have every image in memory at once,
+    // so we store some metadata as we go along producing
+    // PDFs one page at a time. At the end that metadata is
+    // used to make everything that isn't easily handled in a
+    // streaming fashion.
+    long int obj_;                     // counter for PDF objects
+    GenericVector<long int> offsets_;  // offset of every PDF object in bytes
+    GenericVector<long int> pages_;    // object number for every /Page object
+    const char *datadir_;              // where to find the custom font
+    const char *creator_ = "Tesseract";
+    // Bookkeeping only. DIY = Do It Yourself.
+    void AppendPDFObjectDIY(size_t objectsize);
+    // Bookkeeping + emit data.
+    void AppendPDFObject(const char *data);
+    // Create the /Contents object for an entire page.
+    static char* GetPDFTextObjects(TessBaseAPI* api,
+                                   double width, double height);
+    // Turn an image into a PDF object. Only transcode if we have to.
+    static bool imageToPDFObj(Pix *pix, char *filename, long int objnum,
+                              char **pdf_object, long int *pdf_object_size);
 };
 
 
@@ -223,22 +227,22 @@ private:
  * Renders tesseract output into a plain UTF-8 text string
  */
 class TESS_API TessUnlvRenderer : public TessResultRenderer {
- public:
-  TessUnlvRenderer();
-
- protected:
-  virtual bool AddImageHandler(TessBaseAPI* api);
+public:
+    explicit TessUnlvRenderer(const char *outputbase);
+    
+protected:
+    virtual bool AddImageHandler(TessBaseAPI* api);
 };
 
 /**
  * Renders tesseract output into a plain UTF-8 text string
  */
 class TESS_API TessBoxTextRenderer : public TessResultRenderer {
- public:
-  TessBoxTextRenderer();
-
- protected:
-  virtual bool AddImageHandler(TessBaseAPI* api);
+public:
+    explicit TessBoxTextRenderer(const char *outputbase);
+    
+protected:
+    virtual bool AddImageHandler(TessBaseAPI* api);
 };
 
 }  // namespace tesseract.

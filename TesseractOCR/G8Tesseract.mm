@@ -33,6 +33,7 @@ namespace tesseract {
 
 @interface G8Tesseract () {
     tesseract::TessBaseAPI *_tesseract;
+    tesseract::TessPDFRenderer *_renderer;
     ETEXT_DESC *_monitor;
 }
 
@@ -736,52 +737,52 @@ namespace tesseract {
     return nil;
 }
 
-- (NSData *)recognizedPDFForImages:(NSArray*)images {
-  
-    if (!self.isEngineConfigured) {
-        return nil;
-    }
-    
-    NSString *path = [self.absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
-    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(path.fileSystemRepresentation);
-    
-    // Begin producing output
-    const char* kUnknownTitle = "Unknown Title";
-    if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
-        return nil; // LCOV_EXCL_LINE
-    }
-    
-    bool result = YES;
-    for (int page = 0; page < images.count && result; page++) {
-        UIImage *image = images[page];
-        if ([image isKindOfClass:[UIImage class]]) {
-            Pix *pixs = [self pixForImage:image];
-            Pix *pix = pixConvertTo1(pixs, UINT8_MAX / 2);
-            pixDestroy(&pixs);
-            
-            const char *pagename = [NSString stringWithFormat:@"page #%i", page].UTF8String;
-            result = _tesseract->ProcessPage(pix, page, pagename, NULL, 0, renderer);
-            pixDestroy(&pix);
-        }
-    }
-    
-    //  error
-    if (!result) {
-        return nil; // LCOV_EXCL_LINE
-    }
-    
-    // Finish producing output
-    if (renderer && !renderer->EndDocument()) {
-        return nil; // LCOV_EXCL_LINE
-    }
-    
-    const char *pdfData = NULL;
-    int pdfDataLength = 0;
-    renderer->GetOutput(&pdfData, &pdfDataLength);
-    
-    NSData *data = [NSData dataWithBytes:pdfData length:pdfDataLength];
-    return data;
-}
+//- (NSData *)recognizedPDFForImages:(NSArray*)images {
+//  
+//    if (!self.isEngineConfigured) {
+//        return nil;
+//    }
+//    
+//    NSString *path = [self.absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
+//    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(path.fileSystemRepresentation);
+//    
+//    // Begin producing output
+//    const char* kUnknownTitle = "Unknown Title";
+//    if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
+//        return nil; // LCOV_EXCL_LINE
+//    }
+//    
+//    bool result = YES;
+//    for (int page = 0; page < images.count && result; page++) {
+//        UIImage *image = images[page];
+//        if ([image isKindOfClass:[UIImage class]]) {
+//            Pix *pixs = [self pixForImage:image];
+//            Pix *pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+//            pixDestroy(&pixs);
+//            
+//            const char *pagename = [NSString stringWithFormat:@"page #%i", page].UTF8String;
+//            result = _tesseract->ProcessPage(pix, page, pagename, NULL, 0, renderer);
+//            pixDestroy(&pix);
+//        }
+//    }
+//    
+//    //  error
+//    if (!result) {
+//        return nil; // LCOV_EXCL_LINE
+//    }
+//    
+//    // Finish producing output
+//    if (renderer && !renderer->EndDocument()) {
+//        return nil; // LCOV_EXCL_LINE
+//    }
+//    
+//    const char *pdfData = NULL;
+//    int pdfDataLength = 0;
+//    renderer->GetOutput(&pdfData, &pdfDataLength);
+//    
+//    NSData *data = [NSData dataWithBytes:pdfData length:pdfDataLength];
+//    return data;
+//}
 
 - (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
 {
@@ -1099,3 +1100,141 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////
+#pragma mark - G8Tesseract (PDFRendering)
+
+@implementation G8Tesseract (PDFRendering)
+
+- (void)setImageURL:(NSURL *)imageURL {
+    _tesseract->SetInputName(imageURL.fileSystemRepresentation);
+}
+
+- (BOOL)beginPDF:(NSURL *)pdfOutputURL creatorString:(NSString *)creator {
+    if (_renderer != NULL) {
+        NSLog(@"ERROR: There is already a renderer running. Call endPDF().");
+        return NO;
+    }
+    const char *outputBase = pdfOutputURL.fileSystemRepresentation;
+    const char *dataPath = _tesseract->GetDatapath();
+    
+    _renderer = new tesseract::TessPDFRenderer(outputBase, dataPath);
+    _renderer->setCreator([creator cStringUsingEncoding:NSUTF8StringEncoding]);
+    bool success = _renderer->BeginDocument("");
+    if (!success) {
+        NSLog(@"ERROR: Unable to create PDF renderer.");
+        delete _renderer;
+        _renderer = NULL;
+    }
+    return success;
+}
+
+- (BOOL)endPDF {
+    if (_renderer == NULL) {
+        NSLog(@"ERROR: There is no renderer running. Call beginPDF(...).");
+        return NO;
+    }
+    bool success = _renderer->EndDocument();
+    delete _renderer;
+    _renderer = NULL;
+    return success;
+}
+
+- (BOOL)addCurrentPageWithResolution:(int)dpi {
+    int currentDPI = _tesseract->GetSourceYResolution();
+    _tesseract->SetSourceResolution(dpi);
+    if (_renderer == NULL) {
+        NSLog(@"ERROR: There is no renderer running. Call beginPDF(...).");
+        return NO;
+    }
+    
+    bool success = _renderer->AddImage(_tesseract);
+    if (!success) {
+        NSLog(@"ERROR: Unable to add page while rendering PDF.");
+    }
+    _tesseract->SetSourceResolution(currentDPI);
+    return success;
+}
+
+- (NSArray *)recognizedWordsForSandwiching {
+    G8PageIteratorLevel pageIteratorLevel = G8PageIteratorLevelWord;
+    tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
+    
+    NSMutableArray *array = [NSMutableArray array];
+    tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
+    NSCharacterSet *illegalCharacters = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+    
+    CGFloat line = 0;
+    CGFloat lineHeight = 0;
+    if (resultIterator != NULL) {
+        BOOL shouldBeFirst = NO;
+        G8RecognizedBlock *lastBlock = nil;
+        do {
+            G8RecognizedBlock *block = [self blockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
+            block.isFirstBlockInLine = resultIterator->IsAtBeginningOf(tesseract::RIL_TEXTLINE);
+            if (!block.isFirstBlockInLine ) {
+                block.isFirstBlockInLine = shouldBeFirst;
+                shouldBeFirst = NO;
+                CGRect lastRect = lastBlock.boundingBox;
+                CGFloat distance = (lastRect.origin.x + lastRect.size.width - block.boundingBox.origin.x);
+                if ((ABS(lastRect.origin.y - block.boundingBox.origin.y) > block.boundingBox.size.height / 3 &&
+                     distance > 0.012) || distance > 0.02) {
+                    block.isFirstBlockInLine = YES;
+                }
+            }
+            
+            // Allign block to one baseline and make height the same.
+            CGRect box = block.boundingBox;
+            if (block.isFirstBlockInLine) {
+                line = box.origin.y;
+                lineHeight = box.size.height;
+            } else {
+                box.origin.y = line;
+                box.size.height = lineHeight;
+            }
+            block.boundingBox = box;
+            
+            if (pageIteratorLevel == G8PageIteratorLevelBlock) {
+                if (block != nil) {
+                    [array addObject:block];
+                }
+            }
+            
+            NSString *trimmedString = [block.text stringByTrimmingCharactersInSet:illegalCharacters];
+            NSInteger trimmedCharacters = block.text.length - trimmedString.length;
+            BOOL shouldIgnore = ((block.boundingBox.size.width < 0.001 || block.boundingBox.size.height < 0.001)
+                                 || (block.text.length < 3 && (block.boundingBox.size.width > 0.3 ||
+                                                               block.boundingBox.size.height > 0.3))
+                                 || (block.text.length > 3 && (trimmedString.length == 0 || block.text.length / 2 < trimmedCharacters))
+                                 || block.confidence < 20);
+            if (block != nil && !shouldIgnore) {
+                lastBlock = block;
+                [array addObject:block];
+            } else {
+                shouldBeFirst = block.isFirstBlockInLine;
+            }
+        } while (resultIterator->Next(level));
+        delete resultIterator;
+    }
+    
+    return [array copy];
+}
+
+
+
+@end
+
+

@@ -17,11 +17,11 @@
 @interface G8RecognizedBlock : NSObject <NSCopying>
 
 /**
- *  The text that Tesseract has recognized for this block. This string could 
+ *  The text that Tesseract has recognized for this block. This string could
  *  hold a single character, one word, or multiple words, depending on the
  *  resolution level of the block.
  */
-@property (nonatomic, copy, readonly) NSString *text;
+@property (nonatomic, copy) NSString *text;
 
 /**
  *  The normalized bounding box rectangle where this recognized block appears in the
@@ -31,19 +31,26 @@
  *        If you want to get actual rectangle use `boundingBoxAtImageOfSize` with
  *        size of target image.
  */
-@property (nonatomic, assign, readonly) CGRect boundingBox;
+@property (nonatomic, assign) CGRect boundingBox;
 
 /**
  *  Tesseract's confidence in the accuracy of this recognition result. This
  *  number will be between 0.0 and 100.0.
  */
-@property (nonatomic, assign, readonly) CGFloat confidence;
+@property (nonatomic, assign) CGFloat confidence;
 
 /**
  *  The resolution of this recognized block. See `G8PageIteratorLevel` in
  *  G8Constants.h for the different level options.
  */
-@property (nonatomic, assign, readonly) G8PageIteratorLevel level;
+@property (nonatomic, assign) G8PageIteratorLevel level;
+
+
+/**
+ *  If the receiver is a word block, returns YES if the word block is the first
+ *  word block in the line.
+ **/
+@property (nonatomic, assign) BOOL isFirstBlockInLine;
 
 /**
  *  Initialize a recognized block with the data it will contain.
@@ -72,3 +79,4 @@
 - (CGRect)boundingBoxAtImageOfSize:(CGSize)imageSize;
 
 @end
+
