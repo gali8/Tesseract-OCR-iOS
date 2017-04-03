@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.header_dir		     = 'TesseractOCR'
-  s.name                    = 'TesseractOCRiOSPDF'
+  s.name                    = 'TesseractOCRiOS'
   s.version                 = '4.0.0'
 
   s.summary                 = 'Use Tesseract OCR in iOS projects written in either Objective-C or Swift.'
 
-  s.homepage                = 'https://github.com/mihailsalari/Tesseract-OCR-iOS'
-  s.documentation_url       = 'https://github.com/mihailsalari/Tesseract-OCR-iOS/blob/master/README.md'
+  s.homepage                = 'https://github.com/gali8/Tesseract-OCR-iOS'
+  s.documentation_url       = 'https://github.com/gali8/Tesseract-OCR-iOS/blob/master/README.md'
 
   s.license                 = { :type => 'MIT',
                                 :file => 'LICENSE.md' }
