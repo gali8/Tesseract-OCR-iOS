@@ -27,27 +27,31 @@
 #ifndef  LEPTONICA_CCBORD_H
 #define  LEPTONICA_CCBORD_H
 
-/*
- *  ccbord.h
+/*!
+ * \file ccbord.h
  *
+ * <pre>
  *           CCBord:   represents a single connected component
  *           CCBorda:  an array of CCBord
+ * </pre>
  */
 
-    /* Use in ccbaStepChainsToPixCoords() */
+    /*! Use in ccbaStepChainsToPixCoords() */
 enum {
       CCB_LOCAL_COORDS = 1,
       CCB_GLOBAL_COORDS = 2
 };
 
-    /* Use in ccbaGenerateSPGlobalLocs() */
+    /*! Use in ccbaGenerateSPGlobalLocs() */
 enum {
       CCB_SAVE_ALL_PTS = 1,
       CCB_SAVE_TURNING_PTS = 2
 };
 
 
-    /* CCBord contains:
+    /*!
+     * <pre>
+     * CCBord contains:
      *
      *    (1) a minimally-clipped bitmap of the component (pix),
      *    (2) a boxa consisting of:
@@ -82,30 +86,31 @@ enum {
      *    (9) a pta for a single chain for each c.c., comprised of outer
      *        and hole borders, plus cut paths between them, all in
      *        global coords.
+     * </pre>
      */
 struct CCBord
 {
-    struct Pix          *pix;            /* component bitmap (min size)      */
-    struct Boxa         *boxa;           /* regions of each closed curve     */
-    struct Pta          *start;          /* initial border pixel locations   */
-    l_int32              refcount;       /* number of handles; start at 1    */
-    struct Ptaa         *local;          /* ptaa of chain pixels (local)     */
-    struct Ptaa         *global;         /* ptaa of chain pixels (global)    */
-    struct Numaa        *step;           /* numaa of chain code (step dir)   */
-    struct Pta          *splocal;        /* pta of single chain (local)      */
-    struct Pta          *spglobal;       /* pta of single chain (global)     */
+    struct Pix          *pix;          /*!< component bitmap (min size)      */
+    struct Boxa         *boxa;         /*!< regions of each closed curve     */
+    struct Pta          *start;        /*!< initial border pixel locations   */
+    l_int32              refcount;     /*!< number of handles; start at 1    */
+    struct Ptaa         *local;        /*!< ptaa of chain pixels (local)     */
+    struct Ptaa         *global;       /*!< ptaa of chain pixels (global)    */
+    struct Numaa        *step;         /*!< numaa of chain code (step dir)   */
+    struct Pta          *splocal;      /*!< pta of single chain (local)      */
+    struct Pta          *spglobal;     /*!< pta of single chain (global)     */
 };
 typedef struct CCBord CCBORD;
 
-
+/*! Array of CCBord */
 struct CCBorda
 {
-    struct Pix          *pix;            /* input pix (may be null)          */
-    l_int32              w;              /* width of pix                     */
-    l_int32              h;              /* height of pix                    */
-    l_int32              n;              /* number of ccbord in ptr array    */
-    l_int32              nalloc;         /* number of ccbord ptrs allocated  */
-    struct CCBord      **ccb;            /* ccb ptr array                    */
+    struct Pix          *pix;          /*!< input pix (may be null)          */
+    l_int32              w;            /*!< width of pix                     */
+    l_int32              h;            /*!< height of pix                    */
+    l_int32              n;            /*!< number of ccbord in ptr array    */
+    l_int32              nalloc;       /*!< number of ccbord ptrs allocated  */
+    struct CCBord      **ccb;          /*!< ccb ptr array                    */
 };
 typedef struct CCBorda CCBORDA;
 

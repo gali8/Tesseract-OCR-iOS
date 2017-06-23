@@ -25,6 +25,10 @@
 #include          "platform.h"
 #include          "memry.h"
 
+namespace tesseract {
+class TFile;
+}  // namespace tesseract.
+
 // STRING_IS_PROTECTED means that  string[index] = X is invalid
 // because you have to go through strings interface to modify it.
 // This allows the string to ensure internal integrity and maintain
@@ -43,6 +47,7 @@ class TESS_API STRING
     STRING();
     STRING(const STRING &string);
     STRING(const char *string);
+    STRING(const char *data, int length);
     ~STRING ();
 
     // Writes to the given file. Returns false in case of error.
@@ -50,6 +55,13 @@ class TESS_API STRING
     // Reads from the given file. Returns false in case of error.
     // If swap is true, assumes a big/little-endian swap is needed.
     bool DeSerialize(bool swap, FILE* fp);
+    // Writes to the given file. Returns false in case of error.
+    bool Serialize(tesseract::TFile* fp) const;
+    // Reads from the given file. Returns false in case of error.
+    // If swap is true, assumes a big/little-endian swap is needed.
+    bool DeSerialize(bool swap, tesseract::TFile* fp);
+    // As DeSerialize, but only seeks past the data - hence a static method.
+    static bool SkipDeSerialize(bool swap, tesseract::TFile* fp);
 
     BOOL8 contains(const char c) const;
     inT32 length() const;
@@ -135,13 +147,11 @@ class TESS_API STRING
     }
 
     // returns the string data part of storage
-    inline char* GetCStr() {
-      return ((char *)data_) + sizeof(STRING_HEADER);
-    };
+    inline char* GetCStr() { return ((char*)data_) + sizeof(STRING_HEADER); }
 
     inline const char* GetCStr() const {
       return ((const char *)data_) + sizeof(STRING_HEADER);
-    };
+    }
     inline bool InvariantOk() const {
 #if STRING_IS_PROTECTED
       return (GetHeader()->used_ == 0) ?

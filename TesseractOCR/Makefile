@@ -1,7 +1,7 @@
-LEPTON_NAME = leptonica-1.72
-PNG_NAME    = libpng-1.6.20
+LEPTON_NAME = leptonica-1.74.1
+PNG_NAME    = libpng-1.6.28
 JPEG_NAME   = jpeg-9a
-TIFF_NAME   = tiff-4.0.4
+TIFF_NAME   = tiff-4.0.7
 
 SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
 SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
