@@ -356,7 +356,8 @@ describe(@"PDF", ^{
   
     NSData *(^recognizedPDFForImages)(NSArray*images) = ^NSData*(NSArray*images) {
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
-        return [tesseract recognizedPDFForImages:images];
+        NSString *outputbase = [[NSString alloc] init];
+        return [tesseract recognizedPDFForImages:images outputbase:outputbase];
     };
     
     NSData * (^samplePDFDataFromFile)(NSString *fileName) = ^NSData*(NSString *fileName) {
