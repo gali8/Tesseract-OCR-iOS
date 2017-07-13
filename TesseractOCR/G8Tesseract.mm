@@ -688,8 +688,9 @@ namespace tesseract {
 		block.isBold = isBold;
 		block.isItalic = isItalic;
 		
+
     } else if (iteratorLevel == G8PageIteratorLevelSymbol && block.text != nil) {
-	
+        
 		// get character choices
 		NSMutableArray *choices = [NSMutableArray array];
 		
