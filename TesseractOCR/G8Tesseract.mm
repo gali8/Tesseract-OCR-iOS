@@ -10,21 +10,18 @@
 #import "G8Tesseract.h"
 
 #import "UIImage+G8Filters.h"
-#import "UIImage+G8FixOrientation.h"
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
 #import "G8RecognizedBlock.h"
-#import "G8Tesseract+PDFRendering.h"
 
 #import "baseapi.h"
 #import "environ.h"
 #import "pix.h"
 #import "ocrclass.h"
 #import "allheaders.h"
-#import "renderer.h"
 #import "genericvector.h"
 #import "strngs.h"
-#include <stdexcept>
+#import "renderer.h"
 
 NSInteger const kG8DefaultResolution = 72;
 NSInteger const kG8MinCredibleResolution = 70;
@@ -39,6 +36,8 @@ namespace tesseract {
     tesseract::TessPDFRenderer *_renderer;
     ETEXT_DESC *_monitor;
 }
+
+@property (nonatomic, assign, readonly) tesseract::TessBaseAPI *tesseract;
 
 @property (nonatomic, strong) NSDictionary *configDictionary;
 @property (nonatomic, strong) NSArray *configFileNames;
@@ -73,27 +72,38 @@ namespace tesseract {
     // some more cleaning here if necessary
 }
 
-+ (NSString *)version {
++ (NSString *)version
+{
     const char *version = tesseract::TessBaseAPI::Version();
     return [NSString stringWithUTF8String:version];
 }
 
-+ (void)clearCache {
++ (void)clearCache
+{
     tesseract::TessBaseAPI::ClearPersistentCache();
 }
 
-- (id)initWithLanguage:(NSString*)language {
+- (instancetype)init {
+    
+    return [self initWithLanguage:nil];
+}
+
+- (instancetype)initWithLanguage:(NSString*)language
+{
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
 }
 
-- (id)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode {
+- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
+{
     return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:engineMode];
 }
-- (id)initWithLanguage:(NSString *)language
-      configDictionary:(NSDictionary *)configDictionary
-       configFileNames:(NSArray *)configFileNames
- cachesRelatedDataPath:(NSString *)cachesRelatedPath
-            engineMode:(G8OCREngineMode)engineMode {
+
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+           cachesRelatedDataPath:(NSString *)cachesRelatedPath
+                      engineMode:(G8OCREngineMode)engineMode
+{
     NSString *absoluteDataPath = nil;
     if (cachesRelatedPath) {
         // config Tesseract to search trainedData in tessdata folder of the Caches folder
@@ -106,29 +116,24 @@ namespace tesseract {
                  configDictionary:configDictionary
                   configFileNames:configFileNames
                  absoluteDataPath:absoluteDataPath
-                       engineMode:engineMode
-            copyFilesFromResources:cachesRelatedPath != nil];
+                       engineMode:engineMode];
 }
 
-- (id)initWithLanguage:(NSString *)language
-      configDictionary:(NSDictionary *)configDictionary
-       configFileNames:(NSArray *)configFileNames
-      absoluteDataPath:(NSString *)absoluteDataPath
-            engineMode:(G8OCREngineMode)engineMode
-copyFilesFromResources:(BOOL)copyFilesFromResources {
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+                absoluteDataPath:(NSString *)absoluteDataPath
+                      engineMode:(G8OCREngineMode)engineMode
+{
     self = [super init];
     if (self != nil) {
         if (configFileNames) {
             NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
         }
-        if (copyFilesFromResources && absoluteDataPath != nil) {
-            BOOL moveDataSuccess = [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
-            if (moveDataSuccess == NO) {
-                return nil;
-            }
+        if (absoluteDataPath != nil) {
+            [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
         }
-        _absoluteDataPath = [absoluteDataPath copy];
-        _language = [language copy];
+        _absoluteDataPath = absoluteDataPath.copy;
         _configDictionary = configDictionary;
         _configFileNames = configFileNames;
         _engineMode = engineMode;
@@ -148,21 +153,22 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
         
         setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
 
-        _tesseract = new tesseract::TessBaseAPI();
-
-        BOOL success = [self configEngine];
-        if (success == NO) {
-            self = nil;
-        }
+        self.language = language.copy;
     }
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     if (_monitor != nullptr) {
         delete _monitor;
         _monitor = nullptr;
     }
+    [self freeTesseract];
+}
+
+- (void)freeTesseract {
+    
     if (_tesseract != nullptr) {
         // There is no needs to call Clear() and End() explicitly.
         // End() is sufficient to free up all memory of TessBaseAPI.
@@ -172,7 +178,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     }
 }
 
-- (BOOL)configEngine {
+- (BOOL)configEngine
+{
     __block GenericVector<STRING> tessKeys;
     __block GenericVector<STRING> tessValues;
     [self.configDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *val, BOOL *stop) {
@@ -185,36 +192,55 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     for (int i = 0; i < count; i++) {
         configs[i] = ((NSString*)self.configFileNames[i]).fileSystemRepresentation;
     }
-    int returnCode = _tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
-                                      (tesseract::OcrEngineMode)self.engineMode,
-                                      (char **)configs, count,
-                                      &tessKeys, &tessValues,
-                                      false);
+    int returnCode = self.tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
+                                          (tesseract::OcrEngineMode)self.engineMode,
+                                          (char **)configs, count,
+                                          &tessKeys, &tessValues,
+                                          false);
     if (configs != nullptr) {
         free(configs);
     }
     return returnCode == 0;
 }
 
-- (void)resetFlags {
+- (void)resetFlags
+{
     self.recognized = NO;
     self.layoutAnalysed = NO;
 }
 
-- (BOOL)resetEngine {
+- (BOOL)resetEngine
+{
     BOOL isInitDone = [self configEngine];
     if (isInitDone) {
         [self loadVariables];
+        [self setOtherCachedValues];
         [self resetFlags];
-    }
-    else {
+    } else {
         NSLog(@"ERROR! Can't init Tesseract engine.");
+        _language = nil;
+        _engineMode = G8OCREngineModeTesseractOnly;
+        [self freeTesseract];
     }
 
     return isInitDone;
 }
 
-- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath {
+- (void)setOtherCachedValues {
+    
+    if (_image) {
+        [self setEngineImage:_image];
+    }
+    [self setSourceResolution:_sourceResolution];
+    [self setEngineRect:_rect];
+    [self setVariableValue:_charWhitelist forKey:kG8ParamTesseditCharWhitelist];
+    [self setVariableValue:_charBlacklist forKey:kG8ParamTesseditCharBlacklist];
+    [self setVariableValue:[NSString stringWithFormat:@"%lu", (unsigned long)_pageSegmentationMode]
+                    forKey:kG8ParamTesseditPagesegMode];
+}
+
+- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath
+{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     // Useful paths
@@ -222,7 +248,13 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
     NSString *destinationPath = [directoryPath stringByAppendingPathComponent:tessdataFolderName];
     NSLog(@"Tesseract destination path: %@", destinationPath);
-    
+
+    BOOL isDirectory = YES;
+    if (![fileManager fileExistsAtPath:tessdataPath isDirectory:&isDirectory] || !isDirectory) {
+        // No tessdata directory in application bundle, nothing to do.
+        return NO;
+    }
+
     if ([fileManager fileExistsAtPath:destinationPath] == NO) {
         NSError *error = nil;
         BOOL res = [fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:&error];
@@ -267,45 +299,163 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return result;
 }
 
-- (void)setVariableValue:(NSString *)value forKey:(NSString *)key {
+- (void)setVariableValue:(NSString *)value forKey:(NSString *)key
+{
     /*
      * Example:
      * _tesseract->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
      * _tesseract->SetVariable("language_model_penalty_non_freq_dict_word", "0");
      * _tesseract->SetVariable("language_model_penalty_non_dict_word ", "0");
      */
-
+    
     [self resetFlags];
 
+    if (!value) {
+        value = @"";
+    }
     self.variables[key] = value;
-    _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+    
+    if (self.isEngineConfigured) {
+        _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+    }
 }
 
 - (NSString*)variableValueForKey:(NSString *)key {
     
-    STRING val;
-    _tesseract->GetVariableAsString(key.UTF8String, &val);
-    return [NSString stringWithUTF8String:val.string()];
+    if (!self.isEngineConfigured) {
+        return self.variables[key];
+    } else {
+        STRING val;
+        _tesseract->GetVariableAsString(key.UTF8String, &val);
+        return [NSString stringWithUTF8String:val.string()];
+    }
 }
 
-- (void)setVariablesFromDictionary:(NSDictionary *)dictionary {
+- (void)setVariablesFromDictionary:(NSDictionary *)dictionary
+{
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         [self setVariableValue:value forKey:key];
     }];
 }
 
-- (void)loadVariables {
-    [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
-        _tesseract->SetVariable(key.UTF8String, value.UTF8String);
-    }];
+- (void)loadVariables
+{
+    if (self.isEngineConfigured) {
+        [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+            _tesseract->SetVariable(key.UTF8String, value.UTF8String);
+        }];
+    }
 }
 
-#pragma mark - Getters and setters
+#pragma mark - Internal getters and setters
 
-- (void)setLanguage:(NSString *)language {
-    if ([_language isEqualToString:language] == NO) {
-        _language = [language copy];
+- (tesseract::TessBaseAPI *)tesseract {
+    
+    if (!_tesseract) {
+        _tesseract = new tesseract::TessBaseAPI();
+    }
+    return _tesseract;
+}
 
+- (void)setEngineImage:(UIImage *)image {
+    
+    if (image.size.width <= 0 || image.size.height <= 0) {
+        NSLog(@"ERROR: Image has invalid size!");
+        return;
+    }
+    
+    self.imageSize = image.size; //self.imageSize used in the characterBoxes method
+    
+    if (self.isEngineConfigured) {
+        Pix *pix = nullptr;
+        
+        if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+            UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
+            if (thresholdedImage != nil) {
+                self.imageSize = thresholdedImage.size;
+                
+                Pix *pixs = [self pixForImage:thresholdedImage];
+                pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+                pixDestroy(&pixs);
+                
+                if (pix == nullptr) {
+                    NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
+                }
+            }
+        }
+        
+        if (pix == nullptr) {
+            pix = [self pixForImage:image];
+        }
+        
+        @try {
+            _tesseract->SetImage(pix);
+        }
+        //LCOV_EXCL_START
+        @catch (NSException *exception) {
+            NSLog(@"ERROR: Can't set image: %@", exception);
+        }
+        //LCOV_EXCL_STOP
+        pixDestroy(&pix);
+    }
+    
+    _image = image;
+
+    [self resetFlags];
+}
+
+- (void)setEngineSourceResolution:(NSUInteger)sourceResolution {
+    
+    if (self.isEngineConfigured) {
+        _tesseract->SetSourceResolution((int)sourceResolution);
+    }
+}
+
+- (void)setEngineRect:(CGRect)rect {
+    
+    if (!self.isEngineConfigured) {
+        return;
+    }
+    
+    CGFloat x = CGRectGetMinX(rect);
+    CGFloat y = CGRectGetMinY(rect);
+    CGFloat width = CGRectGetWidth(rect);
+    CGFloat height = CGRectGetHeight(rect);
+    
+    // Because of custom preprocessing we may have to resize rect
+    if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
+        CGFloat widthFactor = self.imageSize.width / self.image.size.width;
+        CGFloat heightFactor = self.imageSize.height / self.image.size.height;
+        
+        x *= widthFactor;
+        y *= heightFactor;
+        width *= widthFactor;
+        heightFactor *= heightFactor;
+    }
+    
+    CGFloat (^clip)(CGFloat, CGFloat, CGFloat) = ^(CGFloat value, CGFloat min, CGFloat max) {
+        return (value < min ? min : (value > max ? max : value));
+    };
+    
+    // Clip rect by image size
+    x = clip(x, 0, self.imageSize.width);
+    y = clip(y, 0, self.imageSize.height);
+    width = clip(width, 0, self.imageSize.width - x);
+    height = clip(height, 0, self.imageSize.height - y);
+    
+    _tesseract->SetRectangle(x, y, width, height);
+}
+
+#pragma mark - Public getters and setters
+
+- (void)setLanguage:(NSString *)language
+{
+    if ([language isEqualToString:_language] == NO || (!language && _language) ) {
+        
+        _language = language.copy;
+        if (!self.language) {
+            NSLog(@"WARNING: Setting G8Tesseract language to nil defaults to English, so make sure you either set the language afterward or have eng.traineddata in your tessdata folder, otherwise Tesseract will crash!");
+        }
         /*
          * "WARNING: On changing languages, all Tesseract parameters
          * are reset back to their default values."
@@ -314,7 +464,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     }
 }
 
-- (void)setEngineMode:(G8OCREngineMode)engineMode {
+- (void)setEngineMode:(G8OCREngineMode)engineMode
+{
     if (_engineMode != engineMode) {
         _engineMode = engineMode;
 
@@ -322,7 +473,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     }
 }
 
-- (void)setPageSegmentationMode:(G8PageSegmentationMode)pageSegmentationMode {
+- (void)setPageSegmentationMode:(G8PageSegmentationMode)pageSegmentationMode
+{
     if (_pageSegmentationMode != pageSegmentationMode) {
         _pageSegmentationMode = pageSegmentationMode;
 
@@ -331,106 +483,45 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     }
 }
 
-- (void)setCharWhitelist:(NSString *)charWhitelist {
+- (void)setCharWhitelist:(NSString *)charWhitelist
+{
     if ([_charWhitelist isEqualToString:charWhitelist] == NO) {
-        _charWhitelist = [charWhitelist copy];
+        _charWhitelist = charWhitelist.copy;
 
-        [self setVariableValue:charWhitelist forKey:kG8ParamTesseditCharWhitelist];
+        [self setVariableValue:_charWhitelist forKey:kG8ParamTesseditCharWhitelist];
     }
 }
 
-- (void)setCharBlacklist:(NSString *)charBlacklist {
+- (void)setCharBlacklist:(NSString *)charBlacklist
+{
     if ([_charBlacklist isEqualToString:charBlacklist] == NO) {
-        _charBlacklist = [charBlacklist copy];
+        _charBlacklist = charBlacklist.copy;
 
-        [self setVariableValue:charBlacklist forKey:kG8ParamTesseditCharBlacklist];
+        [self setVariableValue:_charBlacklist forKey:kG8ParamTesseditCharBlacklist];
     }
 }
 
-- (void)setImage:(UIImage *)image {
+- (void)setImage:(UIImage *)image
+{
     if (_image != image) {
-        if (image.size.width <= 0 || image.size.height <= 0) {
-            NSLog(@"ERROR: Image has not size!");
-            return;
-        }
-
-        image = [image fixOrientation];
-        
-        self.imageSize = image.size; //self.imageSize used in the characterBoxes method
-
-        Pix *pix = nullptr;
-
-        if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
-            UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
-            if (thresholdedImage != nil) {
-                self.imageSize = thresholdedImage.size;
-
-                Pix *pixs = [self pixForImage:thresholdedImage];
-                pix = pixConvertTo1(pixs, UINT8_MAX / 2);
-                pixDestroy(&pixs);
-
-                if (pix == nullptr) {
-                    NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
-                }
-            }
-        }
-
-        if (pix == nullptr) {
-            pix = [self pixForImage:image];
-        }
-
-        @try {
-            _tesseract->SetImage(pix);
-        }
-        @catch (NSException *exception) {
-            NSLog(@"ERROR: Can't set image: %@", exception);
-        }
-        pixDestroy(&pix);
-
-        _image = image;
+        [self setEngineImage:image];
         _rect = (CGRect){CGPointZero, self.imageSize};
-
-        [self resetFlags];
     }
 }
 
-- (void)setRect:(CGRect)rect {
+- (void)setRect:(CGRect)rect
+{
     if (CGRectEqualToRect(_rect, rect) == NO) {
         _rect = rect;
-
-        CGFloat x = CGRectGetMinX(rect);
-        CGFloat y = CGRectGetMinY(rect);
-        CGFloat width = CGRectGetWidth(rect);
-        CGFloat height = CGRectGetHeight(rect);
-
-        // Because of custom preprocessing we may have to resize rect
-        if (CGSizeEqualToSize(self.image.size, self.imageSize) == NO) {
-            CGFloat widthFactor = self.imageSize.width / self.image.size.width;
-            CGFloat heightFactor = self.imageSize.height / self.image.size.height;
-
-            x *= widthFactor;
-            y *= heightFactor;
-            width *= widthFactor;
-            heightFactor *= heightFactor;
-        }
-
-        CGFloat (^clip)(CGFloat, CGFloat, CGFloat) = ^(CGFloat value, CGFloat min, CGFloat max) {
-            return (value < min ? min : (value > max ? max : value));
-        };
-
-        // Clip rect by image size
-        x = clip(x, 0, self.imageSize.width);
-        y = clip(y, 0, self.imageSize.height);
-        width = clip(width, 0, self.imageSize.width - x);
-        height = clip(height, 0, self.imageSize.height - y);
-
-        _tesseract->SetRectangle(x, y, width, height);
+        [self setEngineRect:_rect];
         [self resetFlags];
     }
 }
 
-- (void)setSourceResolution:(NSInteger)sourceResolution {
+- (void)setSourceResolution:(NSUInteger)sourceResolution
+{
     if (_sourceResolution != sourceResolution) {
+        
         if (sourceResolution > kG8MaxCredibleResolution) {
             NSLog(@"Source resolution is too big: %ld > %ld", (long)sourceResolution, (long)kG8MaxCredibleResolution);
             sourceResolution = kG8MaxCredibleResolution;
@@ -439,20 +530,29 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
             NSLog(@"Source resolution is too small: %ld < %ld", (long)sourceResolution, (long)kG8MinCredibleResolution);
             sourceResolution = kG8MinCredibleResolution;
         }
-        
         _sourceResolution = sourceResolution;
-
-        _tesseract->SetSourceResolution((int)sourceResolution);
+        [self setEngineSourceResolution:_sourceResolution];
     }
 }
 
-- (NSUInteger)progress {
+- (NSUInteger)progress
+{
     return _monitor->progress;
+}
+
+- (BOOL)isEngineConfigured {
+    
+    return _tesseract != nullptr;
 }
 
 #pragma mark - Result fetching
 
-- (NSString *)recognizedText {
+- (NSString *)recognizedText
+{
+    if (!self.isEngineConfigured) {
+        NSLog(@"Error! Cannot get recognized text because the Tesseract engine is not properly configured!");
+        return nil;
+    }
     char *utf8Text = _tesseract->GetUTF8Text();
     if (utf8Text == NULL) {
         NSLog(@"No recognized text. Check that -[Tesseract setImage:] is passed an image bigger than 0x0.");
@@ -464,30 +564,38 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return text;
 }
 
-- (G8Orientation)orientation {
+- (G8Orientation)orientation
+{
     [self analyseLayout];
     return _orientation;
 }
 
-- (G8WritingDirection)writingDirection {
+- (G8WritingDirection)writingDirection
+{
     [self analyseLayout];
     return _writingDirection;
 }
 
-- (G8TextlineOrder)textlineOrder {
+- (G8TextlineOrder)textlineOrder
+{
     [self analyseLayout];
     return _textlineOrder;
 }
 
-- (CGFloat)deskewAngle {
+- (CGFloat)deskewAngle
+{
     [self analyseLayout];
     return _deskewAngle;
 }
 
-- (BOOL)analyseLayout {
+- (void)analyseLayout
+{
     // Only perform the layout analysis if we haven't already
-    if (self.layoutAnalysed) {
-        return YES;
+    if (self.layoutAnalysed) return;
+    
+    if (!self.isEngineConfigured) {
+        NSLog(@"Error! Cannot perform layout analysis because the engine is not properly configured!");
+        return;
     }
 
     tesseract::Orientation orientation;
@@ -497,7 +605,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
 
     tesseract::PageIterator *iterator = _tesseract->AnalyseLayout();
     if (iterator == NULL) {
-        return NO;
+        NSLog(@"Can't analyse layout. Make sure 'osd.traineddata' available in 'tessdata'.");
+        return;
     }
 
     iterator->Orientation(&orientation, &direction, &order, &deskewAngle);
@@ -509,11 +618,11 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     self.deskewAngle = deskewAngle;
 
     self.layoutAnalysed = YES;
-    return YES;
 }
 
 
-- (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height {
+- (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height
+{
     x /= self.imageSize.width;
     y /= self.imageSize.height;
     width /= self.imageSize.width;
@@ -522,7 +631,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
 }
 
 - (G8RecognizedBlock *)blockFromIterator:(tesseract::ResultIterator *)iterator
-                           iteratorLevel:(G8PageIteratorLevel)iteratorLevel {
+                           iteratorLevel:(G8PageIteratorLevel)iteratorLevel
+{
     tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)iteratorLevel;
 
     G8RecognizedBlock *block = nil;
@@ -553,7 +663,11 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return block;
 }
 
-- (NSArray *)characterChoices {
+- (NSArray *)characterChoices
+{
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
     NSMutableArray *array = [NSMutableArray array];
     //  Get iterators
     tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
@@ -586,7 +700,11 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return [array copy];
 }
 
-- (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel {
+- (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
+{
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
     tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
 
     NSMutableArray *array = [NSMutableArray array];
@@ -607,17 +725,63 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
 }
 
 - (NSString *)recognizedHOCRForPageNumber:(int)pageNumber {
-    char *hocr = _tesseract->GetHOCRText(pageNumber);
-    if (hocr) {
-        NSString *text = [NSString stringWithUTF8String:hocr];
-        free(hocr);
-        return text;
-    }
     
+    if (self.isEngineConfigured) {
+        char *hocr = _tesseract->GetHOCRText(pageNumber);
+        if (hocr) {
+            NSString *text = [NSString stringWithUTF8String:hocr];
+            free(hocr);
+            return text;
+        }
+    }
     return nil;
 }
 
-- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded {
+- (NSData *)recognizedPDFForImages:(NSArray*)images outputbase:(NSString*)outputbase {
+  
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
+    
+    NSString *path = [self.absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
+    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(outputbase.fileSystemRepresentation, path.fileSystemRepresentation);
+    
+    // Begin producing output
+    const char* kUnknownTitle = "Unknown Title";
+    if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
+        return nil; // LCOV_EXCL_LINE
+    }
+    
+    bool result = YES;
+    for (int page = 0; page < images.count && result; page++) {
+        UIImage *image = images[page];
+        if ([image isKindOfClass:[UIImage class]]) {
+            Pix *pixs = [self pixForImage:image];
+            Pix *pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+            pixDestroy(&pixs);
+            
+            const char *pagename = [NSString stringWithFormat:@"page #%i", page].UTF8String;
+            result = _tesseract->ProcessPage(pix, page, pagename, NULL, 0, renderer);
+            pixDestroy(&pix);
+        }
+    }
+    
+    //  error
+    if (!result) {
+        return nil; // LCOV_EXCL_LINE
+    }
+    
+    // Finish producing output
+    if (renderer && !renderer->EndDocument()) {
+        return nil; // LCOV_EXCL_LINE
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:outputbase];
+    return data;
+}
+
+- (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
+{
     UIImage *image = thresholded ? self.thresholdedImage : self.image;
 
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
@@ -653,24 +817,36 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
 
 #pragma mark - Other functions
 
-- (BOOL)recognize {
+- (BOOL)recognize
+{
+    if (!self.isEngineConfigured) {
+        NSLog(@"Error! Cannot recognize text because the Tesseract engine is not properly configured!");
+        return NO;
+    }
+
     if (self.maximumRecognitionTime > FLT_EPSILON) {
         _monitor->set_deadline_msecs((inT32)(self.maximumRecognitionTime * 1000));
     }
 
     self.recognized = NO;
     int returnCode = 0;
-    try {
+    @try {
         returnCode = _tesseract->Recognize(_monitor);
         self.recognized = YES;
     }
-    catch (std::invalid_argument exception) {
-        NSLog(@"Exception was raised while recognizing.");
+    //LCOV_EXCL_START
+    @catch (NSException *exception) {
+        NSLog(@"Exception was raised while recognizing: %@", exception);
     }
+    //LCOV_EXCL_STOP
     return returnCode == 0 && self.recognized;
 }
 
-- (UIImage *)thresholdedImage {
+- (UIImage *)thresholdedImage
+{
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
     Pix *pixs = _tesseract->GetThresholdedImage();
     Pix *pix = pixUnpackBinary(pixs, 32, 0);
 
@@ -679,7 +855,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return [self imageFromPix:pix];
 }
 
-- (UIImage *)imageFromPix:(Pix *)pix {
+- (UIImage *)imageFromPix:(Pix *)pix
+{
     // Get Pix parameters
     l_uint32 width = pixGetWidth(pix);
     l_uint32 height = pixGetHeight(pix);
@@ -726,7 +903,8 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return image;
 }
 
-- (Pix *)pixForImage:(UIImage *)image {
+- (Pix *)pixForImage:(UIImage *)image
+{
     int width = image.size.width;
     int height = image.size.height;
 
@@ -735,14 +913,19 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     const UInt8 *pixels = CFDataGetBytePtr(imageData);
 
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
+    size_t bytesPerPixel = bitsPerPixel / 8;
     size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
 
     int bpp = MAX(1, (int)bitsPerPixel);
     Pix *pix = pixCreate(width, height, bpp == 24 ? 32 : bpp);
     l_uint32 *data = pixGetData(pix);
     int wpl = pixGetWpl(pix);
+    
+    void (^copyBlock)(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) = nil;
     switch (bpp) {
+            
 #if 0 // BPP1 start. Uncomment this if UIImage can support 1bpp someday
+      // Just a reference for the copyBlock
         case 1:
             for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
                 for (int x = 0; x < width; ++x) {
@@ -756,15 +939,16 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
             }
             break;
 #endif // BPP1 end
-        case 8:
-            // Greyscale just copies the bytes in the right order.
-            for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
-                for (int x = 0; x < width; ++x) {
-                    SET_DATA_BYTE(data, x, pixels[x]);
-                }
-            }
+            
+        case 8: {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
+                SET_DATA_BYTE(toAddr, toOffset, fromAddr[fromOffset]);
+            };
             break;
+        }
+            
 #if 0 // BPP24 start. Uncomment this if UIImage can support 24bpp someday
+      // Just a reference for the copyBlock
         case 24:
             // Put the colors in the correct places in the line buffer.
             for (int y = 0; y < height; ++y, pixels += bytesPerRow) {
@@ -776,19 +960,108 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
             }
             break;
 #endif // BPP24 end
-        case 32:
-            // Maintain byte order consistency across different endianness.
-            for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
-                for (int x = 0; x < width; ++x) {
-                    data[x] = (pixels[x * 4] << 24) | (pixels[x * 4 + 1] << 16) |
-                        (pixels[x * 4 + 2] << 8) | pixels[x * 4 + 3];
-                }
-            }
+            
+        case 32: {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
+                toAddr[toOffset] = (fromAddr[fromOffset] << 24) | (fromAddr[fromOffset + 1] << 16) |
+                                   (fromAddr[fromOffset + 2] << 8) | fromAddr[fromOffset + 3];
+            };
             break;
+        }
             
         default:
-            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp);
+            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
     }
+    
+    if (copyBlock) {
+        switch (image.imageOrientation) {
+            case UIImageOrientationUp:
+                // Maintain byte order consistency across different endianness.
+                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+                    for (int x = 0; x < width; ++x) {
+                        copyBlock(data, x, pixels, x * bytesPerPixel);
+                    }
+                }
+                break;
+                
+            case UIImageOrientationUpMirrored:
+                // Maintain byte order consistency across different endianness.
+                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+                    int maxX = width - 1;
+                    for (int x = maxX; x >= 0; --x) {
+                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                    }
+                }
+                break;
+                
+            case UIImageOrientationDown:
+                // Maintain byte order consistency across different endianness.
+                pixels += (height - 1) * bytesPerRow;
+                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+                    int maxX = width - 1;
+                    for (int x = maxX; x >= 0; --x) {
+                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+                    }
+                }
+                break;
+                
+            case UIImageOrientationDownMirrored:
+                // Maintain byte order consistency across different endianness.
+                pixels += (height - 1) * bytesPerRow;
+                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+                    for (int x = 0; x < width; ++x) {
+                        copyBlock(data, x, pixels, x * bytesPerPixel);
+                    }
+                }
+                break;
+                
+            case UIImageOrientationLeft:
+                // Maintain byte order consistency across different endianness.
+                for (int x = 0; x < height; ++x, data += wpl) {
+                    int maxY = width - 1;
+                    for (int y = maxY; y >= 0; --y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, maxY - y, pixels, x0);
+                    }
+                }
+                break;
+                
+            case UIImageOrientationLeftMirrored:
+                // Maintain byte order consistency across different endianness.
+                for (int x = height - 1; x >= 0; --x, data += wpl) {
+                    int maxY = width - 1;
+                    for (int y = maxY; y >= 0; --y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, maxY - y, pixels, x0);
+                    }
+                }
+                break;
+                
+            case UIImageOrientationRight:
+                // Maintain byte order consistency across different endianness.
+                for (int x = height - 1; x >=0; --x, data += wpl) {
+                    for (int y = 0; y < width; ++y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, y, pixels, x0);
+                    }
+                }
+                break;
+                
+            case UIImageOrientationRightMirrored:
+                // Maintain byte order consistency across different endianness.
+                for (int x = 0; x < height; ++x, data += wpl) {
+                    for (int y = 0; y < width; ++y) {
+                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+                        copyBlock(data, y, pixels, x0);
+                    }
+                }
+                break;
+                
+            default:
+                break;  // LCOV_EXCL_LINE
+        }
+    }
+
     pixSetYRes(pix, (l_int32)self.sourceResolution);
     
     CFRelease(imageData);
@@ -796,13 +1069,15 @@ copyFilesFromResources:(BOOL)copyFilesFromResources {
     return pix;
 }
 
-- (void)tesseractProgressCallbackFunction:(int)words {
+- (void)tesseractProgressCallbackFunction:(int)words
+{
     if([self.delegate respondsToSelector:@selector(progressImageRecognitionForTesseract:)]) {
         [self.delegate progressImageRecognitionForTesseract:self];
     }
 }
 
-- (BOOL)tesseractCancelCallbackFunction:(int)words {
+- (BOOL)tesseractCancelCallbackFunction:(int)words
+{
     if (_monitor->ocr_alive == 1) {
         _monitor->ocr_alive = 0;
     }
@@ -822,7 +1097,6 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
 
 @end
 
-
 @implementation G8Tesseract (PDFRendering)
 
 - (void)setImageURL:(NSURL *)imageURL {
@@ -838,7 +1112,7 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
     const char *dataPath = _tesseract->GetDatapath();
     
     _renderer = new tesseract::TessPDFRenderer(outputBase, dataPath);
-    _renderer->setCreator([creator cStringUsingEncoding:NSUTF8StringEncoding]);
+//    _renderer->setCreator([creator cStringUsingEncoding:NSUTF8StringEncoding]);
     bool success = _renderer->BeginDocument("");
     if (!success) {
         NSLog(@"ERROR: Unable to create PDF renderer.");
@@ -942,4 +1216,3 @@ static bool tesseractCancelCallbackFunction(void *cancel_this, int words) {
 
 
 @end
-

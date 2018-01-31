@@ -37,9 +37,9 @@
 template <typename T>
 class GenericVector {
  public:
-  GenericVector() {
-    init(kDefaultVectorSize);
-  }
+  GenericVector() : size_used_(0), size_reserved_(0), data_(NULL),
+                    clear_cb_(NULL), compare_cb_(NULL) {}
+
   GenericVector(int size, T init_val) {
     init(size);
     init_to_size(size, init_val);
@@ -174,6 +174,8 @@ class GenericVector {
   // If swap is true, assumes a big/little-endian swap is needed.
   bool DeSerialize(bool swap, FILE* fp);
   bool DeSerialize(bool swap, tesseract::TFile* fp);
+  // Skips the deserialization of the vector.
+  static bool SkipDeSerialize(bool swap, tesseract::TFile* fp);
   // Writes a vector of classes to the given file. Assumes the existence of
   // bool T::Serialize(FILE* fp) const that returns false in case of error.
   // Returns false in case of error.
@@ -186,6 +188,8 @@ class GenericVector {
   // If swap is true, assumes a big/little-endian swap is needed.
   bool DeSerializeClasses(bool swap, FILE* fp);
   bool DeSerializeClasses(bool swap, tesseract::TFile* fp);
+  // Calls SkipDeSerialize on the elements of the vector.
+  static bool SkipDeSerializeClasses(bool swap, tesseract::TFile* fp);
 
   // Allocates a new array of double the current_size, copies over the
   // information from data to the new location, deletes data and returns
@@ -238,14 +242,13 @@ class GenericVector {
   int binary_search(const T& target) const {
     int bottom = 0;
     int top = size_used_;
-    do {
+    while (top - bottom > 1) {
       int middle = (bottom + top) / 2;
       if (data_[middle] > target)
         top = middle;
       else
         bottom = middle;
     }
-    while (top - bottom > 1);
     return bottom;
   }
 
@@ -331,7 +334,7 @@ class GenericVector {
   void init(int size);
 
   // We are assuming that the object generally placed in thie
-  // vector are small enough that for efficiency it makes sence
+  // vector are small enough that for efficiency it makes sense
   // to start with a larger initial size.
   static const int kDefaultVectorSize = 4;
   inT32   size_used_;
@@ -355,15 +358,18 @@ typedef bool (*FileWriter)(const GenericVector<char>& data,
 // returning false on error.
 inline bool LoadDataFromFile(const STRING& filename,
                              GenericVector<char>* data) {
+  bool result = false;
   FILE* fp = fopen(filename.string(), "rb");
-  if (fp == NULL) return false;
-  fseek(fp, 0, SEEK_END);
-  size_t size = ftell(fp);
-  fseek(fp, 0, SEEK_SET);
-  // Pad with a 0, just in case we treat the result as a string.
-  data->init_to_size((int)size + 1, 0);
-  bool result = fread(&(*data)[0], 1, size, fp) == size;
-  fclose(fp);
+  if (fp != NULL) {
+    fseek(fp, 0, SEEK_END);
+    size_t size = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    if (size > 0) {
+      data->resize_no_init((int)size);
+      result = fread(&(*data)[0], 1, size, fp) == size;
+    }
+    fclose(fp);
+  }
   return result;
 }
 // The default FileWriter writes the vector of char to the filename file,
@@ -432,7 +438,7 @@ class PointerVector : public GenericVector<T*> {
   }
   // Copy must be deep, as the pointers will be automatically deleted on
   // destruction.
-  PointerVector(const PointerVector& other) {
+  PointerVector(const PointerVector& other) : GenericVector<T*>(other) {
     this->init(other.size());
     this->operator+=(other);
   }
@@ -556,34 +562,54 @@ class PointerVector : public GenericVector<T*> {
   }
   bool DeSerialize(bool swap, TFile* fp) {
     inT32 reserved;
-    if (fp->FRead(&reserved, sizeof(reserved), 1) != 1) return false;
-    if (swap) Reverse32(&reserved);
+    if (!DeSerializeSize(swap, fp, &reserved)) return false;
     GenericVector<T*>::reserve(reserved);
     truncate(0);
     for (int i = 0; i < reserved; ++i) {
-      inT8 non_null;
-      if (fp->FRead(&non_null, sizeof(non_null), 1) != 1) return false;
-      T* item = NULL;
-      if (non_null) {
-        item = new T;
-        if (!item->DeSerialize(swap, fp)) {
-          delete item;
-          return false;
-        }
-        this->push_back(item);
-      } else {
-        // Null elements should keep their place in the vector.
-        this->push_back(NULL);
+      if (!DeSerializeElement(swap, fp)) return false;
+    }
+    return true;
+  }
+  // Enables deserialization of a selection of elements. Note that in order to
+  // retain the integrity of the stream, the caller must call some combination
+  // of DeSerializeElement and DeSerializeSkip of the exact number returned in
+  // *size, assuming a true return.
+  static bool DeSerializeSize(bool swap, TFile* fp, inT32* size) {
+    if (fp->FRead(size, sizeof(*size), 1) != 1) return false;
+    if (swap) Reverse32(size);
+    return true;
+  }
+  // Reads and appends to the vector the next element of the serialization.
+  bool DeSerializeElement(bool swap, TFile* fp) {
+    inT8 non_null;
+    if (fp->FRead(&non_null, sizeof(non_null), 1) != 1) return false;
+    T* item = NULL;
+    if (non_null) {
+      item = new T;
+      if (!item->DeSerialize(swap, fp)) {
+        delete item;
+        return false;
       }
+      this->push_back(item);
+    } else {
+      // Null elements should keep their place in the vector.
+      this->push_back(NULL);
+    }
+    return true;
+  }
+  // Skips the next element of the serialization.
+  static bool DeSerializeSkip(bool swap, TFile* fp) {
+    inT8 non_null;
+    if (fp->FRead(&non_null, sizeof(non_null), 1) != 1) return false;
+    if (non_null) {
+      if (!T::SkipDeSerialize(swap, fp)) return false;
     }
     return true;
   }
 
   // Sorts the items pointed to by the members of this vector using
   // t::operator<().
-  void sort() {
-    sort(&sort_ptr_cmp<T>);
-  }
+  void sort() { this->GenericVector<T*>::sort(&sort_ptr_cmp<T>); }
 };
 
 }  // namespace tesseract
@@ -623,10 +649,11 @@ template <typename T>
 void GenericVector<T>::reserve(int size) {
   if (size_reserved_ >= size || size <= 0)
     return;
+  if (size < kDefaultVectorSize) size = kDefaultVectorSize;
   T* new_array = new T[size];
   for (int i = 0; i < size_used_; ++i)
     new_array[i] = data_[i];
-  if (data_ != NULL) delete[] data_;
+  delete[] data_;
   data_ = new_array;
   size_reserved_ = size;
 }
@@ -926,6 +953,13 @@ bool GenericVector<T>::DeSerialize(bool swap, tesseract::TFile* fp) {
   }
   return true;
 }
+template <typename T>
+bool GenericVector<T>::SkipDeSerialize(bool swap, tesseract::TFile* fp) {
+  inT32 reserved;
+  if (fp->FRead(&reserved, sizeof(reserved), 1) != 1) return false;
+  if (swap) Reverse32(&reserved);
+  return fp->FRead(NULL, sizeof(T), reserved) == reserved;
+}
 
 // Writes a vector of classes to the given file. Assumes the existence of
 // bool T::Serialize(FILE* fp) const that returns false in case of error.
@@ -949,7 +983,7 @@ bool GenericVector<T>::SerializeClasses(tesseract::TFile* fp) const {
 
 // Reads a vector of classes from the given file. Assumes the existence of
 // bool T::Deserialize(bool swap, FILE* fp) that returns false in case of
-// error. Alse needs T::T() and T::T(constT&), as init_to_size is used in
+// error. Also needs T::T() and T::T(constT&), as init_to_size is used in
 // this function. Returns false in case of error.
 // If swap is true, assumes a big/little-endian swap is needed.
 template <typename T>
@@ -973,6 +1007,16 @@ bool GenericVector<T>::DeSerializeClasses(bool swap, tesseract::TFile* fp) {
   init_to_size(reserved, empty);
   for (int i = 0; i < reserved; ++i) {
     if (!data_[i].DeSerialize(swap, fp)) return false;
+  }
+  return true;
+}
+template <typename T>
+bool GenericVector<T>::SkipDeSerializeClasses(bool swap, tesseract::TFile* fp) {
+  uinT32 reserved;
+  if (fp->FRead(&reserved, sizeof(reserved), 1) != 1) return false;
+  if (swap) Reverse32(&reserved);
+  for (int i = 0; i < reserved; ++i) {
+    if (!T::SkipDeSerialize(swap, fp)) return false;
   }
   return true;
 }

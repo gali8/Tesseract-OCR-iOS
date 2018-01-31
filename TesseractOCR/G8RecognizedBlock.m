@@ -15,7 +15,8 @@
 
 @implementation G8RecognizedBlock
 
-- (instancetype)init {
+- (instancetype)init
+{
     return [self initWithText:nil
                   boundingBox:CGRectZero
                    confidence:0.0f
@@ -25,7 +26,8 @@
 - (instancetype)initWithText:(NSString *)text
                  boundingBox:(CGRect)boundingBox
                   confidence:(CGFloat)confidence
-                       level:(G8PageIteratorLevel)level {
+                       level:(G8PageIteratorLevel)level
+{
     self = [super init];
     if (self != nil) {
         _text = [text copy];
@@ -36,7 +38,8 @@
     return self;
 }
 
-- (CGRect)boundingBoxAtImageOfSize:(CGSize)imageSize {
+- (CGRect)boundingBoxAtImageOfSize:(CGSize)imageSize
+{
     CGFloat x = CGRectGetMinX(self.boundingBox) * imageSize.width;
     CGFloat y = CGRectGetMinY(self.boundingBox) * imageSize.height;
     CGFloat width = CGRectGetWidth(self.boundingBox) * imageSize.width;
@@ -45,11 +48,13 @@
     return CGRectMake(x, y, width, height);
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(NSZone *)zone
+{
     return self;
 }
 
-- (BOOL)isEqual:(id)other {
+- (BOOL)isEqual:(id)other
+{
     if (other == self) {
         return YES;
     }
@@ -72,11 +77,13 @@
     return NO;
 }
 
-- (NSUInteger)hash {
+- (NSUInteger)hash
+{
     return self.level + (NSUInteger)(self.confidence * 10000) * 11813 + self.text.hash * 13411;
 }
 
-- (NSString *)description {
+- (NSString *)description
+{
     return [NSString stringWithFormat:@"(%.2f%%) '%@'", self.confidence, self.text];
 }
 

@@ -179,6 +179,9 @@ enum PageSegMode {
 inline bool PSM_OSD_ENABLED(int pageseg_mode) {
   return pageseg_mode <= PSM_AUTO_OSD || pageseg_mode == PSM_SPARSE_TEXT_OSD;
 }
+inline bool PSM_ORIENTATION_ENABLED(int pageseg_mode) {
+  return pageseg_mode <= PSM_AUTO || pageseg_mode == PSM_SPARSE_TEXT_OSD;
+}
 inline bool PSM_COL_FIND_ENABLED(int pageseg_mode) {
   return pageseg_mode >= PSM_AUTO_OSD && pageseg_mode <= PSM_AUTO;
 }
@@ -210,7 +213,7 @@ enum PageIteratorLevel {
 };
 
 /**
- * JUSTIFICATION_UNKNONW
+ * JUSTIFICATION_UNKNOWN
  *   The alignment is not clearly one of the other options.  This could happen
  *   for example if there are only one or two lines of text or the text looks
  *   like source code or poetry.

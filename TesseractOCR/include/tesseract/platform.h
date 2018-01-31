@@ -24,12 +24,20 @@
 
 #define DLLSYM
 #ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif /* NOMINMAX */
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 #ifdef __GNUC__
 #define ultoa _ultoa
 #endif  /* __GNUC__ */
 #define SIGNED
 #if defined(_MSC_VER)
+#if (_MSC_VER < 1900)
 #define snprintf _snprintf
+#endif
 #if (_MSC_VER <= 1400)
 #define vsnprintf _vsnprintf
 #endif /* (_MSC_VER <= 1400) */
@@ -45,7 +53,7 @@
 #define SIGNED signed
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__CYGWIN__)
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif

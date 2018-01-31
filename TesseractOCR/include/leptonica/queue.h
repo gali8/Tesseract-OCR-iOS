@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -27,9 +27,10 @@
 #ifndef  LEPTONICA_QUEUE_H
 #define  LEPTONICA_QUEUE_H
 
-/*
- *  queue.h
+/*!
+ * \file queue.h
  *
+ * <pre>
  *      Expandable pointer queue for arbitrary void* data.
  *
  *      The L_Queue is a fifo that implements a queue of void* pointers.
@@ -44,7 +45,7 @@
  *      be removed, is array[nhead].  The location at the tail of the
  *      queue to which the next element will be added is
  *      array[nhead + nelem].
- *               
+ *
  *      As items are added to the queue, nelem increases.
  *      As items are removed, nhead increases and nelem decreases.
  *      Any time the tail reaches the end of the allocated array,
@@ -56,16 +57,18 @@
  *      items popped from the queue.  It is not made by default.
  *
  *      For further implementation details, see queue.c.
+ * </pre>
  */
 
+/*! Expandable pointer queue for arbitrary void* data */
 struct L_Queue
 {
-    l_int32          nalloc;     /* size of allocated ptr array            */
-    l_int32          nhead;      /* location of head (in ptrs) from the    */
-                                 /* beginning of the array                 */
-    l_int32          nelem;      /* number of elements stored in the queue */
-    void           **array;      /* ptr array                              */
-    struct L_Stack  *stack;      /* auxiliary stack                        */
+    l_int32          nalloc;   /*!< size of allocated ptr array            */
+    l_int32          nhead;    /*!< location of head (in ptrs) from the    */
+                               /*!< beginning of the array                 */
+    l_int32          nelem;    /*!< number of elements stored in the queue */
+    void           **array;    /*!< ptr array                              */
+    struct L_Stack  *stack;    /*!< auxiliary stack                        */
 
 };
 typedef struct L_Queue L_QUEUE;

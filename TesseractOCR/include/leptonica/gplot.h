@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -27,10 +27,18 @@
 #ifndef  LEPTONICA_GPLOT_H
 #define  LEPTONICA_GPLOT_H
 
-/*
- *   gplot.h
+/*!
+ * \file gplot.h
  *
- *       Data structures and parameters for generating gnuplot files
+ * <pre>
+ *   Data structures and parameters for generating gnuplot files
+ *
+ *   We used to support X11 output, but recent versions of gnuplot do not
+ *   support the X11 terminal.  To get display to your screen, use
+ *   GPLOT_PNG output; e.g.,
+ *       gplotSimple1(na, GPLOT_PNG, "/tmp/someroot", ...);
+ *       l_fileDisplay("/tmp/someroot.png", ...);
+ * </pre>
  */
 
 #define  GPLOT_VERSION_NUMBER    1
@@ -50,37 +58,37 @@ enum GPLOT_OUTPUT {
     GPLOT_PNG   = 1,
     GPLOT_PS    = 2,
     GPLOT_EPS   = 3,
-    GPLOT_X11   = 4,
-    GPLOT_LATEX = 5
+    GPLOT_LATEX = 4
 };
 
 enum GPLOT_SCALING {
-    GPLOT_LINEAR_SCALE  = 0,   /* default */
+    GPLOT_LINEAR_SCALE  = 0,   /*!< default */
     GPLOT_LOG_SCALE_X   = 1,
     GPLOT_LOG_SCALE_Y   = 2,
     GPLOT_LOG_SCALE_X_Y = 3
 };
 
-extern const char  *gplotstylenames[];  /* used in gnuplot cmd file */
-extern const char  *gplotfilestyles[];  /* used in simple file input */
-extern const char  *gplotfileoutputs[]; /* used in simple file input */
+extern const char  *gplotstylenames[];  /*!< used in gnuplot cmd file */
+extern const char  *gplotfilestyles[];  /*!< used in simple file input */
+extern const char  *gplotfileoutputs[]; /*!< used in simple file input */
 
+/*! Data structure for generating gnuplot files */
 struct GPlot
 {
-    char          *rootname;   /* for cmd, data, output            */
-    char          *cmdname;    /* command file name                */
-    struct Sarray *cmddata;    /* command file contents            */
-    struct Sarray *datanames;  /* data file names                  */
-    struct Sarray *plotdata;   /* plot data (1 string/file)        */
-    struct Sarray *plottitles; /* title for each individual plot   */
-    struct Numa   *plotstyles; /* plot style for individual plots  */
-    l_int32        nplots;     /* current number of plots          */
-    char          *outname;    /* output file name                 */
-    l_int32        outformat;  /* GPLOT_OUTPUT values              */
-    l_int32        scaling;    /* GPLOT_SCALING values             */
-    char          *title;      /* optional                         */
-    char          *xlabel;     /* optional x axis label            */
-    char          *ylabel;     /* optional y axis label            */
+    char          *rootname;   /*!< for cmd, data, output            */
+    char          *cmdname;    /*!< command file name                */
+    struct Sarray *cmddata;    /*!< command file contents            */
+    struct Sarray *datanames;  /*!< data file names                  */
+    struct Sarray *plotdata;   /*!< plot data (1 string/file)        */
+    struct Sarray *plottitles; /*!< title for each individual plot   */
+    struct Numa   *plotstyles; /*!< plot style for individual plots  */
+    l_int32        nplots;     /*!< current number of plots          */
+    char          *outname;    /*!< output file name                 */
+    l_int32        outformat;  /*!< GPLOT_OUTPUT values              */
+    l_int32        scaling;    /*!< GPLOT_SCALING values             */
+    char          *title;      /*!< optional                         */
+    char          *xlabel;     /*!< optional x axis label            */
+    char          *ylabel;     /*!< optional y axis label            */
 };
 typedef struct GPlot  GPLOT;
 

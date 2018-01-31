@@ -22,7 +22,7 @@
  *
  *  @return The filtered image.
  */
-- (UIImage *)g8_blackAndWhite;
+- (UIImage *)g8_blackAndWhite __attribute__((deprecated("This method is no longer supported as a part of Tesseract-OCR-iOS")));
 
 /**
  *  A convenience method for converting an image to grayscale by manually
@@ -31,6 +31,6 @@
  *
  *  @return The grayscale image.
  */
-- (UIImage *)g8_grayScale;
+- (UIImage *)g8_grayScale  __attribute__((deprecated("This method is no longer supported as a part of Tesseract-OCR-iOS")));
 
 @end

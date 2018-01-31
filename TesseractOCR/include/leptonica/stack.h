@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -27,9 +27,10 @@
 #ifndef  LEPTONICA_STACK_H
 #define  LEPTONICA_STACK_H
 
-/*
- *  stack.h
+/*!
+ * \file stack.h
  *
+ * <pre>
  *       Expandable pointer stack for arbitrary void* data.
  *
  *       The L_Stack is an array of void * ptrs, onto which arbitrary
@@ -46,18 +47,21 @@
  *       The auxiliary stack can be used to store and remove
  *       objects for re-use.  It must be created by a separate
  *       call to pstackCreate().  [Just imagine the chaos if
- *       pstackCreate() created the auxiliary stack!]   
+ *       pstackCreate() created the auxiliary stack!]
  *       pstackDestroy() checks for the auxiliary stack and removes it.
+ * </pre>
  */
 
 
-    /* Note that array[n] is the first null ptr in the array */
+    /*! Expandable pointer stack for arbitrary void* data.
+     * Note that array[n] is the first null ptr in the array
+     */
 struct L_Stack
 {
-    l_int32          nalloc;       /* size of ptr array              */
-    l_int32          n;            /* number of stored elements      */
-    void           **array;        /* ptr array                      */
-    struct L_Stack  *auxstack;     /* auxiliary stack                */
+    l_int32          nalloc;     /*!< size of ptr array              */
+    l_int32          n;          /*!< number of stored elements      */
+    void           **array;      /*!< ptr array                      */
+    struct L_Stack  *auxstack;   /*!< auxiliary stack                */
 };
 typedef struct L_Stack  L_STACK;
 

@@ -24,9 +24,10 @@
  -  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *====================================================================*/
 
-/*
- *  bmfdata.h
+/*!
+ * \file bmfdata.h
  *
+ * <pre>
  *  This file contains data for constructing the bitmap fonts.
  *
  *  The fontdata string holds all 9 sets of bitmap fonts in a base64
@@ -39,6 +40,7 @@
  *  In use, to get the bmf for a specific font size, from the encoded
  *  string in this file, call
  *      bmfCreate(NULL, fontsize);
+ * </pre>
  */
 
 #ifndef  LEPTONICA_BMFDATA_H

@@ -10,7 +10,7 @@
  -     copyright notice, this list of conditions and the following
  -     disclaimer in the documentation and/or other materials
  -     provided with the distribution.
- - 
+ -
  -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -27,9 +27,10 @@
 #ifndef  LEPTONICA_ARRAY_ACCESS_H
 #define  LEPTONICA_ARRAY_ACCESS_H
 
-/*
- *  arrayaccess.h
+/*!
+ * \file arrayaccess.h
  *
+ * <pre>
  *  1, 2, 4, 8, 16 and 32 bit data access within an array of 32-bit words
  *
  *  This is used primarily to access 1, 2, 4, 8, 16 and 32 bit pixels
@@ -55,87 +56,141 @@
  *          CLEAR_DATA_BIT(pdata, n);
  *      else
  *          SET_DATA_BIT(pdata, n);
+ *
+ *  Some compilers complain when the SET macros are surrounded by
+ *  parentheses, because parens require an evaluation and it is not
+ *  defined for SET macros.  If SET_DATA_QBIT were defined as a
+ *  compound macro, in analogy to l_setDataQbit(), it requires
+ *  surrounding bracces:
+ *     #define  SET_DATA_QBIT(pdata, n, val) \
+ *        {l_uint32 *_TEMP_WORD_PTR_; \
+ *         _TEMP_WORD_PTR_ = (l_uint32 *)(pdata) + ((n) >> 3); \
+ *         *_TEMP_WORD_PTR_ &= ~(0xf0000000 >> (4 * ((n) & 7))); \
+ *         *_TEMP_WORD_PTR_ |= (((val) & 15) << (28 - 4 * ((n) & 7)));}
+ *  but if used in an if/else
+ *      if (x)
+ *         SET_DATA_QBIT(...);
+ *      else
+ *         ...
+ *  the compiler sees
+ *      if (x)
+ *         {......};
+ *      else
+ *         ...
+ *  The semicolon comes after the brace and will not compile.
+ *  This can be fixed in the call by either omitting the semicolon
+ *  or requiring another set of braces around SET_DATA_QBIT(), but
+ *  both these options break compatibility with current code, and
+ *  require special attention by anyone using the macros.
+ *
+ *  There are (at least) two ways to fix this in the macro definitions,
+ *  suggested by Dave Bryan.
+ *  (1) Surround the braces in the macro above with
+ *         do {....} while(0)
+ *      Then the semicolon just terminates the expression.
+ *  (2) Reduce the blocks to a single expression; e.g,
+ *         *((l_uint32 *)(pdata) + ((n) >> 3)) = \
+ *           *((l_uint32 *)(pdata) + ((n) >> 3)) \
+ *           & ~(0xf0000000 >> (4 * ((n) & 7))) \
+ *           | (((val) & 15) << (28 - 4 * ((n) & 7)))
+ *      This appears to cause redundant computation, but the compiler
+ *      should evaluate the common subexpression only once.
+ *  All these methods have the same performance, giving about 300M
+ *  SET_DATA_QBIT operations per second on a fast 64 bit system.
+ *  Using the function calls instead of the macros results in about 250M
+ *  SET_DATA_QBIT operations per second, a performance hit of nearly 20%.
+ * </pre>
  */
 
-
-    /* Use the inline accessors (except with _MSC_VER), because they
-     * are faster.  */
 #define  USE_INLINE_ACCESSORS    1
 
 #if USE_INLINE_ACCESSORS
-#ifndef _MSC_VER
+
+    /*=============================================================*/
+    /*                Faster: use in line accessors                */
+    /*=============================================================*/
 
     /*--------------------------------------------------*
      *                     1 bit access                 *
      *--------------------------------------------------*/
+/*! 1 bit access - get */
 #define  GET_DATA_BIT(pdata, n) \
     ((*((l_uint32 *)(pdata) + ((n) >> 5)) >> (31 - ((n) & 31))) & 1)
 
+/*! 1 bit access - set */
 #define  SET_DATA_BIT(pdata, n) \
-    (*((l_uint32 *)(pdata) + ((n) >> 5)) |= (0x80000000 >> ((n) & 31)))
+    *((l_uint32 *)(pdata) + ((n) >> 5)) |= (0x80000000 >> ((n) & 31))
 
+/*! 1 bit access - clear */
 #define  CLEAR_DATA_BIT(pdata, n) \
-    (*((l_uint32 *)(pdata) + ((n) >> 5)) &= ~(0x80000000 >> ((n) & 31)))
+    *((l_uint32 *)(pdata) + ((n) >> 5)) &= ~(0x80000000 >> ((n) & 31))
 
+/*! 1 bit access - set value (0 or 1) */
 #define  SET_DATA_BIT_VAL(pdata, n, val) \
-    ({l_uint32 *_TEMP_WORD_PTR_; \
-     _TEMP_WORD_PTR_ = (l_uint32 *)(pdata) + ((n) >> 5); \
-     *_TEMP_WORD_PTR_ &= ~(0x80000000 >> ((n) & 31)); \
-     *_TEMP_WORD_PTR_ |= ((val) << (31 - ((n) & 31))); \
-    })
-
+     *((l_uint32 *)(pdata) + ((n) >> 5)) = \
+        ((*((l_uint32 *)(pdata) + ((n) >> 5)) \
+        & (~(0x80000000 >> ((n) & 31)))) \
+        | ((val) << (31 - ((n) & 31))))
 
     /*--------------------------------------------------*
      *                     2 bit access                 *
      *--------------------------------------------------*/
+/*! 2 bit access - get */
 #define  GET_DATA_DIBIT(pdata, n) \
     ((*((l_uint32 *)(pdata) + ((n) >> 4)) >> (2 * (15 - ((n) & 15)))) & 3)
 
+/*! 2 bit access - set value (0 ... 3) */
 #define  SET_DATA_DIBIT(pdata, n, val) \
-    ({l_uint32 *_TEMP_WORD_PTR_; \
-     _TEMP_WORD_PTR_ = (l_uint32 *)(pdata) + ((n) >> 4); \
-     *_TEMP_WORD_PTR_ &= ~(0xc0000000 >> (2 * ((n) & 15))); \
-     *_TEMP_WORD_PTR_ |= (((val) & 3) << (30 - 2 * ((n) & 15))); \
-    })
+     *((l_uint32 *)(pdata) + ((n) >> 4)) = \
+        ((*((l_uint32 *)(pdata) + ((n) >> 4)) \
+        & (~(0xc0000000 >> (2 * ((n) & 15))))) \
+        | (((val) & 3) << (30 - 2 * ((n) & 15))))
 
+/*! 2 bit access - clear */
 #define  CLEAR_DATA_DIBIT(pdata, n) \
-    (*((l_uint32 *)(pdata) + ((n) >> 4)) &= ~(0xc0000000 >> (2 * ((n) & 15))))
+    *((l_uint32 *)(pdata) + ((n) >> 4)) &= ~(0xc0000000 >> (2 * ((n) & 15)))
 
 
     /*--------------------------------------------------*
      *                     4 bit access                 *
      *--------------------------------------------------*/
+/*! 4 bit access - get */
 #define  GET_DATA_QBIT(pdata, n) \
      ((*((l_uint32 *)(pdata) + ((n) >> 3)) >> (4 * (7 - ((n) & 7)))) & 0xf)
 
+/*! 4 bit access - set value (0 ... 15) */
 #define  SET_DATA_QBIT(pdata, n, val) \
-    ({l_uint32 *_TEMP_WORD_PTR_; \
-     _TEMP_WORD_PTR_ = (l_uint32 *)(pdata) + ((n) >> 3); \
-     *_TEMP_WORD_PTR_ &= ~(0xf0000000 >> (4 * ((n) & 7))); \
-     *_TEMP_WORD_PTR_ |= (((val) & 15) << (28 - 4 * ((n) & 7))); \
-    })
+     *((l_uint32 *)(pdata) + ((n) >> 3)) = \
+        ((*((l_uint32 *)(pdata) + ((n) >> 3)) \
+        & (~(0xf0000000 >> (4 * ((n) & 7))))) \
+        | (((val) & 15) << (28 - 4 * ((n) & 7))))
 
+/*! 4 bit access - clear */
 #define  CLEAR_DATA_QBIT(pdata, n) \
-    (*((l_uint32 *)(pdata) + ((n) >> 3)) &= ~(0xf0000000 >> (4 * ((n) & 7))))
+    *((l_uint32 *)(pdata) + ((n) >> 3)) &= ~(0xf0000000 >> (4 * ((n) & 7)))
 
 
     /*--------------------------------------------------*
      *                     8 bit access                 *
      *--------------------------------------------------*/
 #ifdef  L_BIG_ENDIAN
+/*! 8 bit access - get */
 #define  GET_DATA_BYTE(pdata, n) \
              (*((l_uint8 *)(pdata) + (n)))
 #else  /* L_LITTLE_ENDIAN */
+/*! 8 bit access - get */
 #define  GET_DATA_BYTE(pdata, n) \
              (*(l_uint8 *)((l_uintptr_t)((l_uint8 *)(pdata) + (n)) ^ 3))
 #endif  /* L_BIG_ENDIAN */
 
 #ifdef  L_BIG_ENDIAN
+/*! 8 bit access - set value (0 ... 255) */
 #define  SET_DATA_BYTE(pdata, n, val) \
-             (*((l_uint8 *)(pdata) + (n)) = (val))
+             *((l_uint8 *)(pdata) + (n)) = (val)
 #else  /* L_LITTLE_ENDIAN */
+/*! 8 bit access - set value (0 ... 255) */
 #define  SET_DATA_BYTE(pdata, n, val) \
-             (*(l_uint8 *)((l_uintptr_t)((l_uint8 *)(pdata) + (n)) ^ 3) = (val))
+             *(l_uint8 *)((l_uintptr_t)((l_uint8 *)(pdata) + (n)) ^ 3) = (val)
 #endif  /* L_BIG_ENDIAN */
 
 
@@ -143,41 +198,44 @@
      *                    16 bit access                 *
      *--------------------------------------------------*/
 #ifdef  L_BIG_ENDIAN
+/*! 16 bit access - get */
 #define  GET_DATA_TWO_BYTES(pdata, n) \
              (*((l_uint16 *)(pdata) + (n)))
 #else  /* L_LITTLE_ENDIAN */
+/*! 16 bit access - get */
 #define  GET_DATA_TWO_BYTES(pdata, n) \
              (*(l_uint16 *)((l_uintptr_t)((l_uint16 *)(pdata) + (n)) ^ 2))
 #endif  /* L_BIG_ENDIAN */
 
 #ifdef  L_BIG_ENDIAN
+/*! 16 bit access - set value (0 ... 65535) */
 #define  SET_DATA_TWO_BYTES(pdata, n, val) \
-             (*((l_uint16 *)(pdata) + (n)) = (val))
+             *((l_uint16 *)(pdata) + (n)) = (val)
 #else  /* L_LITTLE_ENDIAN */
+/*! 16 bit access - set value (0 ... 65535) */
 #define  SET_DATA_TWO_BYTES(pdata, n, val) \
-             (*(l_uint16 *)((l_uintptr_t)((l_uint16 *)(pdata) + (n)) ^ 2) = (val))
+             *(l_uint16 *)((l_uintptr_t)((l_uint16 *)(pdata) + (n)) ^ 2) = (val)
 #endif  /* L_BIG_ENDIAN */
 
 
     /*--------------------------------------------------*
      *                    32 bit access                 *
      *--------------------------------------------------*/
+/*! 32 bit access - get */
 #define  GET_DATA_FOUR_BYTES(pdata, n) \
              (*((l_uint32 *)(pdata) + (n)))
 
+/*! 32 bit access - set (0 ... 4294967295) */
 #define  SET_DATA_FOUR_BYTES(pdata, n, val) \
-             (*((l_uint32 *)(pdata) + (n)) = (val))
+             *((l_uint32 *)(pdata) + (n)) = (val)
 
 
-#endif  /* ! _MSC_VER */
-#endif  /* USE_INLINE_ACCESSORS */
+#else
 
+    /*=============================================================*/
+    /*         Slower: use function calls for all accessors        */
+    /*=============================================================*/
 
-
-    /*--------------------------------------------------*
-     *  Slower, using function calls for all accessors  *
-     *--------------------------------------------------*/
-#if !USE_INLINE_ACCESSORS || defined(_MSC_VER)
 #define  GET_DATA_BIT(pdata, n)               l_getDataBit(pdata, n)
 #define  SET_DATA_BIT(pdata, n)               l_setDataBit(pdata, n)
 #define  CLEAR_DATA_BIT(pdata, n)             l_clearDataBit(pdata, n)
@@ -199,7 +257,8 @@
 
 #define  GET_DATA_FOUR_BYTES(pdata, n)         l_getDataFourBytes(pdata, n)
 #define  SET_DATA_FOUR_BYTES(pdata, n, val)    l_setDataFourBytes(pdata, n, val)
-#endif  /* !USE_INLINE_ACCESSORS || _MSC_VER */
+
+#endif  /* USE_INLINE_ACCESSORS */
 
 
 #endif /* LEPTONICA_ARRAY_ACCESS_H */
