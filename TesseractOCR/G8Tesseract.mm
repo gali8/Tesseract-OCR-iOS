@@ -247,7 +247,6 @@ namespace tesseract {
     NSString *tessdataFolderName = @"tessdata";
     NSString *tessdataPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:tessdataFolderName];
     NSString *destinationPath = [directoryPath stringByAppendingPathComponent:tessdataFolderName];
-    NSLog(@"Tesseract destination path: %@", destinationPath);
 
     BOOL isDirectory = YES;
     if (![fileManager fileExistsAtPath:tessdataPath isDirectory:&isDirectory] || !isDirectory) {
