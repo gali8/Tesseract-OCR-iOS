@@ -20,8 +20,7 @@
 
 @implementation G8RecognitionOperation
 
-- (id) initWithLanguage:(NSString *)language
-{
+- (id) initWithLanguage:(NSString *)language {
     self = [super init];
     if (self != nil) {
         _tesseract = [[G8Tesseract alloc] initWithLanguage:language];

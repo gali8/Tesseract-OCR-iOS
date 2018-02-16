@@ -82,77 +82,88 @@ namespace tesseract {
     tesseract::TessBaseAPI::ClearPersistentCache();
 }
 
+  
 - (instancetype)init {
     
-    return [self initWithLanguage:nil];
+    self = [super init];
+    if (self != nil) {
+        
+        _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
+        _variables = [NSMutableDictionary dictionary];
+        _sourceResolution = kG8DefaultResolution;
+        _rect = CGRectZero;
+        
+        _monitor = new ETEXT_DESC();
+        _monitor->cancel = tesseractCancelCallbackFunction;
+        _monitor->cancel_this = (__bridge void*)self;
+        
+        _absoluteDataPath = [NSBundle mainBundle].bundlePath;
+        
+        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
+        
+    }
+    return self;
 }
 
 - (instancetype)initWithLanguage:(NSString*)language
 {
-    return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
+    self = [self init];
+    self.language = language.copy;
+    return self;
 }
 
-- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
-{
-    return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:engineMode];
+- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode {
+    self = [self initWithLanguage:language];
+    _engineMode = engineMode;
+    return self;
 }
 
 - (instancetype)initWithLanguage:(NSString *)language
                 configDictionary:(NSDictionary *)configDictionary
                  configFileNames:(NSArray *)configFileNames
            cachesRelatedDataPath:(NSString *)cachesRelatedPath
-                      engineMode:(G8OCREngineMode)engineMode
-{
-    NSString *absoluteDataPath = nil;
-    if (cachesRelatedPath) {
-        // config Tesseract to search trainedData in tessdata folder of the Caches folder
-        NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSString *cachesPath = cachesPaths.firstObject;
+                      engineMode:(G8OCREngineMode)engineMode {
+    
+    // config Tesseract to search trainedData in tessdata folder of the Caches folder
+    NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesPath = cachesPaths.firstObject;
+    
+    NSString *absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
 
-        absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
+    
+    self = [self initWithLanguage:language engineMode:engineMode];
+    
+    if (configFileNames) {
+        NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
     }
-    return [self initWithLanguage:language
-                 configDictionary:configDictionary
-                  configFileNames:configFileNames
-                 absoluteDataPath:absoluteDataPath
-                       engineMode:engineMode];
+    
+    _absoluteDataPath = absoluteDataPath.copy;
+    _configDictionary = configDictionary;
+    _configFileNames = configFileNames;
+    
+    return self;
 }
 
 - (instancetype)initWithLanguage:(NSString *)language
                 configDictionary:(NSDictionary *)configDictionary
                  configFileNames:(NSArray *)configFileNames
                 absoluteDataPath:(NSString *)absoluteDataPath
-                      engineMode:(G8OCREngineMode)engineMode
-{
-    self = [super init];
+                      engineMode:(G8OCREngineMode)engineMode {
+    
+    self = [self initWithLanguage:language engineMode:engineMode];
+
+    
     if (self != nil) {
-        if (configFileNames) {
-            NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
-        }
+
         if (absoluteDataPath != nil) {
             [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
         }
         _absoluteDataPath = absoluteDataPath.copy;
         _configDictionary = configDictionary;
         _configFileNames = configFileNames;
-        _engineMode = engineMode;
-        _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
-        _variables = [NSMutableDictionary dictionary];
-        _sourceResolution = kG8DefaultResolution;
-        _rect = CGRectZero;
-
-        _monitor = new ETEXT_DESC();
-        _monitor->cancel = tesseractCancelCallbackFunction;
-        _monitor->cancel_this = (__bridge void*)self;
-
-        if (self.absoluteDataPath == nil) {
-            // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            _absoluteDataPath = [NSBundle mainBundle].bundlePath;
-        }
         
         setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
 
-        self.language = language.copy;
     }
     return self;
 }
