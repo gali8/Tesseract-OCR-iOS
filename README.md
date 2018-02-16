@@ -23,9 +23,12 @@ These are the current versions of the upstream bundled libraries within the fram
 
 Add the following line to your Cartfile:
 ```
-github "estampworld/ios-toast-alerts"
+github "eduardo22i/Tesseract-OCR-iOS"
 ```
 Run `carthage update`
+
+*Please note this is a fork, hopefully the url will change later 😸*
+
 
 ## Known Limitations
 
