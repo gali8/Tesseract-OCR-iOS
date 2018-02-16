@@ -82,14 +82,16 @@
 
         // Remove the animated progress activity indicator
         [self.activityIndicator stopAnimating];
-
-        // Spawn an alert with the recognized text
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"OCR Result"
-                                                        message:recognizedText
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"OCR Result" message:recognizedText preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        [alertController addAction:alertAction];
+        
+        [self presentViewController:alertController animated:true completion:nil];
     };
     
     // Display the image to be recognized in the view
@@ -135,7 +137,7 @@
 }
 
 - (IBAction)recognizeSampleImage:(id)sender {
-    [self recognizeImageWithTesseract:[UIImage imageNamed:@"image_sample.jpg"]];
+    [self recognizeImageWithTesseract:[UIImage imageNamed:@"image_sample"]];
 }
 
 - (IBAction)clearCache:(id)sender
