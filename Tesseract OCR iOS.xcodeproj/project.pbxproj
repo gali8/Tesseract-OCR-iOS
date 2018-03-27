@@ -7,6 +7,92 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3387587E206A6A7F006E5B96 /* G8RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */; };
+		3387587F206A6A7F006E5B96 /* UIImage+G8Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+G8Filters.m */; };
+		33875880206A6A7F006E5B96 /* G8RecognitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */; };
+		33875881206A6A7F006E5B96 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
+		33875882206A6A7F006E5B96 /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
+		33875884206A6A7F006E5B96 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1E1B87921B00577EA2 /* liblept.a */; };
+		33875885206A6A7F006E5B96 /* libtesseract.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA08B91B8DDF6E00AD3FFC /* libtesseract.a */; };
+		33875886206A6A7F006E5B96 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1D1B87921B00577EA2 /* libjpeg.a */; };
+		33875887206A6A7F006E5B96 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1F1B87921B00577EA2 /* libpng.a */; };
+		33875888206A6A7F006E5B96 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A211B87921B00577EA2 /* libtiff.a */; };
+		3387588A206A6A7F006E5B96 /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790811B7B7CD100B1C726 /* queue.h */; };
+		3387588B206A6A7F006E5B96 /* jmorecfg.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A091B8790DC00577EA2 /* jmorecfg.h */; };
+		3387588C206A6A7F006E5B96 /* gplot.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790781B7B7CD100B1C726 /* gplot.h */; };
+		3387588D206A6A7F006E5B96 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3387588E206A6A7F006E5B96 /* serialis.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BB1B7B7CE500B1C726 /* serialis.h */; };
+		3387588F206A6A7F006E5B96 /* stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790851B7B7CD100B1C726 /* stack.h */; };
+		33875890206A6A7F006E5B96 /* params.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B61B7B7CE500B1C726 /* params.h */; };
+		33875891206A6A7F006E5B96 /* leptwin.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907C1B7B7CD100B1C726 /* leptwin.h */; };
+		33875892206A6A7F006E5B96 /* G8TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33875893206A6A7F006E5B96 /* fileerr.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AC1B7B7CE500B1C726 /* fileerr.h */; };
+		33875894206A6A7F006E5B96 /* UIImage+G8Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 6490748A198A5A5600D728CC /* UIImage+G8Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33875895206A6A7F006E5B96 /* platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B71B7B7CE500B1C726 /* platform.h */; };
+		33875896206A6A7F006E5B96 /* ocrclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B31B7B7CE500B1C726 /* ocrclass.h */; };
+		33875897206A6A7F006E5B96 /* dewarp.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790751B7B7CD100B1C726 /* dewarp.h */; };
+		33875898206A6A7F006E5B96 /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906D1B7B7CD100B1C726 /* array.h */; };
+		33875899206A6A7F006E5B96 /* helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AE1B7B7CE500B1C726 /* helpers.h */; };
+		3387589A206A6A7F006E5B96 /* jconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A071B8790DC00577EA2 /* jconfig.h */; };
+		3387589B206A6A7F006E5B96 /* ptra.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790801B7B7CD100B1C726 /* ptra.h */; };
+		3387589C206A6A7F006E5B96 /* tiffio.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A101B8790DC00577EA2 /* tiffio.h */; };
+		3387589D206A6A7F006E5B96 /* jbclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907B1B7B7CD100B1C726 /* jbclass.h */; };
+		3387589E206A6A7F006E5B96 /* G8RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3387589F206A6A7F006E5B96 /* pix.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907F1B7B7CD100B1C726 /* pix.h */; };
+		338758A0206A6A7F006E5B96 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 73C0A7B11A594A8000D823D4 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		338758A1206A6A7F006E5B96 /* bmp.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790731B7B7CD100B1C726 /* bmp.h */; };
+		338758A2206A6A7F006E5B96 /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907D1B7B7CD100B1C726 /* list.h */; };
+		338758A3206A6A7F006E5B96 /* endianness.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790761B7B7CD100B1C726 /* endianness.h */; };
+		338758A4206A6A7F006E5B96 /* bbuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906F1B7B7CD100B1C726 /* bbuffer.h */; };
+		338758A5206A6A7F006E5B96 /* stringcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790861B7B7CD100B1C726 /* stringcode.h */; };
+		338758A6206A6A7F006E5B96 /* ndminx.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B21B7B7CE500B1C726 /* ndminx.h */; };
+		338758A7206A6A7F006E5B96 /* pnglibconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0D1B8790DC00577EA2 /* pnglibconf.h */; };
+		338758A8206A6A7F006E5B96 /* bmfdata.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790721B7B7CD100B1C726 /* bmfdata.h */; };
+		338758A9206A6A7F006E5B96 /* regutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790841B7B7CD100B1C726 /* regutils.h */; };
+		338758AA206A6A7F006E5B96 /* apitypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A71B7B7CE500B1C726 /* apitypes.h */; };
+		338758AB206A6A7F006E5B96 /* tesscallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BD1B7B7CE500B1C726 /* tesscallback.h */; };
+		338758AC206A6A7F006E5B96 /* errcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AB1B7B7CE500B1C726 /* errcode.h */; };
+		338758AD206A6A7F006E5B96 /* jpeglib.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0A1B8790DC00577EA2 /* jpeglib.h */; };
+		338758AE206A6A7F006E5B96 /* tiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0E1B8790DC00577EA2 /* tiff.h */; };
+		338758AF206A6A7F006E5B96 /* host.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AF1B7B7CE500B1C726 /* host.h */; };
+		338758B0206A6A7F006E5B96 /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		338758B1206A6A7F006E5B96 /* environ.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790771B7B7CD100B1C726 /* environ.h */; };
+		338758B2206A6A7F006E5B96 /* thresholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BE1B7B7CE500B1C726 /* thresholder.h */; };
+		338758B3206A6A7F006E5B96 /* bilateral.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790701B7B7CD100B1C726 /* bilateral.h */; };
+		338758B4206A6A7F006E5B96 /* pageiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B51B7B7CE500B1C726 /* pageiterator.h */; };
+		338758B5206A6A7F006E5B96 /* unichar.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BF1B7B7CE500B1C726 /* unichar.h */; };
+		338758B6206A6A7F006E5B96 /* heap.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790791B7B7CD100B1C726 /* heap.h */; };
+		338758B7206A6A7F006E5B96 /* recog.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790831B7B7CD100B1C726 /* recog.h */; };
+		338758B8206A6A7F006E5B96 /* baseapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A81B7B7CE500B1C726 /* baseapi.h */; };
+		338758B9206A6A7F006E5B96 /* arrayaccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906E1B7B7CD100B1C726 /* arrayaccess.h */; };
+		338758BA206A6A7F006E5B96 /* publictypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B81B7B7CE500B1C726 /* publictypes.h */; };
+		338758BB206A6A7F006E5B96 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		338758BC206A6A7F006E5B96 /* pngconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0C1B8790DC00577EA2 /* pngconf.h */; };
+		338758BD206A6A7F006E5B96 /* alltypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906C1B7B7CD100B1C726 /* alltypes.h */; };
+		338758BE206A6A7F006E5B96 /* basedir.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A91B7B7CE500B1C726 /* basedir.h */; };
+		338758BF206A6A7F006E5B96 /* tiffvers.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A111B8790DC00577EA2 /* tiffvers.h */; };
+		338758C0206A6A7F006E5B96 /* imageio.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907A1B7B7CD100B1C726 /* imageio.h */; };
+		338758C1206A6A7F006E5B96 /* watershed.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790881B7B7CD100B1C726 /* watershed.h */; };
+		338758C2206A6A7F006E5B96 /* memry.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B11B7B7CE500B1C726 /* memry.h */; };
+		338758C3206A6A7F006E5B96 /* jerror.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A081B8790DC00577EA2 /* jerror.h */; };
+		338758C4206A6A7F006E5B96 /* sudoku.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790871B7B7CD100B1C726 /* sudoku.h */; };
+		338758C5206A6A7F006E5B96 /* resultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BA1B7B7CE500B1C726 /* resultiterator.h */; };
+		338758C6206A6A7F006E5B96 /* bmf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790711B7B7CD100B1C726 /* bmf.h */; };
+		338758C7206A6A7F006E5B96 /* morph.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907E1B7B7CD100B1C726 /* morph.h */; };
+		338758C8206A6A7F006E5B96 /* readbarcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790821B7B7CD100B1C726 /* readbarcode.h */; };
+		338758C9206A6A7F006E5B96 /* unicharset.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790C11B7B7CE500B1C726 /* unicharset.h */; };
+		338758CA206A6A7F006E5B96 /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		338758CB206A6A7F006E5B96 /* png.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0B1B8790DC00577EA2 /* png.h */; };
+		338758CC206A6A7F006E5B96 /* strngs.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BC1B7B7CE500B1C726 /* strngs.h */; };
+		338758CD206A6A7F006E5B96 /* genericvector.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AD1B7B7CE500B1C726 /* genericvector.h */; };
+		338758CE206A6A7F006E5B96 /* osdetect.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B41B7B7CE500B1C726 /* osdetect.h */; };
+		338758CF206A6A7F006E5B96 /* tiffconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0F1B8790DC00577EA2 /* tiffconf.h */; };
+		338758D0206A6A7F006E5B96 /* unicharmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790C01B7B7CE500B1C726 /* unicharmap.h */; };
+		338758D1206A6A7F006E5B96 /* ltrresultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B01B7B7CE500B1C726 /* ltrresultiterator.h */; };
+		338758D2206A6A7F006E5B96 /* allheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906B1B7B7CD100B1C726 /* allheaders.h */; };
+		338758D3206A6A7F006E5B96 /* renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B91B7B7CE500B1C726 /* renderer.h */; };
+		338758D4206A6A7F006E5B96 /* ccbord.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790741B7B7CD100B1C726 /* ccbord.h */; };
+		338758D5206A6A7F006E5B96 /* capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AA1B7B7CE500B1C726 /* capi.h */; };
 		73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
 		73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -96,6 +182,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		338758DB206A6A7F006E5B96 /* TesseractOCRmacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCRmacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		338758DC206A6A7F006E5B96 /* TesseractOCR copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TesseractOCR copy-Info.plist"; path = "/Users/hami/projects/swift/Tesseract-OCR-iOS/TesseractOCR copy-Info.plist"; sourceTree = "<absolute>"; };
 		4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = G8TesseractDelegate.h; sourceTree = "<group>"; };
 		418997A71A42CC8B00D6477C /* G8Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Constants.h; sourceTree = "<group>"; };
 		41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8TesseractParameters.h; sourceTree = "<group>"; };
@@ -196,6 +284,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		33875883206A6A7F006E5B96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33875884206A6A7F006E5B96 /* liblept.a in Frameworks */,
+				33875885206A6A7F006E5B96 /* libtesseract.a in Frameworks */,
+				33875886206A6A7F006E5B96 /* libjpeg.a in Frameworks */,
+				33875887206A6A7F006E5B96 /* libpng.a in Frameworks */,
+				33875888206A6A7F006E5B96 /* libtiff.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		73C0A7781A592C2B00D823D4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -361,6 +461,8 @@
 			children = (
 				64A0292F17307C1D002B12E7 /* TesseractOCR */,
 				64F74CCB172FD75F0068E657 /* Frameworks */,
+				338758DB206A6A7F006E5B96 /* TesseractOCRmacOS.framework */,
+				338758DC206A6A7F006E5B96 /* TesseractOCR copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -398,6 +500,89 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		33875889206A6A7F006E5B96 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3387588A206A6A7F006E5B96 /* queue.h in Headers */,
+				3387588B206A6A7F006E5B96 /* jmorecfg.h in Headers */,
+				3387588C206A6A7F006E5B96 /* gplot.h in Headers */,
+				3387588D206A6A7F006E5B96 /* G8Tesseract.h in Headers */,
+				3387588E206A6A7F006E5B96 /* serialis.h in Headers */,
+				3387588F206A6A7F006E5B96 /* stack.h in Headers */,
+				33875890206A6A7F006E5B96 /* params.h in Headers */,
+				33875891206A6A7F006E5B96 /* leptwin.h in Headers */,
+				33875892206A6A7F006E5B96 /* G8TesseractParameters.h in Headers */,
+				33875893206A6A7F006E5B96 /* fileerr.h in Headers */,
+				33875894206A6A7F006E5B96 /* UIImage+G8Filters.h in Headers */,
+				33875895206A6A7F006E5B96 /* platform.h in Headers */,
+				33875896206A6A7F006E5B96 /* ocrclass.h in Headers */,
+				33875897206A6A7F006E5B96 /* dewarp.h in Headers */,
+				33875898206A6A7F006E5B96 /* array.h in Headers */,
+				33875899206A6A7F006E5B96 /* helpers.h in Headers */,
+				3387589A206A6A7F006E5B96 /* jconfig.h in Headers */,
+				3387589B206A6A7F006E5B96 /* ptra.h in Headers */,
+				3387589C206A6A7F006E5B96 /* tiffio.h in Headers */,
+				3387589D206A6A7F006E5B96 /* jbclass.h in Headers */,
+				3387589E206A6A7F006E5B96 /* G8RecognitionOperation.h in Headers */,
+				3387589F206A6A7F006E5B96 /* pix.h in Headers */,
+				338758A0206A6A7F006E5B96 /* TesseractOCR.h in Headers */,
+				338758A1206A6A7F006E5B96 /* bmp.h in Headers */,
+				338758A2206A6A7F006E5B96 /* list.h in Headers */,
+				338758A3206A6A7F006E5B96 /* endianness.h in Headers */,
+				338758A4206A6A7F006E5B96 /* bbuffer.h in Headers */,
+				338758A5206A6A7F006E5B96 /* stringcode.h in Headers */,
+				338758A6206A6A7F006E5B96 /* ndminx.h in Headers */,
+				338758A7206A6A7F006E5B96 /* pnglibconf.h in Headers */,
+				338758A8206A6A7F006E5B96 /* bmfdata.h in Headers */,
+				338758A9206A6A7F006E5B96 /* regutils.h in Headers */,
+				338758AA206A6A7F006E5B96 /* apitypes.h in Headers */,
+				338758AB206A6A7F006E5B96 /* tesscallback.h in Headers */,
+				338758AC206A6A7F006E5B96 /* errcode.h in Headers */,
+				338758AD206A6A7F006E5B96 /* jpeglib.h in Headers */,
+				338758AE206A6A7F006E5B96 /* tiff.h in Headers */,
+				338758AF206A6A7F006E5B96 /* host.h in Headers */,
+				338758B0206A6A7F006E5B96 /* G8RecognizedBlock.h in Headers */,
+				338758B1206A6A7F006E5B96 /* environ.h in Headers */,
+				338758B2206A6A7F006E5B96 /* thresholder.h in Headers */,
+				338758B3206A6A7F006E5B96 /* bilateral.h in Headers */,
+				338758B4206A6A7F006E5B96 /* pageiterator.h in Headers */,
+				338758B5206A6A7F006E5B96 /* unichar.h in Headers */,
+				338758B6206A6A7F006E5B96 /* heap.h in Headers */,
+				338758B7206A6A7F006E5B96 /* recog.h in Headers */,
+				338758B8206A6A7F006E5B96 /* baseapi.h in Headers */,
+				338758B9206A6A7F006E5B96 /* arrayaccess.h in Headers */,
+				338758BA206A6A7F006E5B96 /* publictypes.h in Headers */,
+				338758BB206A6A7F006E5B96 /* G8TesseractDelegate.h in Headers */,
+				338758BC206A6A7F006E5B96 /* pngconf.h in Headers */,
+				338758BD206A6A7F006E5B96 /* alltypes.h in Headers */,
+				338758BE206A6A7F006E5B96 /* basedir.h in Headers */,
+				338758BF206A6A7F006E5B96 /* tiffvers.h in Headers */,
+				338758C0206A6A7F006E5B96 /* imageio.h in Headers */,
+				338758C1206A6A7F006E5B96 /* watershed.h in Headers */,
+				338758C2206A6A7F006E5B96 /* memry.h in Headers */,
+				338758C3206A6A7F006E5B96 /* jerror.h in Headers */,
+				338758C4206A6A7F006E5B96 /* sudoku.h in Headers */,
+				338758C5206A6A7F006E5B96 /* resultiterator.h in Headers */,
+				338758C6206A6A7F006E5B96 /* bmf.h in Headers */,
+				338758C7206A6A7F006E5B96 /* morph.h in Headers */,
+				338758C8206A6A7F006E5B96 /* readbarcode.h in Headers */,
+				338758C9206A6A7F006E5B96 /* unicharset.h in Headers */,
+				338758CA206A6A7F006E5B96 /* G8Constants.h in Headers */,
+				338758CB206A6A7F006E5B96 /* png.h in Headers */,
+				338758CC206A6A7F006E5B96 /* strngs.h in Headers */,
+				338758CD206A6A7F006E5B96 /* genericvector.h in Headers */,
+				338758CE206A6A7F006E5B96 /* osdetect.h in Headers */,
+				338758CF206A6A7F006E5B96 /* tiffconf.h in Headers */,
+				338758D0206A6A7F006E5B96 /* unicharmap.h in Headers */,
+				338758D1206A6A7F006E5B96 /* ltrresultiterator.h in Headers */,
+				338758D2206A6A7F006E5B96 /* allheaders.h in Headers */,
+				338758D3206A6A7F006E5B96 /* renderer.h in Headers */,
+				338758D4206A6A7F006E5B96 /* ccbord.h in Headers */,
+				338758D5206A6A7F006E5B96 /* capi.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		73C0A7791A592C2B00D823D4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -484,6 +669,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3387587B206A6A7F006E5B96 /* TesseractOCRmacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 338758D7206A6A7F006E5B96 /* Build configuration list for PBXNativeTarget "TesseractOCRmacOS" */;
+			buildPhases = (
+				3387587C206A6A7F006E5B96 /* ShellScript */,
+				3387587D206A6A7F006E5B96 /* Sources */,
+				33875883206A6A7F006E5B96 /* Frameworks */,
+				33875889206A6A7F006E5B96 /* Headers */,
+				338758D6206A6A7F006E5B96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TesseractOCRmacOS;
+			productName = "TesseractOCR-Framework";
+			productReference = 338758DB206A6A7F006E5B96 /* TesseractOCRmacOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		73C0A77B1A592C2B00D823D4 /* TesseractOCR */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 73C0A7931A592C2B00D823D4 /* Build configuration list for PBXNativeTarget "TesseractOCR" */;
@@ -510,7 +714,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = G8;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Daniele Galiotto - www.g8production.com";
 				TargetAttributes = {
 					73C0A77B1A592C2B00D823D4 = {
@@ -531,11 +735,19 @@
 			projectRoot = "";
 			targets = (
 				73C0A77B1A592C2B00D823D4 /* TesseractOCR */,
+				3387587B206A6A7F006E5B96 /* TesseractOCRmacOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		338758D6206A6A7F006E5B96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		73C0A77A1A592C2B00D823D4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -546,6 +758,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3387587C206A6A7F006E5B96 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/usr/local/bin\" # That's the path where the aclocal is installed\n# just uncomment the following line if you wish to make dependent libraries from xcode\n#export BUILD_DEPENDENT_LIBRARIES=\"true\"\nif [ $BUILD_DEPENDENT_LIBRARIES = \"true\" ]\nthen\n    cd TesseractOCR\n    make\nfi\n";
+		};
 		84E5F9C61B7A2F4D0012381C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -562,6 +787,18 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3387587D206A6A7F006E5B96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3387587E206A6A7F006E5B96 /* G8RecognizedBlock.m in Sources */,
+				3387587F206A6A7F006E5B96 /* UIImage+G8Filters.m in Sources */,
+				33875880206A6A7F006E5B96 /* G8RecognitionOperation.m in Sources */,
+				33875881206A6A7F006E5B96 /* G8Tesseract.mm in Sources */,
+				33875882206A6A7F006E5B96 /* G8TesseractParameters.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		73C0A7771A592C2B00D823D4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -588,73 +825,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		64F74CD5172FD75F0068E657 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lstdc++",
-				);
-				SDKROOT = iphoneos;
-			};
-			name = Debug;
-		};
-		64F74CD6172FD75F0068E657 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lstdc++",
-				);
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		73C0A78F1A592C2B00D823D4 /* Debug */ = {
+		338758D8206A6A7F006E5B96 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
@@ -679,9 +850,243 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "TesseractOCR copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TesseractOCR/lib",
+					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
+				);
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.g8production.TesseractOCRmacOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		338758D9206A6A7F006E5B96 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "TesseractOCR copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TesseractOCR/lib",
+					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
+				);
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.g8production.TesseractOCRmacOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Coverage;
+		};
+		338758DA206A6A7F006E5B96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "TesseractOCR copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TesseractOCR/lib",
+					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
+				);
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.g8production.TesseractOCRmacOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		64F74CD5172FD75F0068E657 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lstdc++",
+				);
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		64F74CD6172FD75F0068E657 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lstdc++",
+				);
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		73C0A78F1A592C2B00D823D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -709,7 +1114,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -724,7 +1129,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -750,27 +1155,42 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -789,7 +1209,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -807,7 +1227,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -829,6 +1249,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		338758D7206A6A7F006E5B96 /* Build configuration list for PBXNativeTarget "TesseractOCRmacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				338758D8206A6A7F006E5B96 /* Debug */,
+				338758D9206A6A7F006E5B96 /* Coverage */,
+				338758DA206A6A7F006E5B96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		64F74CC4172FD75F0068E657 /* Build configuration list for PBXProject "Tesseract OCR iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

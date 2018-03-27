@@ -7,6 +7,29 @@
 //  Under MIT License. See 'LICENCE' for more informations.
 //
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+
+#import <UIKit/UIKit.h>
+
+#elif TARGET_OS_MAC
+
+#import <AppKit/AppKit.h>
+
+// For now, just redefine this on the Mac
+typedef NS_ENUM(NSInteger, UIImageOrientation) {
+    UIImageOrientationUp,            // default orientation
+    UIImageOrientationDown,          // 180 deg rotation
+    UIImageOrientationLeft,          // 90 deg CCW
+    UIImageOrientationRight,         // 90 deg CW
+    UIImageOrientationUpMirrored,    // as above but image mirrored along other axis. horizontal flip
+    UIImageOrientationDownMirrored,  // horizontal flip
+    UIImageOrientationLeftMirrored,  // vertical flip
+    UIImageOrientationRightMirrored, // vertical flip
+};
+
+
+#endif
+
 #import "G8Tesseract.h"
 
 #import "UIImage+G8Filters.h"
@@ -18,7 +41,11 @@
 #import "environ.h"
 #import "pix.h"
 #import "ocrclass.h"
+
+// TODO: This is a disgraceful hack
+#undef fract1
 #import "allheaders.h"
+
 #import "genericvector.h"
 #import "strngs.h"
 #import "renderer.h"
@@ -58,10 +85,15 @@ namespace tesseract {
 
 + (void)initialize {
     if (self == [G8Tesseract self]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didReceiveMemoryWarningNotification:)
-                                                     name:UIApplicationDidReceiveMemoryWarningNotification
-                                                   object:nil];
+        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(didReceiveMemoryWarningNotification:)
+                                                         name:UIApplicationDidReceiveMemoryWarningNotification
+                                                       object:nil];
+        #elif TARGET_OS_MAC
+        // TODO: Is there an equivalent?
+
+        #endif
     }
 }
 
@@ -356,37 +388,39 @@ namespace tesseract {
     return _tesseract;
 }
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+
 - (void)setEngineImage:(UIImage *)image {
-    
+
     if (image.size.width <= 0 || image.size.height <= 0) {
         NSLog(@"ERROR: Image has invalid size!");
         return;
     }
-    
+
     self.imageSize = image.size; //self.imageSize used in the characterBoxes method
-    
+
     if (self.isEngineConfigured) {
         Pix *pix = nullptr;
-        
+
         if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
             UIImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
             if (thresholdedImage != nil) {
                 self.imageSize = thresholdedImage.size;
-                
+
                 Pix *pixs = [self pixForImage:thresholdedImage];
                 pix = pixConvertTo1(pixs, UINT8_MAX / 2);
                 pixDestroy(&pixs);
-                
+
                 if (pix == nullptr) {
                     NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
                 }
             }
         }
-        
+
         if (pix == nullptr) {
             pix = [self pixForImage:image];
         }
-        
+
         @try {
             _tesseract->SetImage(pix);
         }
@@ -397,11 +431,62 @@ namespace tesseract {
         //LCOV_EXCL_STOP
         pixDestroy(&pix);
     }
-    
+
     _image = image;
 
     [self resetFlags];
 }
+
+#elif TARGET_OS_MAC
+
+- (void)setEngineImage:(NSImage *)image {
+
+    if (image.size.width <= 0 || image.size.height <= 0) {
+        NSLog(@"ERROR: Image has invalid size!");
+        return;
+    }
+
+    self.imageSize = image.size; //self.imageSize used in the characterBoxes method
+
+    if (self.isEngineConfigured) {
+        Pix *pix = nullptr;
+
+        if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+            NSImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
+            if (thresholdedImage != nil) {
+                self.imageSize = thresholdedImage.size;
+
+                Pix *pixs = [self pixForImage:thresholdedImage];
+                pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+                pixDestroy(&pixs);
+
+                if (pix == nullptr) {
+                    NSLog(@"WARNING: Can't create Pix for custom thresholded image!");
+                }
+            }
+        }
+
+        if (pix == nullptr) {
+            pix = [self pixForImage:image];
+        }
+
+        @try {
+            _tesseract->SetImage(pix);
+        }
+        //LCOV_EXCL_START
+        @catch (NSException *exception) {
+            NSLog(@"ERROR: Can't set image: %@", exception);
+        }
+        //LCOV_EXCL_STOP
+        pixDestroy(&pix);
+    }
+
+    _image = image;
+
+    [self resetFlags];
+}
+
+#endif
 
 - (void)setEngineSourceResolution:(NSUInteger)sourceResolution {
     
@@ -500,6 +585,8 @@ namespace tesseract {
     }
 }
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+
 - (void)setImage:(UIImage *)image
 {
     if (_image != image) {
@@ -507,6 +594,18 @@ namespace tesseract {
         _rect = (CGRect){CGPointZero, self.imageSize};
     }
 }
+
+#elif TARGET_OS_MAC
+
+- (void)setImage:(NSImage *)image
+{
+    if (_image != image) {
+        [self setEngineImage:image];
+        _rect = (CGRect){CGPointZero, self.imageSize};
+    }
+}
+
+#endif
 
 - (void)setRect:(CGRect)rect
 {
@@ -753,16 +852,29 @@ namespace tesseract {
     
     bool result = YES;
     for (int page = 0; page < images.count && result; page++) {
+        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
         UIImage *image = images[page];
         if ([image isKindOfClass:[UIImage class]]) {
             Pix *pixs = [self pixForImage:image];
             Pix *pix = pixConvertTo1(pixs, UINT8_MAX / 2);
             pixDestroy(&pixs);
-            
+
             const char *pagename = [NSString stringWithFormat:@"page #%i", page].UTF8String;
             result = _tesseract->ProcessPage(pix, page, pagename, NULL, 0, renderer);
             pixDestroy(&pix);
         }
+        #elif TARGET_OS_MAC
+        NSImage *image = images[page];
+        if ([image isKindOfClass:[NSImage class]]) {
+            Pix *pixs = [self pixForImage:image];
+            Pix *pix = pixConvertTo1(pixs, UINT8_MAX / 2);
+            pixDestroy(&pixs);
+
+            const char *pagename = [NSString stringWithFormat:@"page #%i", page].UTF8String;
+            result = _tesseract->ProcessPage(pix, page, pagename, NULL, 0, renderer);
+            pixDestroy(&pix);
+        }
+        #endif
     }
     
     //  error
@@ -782,6 +894,8 @@ namespace tesseract {
     NSData *data = [NSData dataWithBytes:pdfData length:pdfDataLength];
     return data;
 }
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 
 - (UIImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
 {
@@ -804,9 +918,9 @@ namespace tesseract {
 
         if (drawText) {
             NSAttributedString *string =
-                [[NSAttributedString alloc] initWithString:block.text attributes:@{
-                    NSForegroundColorAttributeName: [UIColor redColor]
-                }];
+            [[NSAttributedString alloc] initWithString:block.text attributes:@{
+                                                                               NSForegroundColorAttributeName: [UIColor redColor]
+                                                                               }];
             [string drawAtPoint:(CGPoint){CGRectGetMidX(rect), CGRectGetMaxY(rect) + 2}];
         }
     }
@@ -814,9 +928,63 @@ namespace tesseract {
     UIGraphicsPopContext();
     UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+
     return outputImage;
 }
+
+#elif TARGET_OS_MAC
+
+- (NSImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
+{
+
+    NSImage *image = [[NSImage alloc] initWithSize: NSMakeSize(image.size.width, image.size.height)];
+//    NSImage *image = [[NSImage alloc] initWithSize: NSMakeSize(image.size * image.scale, image.size * image.scale)];
+//    NSImage *image = thresholded ? self.thresholdedImage : self.image;
+
+//    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+
+    [image lockFocus];
+
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+
+//    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+
+//    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+
+
+//    UIGraphicsPushContext(context);
+
+    [image drawInRect:(CGRect){CGPointZero, image.size}];
+
+    CGContextSetLineWidth(context, 2.0f);
+    CGContextSetStrokeColorWithColor(context, [NSColor redColor].CGColor);
+
+    for (G8RecognizedBlock *block in blocks) {
+        CGRect boundingBox = [block boundingBoxAtImageOfSize:image.size];
+        CGRect rect = CGRectMake(boundingBox.origin.x, boundingBox.origin.y,
+                                 boundingBox.size.width, boundingBox.size.height);
+        CGContextStrokeRect(context, rect);
+
+        if (drawText) {
+            NSAttributedString *string =
+            [[NSAttributedString alloc] initWithString:block.text attributes:@{
+                                                                               NSForegroundColorAttributeName: [NSColor redColor]
+                                                                               }];
+            [string drawAtPoint:(CGPoint){CGRectGetMidX(rect), CGRectGetMaxY(rect) + 2}];
+        }
+    }
+
+//    UIGraphicsPopContext();
+//    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+
+    [image unlockFocus];
+
+    return image;
+}
+
+#endif
+
 
 #pragma mark - Other functions
 
@@ -845,6 +1013,7 @@ namespace tesseract {
     return returnCode == 0 && self.recognized;
 }
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (UIImage *)thresholdedImage
 {
     if (!self.isEngineConfigured) {
@@ -857,7 +1026,22 @@ namespace tesseract {
 
     return [self imageFromPix:pix];
 }
+#elif TARGET_OS_MAC
+- (NSImage *)thresholdedImage
+{
+    if (!self.isEngineConfigured) {
+        return nil;
+    }
+    Pix *pixs = _tesseract->GetThresholdedImage();
+    Pix *pix = pixUnpackBinary(pixs, 32, 0);
 
+    pixDestroy(&pixs);
+
+    return [self imageFromPix:pix];
+}
+#endif
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (UIImage *)imageFromPix:(Pix *)pix
 {
     // Get Pix parameters
@@ -884,7 +1068,7 @@ namespace tesseract {
 
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(colorSpace);
-    
+
     // Draw CGImage to create UIImage
     //      Creating UIImage by [UIImage imageWithCGImage:] worked wrong
     //      and image became broken after some releases.
@@ -905,7 +1089,74 @@ namespace tesseract {
 
     return image;
 }
+#elif TARGET_OS_MAC
+- (NSImage *)imageFromPix:(Pix *)pix
+{
+    // Get Pix parameters
+    l_uint32 width = pixGetWidth(pix);
+    l_uint32 height = pixGetHeight(pix);
+    l_uint32 bitsPerPixel = pixGetDepth(pix);
+    l_uint32 bytesPerRow = pixGetWpl(pix) * 4;
+    l_uint32 bitsPerComponent = 8;
+    // By default Leptonica uses 3 spp (RGB)
+    if (pixSetSpp(pix, 4) == 0) {
+        bitsPerComponent = bitsPerPixel / pixGetSpp(pix);
+    }
 
+    l_uint32 *pixData = pixGetData(pix);
+
+    // Create CGImage
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, pixData, bytesPerRow * height, NULL);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+    CGImageRef cgImage = CGImageCreate(width, height,
+                                       bitsPerComponent, bitsPerPixel, bytesPerRow,
+                                       colorSpace, kCGBitmapByteOrderDefault,
+                                       provider, NULL, NO, kCGRenderingIntentDefault);
+
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+
+    // Draw CGImage to create UIImage
+    //      Creating UIImage by [UIImage imageWithCGImage:] worked wrong
+    //      and image became broken after some releases.
+    CGRect frame = { CGPointZero, CGSizeMake(width, height) };
+
+//    NSImage *image = [[NSImage alloc] initWithSize: NSMakeSize(frame.size * self.image.scale, frame.size * self.image.scale)];
+
+    NSImage *image = [[NSImage alloc] initWithSize: NSMakeSize(frame.size.width, frame.size.height)];
+
+    //    NSImage *image = thresholded ? self.thresholdedImage : self.image;
+
+    //    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+
+    [image lockFocus];
+
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+
+//    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+
+//    UIGraphicsBeginImageContextWithOptions(frame.size, YES, self.image.scale);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    // Context must be mirrored vertical
+    CGContextTranslateCTM(context, 0, height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextDrawImage(context, frame, cgImage);
+
+//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+
+//    UIGraphicsEndImageContext();
+    CGImageRelease(cgImage);
+    pixDestroy(&pix);
+
+    [image unlockFocus];
+
+    return image;
+}
+#endif
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (Pix *)pixForImage:(UIImage *)image
 {
     int width = image.size.width;
@@ -1071,6 +1322,182 @@ namespace tesseract {
     
     return pix;
 }
+#elif TARGET_OS_MAC
+- (Pix *)pixForImage:(NSImage *)image
+{
+    int width = image.size.width;
+    int height = image.size.height;
+
+    NSRect imageRect = NSMakeRect(0, 0, width, height);
+
+    CGImage *cgImage = [image CGImageForProposedRect: &imageRect context: NULL hints: nil];
+    CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+    const UInt8 *pixels = CFDataGetBytePtr(imageData);
+
+    size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
+    size_t bytesPerPixel = bitsPerPixel / 8;
+    size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
+
+    int bpp = MAX(1, (int)bitsPerPixel);
+    Pix *pix = pixCreate(width, height, bpp == 24 ? 32 : bpp);
+    l_uint32 *data = pixGetData(pix);
+    int wpl = pixGetWpl(pix);
+
+    void (^copyBlock)(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) = nil;
+    switch (bpp) {
+
+#if 0 // BPP1 start. Uncomment this if UIImage can support 1bpp someday
+            // Just a reference for the copyBlock
+        case 1:
+            for (int y = 0; y < height; ++y, data += wpl, pixels += bytesPerRow) {
+                for (int x = 0; x < width; ++x) {
+                    if (pixels[x / 8] & (0x80 >> (x % 8))) {
+                        CLEAR_DATA_BIT(data, x);
+                    }
+                    else {
+                        SET_DATA_BIT(data, x);
+                    }
+                }
+            }
+            break;
+#endif // BPP1 end
+
+        case 8: {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
+                SET_DATA_BYTE(toAddr, toOffset, fromAddr[fromOffset]);
+            };
+            break;
+        }
+
+#if 0 // BPP24 start. Uncomment this if UIImage can support 24bpp someday
+            // Just a reference for the copyBlock
+        case 24:
+            // Put the colors in the correct places in the line buffer.
+            for (int y = 0; y < height; ++y, pixels += bytesPerRow) {
+                for (int x = 0; x < width; ++x, ++data) {
+                    SET_DATA_BYTE(data, COLOR_RED, pixels[3 * x]);
+                    SET_DATA_BYTE(data, COLOR_GREEN, pixels[3 * x + 1]);
+                    SET_DATA_BYTE(data, COLOR_BLUE, pixels[3 * x + 2]);
+                }
+            }
+            break;
+#endif // BPP24 end
+
+        case 32: {
+            copyBlock = ^(l_uint32 *toAddr, NSUInteger toOffset, const UInt8 *fromAddr, NSUInteger fromOffset) {
+                toAddr[toOffset] = (fromAddr[fromOffset] << 24) | (fromAddr[fromOffset + 1] << 16) |
+                (fromAddr[fromOffset + 2] << 8) | fromAddr[fromOffset + 3];
+            };
+            break;
+        }
+
+        default:
+            NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
+    }
+
+    // TODO: Not sure what to do here to get orientation of NSImage
+    if (copyBlock) {
+//         Maintain byte order consistency across different endianness.
+        for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+            for (int x = 0; x < width; ++x) {
+                copyBlock(data, x, pixels, x * bytesPerPixel);
+            }
+        }
+//        switch (image.imageOrientation) {
+//            case UIImageOrientationUp:
+//                // Maintain byte order consistency across different endianness.
+//                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+//                    for (int x = 0; x < width; ++x) {
+//                        copyBlock(data, x, pixels, x * bytesPerPixel);
+//                    }
+//                }
+//                break;
+//
+//            case UIImageOrientationUpMirrored:
+//                // Maintain byte order consistency across different endianness.
+//                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
+//                    int maxX = width - 1;
+//                    for (int x = maxX; x >= 0; --x) {
+//                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+//                    }
+//                }
+//                break;
+//
+//            case UIImageOrientationDown:
+//                // Maintain byte order consistency across different endianness.
+//                pixels += (height - 1) * bytesPerRow;
+//                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+//                    int maxX = width - 1;
+//                    for (int x = maxX; x >= 0; --x) {
+//                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
+//                    }
+//                }
+//                break;
+//
+//            case UIImageOrientationDownMirrored:
+//                // Maintain byte order consistency across different endianness.
+//                pixels += (height - 1) * bytesPerRow;
+//                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
+//                    for (int x = 0; x < width; ++x) {
+//                        copyBlock(data, x, pixels, x * bytesPerPixel);
+//                    }
+//                }
+//                break;
+//
+//            case UIImageOrientationLeft:
+//                // Maintain byte order consistency across different endianness.
+//                for (int x = 0; x < height; ++x, data += wpl) {
+//                    int maxY = width - 1;
+//                    for (int y = maxY; y >= 0; --y) {
+//                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+//                        copyBlock(data, maxY - y, pixels, x0);
+//                    }
+//                }
+//                break;
+//
+//            case UIImageOrientationLeftMirrored:
+//                // Maintain byte order consistency across different endianness.
+//                for (int x = height - 1; x >= 0; --x, data += wpl) {
+//                    int maxY = width - 1;
+//                    for (int y = maxY; y >= 0; --y) {
+//                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+//                        copyBlock(data, maxY - y, pixels, x0);
+//                    }
+//                }
+//                break;
+//
+//            case UIImageOrientationRight:
+//                // Maintain byte order consistency across different endianness.
+//                for (int x = height - 1; x >=0; --x, data += wpl) {
+//                    for (int y = 0; y < width; ++y) {
+//                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+//                        copyBlock(data, y, pixels, x0);
+//                    }
+//                }
+//                break;
+//
+//            case UIImageOrientationRightMirrored:
+//                // Maintain byte order consistency across different endianness.
+//                for (int x = 0; x < height; ++x, data += wpl) {
+//                    for (int y = 0; y < width; ++y) {
+//                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
+//                        copyBlock(data, y, pixels, x0);
+//                    }
+//                }
+//                break;
+//
+//            default:
+//                break;  // LCOV_EXCL_LINE
+//        }
+    }
+
+    pixSetYRes(pix, (l_int32)self.sourceResolution);
+
+    CFRelease(imageData);
+
+    return pix;
+}
+#endif
 
 - (void)tesseractProgressCallbackFunction:(int)words
 {

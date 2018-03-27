@@ -75,6 +75,7 @@
     return canceled;
 }
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
 {
     if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
@@ -82,5 +83,14 @@
     }
     return nil;
 }
+#elif TARGET_OS_MAC
+- (NSImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(NSImage *)sourceImage
+{
+    if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
+        return [self.delegate preprocessedImageForTesseract:tesseract sourceImage:sourceImage];
+    }
+    return nil;
+}
+#endif
 
 @end

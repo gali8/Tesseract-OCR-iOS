@@ -7,7 +7,13 @@
 //  Under MIT License. See 'LICENCE' for more informations.
 //
 
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 #import <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <AppKit/AppKit.h>
+#endif
+
 #import "G8Constants.h"
 #import "G8TesseractDelegate.h"
 
@@ -109,7 +115,11 @@ extern NSInteger const kG8MaxCredibleResolution;
 /**
  *  An image on which Tesseract should perform recognition.
  */
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 @property (nonatomic, strong) UIImage *image;
+#elif TARGET_OS_MAC
+@property (nonatomic, strong) NSImage *image;
+#endif
 
 /**
  *  A rectangle to specify the region of the image on which Tesseract should
@@ -254,7 +264,15 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  The result of Tesseract's internal thresholding on the target image or nil,
  *  if engine is not properly configured
  */
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+
 @property (nonatomic, readonly) UIImage *thresholdedImage;
+
+#elif TARGET_OS_MAC
+
+@property (nonatomic, readonly) NSImage *thresholdedImage;
+
+#endif
 
 /**
  *  Create a copy of the target image with boxes (and optionally labels) drawn 
@@ -266,9 +284,19 @@ extern NSInteger const kG8MaxCredibleResolution;
  *
  *  @return The resulting image.
  */
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+
 - (UIImage *)imageWithBlocks:(NSArray *)blocks
                     drawText:(BOOL)drawText
                  thresholded:(BOOL)thresholded;
+
+#elif TARGET_OS_MAC
+
+- (NSImage *)imageWithBlocks:(NSArray *)blocks
+                    drawText:(BOOL)drawText
+                 thresholded:(BOOL)thresholded;
+
+#endif
 
 /**
  *  An optional delegate for Tesseract's recognition.

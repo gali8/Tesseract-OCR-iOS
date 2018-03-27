@@ -6,7 +6,13 @@
 //  Copyright (c) 2015 Daniele Galiotto - www.g8production.com. All rights reserved.
 //
 
+
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 #import <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <AppKit/AppKit.h>
+#endif
 
 //! Project version number for TesseractOCR.
 FOUNDATION_EXPORT double TesseractOCRVersionNumber;
