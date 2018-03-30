@@ -936,8 +936,7 @@ namespace tesseract {
 
 - (NSImage *)imageWithBlocks:(NSArray *)blocks drawText:(BOOL)drawText thresholded:(BOOL)thresholded
 {
-
-    NSImage *image = [[NSImage alloc] initWithSize: NSMakeSize(image.size.width, image.size.height)];
+    NSImage *image = [[NSImage alloc] initWithSize: NSMakeSize(self.image.size.width, self.image.size.height)];
 //    NSImage *image = [[NSImage alloc] initWithSize: NSMakeSize(image.size * image.scale, image.size * image.scale)];
 //    NSImage *image = thresholded ? self.thresholdedImage : self.image;
 

@@ -124,6 +124,7 @@ typedef NS_ENUM(NSUInteger, PIXELS) {
     RED = 3
 };
 
+// TODO: What is going on here?
 - (UIImage *)g8_grayScale
 {
     CGSize size = [self size];

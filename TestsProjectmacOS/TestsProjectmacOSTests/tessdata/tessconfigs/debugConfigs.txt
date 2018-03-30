@@ -1,0 +1,1 @@
+tessdata_manager_debug_level    1
