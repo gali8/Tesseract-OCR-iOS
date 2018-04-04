@@ -70,7 +70,6 @@
 		330F77DA206E716000C7322C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		330F77DC206E716600C7322C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		330F77DE206E717D00C7322C /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
-		330F77E1206E762D00C7322C /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33695F70206C36BF004690B5 /* TestsProjectmacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestsProjectmacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33695F73206C36BF004690B5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33695F74206C36BF004690B5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -147,7 +146,6 @@
 		330F77D5206E714F00C7322C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				330F77E1206E762D00C7322C /* TesseractOCR.framework */,
 				330F77DE206E717D00C7322C /* libstdc++.6.0.9.tbd */,
 				330F77DC206E716600C7322C /* AppKit.framework */,
 				330F77DA206E716000C7322C /* Foundation.framework */,

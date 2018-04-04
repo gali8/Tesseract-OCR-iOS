@@ -1,16 +1,16 @@
 LEPTON_NAME = leptonica-1.72
-PNG_NAME    = libpng-1.6.20
-JPEG_NAME   = jpeg-9a
-TIFF_NAME   = tiff-4.0.4
+PNG_NAME    = libpng-1.6.34
+JPEG_NAME   = jpeg-9c
+TIFF_NAME   = tiff-4.0.9
 
-SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
-SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
+SDK_MACOS_PATH=$(shell xcrun --sdk macosx --show-sdk-path)
 XCODE_DEVELOPER_PATH=/Applications/Xcode.app/Contents/Developer
 XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
-IOS_DEPLOY_TGT="7.0"
+MACOS_DEPLOY_TGT="10.13"
 
 TESSERACT_SRC = $(shell pwd)/tesseract-ocr
 LEPTON_SRC = $(shell pwd)/$(LEPTON_NAME)
+# TODO: libtiff-ios -> libtiff-macos?
 IMAGE_SRC = $(shell pwd)/libtiff-ios
 PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
 JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
@@ -29,9 +29,9 @@ libpngfiles = libpng.a
 libjpegfiles = libjpeg.a
 libtifffiles = libtiff.a
 
-sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH) $(SDK_IPHONESIMULATOR_PATH)
-archs_all = armv7 armv7s arm64 i386 x86_64
-arch_names_all = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-darwin x86_64-apple-darwin
+sdks = $(SDK_MACOS_PATH) $(SDK_MACOS_PATH)
+archs_all = i386 x86_64
+arch_names_all = i386-apple-darwin x86_64-apple-darwin
 arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
 ARCHS ?= $(archs_all)
 
@@ -67,7 +67,8 @@ swap  = $(word $(call index,$(1),$(2)),$(3))
 
 dependant_libs = $(libtessfat) $(libleptfat) $(libpngfat) $(libjpegfat) $(libtifffat)
 
-common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2
+# TODO: iphoneos-version-min
+common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -mmacosx-version-min=$(MACOS_DEPLOY_TGT) -O2
 
 .PHONY : all
 all : $(dependant_libs)
@@ -119,13 +120,13 @@ $(LEPTON_SRC)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
-    export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
+		export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
-    ../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
+		../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
 
 #######################
-# Build libtiff and all of it's dependencies
+# Build libtiff and all of its dependencies
 #######################
 $(imagesfat) : $(images)
 	mkdir -p $(@D)
@@ -167,16 +168,16 @@ cleanimages :
 .PHONY : cleanlept
 cleanlept :
 	for folder in $(realpath $(libleptfolders_all) ); do \
-        cd $$folder; \
-        $(MAKE) clean; \
+				cd $$folder; \
+				$(MAKE) clean; \
 	done ;
 
 .PHONY : cleantess
 cleantess :
 	for folder in $(realpath $(libtessfolders_all) ); do \
-        cd $$folder; \
-        $(MAKE) clean; \
-    done ;
+				cd $$folder; \
+				$(MAKE) clean; \
+		done ;
 
 .PHONY : mostlycleanimages
 mostlycleanimages :
@@ -184,16 +185,16 @@ mostlycleanimages :
 .PHONY : mostlycleanlept
 mostlycleanlept :
 	for folder in $(realpath $(libleptfolders) ); do \
-        cd $$folder; \
-        $(MAKE) mostlyclean; \
-    done ;
+				cd $$folder; \
+				$(MAKE) mostlyclean; \
+		done ;
 
 .PHONY : mostlycleantess
 mostlycleantess :
 	for folder in $(realpath $(libtessfolders_all) ); do \
-        cd $$folder; \
-        $(MAKE) mostlyclean; \
-    done ;
+				cd $$folder; \
+				$(MAKE) mostlyclean; \
+		done ;
 
 .PHONY : distcleanimages
 distcleanimages :

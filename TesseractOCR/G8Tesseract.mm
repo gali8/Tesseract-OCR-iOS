@@ -8,11 +8,8 @@
 //
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-
 #import <UIKit/UIKit.h>
-
 #elif TARGET_OS_MAC
-
 #import <AppKit/AppKit.h>
 
 // For now, just redefine this on the Mac
@@ -26,7 +23,6 @@ typedef NS_ENUM(NSInteger, UIImageOrientation) {
     UIImageOrientationLeftMirrored,  // vertical flip
     UIImageOrientationRightMirrored, // vertical flip
 };
-
 
 #endif
 
@@ -42,8 +38,15 @@ typedef NS_ENUM(NSInteger, UIImageOrientation) {
 #import "pix.h"
 #import "ocrclass.h"
 
-// TODO: This is a disgraceful hack
+#if TARGET_OS_MAC
+// FIXME
+//
+// This is a disgraceful hack - seems to only be required for macOS
+// because of some legacy Carbon something or other. Must preceed
+// import of allheaders.h
 #undef fract1
+#endif
+
 #import "allheaders.h"
 
 #import "genericvector.h"
