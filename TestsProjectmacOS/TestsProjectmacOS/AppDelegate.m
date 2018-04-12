@@ -27,8 +27,6 @@
     self.window.backgroundColor = [NSColor whiteColor];
     self.window.windowController = [[ViewController alloc] init];
 
-    NSLog(@"lol");
-
     [self.window makeKeyWindow];
 }
 

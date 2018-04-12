@@ -177,7 +177,6 @@ static NSString *const kG8Languages = @"eng";
         case G8CustomPreprocessingSimpleThresholdAndResize:
             return [[self class] imageWithImage:sourceImage
                 scaledToSizeWithSameAspectRatio:self.boundingSizeForResizing];
-
         default:
             return nil;
     }

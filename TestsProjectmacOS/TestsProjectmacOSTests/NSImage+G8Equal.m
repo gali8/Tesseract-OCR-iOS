@@ -82,7 +82,31 @@ static CGFloat const kG8MinimalSimilarity = 0.99;
 
 - (NSImage *)g8_normalizedImage
 {
-//    const CGSize pixelSize = CGSizeMake(self.size.width * self.scale, self.size.height * self.scale);
+    //    const CGSize pixelSize = CGSizeMake(self.size.width * self.scale, self.size.height * self.scale);
+    // TODO: FIXME USING
+
+    //    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+    //                             initWithBitmapDataPlanes:NULL
+    //                             pixelsWide:scaledSize.width
+    //                             pixelsHigh:scaledSize.height
+    //                             bitsPerSample:8
+    //                             samplesPerPixel:4
+    //                             hasAlpha:YES
+    //                             isPlanar:NO
+    //                             colorSpaceName:NSCalibratedRGBColorSpace
+    //                             bytesPerRow:0
+    //                             bitsPerPixel:0];
+    //    rep.size = scaledSize;
+    //
+    //    [NSGraphicsContext saveGraphicsState];
+    //    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
+    //    [sourceImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    //    [NSGraphicsContext restoreGraphicsState];
+    //
+    //    NSImage *newImage = [[NSImage alloc] initWithSize:scaledSize];
+    //    [newImage addRepresentation:rep];
+    //    return newImage;
+
     const CGSize pixelSize = CGSizeMake(self.size.width, self.size.height);
 
     NSImage *drawnImage = [[NSImage alloc] initWithSize: NSMakeSize(self.size.width, self.size.height)];
@@ -91,12 +115,7 @@ static CGFloat const kG8MinimalSimilarity = 0.99;
 
     CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
 
-//    UIGraphicsBeginImageContext(pixelSize);
-
     [self drawInRect:(CGRect){CGPointZero, pixelSize}];
-    
-//    UIImage *drawnImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
 
     [drawnImage unlockFocus];
 
@@ -105,12 +124,36 @@ static CGFloat const kG8MinimalSimilarity = 0.99;
 
 - (BOOL)g8_isFilledWithColor:(NSColor *)color
 {
+    // TODO: FIX MY SIZE
     NSImage *sampleImage = [[self class] g8_imageFilledWithColor:color ofSize:self.size];
     return [self g8_isEqualToImage:sampleImage];
 }
 
 + (NSImage *)g8_imageFilledWithColor:(NSColor *)color ofSize:(CGSize)size
 {
+    // TODO: FIXME USING
+
+    //    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+    //                             initWithBitmapDataPlanes:NULL
+    //                             pixelsWide:scaledSize.width
+    //                             pixelsHigh:scaledSize.height
+    //                             bitsPerSample:8
+    //                             samplesPerPixel:4
+    //                             hasAlpha:YES
+    //                             isPlanar:NO
+    //                             colorSpaceName:NSCalibratedRGBColorSpace
+    //                             bytesPerRow:0
+    //                             bitsPerPixel:0];
+    //    rep.size = scaledSize;
+    //
+    //    [NSGraphicsContext saveGraphicsState];
+    //    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
+    //    [sourceImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    //    [NSGraphicsContext restoreGraphicsState];
+    //
+    //    NSImage *newImage = [[NSImage alloc] initWithSize:scaledSize];
+    //    [newImage addRepresentation:rep];
+    //    return newImage;
     NSImage *image = [[NSImage alloc] initWithSize: size];
 
     [image lockFocus];

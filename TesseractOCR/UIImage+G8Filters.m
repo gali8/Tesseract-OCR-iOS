@@ -8,9 +8,7 @@
 //
 
 #import "UIImage+G8Filters.h"
-
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-
 #import <UIKit/UIKit.h>
 
 @implementation UIImage (G8Filters)

@@ -166,7 +166,7 @@ static NSString *const kG8Languages = @"eng";
 - (NSImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(NSImage *)sourceImage
 {
     self.preprocessingDelegateCallbackCalledByQueue = YES;
-    
+
     switch (self.customPreprocessingType) {
         case G8CustomPreprocessingNone:
             return nil;
@@ -175,64 +175,70 @@ static NSString *const kG8Languages = @"eng";
             return sourceImage;
 
         case G8CustomPreprocessingSimpleThresholdAndResize:
-            return [[self class] imageWithImage:sourceImage
-                scaledToSizeWithSameAspectRatio:self.boundingSizeForResizing];
-
+            return [[self class] resizedImage:sourceImage
+                            toPixelDimensions:self.boundingSizeForResizing];
         default:
             return nil;
     }
 }
 
-+ (NSImage *)imageWithImage:(NSImage *)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize
++ (NSImage *)resizedImage:(NSImage *)sourceImage toPixelDimensions:(NSSize)newSize
 {
-    NSImage* newImage = nil;
+    CGImageRef cgImg = [sourceImage CGImageForProposedRect:nil context:nil hints:nil];
 
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = targetSize.width;
-    CGFloat targetHeight = targetSize.height;
+    CGFloat width = (CGFloat)CGImageGetWidth(cgImg);
+    CGFloat height = (CGFloat)CGImageGetHeight(cgImg);
+
+    NSSize imageSize = CGSizeMake(width, height);
+
+    CGFloat targetWidth = newSize.width;
+    CGFloat targetHeight = newSize.height;
 
     CGFloat scaleFactor = 1.0f;
     CGFloat scaledWidth = targetWidth;
     CGFloat scaledHeight = targetHeight;
 
-    NSPoint thumbnailPoint = NSZeroPoint;
+    if (CGSizeEqualToSize(imageSize, newSize) == NO) {
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
 
-    if ( NSEqualSizes( imageSize, targetSize ) == NO ) {
-        float widthFactor  = targetWidth / width;
-        float heightFactor = targetHeight / height;
-
-        if ( widthFactor < heightFactor )
+        if (widthFactor < heightFactor) {
             scaleFactor = widthFactor;
-        else
+        }
+        else {
             scaleFactor = heightFactor;
+        }
 
-        scaledWidth  = width  * scaleFactor;
+        scaledWidth  = width * scaleFactor;
         scaledHeight = height * scaleFactor;
-
-        if ( widthFactor < heightFactor )
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-
-        else if ( widthFactor > heightFactor )
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
     }
 
-    newImage = [[NSImage alloc] initWithSize:targetSize];
+    NSSize scaledSize = NSMakeSize(scaledWidth, scaledHeight);
 
-    [newImage lockFocus];
+    if (!sourceImage.isValid) {
+        return nil;
+    }
 
-    NSRect thumbnailRect;
-    thumbnailRect.origin = thumbnailPoint;
-    thumbnailRect.size.width = scaledWidth;
-    thumbnailRect.size.height = scaledHeight;
+    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+                             initWithBitmapDataPlanes:NULL
+                             pixelsWide:scaledSize.width
+                             pixelsHigh:scaledSize.height
+                             bitsPerSample:8
+                             samplesPerPixel:4
+                             hasAlpha:YES
+                             isPlanar:NO
+                             colorSpaceName:NSCalibratedRGBColorSpace
+                             bytesPerRow:0
+                             bitsPerPixel:0];
+    rep.size = scaledSize;
 
-    [sourceImage drawInRect: thumbnailRect
-                   fromRect: NSZeroRect
-                  operation: NSCompositeSourceOver
-                   fraction: 1.0];
-    [newImage unlockFocus];
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
+    [sourceImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    [NSGraphicsContext restoreGraphicsState];
 
+    NSImage *newImage = [[NSImage alloc] initWithSize:scaledSize];
+    [newImage addRepresentation:rep];
     return newImage;
 }
 

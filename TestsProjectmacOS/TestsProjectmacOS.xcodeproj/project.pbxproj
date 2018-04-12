@@ -13,7 +13,6 @@
 		330F77D9206E715A00C7322C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 330F77D8206E715A00C7322C /* CoreGraphics.framework */; };
 		330F77DB206E716000C7322C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 330F77DA206E716000C7322C /* Foundation.framework */; };
 		330F77DD206E716600C7322C /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 330F77DC206E716600C7322C /* AppKit.framework */; };
-		330F77DF206E717D00C7322C /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 330F77DE206E717D00C7322C /* libstdc++.6.0.9.tbd */; };
 		330F77E0206E72AC00C7322C /* TesseractOCRmacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 330F77D6206E714F00C7322C /* TesseractOCRmacOS.framework */; };
 		33695F75206C36BF004690B5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33695F74206C36BF004690B5 /* AppDelegate.m */; };
 		33695F78206C36BF004690B5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33695F77206C36BF004690B5 /* ViewController.m */; };
@@ -50,6 +49,9 @@
 		33695FD4206C37C6004690B5 /* G8RecognitionTestsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33695FCA206C37C5004690B5 /* G8RecognitionTestsHelper.m */; };
 		33695FD5206C37C6004690B5 /* NSImage+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 33695FCE206C37C5004690B5 /* NSImage+G8Equal.m */; };
 		33695FD6206C37C6004690B5 /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 33695FCF206C37C5004690B5 /* Defaults.m */; };
+		33E94EA7207D463B0005399D /* well_scanned_page.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E94EA6207D463B0005399D /* well_scanned_page.png */; };
+		33E94EAD20801B500005399D /* image_sample_bl_mac.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E94EAC20801B500005399D /* image_sample_bl_mac.png */; };
+		8805C55586FAB61FDD33D134 /* libPods-TestsProjectmacOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1BF8EFF3AE6E7B74BBCAF03 /* libPods-TestsProjectmacOSTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,13 +65,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A5D3BCD6B8538A5ACFDD037 /* Pods-TestsProjectmacOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestsProjectmacOSTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TestsProjectmacOSTests/Pods-TestsProjectmacOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		330F77D1206E63DB00C7322C /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "TestsProjectmacOSTests/tessdata-rus"; sourceTree = SOURCE_ROOT; };
 		330F77D3206E63ED00C7322C /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tessdata; path = TestsProjectmacOSTests/tessdata; sourceTree = SOURCE_ROOT; };
 		330F77D6206E714F00C7322C /* TesseractOCRmacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TesseractOCRmacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		330F77D8206E715A00C7322C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		330F77DA206E716000C7322C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		330F77DC206E716600C7322C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		330F77DE206E717D00C7322C /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		33695F70206C36BF004690B5 /* TestsProjectmacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestsProjectmacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33695F73206C36BF004690B5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33695F74206C36BF004690B5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -81,7 +83,6 @@
 		33695F7F206C36BF004690B5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33695F81206C36BF004690B5 /* TestsProjectmacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TestsProjectmacOS.entitlements; sourceTree = "<group>"; };
 		33695F86206C36BF004690B5 /* TestsProjectmacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestsProjectmacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		33695F8A206C36BF004690B5 /* TestsProjectmacOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestsProjectmacOSTests.m; sourceTree = "<group>"; };
 		33695F8C206C36BF004690B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33695F97206C3799004690B5 /* image_sample_right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_sample_right.jpg; sourceTree = "<group>"; };
 		33695F98206C3799004690B5 /* empty.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = empty.pdf; sourceTree = "<group>"; };
@@ -117,6 +118,10 @@
 		33695FCD206C37C5004690B5 /* NSData+G8Equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+G8Equal.h"; sourceTree = "<group>"; };
 		33695FCE206C37C5004690B5 /* NSImage+G8Equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+G8Equal.m"; sourceTree = "<group>"; };
 		33695FCF206C37C5004690B5 /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaults.m; sourceTree = "<group>"; };
+		33E94EA6207D463B0005399D /* well_scanned_page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = well_scanned_page.png; sourceTree = "<group>"; };
+		33E94EAC20801B500005399D /* image_sample_bl_mac.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample_bl_mac.png; sourceTree = "<group>"; };
+		B1BF8EFF3AE6E7B74BBCAF03 /* libPods-TestsProjectmacOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestsProjectmacOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C993EE84012DF010899534AE /* Pods-TestsProjectmacOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestsProjectmacOSTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TestsProjectmacOSTests/Pods-TestsProjectmacOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +130,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				330F77D7206E714F00C7322C /* TesseractOCRmacOS.framework in Frameworks */,
-				330F77DF206E717D00C7322C /* libstdc++.6.0.9.tbd in Frameworks */,
 				330F77DD206E716600C7322C /* AppKit.framework in Frameworks */,
 				330F77DB206E716000C7322C /* Foundation.framework in Frameworks */,
 				330F77D9206E715A00C7322C /* CoreGraphics.framework in Frameworks */,
@@ -137,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				330F77E0206E72AC00C7322C /* TesseractOCRmacOS.framework in Frameworks */,
+				8805C55586FAB61FDD33D134 /* libPods-TestsProjectmacOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,11 +151,11 @@
 		330F77D5206E714F00C7322C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				330F77DE206E717D00C7322C /* libstdc++.6.0.9.tbd */,
 				330F77DC206E716600C7322C /* AppKit.framework */,
 				330F77DA206E716000C7322C /* Foundation.framework */,
 				330F77D8206E715A00C7322C /* CoreGraphics.framework */,
 				330F77D6206E714F00C7322C /* TesseractOCRmacOS.framework */,
+				B1BF8EFF3AE6E7B74BBCAF03 /* libPods-TestsProjectmacOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 				33695F89206C36BF004690B5 /* TestsProjectmacOSTests */,
 				33695F71206C36BF004690B5 /* Products */,
 				330F77D5206E714F00C7322C /* Frameworks */,
+				D2D7F6BF309D58DBC8AFB17E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,18 +202,12 @@
 		33695F89206C36BF004690B5 /* TestsProjectmacOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				33695FCB206C37C5004690B5 /* Defaults.h */,
-				33695FCF206C37C5004690B5 /* Defaults.m */,
-				33695FC6206C37C5004690B5 /* G8RecognitionTestsHelper.h */,
-				33695FCA206C37C5004690B5 /* G8RecognitionTestsHelper.m */,
 				33695FC9206C37C5004690B5 /* InitializationTests.m */,
-				33695FCD206C37C5004690B5 /* NSData+G8Equal.h */,
-				33695FC7206C37C5004690B5 /* NSData+G8Equal.m */,
 				33695FC8206C37C5004690B5 /* RecognitionTests.m */,
 				33695FC5206C37C4004690B5 /* RecognizedBlock.m */,
-				33695FCC206C37C5004690B5 /* NSImage+G8Equal.h */,
-				33695FCE206C37C5004690B5 /* NSImage+G8Equal.m */,
-				33695F8A206C36BF004690B5 /* TestsProjectmacOSTests.m */,
+				33E94EAE20801EFB0005399D /* Supporting Files */,
+				33695FCB206C37C5004690B5 /* Defaults.h */,
+				33695FCF206C37C5004690B5 /* Defaults.m */,
 				33695F8C206C36BF004690B5 /* Info.plist */,
 			);
 			path = TestsProjectmacOSTests;
@@ -216,6 +216,7 @@
 		33695F96206C3787004690B5 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				33E94EAC20801B500005399D /* image_sample_bl_mac.png */,
 				33695F98206C3799004690B5 /* empty.pdf */,
 				33695FA8206C379A004690B5 /* image_blank.png */,
 				33695FA2206C379A004690B5 /* image_sample_bl.png */,
@@ -239,8 +240,31 @@
 				33695F9C206C3799004690B5 /* well_scaned_page.hOCR */,
 				33695FAD206C379B004690B5 /* well_scaned_page.pdf */,
 				33695FAB206C379B004690B5 /* well_scaned_page.png */,
+				33E94EA6207D463B0005399D /* well_scanned_page.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		33E94EAE20801EFB0005399D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				33695FC6206C37C5004690B5 /* G8RecognitionTestsHelper.h */,
+				33695FCA206C37C5004690B5 /* G8RecognitionTestsHelper.m */,
+				33695FCD206C37C5004690B5 /* NSData+G8Equal.h */,
+				33695FC7206C37C5004690B5 /* NSData+G8Equal.m */,
+				33695FCC206C37C5004690B5 /* NSImage+G8Equal.h */,
+				33695FCE206C37C5004690B5 /* NSImage+G8Equal.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D2D7F6BF309D58DBC8AFB17E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C993EE84012DF010899534AE /* Pods-TestsProjectmacOSTests.debug.xcconfig */,
+				2A5D3BCD6B8538A5ACFDD037 /* Pods-TestsProjectmacOSTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,9 +291,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 33695F92206C36BF004690B5 /* Build configuration list for PBXNativeTarget "TestsProjectmacOSTests" */;
 			buildPhases = (
+				F0237E965C2A46CC02BDDE18 /* [CP] Check Pods Manifest.lock */,
 				33695F82206C36BF004690B5 /* Sources */,
 				33695F83206C36BF004690B5 /* Frameworks */,
 				33695F84206C36BF004690B5 /* Resources */,
+				6BD6C5100B5FD8C3BFE04EE1 /* [CP] Embed Pods Frameworks */,
+				98CCB7B9A65C4BE80875D6CA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -339,8 +366,10 @@
 				33695FB1206C379B004690B5 /* image_sample.jpg in Resources */,
 				33695FAF206C379B004690B5 /* empty.pdf in Resources */,
 				33695FC1206C379B004690B5 /* well_scaned_page_right_mirrored.png in Resources */,
+				33E94EAD20801B500005399D /* image_sample_bl_mac.png in Resources */,
 				33695FB9206C379B004690B5 /* image_sample_bl.png in Resources */,
 				33695FBA206C379B004690B5 /* image_sample_left.jpg in Resources */,
+				33E94EA7207D463B0005399D /* well_scanned_page.png in Resources */,
 				33695FB3206C379B004690B5 /* well_scaned_page.hOCR in Resources */,
 				33695F7A206C36BF004690B5 /* Assets.xcassets in Resources */,
 				33695F7D206C36BF004690B5 /* Main.storyboard in Resources */,
@@ -363,6 +392,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6BD6C5100B5FD8C3BFE04EE1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-TestsProjectmacOSTests/Pods-TestsProjectmacOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		98CCB7B9A65C4BE80875D6CA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-TestsProjectmacOSTests/Pods-TestsProjectmacOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0237E965C2A46CC02BDDE18 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TestsProjectmacOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		33695F6C206C36BF004690B5 /* Sources */ = {
@@ -522,14 +602,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_ENTITLEMENTS = TestsProjectmacOS/TestsProjectmacOS.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = TestsProjectmacOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pilgrimagesoftware.lib.TestsProjectmacOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Debug;
 		};
@@ -537,25 +621,36 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_ENTITLEMENTS = TestsProjectmacOS/TestsProjectmacOS.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = TestsProjectmacOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pilgrimagesoftware.lib.TestsProjectmacOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Release;
 		};
 		33695F93206C36BF004690B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C993EE84012DF010899534AE /* Pods-TestsProjectmacOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TestsProjectmacOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-lz",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pilgrimagesoftware.lib.TestsProjectmacOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestsProjectmacOS.app/Contents/MacOS/TestsProjectmacOS";
@@ -564,12 +659,19 @@
 		};
 		33695F94206C36BF004690B5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A5D3BCD6B8538A5ACFDD037 /* Pods-TestsProjectmacOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TestsProjectmacOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-lz",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pilgrimagesoftware.lib.TestsProjectmacOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestsProjectmacOS.app/Contents/MacOS/TestsProjectmacOS";

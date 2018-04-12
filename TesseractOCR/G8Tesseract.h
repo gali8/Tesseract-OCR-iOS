@@ -265,13 +265,9 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  if engine is not properly configured
  */
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-
 @property (nonatomic, readonly) UIImage *thresholdedImage;
-
 #elif TARGET_OS_MAC
-
 @property (nonatomic, readonly) NSImage *thresholdedImage;
-
 #endif
 
 /**
@@ -285,17 +281,13 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  @return The resulting image.
  */
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-
 - (UIImage *)imageWithBlocks:(NSArray *)blocks
                     drawText:(BOOL)drawText
                  thresholded:(BOOL)thresholded;
-
 #elif TARGET_OS_MAC
-
 - (NSImage *)imageWithBlocks:(NSArray *)blocks
                     drawText:(BOOL)drawText
                  thresholded:(BOOL)thresholded;
-
 #endif
 
 /**
@@ -342,25 +334,25 @@ extern NSInteger const kG8MaxCredibleResolution;
 /**
  *  Initialize Tesseract with the provided language and engine mode.
  *
- *  @param language             The language to use in recognition. See 
- *                              `language`.
- *  @param configDictionary     A dictionary of config variables to set.
- *  @param configFileNames      An array of file names containing key-value 
- *                              config pairs. Config settings can be set at
- *                              initialization or run-time.  Furthermore, they 
- *                              could be specified at the same time, in which 
- *                              case Tesseract will get variables from every
- *                              config file as well as the dictionary.
- *                              The config files must exist in one of two 
- *                              possible folders:  tessdata/tessconfigs or 
- *                              tessdata/configs.
- *  @param cachesRelatedPath    If the cachesRelatedDataPath is specified, the 
- *                              whole contents of the tessdata folder in the
- *                              application bundle will be copied to 
- *                              Library/Caches/cachesRelatedDataPath/tessdata
- *                              and Tesseract will be set to use that path.
- *  @param engineMode           The engine mode to use in recognition. See 
- *                              `engineMode`.
+ *  @param language               The language to use in recognition. See
+ *                                `language`.
+ *  @param configDictionary       A dictionary of config variables to set.
+ *  @param configFileNames        An array of file names containing key-value
+ *                                config pairs. Config settings can be set at
+ *                                initialization or run-time.  Furthermore, they
+ *                                could be specified at the same time, in which
+ *                                case Tesseract will get variables from every
+ *                                config file as well as the dictionary.
+ *                                The config files must exist in one of two
+ *                                possible folders:  tessdata/tessconfigs or
+ *                                tessdata/configs.
+ *  @param cachesRelatedDataPath  If the cachesRelatedDataPath is specified, the
+ *                                whole contents of the tessdata folder in the
+ *                                application bundle will be copied to
+ *                                Library/Caches/cachesRelatedDataPath/tessdata
+ *                                and Tesseract will be set to use that path.
+ *  @param engineMode             The engine mode to use in recognition. See
+ *                                `engineMode`.
  *
  *  @return The initialized Tesseract object.
  *
