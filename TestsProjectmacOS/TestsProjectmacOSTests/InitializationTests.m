@@ -672,7 +672,7 @@ describe(@"Tesseract initialization", ^{
     });
 
     context(@"Reinitialization with wrong language", ^{
-        it(@"Should not crach", ^{
+        it(@"Should not crash", ^{
 
             G8Tesseract *tesseract = [[G8Tesseract alloc] init];
 
@@ -680,7 +680,7 @@ describe(@"Tesseract initialization", ^{
             [[tesseract.language should] beNil];
             [[theValue([tesseract recognize]) should] beNo];
 
-            // set correct language back and check that no craches happen
+            // set correct language back and check that no crashes happen
             tesseract.language = kG8Languages;
             [[tesseract.language should] equal:kG8Languages];
             [[theBlock(^{
@@ -688,7 +688,7 @@ describe(@"Tesseract initialization", ^{
             }) shouldNot] raise];
         });
 
-        it(@"Shouldn't crach while setting any parameters, but should cache them", ^{
+        it(@"Shouldn't crash while setting any parameters, but should cache them", ^{
 
             NSImage *testImage = [NSImage imageNamed:@"image_sample.jpg"];
             NSAssert(testImage, @"Error! Test image is nil!");
@@ -716,7 +716,7 @@ describe(@"Tesseract initialization", ^{
 
                 [tesseract setVariablesFromDictionary:dictionaryForRuntime()];
                 [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
-                [[[tesseract variableValueForKey:kG8ParamUserWordsSuffix] should] equal:@"user-words"];     // for noninitialized engine this value should be cached
+                [[[tesseract variableValueForKey:kG8ParamUserWordsSuffix] should] equal:@"user-words"]; // for noninitialized engine this value should be cached
 
             }) shouldNot] raise];
 

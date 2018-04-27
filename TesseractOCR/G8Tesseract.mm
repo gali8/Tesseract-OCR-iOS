@@ -11,21 +11,6 @@
 #import <UIKit/UIKit.h>
 #elif TARGET_OS_MAC
 #import <AppKit/AppKit.h>
-//#import <ImageIO/ImageIO.h>
-
-//UIImageOrientation UIImageOrientationForCGImagePropertyOrientation(cgOrientation) {
-//    switch (cgOrientation) {
-//        case kCGImagePropertyOrientationUp: return UIImageOrientationUp;
-//        case kCGImagePropertyOrientationDown: return UIImageOrientationDown;
-//        case kCGImagePropertyOrientationLeft: return UIImageOrientationLeft;
-//        case kCGImagePropertyOrientationRight: return UIImageOrientationRight;
-//        case kCGImagePropertyOrientationUpMirrored: return UIImageOrientationUpMirrored;
-//        case kCGImagePropertyOrientationDownMirrored: return UIImageOrientationDownMirrored;
-//        case kCGImagePropertyOrientationLeftMirrored: return UIImageOrientationLeftMirrored;
-//        case kCGImagePropertyOrientationRightMirrored: return UIImageOrientationRightMirrored;
-//    }
-//}
-
 #endif
 
 #import "G8Tesseract.h"
@@ -47,31 +32,6 @@
 // because of some legacy Carbon something or other. Must preceed
 // import of allheaders.h
 #undef fract1
-
-// For now, just redefine this on the Mac
-typedef NS_ENUM(NSInteger, UIImageOrientation) {
-    UIImageOrientationUp = 1,        // default orientation
-    UIImageOrientationUpMirrored,    // as above but image mirrored along other axis. horizontal flip
-    UIImageOrientationDown,          // 180 deg rotation
-    UIImageOrientationDownMirrored,  // horizontal flip
-    UIImageOrientationLeftMirrored,  // vertical flip
-    UIImageOrientationRight,         // 90 deg CW
-    UIImageOrientationRightMirrored, // vertical flip
-    UIImageOrientationLeft,          // 90 deg CCW
-};
-
-//NSArray *imageOrientations = @[
-//                               [NSNumber numberWithInt: ImageOrientationUp],
-//                               [NSNumber numberWithInt: ImageOrientationUpMirrored],
-//                               [NSNumber numberWithInt: ImageOrientationDown],
-//                               [NSNumber numberWithInt: ImageOrientationDownMirrored],
-//                               [NSNumber numberWithInt: ImageOrientationLeftMirrored],
-//                               [NSNumber numberWithInt: ImageOrientationRight],
-//                               [NSNumber numberWithInt: ImageOrientationRightMirrored],
-//                               [NSNumber numberWithInt: ImageOrientationLeft]
-//                               ];
-
-
 #endif
 
 #import "allheaders.h"
@@ -122,7 +82,6 @@ namespace tesseract {
                                                        object:nil];
         #elif TARGET_OS_MAC
         // TODO: Is there an equivalent?
-
         #endif
     }
 }
@@ -212,7 +171,6 @@ namespace tesseract {
             #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
                 _absoluteDataPath = [NSBundle mainBundle].bundlePath;
             #elif TARGET_OS_MAC
-//                NSString *dataPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"tessdata"];
                 _absoluteDataPath = [[NSBundle mainBundle] resourcePath];
             #endif
         }
@@ -343,8 +301,6 @@ namespace tesseract {
             if (![fileManager fileExistsAtPath:destinationFileName]) {
 
                 NSString *filePath = [tessdataPath stringByAppendingPathComponent:filename];
-                //NSLog(@"found %@", filePath);
-                //NSLog(@"symlink in %@", destinationFileName);
 
                 // delete broken symlinks first
                 [fileManager removeItemAtPath:destinationFileName error:&error];
@@ -484,7 +440,6 @@ namespace tesseract {
     // TODO: Is it cheaper to create a CGImageRef and get the size from that or to
     // iterate through the representations of the NSImage and find the largest
     // width and height?
-
     NSInteger width = 0;
     NSInteger height = 0;
 
@@ -503,7 +458,7 @@ namespace tesseract {
         if ([self.delegate respondsToSelector:@selector(preprocessedImageForTesseract:sourceImage:)]) {
             NSImage *thresholdedImage = [self.delegate preprocessedImageForTesseract:self sourceImage:image];
             if (thresholdedImage != nil) {
-                // TODO: This probs needs the size treatment
+                // TODO: Is getting the size like this okay?
                 self.imageSize = thresholdedImage.size;
 
                 Pix *pixs = [self pixForImage:thresholdedImage];
@@ -1393,36 +1348,9 @@ namespace tesseract {
 #elif TARGET_OS_MAC
 - (Pix *)pixForImage:(NSImage *)image
 {
-    // TODO: Could use representations here
-    // TODO: NULL -> nil
-    CGImage *cgImage = [image CGImageForProposedRect: nil context: nil hints: nil];
+    // TODO: Maybe use representations here?
+    CGImage *cgImage = [image CGImageForProposedRect:nil context:nil hints:nil];
     CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-
-//    NSData *tiffData = [image TIFFRepresentation];
-//    CGImageSourceRef imageSource = CGImageSourceCreateWithData((CFDataRef)tiffData, NULL);
-//
-//    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-//                             [NSNumber numberWithBool:NO], (NSString *)kCGImageSourceShouldCache,
-//                             nil];
-//    CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, (CFDictionaryRef)options);
-//    if (imageProperties) {
-//        NSNumber *width = (NSNumber *)CFDictionaryGetValue(imageProperties, kCGImagePropertyPixelWidth);
-//        NSNumber *height = (NSNumber *)CFDictionaryGetValue(imageProperties, kCGImagePropertyPixelHeight);
-//        NSLog(@"ORIENTATION %@", CFDictionaryGetValue(imageProperties, kCGImagePropertyOrientation));
-////        NSLog(@"Image dimensions: %@ x %@ px", width, height);
-//        CFRelease(imageProperties);
-//    }
-//
-//    CFRelease(imageSource);
-
-//    NSDictionary* properties = (NSDictionary*) CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(imgSrc, 0, NULL));
-//    NSLog(@"****** orientation == %@", CFDictionaryGetValue(properties, kCGImagePropertyOrientation));
-
-//    NSLog(@"PROPS %@", properties);
-
-    // END
-
-    NSLog(@"********** HELLO");
 
     const UInt8 *pixels = CFDataGetBytePtr(imageData);
 
@@ -1490,118 +1418,14 @@ namespace tesseract {
             NSLog(@"Cannot convert image to Pix with bpp = %d", bpp); // LCOV_EXCL_LINE
     }
 
-    // TODO: Not sure what to do here to get orientation of NSImage
+    // TODO: Not sure what to do here with orientation. Can we just assume that the
+    // orientation will have already been sorted if its on macOS?
     if (copyBlock) {
-//         Maintain byte order consistency across different endianness.
+        // Maintain byte order consistency across different endianness.
         for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
             for (int x = 0; x < width; ++x) {
                 copyBlock(data, x, pixels, x * bytesPerPixel);
             }
-        }
-
-        NSInteger orientationInt = image.imageOrientation;
-        UIImageOrientation orientataion = (UIImageOrientation)orientationInt;
-
-        NSLog(@"ORIENTATION: %i", orientationInt);
-
-//        ImageOrientation orient = (ImageOrientation)[[imageOrientations objectAtIndex: orientationInt] intValue];
-
-        switch (orientataion) {
-            case UIImageOrientationUp:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationUp);
-                // TODO: Maybe we do nothing if the orientation is already Up
-                break;
-
-                // Maintain byte order consistency across different endianness.
-//                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
-//                    for (int x = 0; x < width; ++x) {
-//                        copyBlock(data, x, pixels, x * bytesPerPixel);
-//                    }
-//                }
-//                break;
-
-            case UIImageOrientationUpMirrored:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationUpMirrored);
-                // Maintain byte order consistency across different endianness.
-                for (int y = 0; y < height; ++y, pixels += bytesPerRow, data += wpl) {
-                    int maxX = width - 1;
-                    for (int x = maxX; x >= 0; --x) {
-                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
-                    }
-                }
-                break;
-
-            case UIImageOrientationDown:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationDown);
-                // Maintain byte order consistency across different endianness.
-                pixels += (height - 1) * bytesPerRow;
-                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
-                    int maxX = width - 1;
-                    for (int x = maxX; x >= 0; --x) {
-                        copyBlock(data, maxX - x, pixels, x * bytesPerPixel);
-                    }
-                }
-                break;
-
-            case UIImageOrientationDownMirrored:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationDownMirrored);
-                // Maintain byte order consistency across different endianness.
-                pixels += (height - 1) * bytesPerRow;
-                for (int y = height - 1; y >= 0; --y, pixels -= bytesPerRow, data += wpl) {
-                    for (int x = 0; x < width; ++x) {
-                        copyBlock(data, x, pixels, x * bytesPerPixel);
-                    }
-                }
-                break;
-
-            case UIImageOrientationLeft:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationLeft);
-                // Maintain byte order consistency across different endianness.
-                for (int x = 0; x < height; ++x, data += wpl) {
-                    int maxY = width - 1;
-                    for (int y = maxY; y >= 0; --y) {
-                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                        copyBlock(data, maxY - y, pixels, x0);
-                    }
-                }
-                break;
-
-            case UIImageOrientationLeftMirrored:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationLeftMirrored);
-                // Maintain byte order consistency across different endianness.
-                for (int x = height - 1; x >= 0; --x, data += wpl) {
-                    int maxY = width - 1;
-                    for (int y = maxY; y >= 0; --y) {
-                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                        copyBlock(data, maxY - y, pixels, x0);
-                    }
-                }
-                break;
-
-            case UIImageOrientationRight:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationRight);
-                // Maintain byte order consistency across different endianness.
-                for (int x = height - 1; x >=0; --x, data += wpl) {
-                    for (int y = 0; y < width; ++y) {
-                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                        copyBlock(data, y, pixels, x0);
-                    }
-                }
-                break;
-
-            case UIImageOrientationRightMirrored:
-                NSLog(@"CASE ORIENTATION: %i", UIImageOrientationRightMirrored);
-                // Maintain byte order consistency across different endianness.
-                for (int x = 0; x < height; ++x, data += wpl) {
-                    for (int y = 0; y < width; ++y) {
-                        int x0 = y * (int)bytesPerRow + x * (int)bytesPerPixel;
-                        copyBlock(data, y, pixels, x0);
-                    }
-                }
-                break;
-
-            default:
-                break;  // LCOV_EXCL_LINE
         }
     }
 
