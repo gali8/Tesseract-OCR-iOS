@@ -15,3 +15,4 @@
 + (NSImage *)g8_imageFilledWithColor:(NSColor *)color ofSize:(CGSize)size;
 
 @end
+ 

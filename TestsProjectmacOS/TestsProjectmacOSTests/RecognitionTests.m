@@ -18,27 +18,224 @@
 
 SPEC_BEGIN(RecognitionTests)
 
-//void (^testImageWithOrientationShouldContainText)() = ^(NSImage *image, UIImageOrientation orientation, NSString *text) {
-////    UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage
-////                                                scale:image.scale
-////                                          orientation:orientation];
+//NSImage * (^rotatedImageWithOrientation)() = ^(NSImage *sourceImage, int orientation) {
+//    setImageOrientation(sourceImage, orientation);
 //
-////    NSAssert(image.imageOrientation != rotatedImage.imageOrientation, @"Error! Image has not been rotated");
+//    NSImage *imageToReturn = NULL;
 //
-//    G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
-//    tesseract.image = image;
+//    if (orientation == 1) {
+//        imageToReturn = sourceImage;
+//    } else {
+//        CGAffineTransform transform = CGAffineTransformIdentity;
 //
-//    [[theBlock(^{
-//        [tesseract recognize];
-//    }) shouldNot] raise];
+//        switch (orientation) {
+//            case 3: // UIImageOrientation.Down
+//            case 4: // UIImageOrientation.DownMirrored
+//                transform = CGAffineTransformRotate(transform, (float)M_PI);
+//                transform = CGAffineTransformTranslate(transform, sourceImage.size.width, sourceImage.size.height);
+//                break;
 //
-//    NSString *recognizedText = tesseract.recognizedText;
-//    [[recognizedText should] containString:text];
+//            case 8: // UIImageOrientation.Left
+//            case 5: // UIImageOrientation.LeftMirrored
+//                transform = CGAffineTransformRotate(transform, (float)M_PI / 2);
+//                transform = CGAffineTransformTranslate(transform, sourceImage.size.width, 0);
+//                break;
 //
-//    NSImage *thresholdedImage = tesseract.thresholdedImage;
-//    // TODO: WHATTTTT
-////    [[theValue(thresholdedImage.imageOrientation) should] equal:theValue(UIImageOrientationUp)];
+//            case 6: // UIImageOrientation.Right
+//            case 7: // UIImageOrientation.RightMirrored
+//                transform = CGAffineTransformRotate(transform, -(float)M_PI / 2);
+//                transform = CGAffineTransformTranslate(transform, 0, sourceImage.size.height);
+//                break;
+//            case 1: // UIImageOrientation.Up
+//            case 2: // UIImageOrientation.UpMirrored
+//                break;
+//        }
+//
+//        switch (orientation) {
+//            case 2: // UIImageOrientation.UpMirrored
+//            case 4: // UIImageOrientation.DownMirrored
+//                transform = CGAffineTransformTranslate(transform, sourceImage.size.width, 0);
+//                transform = CGAffineTransformScale(transform, -1, 1);
+//                break;
+//
+//            case 5: // UIImageOrientation.LeftMirrored
+//            case 7: // UIImageOrientation.RightMirrored
+//                transform = CGAffineTransformTranslate(transform, sourceImage.size.height, 0);
+//                transform = CGAffineTransformScale(transform, -1, 1);
+//                break;
+//            case 1: // UIImageOrientation.Up
+//            case 3: // UIImageOrientation.Down
+//            case 8: // UIImageOrientation.Left
+//            case 6: // UIImageOrientation.Right
+//                break;
+//        }
+//
+//        // NEW
+//
+//        //        CGImageRef cgImage = [sourceImage CGImageForProposedRect: nil context: nil hints: nil];
+//
+//        struct CGImage *cgImage = [sourceImage CGImageForProposedRect: nil context: nil hints: nil];
+//        NSInteger width = (NSInteger)CGImageGetWidth(cgImage);
+//        NSInteger height = (NSInteger)CGImageGetHeight(cgImage);
+//        NSSize size = NSMakeSize(width, height);
+//
+//        NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+//                                 initWithBitmapDataPlanes:NULL
+//                                 pixelsWide:size.width
+//                                 pixelsHigh:size.height
+//                                 bitsPerSample:8
+//                                 samplesPerPixel:4
+//                                 hasAlpha:YES
+//                                 isPlanar:NO
+//                                 colorSpaceName:NSCalibratedRGBColorSpace
+//                                 bytesPerRow:0
+//                                 bitsPerPixel:0];
+//        rep.size = size;
+//
+//        [NSGraphicsContext saveGraphicsState];
+//        [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
+//
+//        CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+//
+//        // OLD
+//
+//        //        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//        //
+//        //
+//        //        CGContextRef context = CGBitmapContextCreate(NULL, sourceImage.size.width, sourceImage.size.height, 8, sourceImage.size.width * sizeof(uint32_t), colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
+//
+//        //        CGContextConcatCTM(context, transform);
+//
+//        switch (orientation) {
+//            case 8: // UIImageOrientation.Left
+//            case 5: // UIImageOrientation.LeftMirrored
+//            case 6: // UIImageOrientation.Right
+//            case 7: // UIImageOrientation.RightMirrored
+//                //                CGContextDrawImage(context, CGRectMake(0, 0, sourceImage.size.height, sourceImage.size.width), cgImage);
+//                //                [sourceImage drawInRect:NSMakeRect(0, 0, size.height, size.width) fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
+//                [sourceImage drawInRect:NSMakeRect(0, 0, size.width, size.height) fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
+//                break;
+//            default:
+//                //                CGContextDrawImage(context, CGRectMake(0, 0, sourceImage.size.width, sourceImage.size.height), cgImage);
+//                [sourceImage drawInRect:NSMakeRect(0, 0, size.width, size.height) fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
+//                break;
+//        }
+//
+//        //        CGImageRef imageRef = CGBitmapContextCreateImage(context);
+//        //
+//        //        imageToReturn = [[NSImage alloc] initWithCGImage:cgImage
+//        //                                                        size:NSMakeSize(
+//        //                                                                        CGBitmapContextGetWidth(context),
+//        //                                                                        CGBitmapContextGetHeight(context)
+//        //                                                                        )
+//        //                         ];
+//
+//        // Blah blah
+//
+//        [NSGraphicsContext restoreGraphicsState];
+//
+//        imageToReturn = [[NSImage alloc] initWithSize:size];
+//        [imageToReturn addRepresentation:rep];
+//    }
+//
+//    return imageToReturn;
 //};
+
+
+
+NSImage * (^setImageOrientation)() = ^(NSImage *sourceImage, int orientation) {
+    NSData *tiffData = [sourceImage TIFFRepresentation];
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData((CFDataRef)tiffData, NULL);
+
+    NSDictionary *tmpProps = (NSDictionary *)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL));
+    NSDictionary *props = [tmpProps mutableCopy];
+    [props setValue:@(orientation) forKey:kCGImagePropertyOrientation];
+    NSLog(@"PROPS %@", props);
+
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:NO], (NSString *)kCGImageSourceShouldCache, nil];
+    CFDictionaryRef imageProperties = CFDictionaryCreateMutableCopy(NULL, 0, CGImageSourceCopyPropertiesAtIndex(imageSource, 0, (CFDictionaryRef)options));
+
+//    CGImageSourceCopyPropertiesAtIndex(imageSource, 0, (CFDictionaryRef)options);
+
+    CFDictionarySetValue(imageProperties, kCGImagePropertyOrientation, (__bridge const void *)([[NSNumber alloc] initWithInt:orientation]));
+
+    NSMutableDictionary *tiffPropDict = [[NSMutableDictionary alloc] init];
+//    [tiffPropDict setValue:[[NSNumber alloc] initWithInt:orientation] forKey:(NSString *)kCGImagePropertyTIFFOrientation];
+    [tiffPropDict setObject:[[NSNumber alloc] initWithInt:orientation] forKey:(NSString *)kCGImagePropertyTIFFOrientation];
+
+    CFDictionarySetValue(imageProperties, kCGImagePropertyTIFFDictionary, (__bridge const void *)(tiffPropDict));
+
+
+//    CFTypeRef val = CFDictionaryGetValue(imageProperties, kCGImagePropertyOrientation);
+//    if (val) {
+//        BOOL success = CFNumberGetValue(val, kCFNumberNSIntegerType, &orientationValue);
+
+
+    NSMutableData *newImageData = [[NSMutableData alloc] init];
+
+    CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((CFMutableDataRef)newImageData, CGImageSourceGetType(imageSource), 1, NULL);
+
+    // TODO: Don't think this is needed
+//    CGImageDestinationSetProperties(imageDestination, imageProperties);
+
+
+//    CGImageDestinationAddImageFromSource(imageDestination, imageSource, 0, (CFDictionaryRef)props);
+    CGImageDestinationAddImageFromSource(imageDestination, imageSource, 0, imageProperties);
+
+    NSDictionary *backAgain = (__bridge NSDictionary*)imageProperties;
+    NSLog(@"%@", backAgain);
+
+    CGImageDestinationFinalize(imageDestination);
+
+    NSImage *img = [[NSImage alloc] initWithData:newImageData];
+
+    NSLog(@"Set the orientation to %l", img.imageOrientation);
+
+    return img;
+};
+
+
+
+void (^testImageWithOrientationShouldContainText)() = ^(NSImage *image, int orientation, NSString *text) {
+//    NSImage *rotatedImage = [NSImage imageWithCGImage:image.CGImage
+//                                                scale:image.scale
+//                                          orientation:orientation];
+
+//    NSImage *rotatedImage = rotatedImageWithOrientation(image, orientation);
+
+    NSImage *rotatedImage = setImageOrientation(image, orientation);
+
+    // DEBUG
+    CGImageRef cgRef = [rotatedImage CGImageForProposedRect:NULL
+                                                    context:nil
+                                                      hints:nil];
+    NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
+    NSData *data = [newRep representationUsingType: NSJPEGFileType properties: nil];
+    NSString *uuid = [[NSUUID UUID] UUIDString];
+    NSLog(uuid);
+    [data writeToFile: [[[[@"/Users/hami/Desktop/" stringByAppendingString:[@(orientation) stringValue]] stringByAppendingString: @"rotated"] stringByAppendingString:uuid] stringByAppendingString:@".jpg"] atomically: NO];
+    // DEBUG
+
+    NSLog(@"ORIENTATIONS %l vs %l", image.imageOrientation, rotatedImage.imageOrientation);
+
+    NSAssert(image.imageOrientation != rotatedImage.imageOrientation, @"Error! Image has not been rotated");
+
+    G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+    tesseract.image = rotatedImage;
+
+    [[theBlock(^{
+        [tesseract recognize];
+    }) shouldNot] raise];
+
+    NSString *recognizedText = tesseract.recognizedText;
+    [[recognizedText should] containString:text];
+
+    NSImage *thresholdedImage = tesseract.thresholdedImage;
+
+    // TODO: WHAT?
+    //    theValue(UIImageOrientationUp)
+    [[theValue(thresholdedImage.imageOrientation) should] equal:theValue(1)];
+};
 
 __block G8RecognitionTestsHelper *helper;
 
@@ -55,45 +252,54 @@ describe(@"Simple image", ^{
         helper.charWhitelist = @"0123456789";
     });
 
-    it(@"Should recognize sync", ^{
-        [helper recognizeImage];
-
-        [[theValue(helper.tesseract.progress) should] equal:theValue(100)];
-
-        NSString *recognizedText = helper.tesseract.recognizedText;
-
-        [[recognizedText should] containString:@"1234567890"];
-    });
-
-    it(@"Should recognize by queue", ^{
-        [helper recognizeImageUsingOperation];
-
-        [[theValue(helper.tesseract.progress) should] equal:theValue(100)];
-
-        NSString *recognizedText = helper.tesseract.recognizedText;
-        [[recognizedText should] containString:@"1234567890"];
-    });
-
-    it(@"Should recognize with simple thresholding", ^{
-        helper.customPreprocessingType = G8CustomPreprocessingSimpleThreshold;
-
-        [helper recognizeImage];
-
-        NSString *recognizedText = helper.tesseract.recognizedText;
-        [[recognizedText should] containString:@"1234567890"];
-    });
-
-//    it(@"Should recognize regardless of orientation", ^{
+//    it(@"Should recognize sync", ^{
+//        [helper recognizeImage];
 //
-//        NSString *text = @"1234567890";
-//        testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_left.jpg"], UIImageOrientationLeft, text);
-//        testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_right.jpg"], UIImageOrientationRight, text);
-//        testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_down.jpg"], UIImageOrientationDown, text);
-//        testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_up_mirrored.jpg"], UIImageOrientationUpMirrored, text);
-//        testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_left_mirrored.jpg"], UIImageOrientationLeftMirrored, text);
-//        testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_right_mirrored.jpg"], UIImageOrientationRightMirrored, text);
-//        testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_down_mirrored.jpg"], UIImageOrientationDownMirrored, text);
+//        [[theValue(helper.tesseract.progress) should] equal:theValue(100)];
+//
+//        NSString *recognizedText = helper.tesseract.recognizedText;
+//
+//        [[recognizedText should] containString:@"1234567890"];
 //    });
+//
+//    it(@"Should recognize by queue", ^{
+//        [helper recognizeImageUsingOperation];
+//
+//        [[theValue(helper.tesseract.progress) should] equal:theValue(100)];
+//
+//        NSString *recognizedText = helper.tesseract.recognizedText;
+//        [[recognizedText should] containString:@"1234567890"];
+//    });
+//
+//    it(@"Should recognize with simple thresholding", ^{
+//        helper.customPreprocessingType = G8CustomPreprocessingSimpleThreshold;
+//
+//        [helper recognizeImage];
+//
+//        NSString *recognizedText = helper.tesseract.recognizedText;
+//        [[recognizedText should] containString:@"1234567890"];
+//    });
+
+    it(@"Should recognize regardless of orientation", ^{
+
+        NSString *text = @"1234567890";
+
+        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_left.jpg"], 8, text);
+        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_right.jpg"], 6, text);
+        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_down.jpg"], 3, text);
+        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_up_mirrored.jpg"], 2, text);
+        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_left_mirrored.jpg"], 5, text);
+        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_right_mirrored.jpg"], 7, text);
+        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_down_mirrored.jpg"], 4, text);
+
+//        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_left.jpg"], UIImageOrientationLeft, text);
+//        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_right.jpg"], UIImageOrientationRight, text);
+//        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_down.jpg"], UIImageOrientationDown, text);
+//        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_up_mirrored.jpg"], UIImageOrientationUpMirrored, text);
+//        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_left_mirrored.jpg"], UIImageOrientationLeftMirrored, text);
+//        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_right_mirrored.jpg"], UIImageOrientationRightMirrored, text);
+//        testImageWithOrientationShouldContainText([NSImage imageNamed:@"image_sample_down_mirrored.jpg"], UIImageOrientationDownMirrored, text);
+    });
 
     describe(@"Subimage", ^{
 

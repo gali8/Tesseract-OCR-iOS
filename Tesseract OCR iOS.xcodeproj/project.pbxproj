@@ -94,6 +94,10 @@
 		338758D3206A6A7F006E5B96 /* renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B91B7B7CE500B1C726 /* renderer.h */; };
 		338758D4206A6A7F006E5B96 /* ccbord.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790741B7B7CD100B1C726 /* ccbord.h */; };
 		338758D5206A6A7F006E5B96 /* capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AA1B7B7CE500B1C726 /* capi.h */; };
+		33D68D832085E0AD00C65AEB /* NSImage+Orientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 33E94EAF2084C8FD0005399D /* NSImage+Orientation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33E94EB12084C8FD0005399D /* NSImage+Orientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 33E94EAF2084C8FD0005399D /* NSImage+Orientation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33E94EB32084C8FD0005399D /* NSImage+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E94EB02084C8FD0005399D /* NSImage+Orientation.m */; };
+		33E94EB42084C8FD0005399D /* NSImage+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E94EB02084C8FD0005399D /* NSImage+Orientation.m */; };
 		73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
 		73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -191,6 +195,8 @@
 		338758DB206A6A7F006E5B96 /* TesseractOCRmacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCRmacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		338758DC206A6A7F006E5B96 /* TesseractOCR copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TesseractOCR copy-Info.plist"; path = "/Users/hami/projects/swift/Tesseract-OCR-iOS/TesseractOCR copy-Info.plist"; sourceTree = "<absolute>"; };
 		33E94E74207540260005399D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		33E94EAF2084C8FD0005399D /* NSImage+Orientation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImage+Orientation.h"; sourceTree = "<group>"; };
+		33E94EB02084C8FD0005399D /* NSImage+Orientation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Orientation.m"; sourceTree = "<group>"; };
 		4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = G8TesseractDelegate.h; sourceTree = "<group>"; };
 		418997A71A42CC8B00D6477C /* G8Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Constants.h; sourceTree = "<group>"; };
 		41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8TesseractParameters.h; sourceTree = "<group>"; };
@@ -378,6 +384,8 @@
 				418997A71A42CC8B00D6477C /* G8Constants.h */,
 				6490748A198A5A5600D728CC /* UIImage+G8Filters.h */,
 				6490748B198A5A5600D728CC /* UIImage+G8Filters.m */,
+				33E94EAF2084C8FD0005399D /* NSImage+Orientation.h */,
+				33E94EB02084C8FD0005399D /* NSImage+Orientation.m */,
 				41C7E8231A3F0682000DC42B /* Core */,
 				41C7E8211A3F0650000DC42B /* Readme */,
 				64A0293017307C1D002B12E7 /* Supporting Files */,
@@ -551,6 +559,7 @@
 				3387588A206A6A7F006E5B96 /* queue.h in Headers */,
 				3387588B206A6A7F006E5B96 /* jmorecfg.h in Headers */,
 				3387588C206A6A7F006E5B96 /* gplot.h in Headers */,
+				33D68D832085E0AD00C65AEB /* NSImage+Orientation.h in Headers */,
 				3387588D206A6A7F006E5B96 /* G8Tesseract.h in Headers */,
 				3387588E206A6A7F006E5B96 /* serialis.h in Headers */,
 				3387588F206A6A7F006E5B96 /* stack.h in Headers */,
@@ -634,6 +643,7 @@
 				84B7909F1B7B7CD100B1C726 /* queue.h in Headers */,
 				84803A141B8790DC00577EA2 /* jmorecfg.h in Headers */,
 				84B790961B7B7CD100B1C726 /* gplot.h in Headers */,
+				33E94EB12084C8FD0005399D /* NSImage+Orientation.h in Headers */,
 				73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */,
 				84B790D61B7B7CE500B1C726 /* serialis.h in Headers */,
 				84B790A31B7B7CD100B1C726 /* stack.h in Headers */,
@@ -873,6 +883,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3387587E206A6A7F006E5B96 /* G8RecognizedBlock.m in Sources */,
+				33E94EB42084C8FD0005399D /* NSImage+Orientation.m in Sources */,
 				3387587F206A6A7F006E5B96 /* UIImage+G8Filters.m in Sources */,
 				33875880206A6A7F006E5B96 /* G8RecognitionOperation.m in Sources */,
 				33875881206A6A7F006E5B96 /* G8Tesseract.mm in Sources */,
@@ -885,6 +896,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73C0A79A1A5932D700D823D4 /* G8RecognizedBlock.m in Sources */,
+				33E94EB32084C8FD0005399D /* NSImage+Orientation.m in Sources */,
 				73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */,
 				73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */,
 				73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */,
