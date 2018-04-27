@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		333B8E472093C79E0084EE39 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 333B8E462093C79E0084EE39 /* libz.tbd */; };
+		333B8E482093C7A80084EE39 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E94E74207540260005399D /* libz.tbd */; };
 		336978D4207450030037BFE0 /* libtesseract.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA08B91B8DDF6E00AD3FFC /* libtesseract.a */; };
 		336978D5207450030037BFE0 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1E1B87921B00577EA2 /* liblept.a */; };
 		336978D6207450030037BFE0 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A211B87921B00577EA2 /* libtiff.a */; };
@@ -178,6 +180,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		333B8E462093C79E0084EE39 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3344D2BD207454DF00E06E63 /* TessymacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TessymacOS.h; sourceTree = "<group>"; };
 		3344D2BE207454DF00E06E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3344D2C8207454DF00E06E63 /* TessymacOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TessymacOSTests.m; sourceTree = "<group>"; };
@@ -287,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				333B8E482093C7A80084EE39 /* libz.tbd in Frameworks */,
 				336978D4207450030037BFE0 /* libtesseract.a in Frameworks */,
 				336978D5207450030037BFE0 /* liblept.a in Frameworks */,
 				336978D6207450030037BFE0 /* libtiff.a in Frameworks */,
@@ -299,6 +303,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				333B8E472093C79E0084EE39 /* libz.tbd in Frameworks */,
 				84803A231B87921B00577EA2 /* liblept.a in Frameworks */,
 				84EA08BA1B8DDF6E00AD3FFC /* libtesseract.a in Frameworks */,
 				84803A221B87921B00577EA2 /* libjpeg.a in Frameworks */,
@@ -487,6 +492,7 @@
 			isa = PBXGroup;
 			children = (
 				33E94E74207540260005399D /* libz.tbd */,
+				333B8E462093C79E0084EE39 /* libz.tbd */,
 				73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */,
 				64907492198A6B9E00D728CC /* CoreImage.framework */,
 				64F74D77172FD8E90068E657 /* UIKit.framework */,
@@ -874,7 +880,7 @@
 					"$(PROJECT_DIR)/TesseractOCR/lib",
 					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
 				);
-				MACH_O_TYPE = staticlib;
+				MACH_O_TYPE = mh_dylib;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -925,7 +931,7 @@
 					"$(PROJECT_DIR)/TesseractOCR/lib",
 					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
 				);
-				MACH_O_TYPE = staticlib;
+				MACH_O_TYPE = mh_dylib;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -973,7 +979,7 @@
 					"$(PROJECT_DIR)/TesseractOCR/lib",
 					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
 				);
-				MACH_O_TYPE = staticlib;
+				MACH_O_TYPE = mh_dylib;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
