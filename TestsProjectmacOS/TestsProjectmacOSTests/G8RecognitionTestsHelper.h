@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <TesseractOCRmacOS/TesseractOCR.h>
-#import <TesseractOCRmacOS/NSImage+Orientation.h>
 
 typedef NS_ENUM(NSUInteger, G8CustomPreprocessing) {
     G8CustomPreprocessingNone,

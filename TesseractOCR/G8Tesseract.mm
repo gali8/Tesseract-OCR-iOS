@@ -15,7 +15,6 @@
 
 #import "G8Tesseract.h"
 
-#import "UIImage+G8Filters.h"
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
 #import "G8RecognizedBlock.h"

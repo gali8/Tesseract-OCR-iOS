@@ -12,7 +12,6 @@
 #import <UIKit/UIKit.h>
 #elif TARGET_OS_MAC
 #import <AppKit/AppKit.h>
-#import "NSImage+Orientation.h"
 #endif
 
 #import "G8Constants.h"
