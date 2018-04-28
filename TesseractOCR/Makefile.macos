@@ -4,24 +4,24 @@ JPEG_NAME   = jpeg-9c
 TIFF_NAME   = tiff-4.0.9
 
 SDK_MACOS_PATH=$(shell xcrun --sdk macosx --show-sdk-path)
-XCODE_DEVELOPER_PATH=/Applications/Xcode.app/Contents/Developer
+XCODE_DEVELOPER_PATH="`xcode-select -p`"
 XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
 MACOS_DEPLOY_TGT="10.13"
 
-TESSERACT_SRC = $(shell pwd)/tesseract-ocr
+TESSERACT_SRC = $(shell pwd)/tesseract-ocr/macos
 LEPTON_SRC = $(shell pwd)/$(LEPTON_NAME)
 # TODO: libtiff-ios -> libtiff-macos?
-IMAGE_SRC = $(shell pwd)/libtiff-ios
+IMAGE_SRC = $(shell pwd)/libtiff-ios/macos
 PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
 JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
 TIFF_SRC = $(IMAGE_SRC)/$(TIFF_NAME)
 
-IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/lib/
-IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/include/
-INCLUDE_DIR   = $(shell pwd)/include
+IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/macos/lib/
+IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/macos/include/
+INCLUDE_DIR   = $(shell pwd)/macos/include
 LEPT_INC_DIR  = $(INCLUDE_DIR)
 TESS_INC_DIR  = $(INCLUDE_DIR)
-LIB_FAT_DIR   = $(shell pwd)/lib
+LIB_FAT_DIR   = $(shell pwd)/macos/lib
 
 libtessfiles = libtesseract.a
 libleptfiles = liblept.a
@@ -136,7 +136,7 @@ $(imagesfat) : $(images)
 
 $(images) : $(imagesmakefile) FORCE
 	cd $(IMAGE_SRC) ; \
-	until `$(MAKE) -s`; do sleep 5; done
+	until `$(MAKE) -s -f Makefile.macos`; do sleep 5; done
 
 #######################
 # Download dependencies

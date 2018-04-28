@@ -1,27 +1,27 @@
-LEPTON_NAME = leptonica-1.72
-PNG_NAME    = libpng-1.6.20
-JPEG_NAME   = jpeg-9a
-TIFF_NAME   = tiff-4.0.4
+LEPTON_NAME = leptonica-1.75.3
+PNG_NAME    = libpng-1.6.34
+JPEG_NAME   = jpeg-9c
+TIFF_NAME   = tiff-4.0.9
 
 SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
 SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
-XCODE_DEVELOPER_PATH=/Applications/Xcode.app/Contents/Developer
+XCODE_DEVELOPER_PATH="`xcode-select -p`"
 XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
-IOS_DEPLOY_TGT="7.0"
+IOS_DEPLOY_TGT="9.0"
 
 TESSERACT_SRC = $(shell pwd)/tesseract-ocr
 LEPTON_SRC = $(shell pwd)/$(LEPTON_NAME)
-IMAGE_SRC = $(shell pwd)/libtiff-ios
+IMAGE_SRC = $(shell pwd)/libtiff-ios/ios
 PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
 JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
 TIFF_SRC = $(IMAGE_SRC)/$(TIFF_NAME)
 
-IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/lib/
-IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/include/
-INCLUDE_DIR   = $(shell pwd)/include
+IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/ios/lib/
+IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/ios/include/
+INCLUDE_DIR   = $(shell pwd)/ios/include
 LEPT_INC_DIR  = $(INCLUDE_DIR)
 TESS_INC_DIR  = $(INCLUDE_DIR)
-LIB_FAT_DIR   = $(shell pwd)/lib
+LIB_FAT_DIR   = $(shell pwd)/ios/lib
 
 libtessfiles = libtesseract.a
 libleptfiles = liblept.a
@@ -90,8 +90,9 @@ $(TESSERACT_SRC)/%/Makefile : $(libtessconfig) $(libleptfat)
 	export CFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -Wno-deprecated-register"; \
-	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
+	export LDFLAGS="-LSDKROOT/$$usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
 	export LIBLEPT_HEADERSDIR=$(TESSERACT_SRC)/$*/ ; \
+	export PKG_CONFIG_PATH=$(LEPTON_SRC)/$*/ ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 	ln -s $(LEPTON_SRC)/src/ leptonica ; \
@@ -135,7 +136,7 @@ $(imagesfat) : $(images)
 
 $(images) : $(imagesmakefile) FORCE
 	cd $(IMAGE_SRC) ; \
-	until `$(MAKE) -s`; do sleep 5; done
+	until `$(MAKE) -s -f Makefile.ios`; do sleep 5; done
 
 #######################
 # Download dependencies
