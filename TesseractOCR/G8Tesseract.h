@@ -166,6 +166,8 @@ extern NSInteger const kG8MaxCredibleResolution;
  */
 - (NSString *)recognizedHOCRForPageNumber:(int)pageNumber;
 
+// TODO: Fix up documentation and change to not return NSData (as the data is
+// already being written to the outputbase path)
 /**
  *  Produces a PDF output with the pages sent to the function
  *  @param  images  An array of the input images being recognized and 
@@ -173,7 +175,8 @@ extern NSInteger const kG8MaxCredibleResolution;
  *  @return NSData  representing output PDF file or nil if error occured or
  *                  the engine is not properly configured.
  */
-- (NSData *)recognizedPDFForImages:(NSArray*)images;
+- (NSData *)recognizedPDFForImages:(NSArray*)images
+            outputbase:(NSString*)outputbase;
 
 /**
  *  Run Tesseract's page analysis on the target image.

@@ -90,7 +90,7 @@ $(TESSERACT_SRC)/%/Makefile : $(libtessconfig) $(libleptfat)
 	export CFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -Wno-deprecated-register"; \
-	export LDFLAGS="-LSDKROOT/$$usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
+	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
 	export LIBLEPT_HEADERSDIR=$(TESSERACT_SRC)/$*/ ; \
 	export PKG_CONFIG_PATH=$(LEPTON_SRC)/$*/ ; \
 	mkdir -p $(@D) ; \
@@ -120,7 +120,7 @@ $(LEPTON_SRC)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
-    export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
+  export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
     ../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff

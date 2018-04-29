@@ -355,8 +355,11 @@ describe(@"hOCR", ^{
 describe(@"PDF", ^{
   
     NSData *(^recognizedPDFForImages)(NSArray*images) = ^NSData*(NSArray*images) {
+        NSString *resourcePath = [NSBundle mainBundle].resourcePath;
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
-        return [tesseract recognizedPDFForImages:images];
+        NSString *outputbasePath = [resourcePath stringByAppendingPathComponent:@"outputbase"];
+        NSLog(@"outputbasePath: %@", outputbasePath);
+        return [tesseract recognizedPDFForImages:images outputbase: outputbasePath];
     };
     
     NSData * (^samplePDFDataFromFile)(NSString *fileName) = ^NSData*(NSString *fileName) {
@@ -366,11 +369,11 @@ describe(@"PDF", ^{
         return PDF;
     };
   
-    it(@"Should generate well scaned page", ^{
+    it(@"Should generate well scanned page", ^{
         NSData *pdfData = recognizedPDFForImages(@[[UIImage imageNamed:@"well_scaned_page"]]);
         [[theValue([pdfData g8_isEqualToData:samplePDFDataFromFile(@"well_scaned_page")]) should] beYes];
     });
-  
+
     context(@"Should generate empty page for", ^{
       
         it(@"nil array", ^{

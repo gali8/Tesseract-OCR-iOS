@@ -752,13 +752,17 @@ namespace tesseract {
         iterator->BoundingBox(level, &x1, &y1, &x2, &y2); // left top right bottom
 
         // TODO: Maybe it needs to be thresholded image in some cases?
+        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+        CGFloat y = y1;
+        #elif TARGET_OS_MAC
         CGImage *cgImage = [self.image CGImageForProposedRect: nil context: nil hints: nil];
         CGFloat imgHeight = (CGFloat)CGImageGetHeight(cgImage);
-
-        CGFloat x = x1;
         // This is for AppKit (macOS) because coordinate system starts in bottom left as
         // opposed to top left for UIKit
         CGFloat y = (imgHeight - y1) - (y2 - y1);
+        #endif
+
+        CGFloat x = x1;
         CGFloat width = x2 - x1;
         CGFloat height = y2 - y1;
 
@@ -851,14 +855,14 @@ namespace tesseract {
     return nil;
 }
 
-- (NSData *)recognizedPDFForImages:(NSArray*)images {
+- (NSData *)recognizedPDFForImages:(NSArray*)images outputbase:(NSString*)outputbase {
 
     if (!self.isEngineConfigured) {
         return nil;
     }
 
     NSString *path = [self.absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
-    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(path.fileSystemRepresentation);
+    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(outputbase.fileSystemRepresentation, path.fileSystemRepresentation);
 
     // Begin producing output
     const char* kUnknownTitle = "Unknown Title";
@@ -903,11 +907,7 @@ namespace tesseract {
         return nil; // LCOV_EXCL_LINE
     }
 
-    const char *pdfData = NULL;
-    int pdfDataLength = 0;
-    renderer->GetOutput(&pdfData, &pdfDataLength);
-
-    NSData *data = [NSData dataWithBytes:pdfData length:pdfDataLength];
+    NSData *data = [NSData dataWithContentsOfFile:outputbase];
     return data;
 }
 

@@ -706,7 +706,7 @@ describe(@"Tesseract initialization", ^{
                 [tesseract recognize];
                 [[tesseract.recognizedText should] beNil];
                 [[[tesseract recognizedHOCRForPageNumber:1] should] beNil];
-                [[[tesseract recognizedPDFForImages:@[testImage, testImage]] should] beNil];
+                [[[tesseract recognizedPDFForImages:@[testImage, testImage] outputbase: [resourcePath stringByAppendingPathComponent:@"outputbase"]] should] beNil];
                 [[[tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelTextline] should] beNil];
                 
                 [tesseract analyseLayout];
