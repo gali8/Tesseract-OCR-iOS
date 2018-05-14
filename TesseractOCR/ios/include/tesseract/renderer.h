@@ -51,7 +51,7 @@ class TESS_API TessResultRenderer {
     // and existing next(). The renderers should be unique across both lists.
     void insert(TessResultRenderer* next);
 
-    // Returns the next renderer or NULL.
+    // Returns the next renderer or nullptr.
     TessResultRenderer* next() { return next_; }
 
     /**
@@ -108,7 +108,7 @@ class TESS_API TessResultRenderer {
     // Hook for specialized handling in BeginDocument()
     virtual bool BeginDocumentHandler();
 
-    // This must be overriden to render the OCR'd results
+    // This must be overridden to render the OCR'd results
     virtual bool AddImageHandler(TessBaseAPI* api) = 0;
 
     // Hook for specialized handling in EndDocument()
@@ -187,7 +187,6 @@ class TESS_API TessPDFRenderer : public TessResultRenderer {
  public:
   // datadir is the location of the TESSDATA. We need it because
   // we load a custom PDF font from this location.
-  TessPDFRenderer(const char* outputbase, const char* datadir);
   TessPDFRenderer(const char* outputbase, const char* datadir, bool textonly);
 
  protected:

@@ -17,8 +17,8 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef TESSERACT_CCUTIL_UNICHARSET_H__
-#define TESSERACT_CCUTIL_UNICHARSET_H__
+#ifndef TESSERACT_CCUTIL_UNICHARSET_H_
+#define TESSERACT_CCUTIL_UNICHARSET_H_
 
 #include "errcode.h"
 #include "genericvector.h"
@@ -37,6 +37,13 @@ enum SpecialUnicharCodes {
   UNICHAR_BROKEN,
 
   SPECIAL_UNICHAR_CODES_COUNT
+};
+
+// Boolean flag for unichar_insert. It's a bit of a double negative to allow
+// the default value to be false.
+enum class OldUncleanUnichars {
+  kFalse,
+  kTrue,
 };
 
 class CHAR_FRAGMENT {
@@ -88,7 +95,7 @@ class CHAR_FRAGMENT {
   }
 
   // Checks whether a given fragment is a continuation of this fragment.
-  // Assumes that the given fragment pointer is not NULL.
+  // Assumes that the given fragment pointer is not nullptr.
   inline bool is_continuation_of(const CHAR_FRAGMENT *fragment) const {
     return (strcmp(this->unichar, fragment->get_unichar()) == 0 &&
             this->total == fragment->get_total() &&
@@ -117,7 +124,7 @@ class CHAR_FRAGMENT {
   //
   // If parsing succeeded returns the pointer to the allocated CHAR_FRAGMENT
   // instance, otherwise (if the string does not represent a fragment or it
-  // looks like it does, but parsing it as a fragment fails) returns NULL.
+  // looks like it does, but parsing it as a fragment fails) returns nullptr.
   //
   // Note: The caller is responsible for deallocating memory
   // associated with the returned pointer.
@@ -129,8 +136,8 @@ class CHAR_FRAGMENT {
   // ie did not need chopping to be isolated, but may have been separated
   // out from a multi-outline blob.
   bool natural;
-  inT16 pos;    // fragment position in the character
-  inT16 total;  // total number of fragments in the character
+  int16_t pos;    // fragment position in the character
+  int16_t total;  // total number of fragments in the character
 };
 
 // The UNICHARSET class is an utility class for Tesseract that holds the
@@ -144,7 +151,7 @@ class UNICHARSET {
   static TESS_API const char* kCustomLigatures[][2];
 
   // List of strings for the SpecialUnicharCodes. Keep in sync with the enum.
-  static const char* kSpecialUnicharCodes[SPECIAL_UNICHAR_CODES_COUNT];
+  static TESS_API const char* kSpecialUnicharCodes[SPECIAL_UNICHAR_CODES_COUNT];
 
   // ICU 2.0 UCharDirection enum (from third_party/icu/include/unicode/uchar.h)
   enum Direction {
@@ -177,7 +184,7 @@ class UNICHARSET {
 
   // Return the UNICHAR_ID of a given unichar representation within the
   // UNICHARSET.
-  UNICHAR_ID TESS_API unichar_to_id(const char* const unichar_repr) const;
+  UNICHAR_ID unichar_to_id(const char* const unichar_repr) const;
 
   // Return the UNICHAR_ID of a given unichar representation within the
   // UNICHARSET. Only the first length characters from unichar_repr are used.
@@ -190,7 +197,7 @@ class UNICHARSET {
   // Use encode_string in preference to repeatedly calling step.
   int step(const char* str) const;
 
-  // Return whether the given UTF-8 string is encodable with this UNICHARSET.
+  // Returns true if the given UTF-8 string is encodable with this UNICHARSET.
   // If not encodable, write the first byte offset which cannot be converted
   // into the second (return) argument.
   bool encodable_string(const char *str, int *first_bad_position) const;
@@ -202,11 +209,14 @@ class UNICHARSET {
   // else continues and inserts an INVALID_UNICHAR_ID in the returned encoding.
   // Returns true if the encoding succeeds completely, false if there is at
   // least one failure.
-  // If lengths is not NULL, then it is filled with the corresponding
+  // If lengths is not nullptr, then it is filled with the corresponding
   // byte length of each encoded UNICHAR_ID.
-  // If encoded_length is not NULL then on return it contains the length of
+  // If encoded_length is not nullptr then on return it contains the length of
   // str that was encoded. (if give_up_on_failure the location of the first
   // failure, otherwise strlen(str).)
+  // WARNING: Caller must guarantee that str has already been cleaned of codes
+  // that do not belong in the unicharset, or encoding may fail.
+  // Use CleanupString to perform the cleaning.
   bool encode_string(const char* str, bool give_up_on_failure,
                      GenericVector<UNICHAR_ID>* encoding,
                      GenericVector<char>* lengths,
@@ -226,6 +236,13 @@ class UNICHARSET {
   // by its hex unicodes.
   static STRING debug_utf8_str(const char* str);
 
+  // Removes/replaces content that belongs in rendered text, but not in the
+  // unicharset.
+  static std::string CleanupString(const char* utf8_str) {
+    return CleanupString(utf8_str, strlen(utf8_str));
+  }
+  static std::string CleanupString(const char* utf8_str, size_t length);
+
   // Return a STRING containing debug information on the unichar, including
   // the id_to_unichar, its hex unicodes and the properties.
   STRING debug_str(UNICHAR_ID id) const;
@@ -233,8 +250,29 @@ class UNICHARSET {
     return debug_str(unichar_to_id(unichar_repr));
   }
 
-  // Add a unichar representation to the set.
-  void TESS_API unichar_insert(const char* const unichar_repr);
+  // Adds a unichar representation to the set. If old_style is true, then
+  // TATWEEL characters are kept and n-grams are allowed. Otherwise TATWEEL
+  // characters are ignored/skipped as if they don't exist and n-grams that
+  // can already be encoded are not added.
+  void unichar_insert(const char* const unichar_repr,
+                      OldUncleanUnichars old_style);
+  void unichar_insert(const char* const unichar_repr) {
+    unichar_insert(unichar_repr, OldUncleanUnichars::kFalse);
+  }
+  // Adds a unichar representation to the set. Avoids setting old_style to true,
+  // unless it is necessary to make the new unichar get added.
+  void unichar_insert_backwards_compatible(const char* const unichar_repr) {
+    std::string cleaned = CleanupString(unichar_repr);
+    if (cleaned != unichar_repr) {
+      unichar_insert(unichar_repr, OldUncleanUnichars::kTrue);
+    } else {
+      int old_size = size();
+      unichar_insert(unichar_repr, OldUncleanUnichars::kFalse);
+      if (size() == old_size) {
+        unichar_insert(unichar_repr, OldUncleanUnichars::kTrue);
+      }
+    }
+  }
 
   // Return true if the given unichar id exists within the set.
   // Relies on the fact that unichar ids are contiguous in the unicharset.
@@ -244,7 +282,7 @@ class UNICHARSET {
   }
 
   // Return true if the given unichar representation exists within the set.
-  bool TESS_API contains_unichar(const char* const unichar_repr) const;
+  bool contains_unichar(const char* const unichar_repr) const;
   bool contains_unichar(const char* const unichar_repr, int length) const;
 
   // Return true if the given unichar representation corresponds to the given
@@ -254,26 +292,24 @@ class UNICHARSET {
   // Delete CHAR_FRAGMENTs stored in properties of unichars array.
   void delete_pointers_in_unichars() {
     for (int i = 0; i < size_used; ++i) {
-      if (unichars[i].properties.fragment != NULL) {
-        delete unichars[i].properties.fragment;
-        unichars[i].properties.fragment = NULL;
-      }
+      delete unichars[i].properties.fragment;
+      unichars[i].properties.fragment = nullptr;
     }
   }
 
   // Clear the UNICHARSET (all the previous data is lost).
   void clear() {
-    if (script_table != NULL) {
+    if (script_table != nullptr) {
       for (int i = 0; i < script_table_size_used; ++i)
         delete[] script_table[i];
       delete[] script_table;
-      script_table = NULL;
+      script_table = nullptr;
       script_table_size_used = 0;
     }
-    if (unichars != NULL) {
+    if (unichars != nullptr) {
       delete_pointers_in_unichars();
       delete[] unichars;
-      unichars = NULL;
+      unichars = nullptr;
     }
     script_table_size_reserved = 0;
     size_reserved = 0;
@@ -282,6 +318,7 @@ class UNICHARSET {
     top_bottom_set_ = false;
     script_has_upper_lower_ = false;
     script_has_xheight_ = false;
+    old_style_included_ = false;
     null_sid_ = 0;
     common_sid_ = 0;
     latin_sid_ = 0;
@@ -290,6 +327,8 @@ class UNICHARSET {
     han_sid_ = 0;
     hiragana_sid_ = 0;
     katakana_sid_ = 0;
+    thai_sid_ = 0;
+    hangul_sid_ = 0;
     default_sid_ = 0;
   }
 
@@ -305,7 +344,7 @@ class UNICHARSET {
   // Returns true if the operation is successful.
   bool save_to_file(const char * const filename) const {
     FILE* file = fopen(filename, "w+b");
-    if (file == NULL) return false;
+    if (file == nullptr) return false;
     bool result = save_to_file(file);
     fclose(file);
     return result;
@@ -328,7 +367,7 @@ class UNICHARSET {
 
   // Saves the content of the UNICHARSET to the given STRING.
   // Returns true if the operation is successful.
-  bool TESS_API save_to_string(STRING *str) const;
+  bool save_to_string(STRING *str) const;
 
   // Load a unicharset from a unicharset file that has been loaded into
   // the given memory buffer.
@@ -345,7 +384,7 @@ class UNICHARSET {
   // Returns true if the operation is successful.
   bool load_from_file(const char* const filename, bool skip_fragments) {
     FILE* file = fopen(filename, "rb");
-    if (file == NULL) return false;
+    if (file == nullptr) return false;
     bool result = load_from_file(file, skip_fragments);
     fclose(file);
     return result;
@@ -374,9 +413,9 @@ class UNICHARSET {
   bool major_right_to_left() const;
 
   // Set a whitelist and/or blacklist of characters to recognize.
-  // An empty or NULL whitelist enables everything (minus any blacklist).
-  // An empty or NULL blacklist disables nothing.
-  // An empty or NULL unblacklist has no effect.
+  // An empty or nullptr whitelist enables everything (minus any blacklist).
+  // An empty or nullptr blacklist disables nothing.
+  // An empty or nullptr unblacklist has no effect.
   // The blacklist overrides the whitelist.
   // The unblacklist overrides the blacklist.
   // Each list is a string of utf8 character strings. Boundaries between
@@ -541,13 +580,13 @@ class UNICHARSET {
                       int min_bottom, int max_bottom,
                       int min_top, int max_top) {
     unichars[unichar_id].properties.min_bottom =
-        static_cast<uinT8>(ClipToRange(min_bottom, 0, MAX_UINT8));
+        ClipToRange<int>(min_bottom, 0, UINT8_MAX);
     unichars[unichar_id].properties.max_bottom =
-        static_cast<uinT8>(ClipToRange(max_bottom, 0, MAX_UINT8));
+        ClipToRange<int>(max_bottom, 0, UINT8_MAX);
     unichars[unichar_id].properties.min_top =
-        static_cast<uinT8>(ClipToRange(min_top, 0, MAX_UINT8));
+        ClipToRange<int>(min_top, 0, UINT8_MAX);
     unichars[unichar_id].properties.max_top =
-        static_cast<uinT8>(ClipToRange(max_top, 0, MAX_UINT8));
+        ClipToRange<int>(max_top, 0, UINT8_MAX);
   }
   // Returns the width stats (as mean, sd) of the given unichar relative to the
   // median advance of all characters in the character set.
@@ -603,6 +642,16 @@ class UNICHARSET {
   // Returns true if the font metrics properties are empty.
   bool PropertiesIncomplete(UNICHAR_ID unichar_id) const {
     return unichars[unichar_id].properties.AnyRangeEmpty();
+  }
+
+  // Returns true if the script of the given id is space delimited.
+  // Returns false for Han and Thai scripts.
+  bool IsSpaceDelimited(UNICHAR_ID unichar_id) const {
+    if (INVALID_UNICHAR_ID == unichar_id) return true;
+    int script_id = get_script(unichar_id);
+    return script_id != han_sid_ && script_id != thai_sid_ &&
+           script_id != hangul_sid_ && script_id != hiragana_sid_ &&
+           script_id != katakana_sid_;
   }
 
   // Return the script name of the given unichar.
@@ -668,7 +717,7 @@ class UNICHARSET {
   // SpecialUnicharCodes available. If false then there are normal unichars
   // at these codes and they should not be used.
   bool has_special_codes() const {
-    return get_fragment(UNICHAR_BROKEN) != NULL &&
+    return get_fragment(UNICHAR_BROKEN) != nullptr &&
         strcmp(id_to_unichar(UNICHAR_BROKEN),
                kSpecialUnicharCodes[UNICHAR_BROKEN]) == 0;
   }
@@ -680,7 +729,7 @@ class UNICHARSET {
   // Return a pointer to the CHAR_FRAGMENT class if the given
   // unichar id represents a character fragment.
   const CHAR_FRAGMENT *get_fragment(UNICHAR_ID unichar_id) const {
-    if (INVALID_UNICHAR_ID == unichar_id) return NULL;
+    if (INVALID_UNICHAR_ID == unichar_id) return nullptr;
     ASSERT_HOST(contains_unichar_id(unichar_id));
     return unichars[unichar_id].properties.fragment;
   }
@@ -730,9 +779,9 @@ class UNICHARSET {
   // Return a pointer to the CHAR_FRAGMENT class struct if the given
   // unichar representation represents a character fragment.
   const CHAR_FRAGMENT *get_fragment(const char* const unichar_repr) const {
-    if (unichar_repr == NULL || unichar_repr[0] == '\0' ||
-        !ids.contains(unichar_repr)) {
-      return NULL;
+    if (unichar_repr == nullptr || unichar_repr[0] == '\0' ||
+        !ids.contains(unichar_repr, false)) {
+      return nullptr;
     }
     return get_fragment(unichar_to_id(unichar_repr));
   }
@@ -774,7 +823,7 @@ class UNICHARSET {
 
   // Returns normalized version of unichar with the given unichar_id.
   const char *get_normed_unichar(UNICHAR_ID unichar_id) const {
-    if (unichar_id == UNICHAR_SPACE && has_special_codes()) return " ";
+    if (unichar_id == UNICHAR_SPACE) return " ";
     return unichars[unichar_id].properties.normed.string();
   }
   // Returns a vector of UNICHAR_IDs that represent the ids of the normalized
@@ -836,6 +885,8 @@ class UNICHARSET {
   int han_sid() const { return han_sid_; }
   int hiragana_sid() const { return hiragana_sid_; }
   int katakana_sid() const { return katakana_sid_; }
+  int thai_sid() const { return thai_sid_; }
+  int hangul_sid() const { return hangul_sid_; }
   int default_sid() const { return default_sid_; }
 
   // Returns true if the unicharset has the concept of upper/lower case.
@@ -880,10 +931,10 @@ class UNICHARSET {
     // baseline-normalized coordinates, ie, where the baseline is
     // kBlnBaselineOffset and the meanline is kBlnBaselineOffset + kBlnXHeight
     // (See normalis.h for the definitions).
-    uinT8 min_bottom;
-    uinT8 max_bottom;
-    uinT8 min_top;
-    uinT8 max_top;
+    uint8_t min_bottom;
+    uint8_t max_bottom;
+    uint8_t min_top;
+    uint8_t max_top;
     // Statstics of the widths of bounding box, relative to the median advance.
     float width;
     float width_sd;
@@ -908,7 +959,7 @@ class UNICHARSET {
     GenericVector<UNICHAR_ID> normed_ids;
     STRING normed;  // normalized version of this unichar
     // Contains meta information about the fragment if a unichar represents
-    // a fragment of a character, otherwise should be set to NULL.
+    // a fragment of a character, otherwise should be set to nullptr.
     // It is assumed that character fragments are added to the unicharset
     // after the corresponding 'base' characters.
     CHAR_FRAGMENT *fragment;
@@ -951,6 +1002,12 @@ class UNICHARSET {
   bool load_via_fgets(TessResultCallback2<char *, char *, int> *fgets_cb,
                       bool skip_fragments);
 
+  // List of mappings to make when ingesting strings from the outside.
+  // The substitutions clean up text that should exists for rendering of
+  // synthetic data, but not in the recognition set.
+  static const char* kCleanupMaps[][2];
+  static TESS_API const char* null_script;
+
   UNICHAR_SLOT* unichars;
   UNICHARMAP ids;
   int size_used;
@@ -958,7 +1015,6 @@ class UNICHARSET {
   char** script_table;
   int script_table_size_used;
   int script_table_size_reserved;
-  const char* null_script;
   // True if the unichars have their tops/bottoms set.
   bool top_bottom_set_;
   // True if the unicharset has significant upper/lower case chars.
@@ -966,6 +1022,8 @@ class UNICHARSET {
   // True if the unicharset has a significant mean-line with significant
   // ascenders above that.
   bool script_has_xheight_;
+  // True if the set contains chars that would be changed by the cleanup.
+  bool old_style_included_;
 
   // A few convenient script name-to-id mapping without using hash.
   // These are initialized when unicharset file is loaded.  Anything
@@ -978,8 +1036,10 @@ class UNICHARSET {
   int han_sid_;
   int hiragana_sid_;
   int katakana_sid_;
+  int thai_sid_;
+  int hangul_sid_;
   // The most frequently occurring script in the charset.
   int default_sid_;
 };
 
-#endif  // TESSERACT_CCUTIL_UNICHARSET_H__
+#endif  // TESSERACT_CCUTIL_UNICHARSET_H_

@@ -17,18 +17,20 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef TESSERACT_CCUTIL_UNICHAR_H__
-#define TESSERACT_CCUTIL_UNICHAR_H__
+#ifndef TESSERACT_CCUTIL_UNICHAR_H_
+#define TESSERACT_CCUTIL_UNICHAR_H_
 
 #include <memory.h>
 #include <string.h>
-
-template <typename T> class GenericVector;
+#include <string>
+#include <vector>
+#include "platform.h"
 
 // Maximum number of characters that can be stored in a UNICHAR. Must be
 // at least 4. Must not exceed 31 without changing the coding of length.
 #define UNICHAR_LEN 30
 
+// TODO(rays) Move these to the tesseract namespace.
 // A UNICHAR_ID is the unique id of a unichar.
 typedef int UNICHAR_ID;
 
@@ -44,6 +46,10 @@ enum StrongScriptDirection {
   DIR_MIX = 3,            // Text contains a mixture of left-to-right
                           // and right-to-left characters.
 };
+
+namespace tesseract {
+
+typedef signed int char32;
 
 // The UNICHAR class holds a single classification result. This may be
 // a single Unicode character (stored as between 1 and 4 utf8 bytes) or
@@ -74,7 +80,7 @@ class UNICHAR {
     return len >=0 && len < UNICHAR_LEN ? len : UNICHAR_LEN;
   }
 
-  // Get a UTF8 string, but NOT NULL terminated.
+  // Get a UTF8 string, but NOT nullptr terminated.
   const char* utf8() const {
     return chars;
   }
@@ -105,7 +111,7 @@ class UNICHAR {
    public:
     // Step to the next UTF8 character.
     // If the current position is at an illegal UTF8 character, then print an
-    // error message and step by one byte. If the current position is at a NULL
+    // error message and step by one byte. If the current position is at a nullptr
     // value, don't step past it.
     const_iterator& operator++();
 
@@ -151,9 +157,11 @@ class UNICHAR {
   static const_iterator end(const char* utf8_str, const int byte_length);
 
   // Converts a utf-8 string to a vector of unicodes.
-  // Returns false if the input contains invalid UTF-8, and replaces
-  // the rest of the string with a single space.
-  static bool UTF8ToUnicode(const char* utf8_str, GenericVector<int>* unicodes);
+  // Returns an empty vector if the input contains invalid UTF-8.
+  static std::vector<char32> UTF8ToUTF32(const char* utf8_str);
+  // Converts a vector of unicodes to a utf8 string.
+  // Returns an empty string if the input contains an invalid unicode.
+  static std::string UTF32ToUTF8(const std::vector<char32>& str32);
 
  private:
   // A UTF-8 representation of 1 or more Unicode characters.
@@ -162,4 +170,6 @@ class UNICHAR {
   char chars[UNICHAR_LEN];
 };
 
-#endif  // TESSERACT_CCUTIL_UNICHAR_H__
+}  // namespace tesseract
+
+#endif  // TESSERACT_CCUTIL_UNICHAR_H_

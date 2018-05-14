@@ -17,8 +17,8 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef TESSERACT_CCMAIN_THRESHOLDER_H__
-#define TESSERACT_CCMAIN_THRESHOLDER_H__
+#ifndef TESSERACT_CCMAIN_THRESHOLDER_H_
+#define TESSERACT_CCMAIN_THRESHOLDER_H_
 
 #include "platform.h"
 #include "publictypes.h"
@@ -117,7 +117,8 @@ class TESS_API ImageThresholder {
   /// Threshold the source image as efficiently as possible to the output Pix.
   /// Creates a Pix and sets pix to point to the resulting pointer.
   /// Caller must use pixDestroy to free the created Pix.
-  virtual void ThresholdToPix(PageSegMode pageseg_mode, Pix** pix);
+  /// Returns false on error.
+  virtual bool ThresholdToPix(PageSegMode pageseg_mode, Pix** pix);
 
   // Gets a pix that contains an 8 bit threshold value at each pixel. The
   // returned pix may be an integer reduction of the binary image such that
@@ -125,7 +126,7 @@ class TESS_API ImageThresholder {
   // to the extreme of a 1x1 pixel thresholds image.
   // Ideally the 8 bit threshold should be the exact threshold used to generate
   // the binary image in ThresholdToPix, but this is not a hard constraint.
-  // Returns NULL if the input is binary. PixDestroy after use.
+  // Returns nullptr if the input is binary. PixDestroy after use.
   virtual Pix* GetPixRectThresholds();
 
   /// Get a clone/copy of the source image rectangle.
@@ -186,4 +187,4 @@ class TESS_API ImageThresholder {
 
 }  // namespace tesseract.
 
-#endif  // TESSERACT_CCMAIN_THRESHOLDER_H__
+#endif  // TESSERACT_CCMAIN_THRESHOLDER_H_

@@ -55,14 +55,13 @@ class ParamUtils {
   // ORed or ANDed with any current values.
   // Blank lines and lines beginning # are ignored.
   // Values may have any whitespace after the name and are the rest of line.
-  static bool TESS_API ReadParamsFile(
+  static bool ReadParamsFile(
       const char *file,   // filename to read
       SetParamConstraint constraint,
       ParamsVectors *member_params);
 
-  // Read parameters from the given file pointer (stop at end_offset).
-  static bool ReadParamsFromFp(FILE *fp, inT64 end_offset,
-                               SetParamConstraint constraint,
+  // Read parameters from the given file pointer.
+  static bool ReadParamsFromFp(SetParamConstraint constraint, TFile *fp,
                                ParamsVectors *member_params);
 
   // Set a parameters to have the given value.
@@ -84,7 +83,7 @@ class ParamUtils {
     for (i = 0; i < member_vec.size(); ++i) {
       if (strcmp(member_vec[i]->name_str(), name) == 0) return member_vec[i];
     }
-    return NULL;
+    return nullptr;
   }
   // Removes the given pointer to the param from the given vector.
   template<class T>
@@ -131,7 +130,7 @@ class Param {
  protected:
   Param(const char *name, const char *comment, bool init) :
     name_(name), info_(comment), init_(init) {
-    debug_ = (strstr(name, "debug") != NULL) || (strstr(name, "display"));
+    debug_ = (strstr(name, "debug") != nullptr) || (strstr(name, "display"));
   }
 
   const char *name_;      // name of this parameter
@@ -142,7 +141,7 @@ class Param {
 
 class IntParam : public Param {
   public:
-   IntParam(inT32 value, const char *name, const char *comment, bool init,
+   IntParam(int32_t value, const char *name, const char *comment, bool init,
             ParamsVectors *vec) : Param(name, comment, init) {
     value_ = value;
     default_ = value;
@@ -150,16 +149,16 @@ class IntParam : public Param {
     vec->int_params.push_back(this);
   }
   ~IntParam() { ParamUtils::RemoveParam<IntParam>(this, params_vec_); }
-  operator inT32() const { return value_; }
-  void operator=(inT32 value) { value_ = value; }
-  void set_value(inT32 value) { value_ = value; }
+  operator int32_t() const { return value_; }
+  void operator=(int32_t value) { value_ = value; }
+  void set_value(int32_t value) { value_ = value; }
   void ResetToDefault() {
     value_ = default_;
   }
 
  private:
-  inT32 value_;
-  inT32 default_;
+  int32_t value_;
+  int32_t default_;
   // Pointer to the vector that contains this param (not owened by this class).
   GenericVector<IntParam *> *params_vec_;
 };
@@ -252,7 +251,7 @@ class DoubleParam : public Param {
 //
 // TODO(daria): remove GlobalParams() when all global Tesseract
 // parameters are converted to members.
-tesseract::ParamsVectors TESS_API *GlobalParams();
+tesseract::ParamsVectors *GlobalParams();
 
 /*************************************************************************
  * Note on defining parameters.

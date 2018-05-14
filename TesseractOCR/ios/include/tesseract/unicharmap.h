@@ -17,8 +17,8 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef TESSERACT_CCUTIL_UNICHARMAP_H__
-#define TESSERACT_CCUTIL_UNICHARMAP_H__
+#ifndef TESSERACT_CCUTIL_UNICHARMAP_H_
+#define TESSERACT_CCUTIL_UNICHARMAP_H_
 
 #include "unichar.h"
 
@@ -37,19 +37,10 @@ class UNICHARMAP {
   void insert(const char* const unichar_repr, UNICHAR_ID id);
 
   // Return the id associated with the given unichar representation,
-  // this representation MUST exist within the UNICHARMAP.
-  // The length of the representation MUST be non-zero.
-  UNICHAR_ID unichar_to_id(const char* const unichar_repr) const;
-
-  // Return the id associated with the given unichar representation,
   // this representation MUST exist within the UNICHARMAP. The first
   // length characters (maximum) from unichar_repr are used. The length
   // MUST be non-zero.
   UNICHAR_ID unichar_to_id(const char* const unichar_repr, int length) const;
-
-  // Return true if the given unichar representation is already present in the
-  // UNICHARMAP. The length of the representation MUST be non-zero.
-  bool contains(const char* const unichar_repr) const;
 
   // Return true if the given unichar representation is already present in the
   // UNICHARMAP. The first length characters (maximum) from unichar_repr are
@@ -79,4 +70,4 @@ class UNICHARMAP {
   UNICHARMAP_NODE* nodes;
 };
 
-#endif  // TESSERACT_CCUTIL_UNICHARMAP_H__
+#endif  // TESSERACT_CCUTIL_UNICHARMAP_H_

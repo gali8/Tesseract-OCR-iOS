@@ -25,8 +25,11 @@
 #ifndef TESSERACT_CCUTIL_HELPERS_H_
 #define TESSERACT_CCUTIL_HELPERS_H_
 
+#include <cassert>
 #include <stdio.h>
 #include <string.h>
+#include <functional>
+#include <string>
 
 #include "host.h"
 
@@ -40,22 +43,27 @@ class TRand {
  public:
   TRand() : seed_(1) {}
   // Sets the seed to the given value.
-  void set_seed(uinT64 seed) {
+  void set_seed(uint64_t seed) {
     seed_ = seed;
   }
+  // Sets the seed using a hash of a string.
+  void set_seed(const std::string& str) {
+    std::hash<std::string> hasher;
+    set_seed(static_cast<uint64_t>(hasher(str)));
+  }
 
-  // Returns an integer in the range 0 to MAX_INT32.
-  inT32 IntRand() {
+  // Returns an integer in the range 0 to INT32_MAX.
+  int32_t IntRand() {
     Iterate();
     return seed_ >> 33;
   }
   // Returns a floating point value in the range [-range, range].
   double SignedRand(double range) {
-    return range * 2.0 * IntRand() / MAX_INT32 - range;
+    return range * 2.0 * IntRand() / INT32_MAX - range;
   }
   // Returns a floating point value in the range [0, range].
   double UnsignedRand(double range) {
-    return range * IntRand() / MAX_INT32;
+    return range * IntRand() / INT32_MAX;
   }
 
  private:
@@ -66,7 +74,7 @@ class TRand {
   }
 
   // The current value of the seed.
-  uinT64 seed_;
+  uint64_t seed_;
 };
 
 }  // namespace tesseract
@@ -173,9 +181,15 @@ inline int IntCastRounded(double x) {
   return x >= 0.0 ? static_cast<int>(x + 0.5) : -static_cast<int>(-x + 0.5);
 }
 
+// Return a float cast to int with rounding.
+inline int IntCastRounded(float x) {
+  return x >= 0.0f ? static_cast<int>(x + 0.5f) : -static_cast<int>(-x + 0.5f);
+}
+
 // Reverse the order of bytes in a n byte quantity for big/little-endian switch.
 inline void ReverseN(void* ptr, int num_bytes) {
-  char *cptr = reinterpret_cast<char *>(ptr);
+  assert(num_bytes == 1 || num_bytes == 2 || num_bytes == 4 || num_bytes == 8);
+  char* cptr = static_cast<char*>(ptr);
   int halfsize = num_bytes / 2;
   for (int i = 0; i < halfsize; ++i) {
     char tmp = cptr[i];

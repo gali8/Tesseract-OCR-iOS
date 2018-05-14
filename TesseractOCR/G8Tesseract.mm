@@ -174,7 +174,17 @@ namespace tesseract {
             #endif
         }
 
-        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
+        if ([[_absoluteDataPath substringFromIndex:_absoluteDataPath.length - 1] isEqual:@"/"]) {
+            _absoluteDataPath = [_absoluteDataPath substringToIndex:_absoluteDataPath.length - 1];
+        }
+
+        if ([[_absoluteDataPath substringFromIndex:_absoluteDataPath.length - 8] isEqualToString:@"tessdata"]) {
+            // noop
+        } else {
+            _absoluteDataPath = [_absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
+        }
+
+        setenv("TESSDATA_PREFIX", _absoluteDataPath.fileSystemRepresentation, 1);
 
         self.language = language.copy;
     }
@@ -213,7 +223,7 @@ namespace tesseract {
     int count = (int)self.configFileNames.count;
     const char **configs = count ? (const char **)malloc(sizeof(const char *) * count) : NULL;
     for (int i = 0; i < count; i++) {
-        configs[i] = ((NSString*)self.configFileNames[i]).fileSystemRepresentation;
+        configs[i] = self.configFileNames[i].fileSystemRepresentation;
     }
     int returnCode = self.tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
                                           (tesseract::OcrEngineMode)self.engineMode,
@@ -223,6 +233,7 @@ namespace tesseract {
     if (configs != nullptr) {
         free(configs);
     }
+
     return returnCode == 0;
 }
 
@@ -304,8 +315,8 @@ namespace tesseract {
                 // delete broken symlinks first
                 [fileManager removeItemAtPath:destinationFileName error:&error];
 
-                // than recreate it
-                error = nil;    // don't care about previous error, that can happens if we tried to remove a symlink, which doesn't exist
+                // then recreate it
+                error = nil;    // don't care about previous error, that can happen if we tried to remove a symlink that doesn't exist
                 BOOL res = [fileManager createSymbolicLinkAtPath:destinationFileName
                                              withDestinationPath:filePath
                                                            error:&error];
@@ -855,17 +866,21 @@ namespace tesseract {
     return nil;
 }
 
+// outputbase is the name of the output file excluding
+// extension. For example, "/path/to/chocolate-chip-cookie-recipe"
 - (NSData *)recognizedPDFForImages:(NSArray*)images outputbase:(NSString*)outputbase {
 
     if (!self.isEngineConfigured) {
         return nil;
     }
 
-    NSString *path = [self.absoluteDataPath stringByAppendingPathComponent:@"tessdata"];
-    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(outputbase.fileSystemRepresentation, path.fileSystemRepresentation);
+    tesseract::TessPDFRenderer *renderer = new tesseract::TessPDFRenderer(
+                                                                          outputbase.fileSystemRepresentation,
+                                                                          self.absoluteDataPath.fileSystemRepresentation,
+                                                                          false);
 
     // Begin producing output
-    const char* kUnknownTitle = "Unknown Title";
+    const char* kUnknownTitle = "";
     if (renderer && !renderer->BeginDocument(kUnknownTitle)) {
         return nil; // LCOV_EXCL_LINE
     }
@@ -907,7 +922,11 @@ namespace tesseract {
         return nil; // LCOV_EXCL_LINE
     }
 
-    NSData *data = [NSData dataWithContentsOfFile:outputbase];
+    delete renderer;
+    renderer = nullptr;
+
+    NSString *outputbaseFilePath = [outputbase stringByAppendingPathExtension:@"pdf"];
+    NSData *data = [NSData dataWithContentsOfFile:outputbaseFilePath];
     return data;
 }
 
@@ -1018,7 +1037,7 @@ namespace tesseract {
     }
 
     if (self.maximumRecognitionTime > FLT_EPSILON) {
-        _monitor->set_deadline_msecs((inT32)(self.maximumRecognitionTime * 1000));
+        _monitor->set_deadline_msecs((int32_t)(self.maximumRecognitionTime * 1000));
     }
 
     self.recognized = NO;

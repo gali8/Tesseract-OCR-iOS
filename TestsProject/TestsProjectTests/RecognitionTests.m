@@ -82,7 +82,6 @@ describe(@"Simple image", ^{
     });
 
     it(@"Should recognize regardless of orientation", ^{
-        
         NSString *text = @"1234567890";
         testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_left.jpg"], UIImageOrientationLeft, text);
         testImageWithOrientationShouldContainText([UIImage imageNamed:@"image_sample_right.jpg"], UIImageOrientationRight, text);
@@ -180,7 +179,7 @@ describe(@"Simple image", ^{
         NSArray *blocks = [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelSymbol];
         UIImage *blocksImage = [helper.tesseract imageWithBlocks:blocks drawText:YES thresholded:NO];
         UIImage *expectedBlocksImage = [UIImage imageNamed:@"image_sample_bl"];
-        
+
         [[theValue([blocksImage g8_isEqualToImage:expectedBlocksImage]) should] beYes];
     });
 
@@ -236,7 +235,7 @@ describe(@"Well scaned page", ^{
     static NSString *const kG8WellScanedFinalLongString = @"recommendations sometimes get acted on";
 
     beforeEach(^{
-        helper.image = [UIImage imageNamed:@"well_scaned_page"];
+        helper.image = [UIImage imageNamed:@"well_scanned_page"];
     });
 
     it(@"Should recognize", ^{
@@ -297,85 +296,87 @@ describe(@"Well scaned page", ^{
 
         [[[[helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
     });
-    
+
     it(@"Should recognize regardless of orientation", ^{
-        
         NSString *text = kG8WellScanedFinalLongString;
-        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scaned_page_left"], UIImageOrientationLeft, text);
-        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scaned_page_right"], UIImageOrientationRight, text);
-        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scaned_page_down"], UIImageOrientationDown, text);
-        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scaned_page_up_mirrored"], UIImageOrientationUpMirrored, text);
-        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scaned_page_left_mirrored"], UIImageOrientationLeftMirrored, text);
-        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scaned_page_right_mirrored"], UIImageOrientationRightMirrored, text);
-        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scaned_page_down_mirrored"], UIImageOrientationDownMirrored, text);
+        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scanned_page_left"], UIImageOrientationLeft, text);
+        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scanned_page_right"], UIImageOrientationRight, text);
+        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scanned_page_down"], UIImageOrientationDown, text);
+        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scanned_page_up_mirrored"], UIImageOrientationUpMirrored, text);
+        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scanned_page_left_mirrored"], UIImageOrientationLeftMirrored, text);
+        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scanned_page_right_mirrored"], UIImageOrientationRightMirrored, text);
+        testImageWithOrientationShouldContainText([UIImage imageNamed:@"well_scanned_page_down_mirrored"], UIImageOrientationDownMirrored, text);
     });
+
 });
 
 #pragma mark - hOCR
 
 describe(@"hOCR", ^{
-    
+
     it(@"Should sample image", ^{
-        
         NSString *path = [[NSBundle mainBundle] pathForResource:@"image_sample" ofType:@"hOCR"];
-        
+
         helper.image = [UIImage imageNamed:@"image_sample.jpg"];
         helper.charWhitelist = @"0123456789";
-        
+
         [helper recognizeImage];
         NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
-        
+
         NSError *error = nil;
         [[hOCR should] equal:[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error]];
         NSAssert(error == nil, @"error loading hOCR from file %@: %@", path, error);
     });
-    
+
     it(@"Should well scanned page", ^{
-        
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"well_scaned_page" ofType:@"hOCR"];
-        
-        helper.image = [UIImage imageNamed:@"well_scaned_page"];
-        
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"well_scanned_page" ofType:@"hOCR"];
+
+        helper.image = [UIImage imageNamed:@"well_scanned_page"];
+
         [helper recognizeImage];
         NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
-        
+
         NSError *error = nil;
         [[hOCR should] equal:[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error]];
         NSAssert(error == nil, @"error loading hOCR from file %@: %@", path, error);
     });
-    
+
     it(@"Should return nil without prerecognition", ^{
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
-        
+
         NSString *hOCR = [tesseract recognizedHOCRForPageNumber:0];
         [[hOCR should] beNil];
     });
+
 });
 
 describe(@"PDF", ^{
-  
+
     NSData *(^recognizedPDFForImages)(NSArray*images) = ^NSData*(NSArray*images) {
-        NSString *resourcePath = [NSBundle mainBundle].resourcePath;
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
-        NSString *outputbasePath = [resourcePath stringByAppendingPathComponent:@"outputbase"];
-        NSLog(@"outputbasePath: %@", outputbasePath);
-        return [tesseract recognizedPDFForImages:images outputbase: outputbasePath];
+
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *outputFilePath = [documentsDirectory stringByAppendingPathComponent:@"outputbase"];
+
+        return [tesseract recognizedPDFForImages:images outputbase:outputFilePath];
     };
-    
+
     NSData * (^samplePDFDataFromFile)(NSString *fileName) = ^NSData*(NSString *fileName) {
         NSString *PDFPath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"pdf"];
         NSData *PDF = [NSData dataWithContentsOfFile:PDFPath];
         NSAssert(PDF, @"There is not %@ file to compare to", PDFPath);
         return PDF;
     };
-  
+
     it(@"Should generate well scanned page", ^{
-        NSData *pdfData = recognizedPDFForImages(@[[UIImage imageNamed:@"well_scaned_page"]]);
-        [[theValue([pdfData g8_isEqualToData:samplePDFDataFromFile(@"well_scaned_page")]) should] beYes];
+        NSData *pdfData = recognizedPDFForImages(@[[UIImage imageNamed:@"well_scanned_page"]]);
+        NSData *samplePDFData = samplePDFDataFromFile(@"well_scanned_page");
+        [[theValue([pdfData g8_isEqualToData:samplePDFData]) should] beYes];
     });
 
     context(@"Should generate empty page for", ^{
-      
+
         it(@"nil array", ^{
             [[theValue([recognizedPDFForImages(nil) g8_isEqualToData:samplePDFDataFromFile(@"empty")]) should] beYes];
         });
@@ -383,11 +384,13 @@ describe(@"PDF", ^{
         it(@"empty array", ^{
             [[theValue([recognizedPDFForImages(@[]) g8_isEqualToData:samplePDFDataFromFile(@"empty")]) should] beYes];
         });
-      
+
         it(@"array containing nonimage", ^{
             [[theValue([recognizedPDFForImages(@[@"someStringAsImage.png"]) g8_isEqualToData:samplePDFDataFromFile(@"empty")]) should] beYes];
         });
+
     });
+
 });
 
 SPEC_END

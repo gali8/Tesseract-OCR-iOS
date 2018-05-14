@@ -18,8 +18,8 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef TESSERACT_CCMAIN_LTR_RESULT_ITERATOR_H__
-#define TESSERACT_CCMAIN_LTR_RESULT_ITERATOR_H__
+#ifndef TESSERACT_CCMAIN_LTR_RESULT_ITERATOR_H_
+#define TESSERACT_CCMAIN_LTR_RESULT_ITERATOR_H_
 
 #include "platform.h"
 #include "pageiterator.h"
@@ -115,7 +115,7 @@ class TESS_API LTRResultIterator : public PageIterator {
                                  int* font_id) const;
 
   // Return the name of the language used to recognize this word.
-  // On error, NULL.  Do not delete this pointer.
+  // On error, nullptr.  Do not delete this pointer.
   const char* WordRecognitionLanguage() const;
 
   // Return the overall directionality of this word.
@@ -123,6 +123,9 @@ class TESS_API LTRResultIterator : public PageIterator {
 
   // Returns true if the current word was found in a dictionary.
   bool WordIsFromDictionary() const;
+
+  // Returns the number of blanks before the current word.
+  int BlanksBeforeWord() const;
 
   // Returns true if the current word is numeric.
   bool WordIsNumeric() const;
@@ -135,11 +138,11 @@ class TESS_API LTRResultIterator : public PageIterator {
   const void *GetParamsTrainingBundle() const;
 
   // Returns a pointer to the string with blamer information for this word.
-  // Assumes that the word's blamer_bundle is not NULL.
+  // Assumes that the word's blamer_bundle is not nullptr.
   const char *GetBlamerDebug() const;
 
   // Returns a pointer to the string with misadaption information for this word.
-  // Assumes that the word's blamer_bundle is not NULL.
+  // Assumes that the word's blamer_bundle is not nullptr.
   const char *GetBlamerMisadaptionDebug() const;
 
   // Returns true if a truth string was recorded for the current word.
@@ -215,4 +218,4 @@ class ChoiceIterator {
 
 }  // namespace tesseract.
 
-#endif  // TESSERACT_CCMAIN_LTR_RESULT_ITERATOR_H__
+#endif  // TESSERACT_CCMAIN_LTR_RESULT_ITERATOR_H_

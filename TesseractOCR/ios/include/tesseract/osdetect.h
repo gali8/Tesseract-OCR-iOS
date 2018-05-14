@@ -17,8 +17,8 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef TESSERACT_CCMAIN_OSDETECT_H__
-#define TESSERACT_CCMAIN_OSDETECT_H__
+#ifndef TESSERACT_CCMAIN_OSDETECT_H_
+#define TESSERACT_CCMAIN_OSDETECT_H_
 
 #include "strngs.h"
 #include "unicharset.h"
@@ -45,7 +45,7 @@ struct OSBestResult {
 };
 
 struct OSResults {
-  OSResults() : unicharset(NULL) {
+  OSResults() : unicharset(nullptr) {
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < kMaxNumberOfScripts; ++j)
         scripts_na[i][j] = 0;
@@ -135,4 +135,4 @@ bool os_detect_blob(BLOBNBOX* bbox, OrientationDetector* o,
 // applied for the text to be upright (readable).
 TESS_API int OrientationIdToValue(const int& id);
 
-#endif  // TESSERACT_CCMAIN_OSDETECT_H__
+#endif  // TESSERACT_CCMAIN_OSDETECT_H_

@@ -19,8 +19,8 @@
 //
 ///////////////////////////////////////////////////////////////////////
 
-#ifndef TESSERACT_CCMAIN_RESULT_ITERATOR_H__
-#define TESSERACT_CCMAIN_RESULT_ITERATOR_H__
+#ifndef TESSERACT_CCMAIN_RESULT_ITERATOR_H_
+#define TESSERACT_CCMAIN_RESULT_ITERATOR_H_
 
 #include "platform.h"
 #include "ltrresultiterator.h"
@@ -81,6 +81,10 @@ class TESS_API ResultIterator : public LTRResultIterator {
   */
   virtual bool IsAtFinalElement(PageIteratorLevel level,
                                 PageIteratorLevel element) const;
+
+  // ============= Functions that refer to words only ============.
+  // Returns the number of blanks before the current word.
+  int BlanksBeforeWord() const;
 
   // ============= Accessing data ==============.
 
@@ -159,7 +163,7 @@ class TESS_API ResultIterator : public LTRResultIterator {
   void CalculateTextlineOrder(bool paragraph_is_ltr,
                               const LTRResultIterator &resit,
                               GenericVectorEqEq<int> *indices) const;
-  /** Same as above, but the caller's ssd gets filled in if ssd != NULL. */
+  /** Same as above, but the caller's ssd gets filled in if ssd != nullptr. */
   void CalculateTextlineOrder(bool paragraph_is_ltr,
                               const LTRResultIterator &resit,
                               GenericVector<StrongScriptDirection> *ssd,
@@ -241,4 +245,4 @@ class TESS_API ResultIterator : public LTRResultIterator {
 
 }  // namespace tesseract.
 
-#endif  // TESSERACT_CCMAIN_RESULT_ITERATOR_H__
+#endif  // TESSERACT_CCMAIN_RESULT_ITERATOR_H_
