@@ -3,7 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 workspace 'Tesseract-OCR-iOS'
 
 def testing_pods
-  pod 'Kiwi', '~> 2.4.0'
+  pod 'Kiwi', '~> 3.0.0'
 end
 
 target 'TestsProjectTests' do

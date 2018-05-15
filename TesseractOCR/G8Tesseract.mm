@@ -223,7 +223,7 @@ namespace tesseract {
     int count = (int)self.configFileNames.count;
     const char **configs = count ? (const char **)malloc(sizeof(const char *) * count) : NULL;
     for (int i = 0; i < count; i++) {
-        configs[i] = self.configFileNames[i].fileSystemRepresentation;
+        configs[i] = ((NSString*)self.configFileNames[i]).fileSystemRepresentation;
     }
     int returnCode = self.tesseract->Init(self.absoluteDataPath.fileSystemRepresentation, self.language.UTF8String,
                                           (tesseract::OcrEngineMode)self.engineMode,
