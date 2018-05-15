@@ -1,27 +1,28 @@
-LEPTON_NAME = leptonica-1.72
+LEPTON_NAME = leptonica-1.75.3
 PNG_NAME    = libpng-1.6.34
 JPEG_NAME   = jpeg-9c
 TIFF_NAME   = tiff-4.0.9
 
+PLATFORM_PREFIX=macos
 SDK_MACOS_PATH=$(shell xcrun --sdk macosx --show-sdk-path)
 XCODE_DEVELOPER_PATH="`xcode-select -p`"
 XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
 MACOS_DEPLOY_TGT="10.13"
 
-TESSERACT_SRC = $(shell pwd)/tesseract-ocr/macos
+TESSERACT_SRC = $(shell pwd)/tesseract-ocr
 LEPTON_SRC = $(shell pwd)/$(LEPTON_NAME)
 # TODO: libtiff-ios -> libtiff-macos?
-IMAGE_SRC = $(shell pwd)/libtiff-ios/macos
+IMAGE_SRC = $(shell pwd)/libtiff-ios/$(PLATFORM_PREFIX)
 PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
 JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
 TIFF_SRC = $(IMAGE_SRC)/$(TIFF_NAME)
 
-IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/macos/lib/
-IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/macos/include/
-INCLUDE_DIR   = $(shell pwd)/macos/include
+IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/$(PLATFORM_PREFIX)/lib/
+IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/$(PLATFORM_PREFIX)/include/
+INCLUDE_DIR   = $(shell pwd)/$(PLATFORM_PREFIX)/include
 LEPT_INC_DIR  = $(INCLUDE_DIR)
 TESS_INC_DIR  = $(INCLUDE_DIR)
-LIB_FAT_DIR   = $(shell pwd)/macos/lib
+LIB_FAT_DIR   = $(shell pwd)/$(PLATFORM_PREFIX)/lib
 
 libtessfiles = libtesseract.a
 libleptfiles = liblept.a
@@ -67,7 +68,6 @@ swap  = $(word $(call index,$(1),$(2)),$(3))
 
 dependant_libs = $(libtessfat) $(libleptfat) $(libpngfat) $(libjpegfat) $(libtifffat)
 
-# TODO: iphoneos-version-min
 common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -mmacosx-version-min=$(MACOS_DEPLOY_TGT) -O2
 
 .PHONY : all
@@ -93,6 +93,7 @@ $(TESSERACT_SRC)/%/Makefile : $(libtessconfig) $(libleptfat)
 	export CXXFLAGS="-I$(TESSERACT_SRC)/$*/ $(common_cflags) -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$*/src/.libs" ; \
 	export LIBLEPT_HEADERSDIR=$(TESSERACT_SRC)/$*/ ; \
+	export PKG_CONFIG_PATH=$(LEPTON_SRC)/$*/ ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 	ln -s $(LEPTON_SRC)/src/ leptonica ; \
@@ -120,7 +121,7 @@ $(LEPTON_SRC)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
-		export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
+	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 		../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
