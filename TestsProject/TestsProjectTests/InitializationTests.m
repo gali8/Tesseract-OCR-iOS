@@ -74,7 +74,7 @@ describe(@"Tesseract initialization", ^{
             //
             for (int i = 0; i <= 10; i++) {
                 G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] initWithLanguage:kG8Languages];
-                operation.tesseract.image = [UIImage imageNamed:@"well_scaned_page"];
+                operation.tesseract.image = [UIImage imageNamed:@"well_scanned_page"];
                 operation.tesseract.language = kG8Languages;
 
                 NSOperationQueue *queue = [[NSOperationQueue alloc] init];

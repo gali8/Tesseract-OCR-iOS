@@ -288,7 +288,7 @@ describe(@"hOCR", ^{
     });
 
     it(@"Should well scanned page", ^{
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"well_scaned_page" ofType:@"hOCR"];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"well_scanned_page" ofType:@"hOCR"];
 
         helper.image = [NSImage imageNamed:@"well_scanned_page"];
 
@@ -317,7 +317,12 @@ describe(@"PDF", ^{
 
     NSData *(^recognizedPDFForImages)(NSArray*images) = ^NSData*(NSArray*images) {
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
-        return [tesseract recognizedPDFForImages:images];
+
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *outputFilePath = [documentsDirectory stringByAppendingPathComponent:@"outputbase"];
+
+        return [tesseract recognizedPDFForImages:images outputbase:outputFilePath];
     };
 
     NSData * (^samplePDFDataFromFile)(NSString *fileName) = ^NSData*(NSString *fileName) {
@@ -329,7 +334,7 @@ describe(@"PDF", ^{
 
     it(@"Should generate well scanned page", ^{
         NSData *pdfData = recognizedPDFForImages(@[[NSImage imageNamed:@"well_scanned_page"]]);
-        [[theValue([pdfData g8_isEqualToData:samplePDFDataFromFile(@"well_scaned_page")]) should] beYes];
+        [[theValue([pdfData g8_isEqualToData:samplePDFDataFromFile(@"well_scanned_page")]) should] beYes];
     });
 
     context(@"Should generate empty page for", ^{
