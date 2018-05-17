@@ -23,33 +23,29 @@
 
 SPEC_BEGIN(TesseractInitialization)
 
-
-
 describe(@"Tesseract initialization", ^{
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *resourcePath = [NSBundle mainBundle].resourcePath;
     NSString *customDirectoryPath = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"testDirectory"];
     NSString *tessdataFolderName = @"tessdata";
-    NSString *tessdataFolderPathFromTheBundle = [[resourcePath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingString:@"/"];
+    NSString *tessdataFolderPathFromTheBundle = [resourcePath stringByAppendingPathComponent:tessdataFolderName];
     NSString *debugConfigsFileName = @"debugConfigs.txt";
     NSString *recognitionConfigsFileName = @"recognitionConfigs.txt";
     NSString *tessConfigsFolderName = @"tessconfigs";
 
     // config dictionary and its proving block
     NSDictionary *initOnlyConfigDictionary = @{
-                           kG8ParamTessdataManagerDebugLevel  : @"1",
+//                           kG8ParamTessdataManagerDebugLevel  : @"1",
                            kG8ParamLoadSystemDawg             : @"F",
                            kG8ParamLoadFreqDawg               : @"F",
                            kG8ParamUserWordsSuffix            : @"user-words",
                            kG8ParamUserPatternsSuffix         : @"user-patterns",
                            };
     void (^checkVariablesAreSetForTesseract)(G8Tesseract *tesseract) = ^(G8Tesseract *tesseract){
-        // these variable could be set up during the initialization
-
+        // these variables could be set up during the initialization
         // TODO: Don't think this exists any more
 //        [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
-
         [[[tesseract variableValueForKey:kG8ParamLoadSystemDawg] should] equal:@"0"];
         [[[tesseract variableValueForKey:kG8ParamLoadFreqDawg] should] equal:@"0"];
         [[[tesseract variableValueForKey:kG8ParamUserWordsSuffix] should] equal:@"user-words"];
@@ -63,7 +59,7 @@ describe(@"Tesseract initialization", ^{
         [[theValue(tesseract.progress) should] equal:theValue(100)];
 
         NSString *recognizedText = tesseract.recognizedText;
-        [[recognizedText should] equal:@"1234567890\n\n"];
+        [[recognizedText should] equal:@"1234567890\n"];
     };
 
     context(@"Should check common functions", ^{
@@ -73,7 +69,6 @@ describe(@"Tesseract initialization", ^{
         });
 
         it(@"Should not raise on cache clearing", ^{
-            //
             for (int i = 0; i <= 10; i++) {
                 G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] initWithLanguage:kG8Languages];
                 operation.tesseract.image = [NSImage imageNamed:@"well_scanned_page"];
@@ -87,12 +82,6 @@ describe(@"Tesseract initialization", ^{
                 [G8Tesseract clearCache];
             }) shouldNot] raise];
         });
-
-//        it(@"Should clear cache on memory warning", ^{
-//            // should be called on a memory warning notification
-//            [[G8Tesseract should] receive:@selector(didReceiveMemoryWarningNotification:)];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-//        });
 
         it(@"Should test pixForImage returns nil", ^{
             G8RecognitionTestsHelper *helper = [[G8RecognitionTestsHelper alloc] init];
@@ -150,7 +139,6 @@ describe(@"Tesseract initialization", ^{
 
     NSString *tessdataPath = @"foo/bar";
     void (^cleanTessdataFolderAtPath)(NSString *dataPath) = ^(NSString *dataPath) {
-        //NSLog(@"Removing previous tessdata folder from Caches folder");
         NSError *error = nil;
         BOOL fileIsRemoved = [fileManager removeItemAtPath:dataPath error:&error];
         if (error != nil) {
@@ -195,10 +183,7 @@ describe(@"Tesseract initialization", ^{
 
             NSString *destinationFileName = [destinationPath stringByAppendingPathComponent:filename];
             if (![fileManager fileExistsAtPath:destinationFileName]) {
-
                 NSString *sourceFilePath = [tessdataSourcePath stringByAppendingPathComponent:filename];
-                //NSLog(@"found %@", filePath);
-                //NSLog(@"symlink in %@", destinationFileName);
 
                 BOOL res = [fileManager createSymbolicLinkAtPath:destinationFileName
                                              withDestinationPath:sourceFilePath
@@ -230,7 +215,7 @@ describe(@"Tesseract initialization", ^{
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
 
-            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            [[tesseract.absoluteDataPath should] equal:[resourcePath stringByAppendingPathComponent:tessdataFolderName]];
 
             moveTessdataToFolderIfNecessary(customDirectoryPath);
 
@@ -242,7 +227,7 @@ describe(@"Tesseract initialization", ^{
             tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
 
-            [[tesseract.absoluteDataPath should] equal:customDirectoryPath];
+            [[tesseract.absoluteDataPath should] equal:customTessDataPath];
 
             isDirectory = NO;
             [[theValue([fileManager fileExistsAtPath:customTessDataPath isDirectory:&isDirectory]) should] beYes];
@@ -253,7 +238,7 @@ describe(@"Tesseract initialization", ^{
             tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:customDirectoryPath engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
 
-            [[tesseract.absoluteDataPath should] equal:customDirectoryPath];
+            [[tesseract.absoluteDataPath should] equal:customTessDataPath];
 
             isDirectory = NO;
             [[theValue([fileManager fileExistsAtPath:[customDirectoryPath stringByAppendingPathComponent:@"tessdata"] isDirectory:&isDirectory]) should] beYes];
@@ -283,7 +268,7 @@ describe(@"Tesseract initialization", ^{
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
             [[tesseract shouldNot] beNil];
 
-            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            [[tesseract.absoluteDataPath should] equal:tessdataFolderPathFromTheBundle];
 
             tesseract = [G8Tesseract alloc];
             [[tesseract shouldNot] beNil];
@@ -303,7 +288,7 @@ describe(@"Tesseract initialization", ^{
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
 
-            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            [[tesseract.absoluteDataPath should] equal:tessdataFolderPathFromTheBundle];
         });
 
         NSString *debugConfigsFilePathFromTheBundle = [[tessdataFolderPathFromTheBundle stringByAppendingPathComponent:tessConfigsFolderName]  stringByAppendingPathComponent:debugConfigsFileName];
@@ -313,7 +298,7 @@ describe(@"Tesseract initialization", ^{
             [[theBlock(^{
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:nil
-                                                               configFileNames:(NSArray*)debugConfigsFilePathFromTheBundle
+                                                               configFileNames:(NSArray*)debugConfigsFileName
                                                          cachesRelatedDataPath:nil
                                                                     engineMode:G8OCREngineModeTesseractOnly];
                 [tesseract recognize];
@@ -324,39 +309,37 @@ describe(@"Tesseract initialization", ^{
 
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                           configDictionary:nil
-                                                           configFileNames:@[debugConfigsFilePathFromTheBundle, recognitionConfigsFilePathFromTheBundle]
+                                                           configFileNames:@[debugConfigsFileName, recognitionConfigsFileName]
                                                      cachesRelatedDataPath:nil
                                                                 engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
-            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            [[tesseract.absoluteDataPath should] equal:tessdataFolderPathFromTheBundle];
 
             checkVariablesAreSetForTesseract(tesseract);
         });
 
         it(@"Should initialize with config dictionary", ^{
-
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                           configDictionary:initOnlyConfigDictionary
                                                            configFileNames:nil
                                                      cachesRelatedDataPath:nil
                                                                 engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
-            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            [[tesseract.absoluteDataPath should] equal:tessdataFolderPathFromTheBundle];
 
             checkVariablesAreSetForTesseract(tesseract);
         });
 
         it(@"Should initialize with config dictionary and a file", ^{
-
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                           configDictionary:@{
-                                                                             kG8ParamTessdataManagerDebugLevel  : @"1",
+//                                                                             kG8ParamTessdataManagerDebugLevel  : @"1",
                                                                              }
                                                            configFileNames:@[recognitionConfigsFilePathFromTheBundle]
                                                      cachesRelatedDataPath:nil
                                                                 engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
-            [[tesseract.absoluteDataPath should] equal:resourcePath];
+            [[tesseract.absoluteDataPath should] equal:tessdataFolderPathFromTheBundle];
 
             checkVariablesAreSetForTesseract(tesseract);
         });
@@ -364,7 +347,7 @@ describe(@"Tesseract initialization", ^{
 
     NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesPath = cachesPaths.firstObject;
-    NSString *cachesTessDataPath = [cachesPath stringByAppendingPathComponent:tessdataPath];
+    NSString *cachesTessDataPath = [[cachesPath stringByAppendingPathComponent:tessdataPath] stringByAppendingPathComponent:@"tessdata"];
 
     context(@"moveTessdataToCachesDirectoryIfNecessary", ^{
 
@@ -398,7 +381,7 @@ describe(@"Tesseract initialization", ^{
 
     NSDictionary *(^dictionaryForRuntime)() = ^NSDictionary *() {
         return @{
-                 kG8ParamTessdataManagerDebugLevel  : @"1",
+//                 kG8ParamTessdataManagerDebugLevel  : @"1",
                  kG8ParamUserWordsSuffix            : @"user-words",
                  };
     };
@@ -412,7 +395,7 @@ describe(@"Tesseract initialization", ^{
             NSAssert(contentsOfTessdataFromTheBundle.count >= 1, @"Error! Tessdata folder is empty");
             NSAssert(error == nil, @"Error getting the content of the Tessdata folder from the app bundle: %@", error);
 
-            NSArray *contentsOfTheTessdataPathFolder = [fileManager contentsOfDirectoryAtPath:[cachesTessDataPath stringByAppendingPathComponent:tessdataFolderName] error:&error];
+            NSArray *contentsOfTheTessdataPathFolder = [fileManager contentsOfDirectoryAtPath:cachesTessDataPath error:&error];
             [[contentsOfTheTessdataPathFolder should] haveCountOfAtLeast:1];
             if (error != nil) {
                 NSLog(@"Error getting the content of the Tessdata folder from the Caches folder: %@", error);
@@ -421,8 +404,8 @@ describe(@"Tesseract initialization", ^{
             return [contentsOfTheTessdataPathFolder isEqualToArray:contentsOfTessdataFromTheBundle];
         };
 
-        NSString *debugConfigsFilePathFromTheCaches = [[[cachesTessDataPath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingPathComponent:tessConfigsFolderName] stringByAppendingPathComponent:debugConfigsFileName];
-        NSString *recognitionConfigsFilePathFromTheCaches = [[[cachesTessDataPath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingPathComponent:tessConfigsFolderName] stringByAppendingPathComponent:recognitionConfigsFileName];
+        NSString *debugConfigsFilePathFromTheCaches = [[cachesTessDataPath stringByAppendingPathComponent:tessConfigsFolderName] stringByAppendingPathComponent:debugConfigsFileName];
+        NSString *recognitionConfigsFilePathFromTheCaches = [[cachesTessDataPath stringByAppendingPathComponent:tessConfigsFolderName] stringByAppendingPathComponent:recognitionConfigsFileName];
 
         context(@"no tessdata folder in the Caches yet", ^{
 
@@ -452,6 +435,7 @@ describe(@"Tesseract initialization", ^{
             G8Tesseract* (^tesseractInitializedWithTessData)() = ^{
                 // prove Caches folder is empty
                 BOOL folderExists = [fileManager fileExistsAtPath:cachesTessDataPath];
+
                 NSAssert(folderExists == NO, @"Error! Tessdata folder is already here: %@", cachesTessDataPath);
 
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
@@ -459,8 +443,8 @@ describe(@"Tesseract initialization", ^{
                                                                configFileNames:nil
                                                          cachesRelatedDataPath:tessdataPath
                                                                     engineMode:G8OCREngineModeTesseractOnly];
-                [[tesseract shouldNot] beNil];
 
+                [[tesseract shouldNot] beNil];
                 [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
 
                 NSAssert(doFoldersContainTheSameElements() == YES, @"Error! The tessdata folder in the caches folder contains different elements!");
@@ -470,9 +454,7 @@ describe(@"Tesseract initialization", ^{
 
             it(@"Should simple init, download rus language files and reinitialize tess with them", ^{
                 G8Tesseract *tesseract = tesseractInitializedWithTessData();
-
                 recognizeSimpleImageWithTesseract(tesseract);
-
                 moveRusLanguageFilesToTheCachesFolder();
 
                 // initialize with rus now
@@ -481,8 +463,8 @@ describe(@"Tesseract initialization", ^{
                                                                   configFileNames:nil
                                                             cachesRelatedDataPath:tessdataPath
                                                                        engineMode:G8OCREngineModeTesseractOnly];
-                [[rusTesseract shouldNot] beNil];
 
+                [[rusTesseract shouldNot] beNil];
                 [[rusTesseract.absoluteDataPath should] equal:cachesTessDataPath];
 
                 recognizeSimpleImageWithTesseract(tesseract);
@@ -491,13 +473,12 @@ describe(@"Tesseract initialization", ^{
             context(@"Reinit with correct language", ^{
 
                 it(@"Should set variables from dictionary and reinit correctly", ^{
-
                     G8Tesseract *tesseract = tesseractInitializedWithTessData();
 
                     NSString *whitelistString = @"1234567890";
                     NSString *blacklistString = @"aAbBcC";
                     void (^checkVariablesSetOnRuntime)(void) = ^{
-                        [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
+//                        [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
                         [[[tesseract variableValueForKey:kG8ParamUserWordsSuffix] shouldNot] equal:@"user-words"];  // initial only, should not be set
                         [[[tesseract variableValueForKey:kG8ParamTesseditCharWhitelist] should] equal:whitelistString];
                         [[[tesseract variableValueForKey:kG8ParamTesseditCharBlacklist] should] equal:blacklistString];
@@ -526,7 +507,6 @@ describe(@"Tesseract initialization", ^{
                 });
 
                 it(@"Should restore image, rect, sourceResolution and pageSegmentationMode", ^{
-
                     NSImage *testImage = [NSImage imageNamed:@"image_sample.jpg"];
                     NSAssert(testImage, @"Error! Test image is nil!");
                     CGRect testRect = CGRectInset(CGRectMake(0, 0, testImage.size.width, testImage.size.height), 10, 10);
@@ -548,7 +528,6 @@ describe(@"Tesseract initialization", ^{
             });
 
             it(@"Should initialize with config dictionary", ^{
-
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:initOnlyConfigDictionary
                                                                configFileNames:nil
@@ -563,10 +542,9 @@ describe(@"Tesseract initialization", ^{
             });
 
             it(@"Should initialize config dictionary and a file", ^{
-
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:@{
-                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
+//                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
                                                                                  }
                                                                configFileNames:@[recognitionConfigsFilePathFromTheCaches]
                                                          cachesRelatedDataPath:tessdataPath
@@ -580,13 +558,12 @@ describe(@"Tesseract initialization", ^{
             });
 
             it(@"Should initialize with 2 config files", ^{
-
                 NSAssert([fileManager attributesOfItemAtPath:debugConfigsFilePathFromTheCaches error:nil] == nil, @"Error! %@ is already here!", debugConfigsFilePathFromTheCaches);
                 NSAssert([fileManager attributesOfItemAtPath:recognitionConfigsFilePathFromTheCaches error:nil] == nil, @"Error! %@ cannot is already here!", recognitionConfigsFilePathFromTheCaches);
 
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:nil
-                                                               configFileNames:@[debugConfigsFilePathFromTheCaches, recognitionConfigsFilePathFromTheCaches]
+                                                               configFileNames:@[debugConfigsFileName, recognitionConfigsFileName]
                                                          cachesRelatedDataPath:tessdataPath
                                                                     engineMode:G8OCREngineModeTesseractOnly];
                 [[tesseract shouldNot] beNil];
@@ -618,7 +595,6 @@ describe(@"Tesseract initialization", ^{
 
 
             it(@"Should initialize with config file path", ^{
-
                 NSError *error = nil;
                 [[[fileManager attributesOfItemAtPath:debugConfigsFilePathFromTheCaches error:&error] shouldNot] beNil];
                 if (error) {
@@ -641,7 +617,6 @@ describe(@"Tesseract initialization", ^{
             });
 
             it(@"Should initialize with config dictionary", ^{
-
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:initOnlyConfigDictionary
                                                                configFileNames:nil
@@ -654,10 +629,9 @@ describe(@"Tesseract initialization", ^{
             });
 
             it(@"Should initialize with config dictionary and a file", ^{
-
                 G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
                                                               configDictionary:@{
-                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
+//                                                                                 kG8ParamTessdataManagerDebugLevel  : @"1",
                                                                                  }
                                                                configFileNames:@[recognitionConfigsFilePathFromTheCaches]
                                                          cachesRelatedDataPath:tessdataPath
@@ -676,7 +650,6 @@ describe(@"Tesseract initialization", ^{
 
     context(@"Reinitialization with wrong language", ^{
         it(@"Should not crash", ^{
-
             G8Tesseract *tesseract = [[G8Tesseract alloc] init];
 
             tesseract.language = @"rus";
@@ -692,7 +665,6 @@ describe(@"Tesseract initialization", ^{
         });
 
         it(@"Shouldn't crash while setting any parameters, but should cache them", ^{
-
             NSImage *testImage = [NSImage imageNamed:@"image_sample.jpg"];
             NSAssert(testImage, @"Error! Test image is nil!");
             CGRect testRect = CGRectInset(CGRectMake(0, 0, testImage.size.width, testImage.size.height), 10, 10);
@@ -709,7 +681,7 @@ describe(@"Tesseract initialization", ^{
                 [tesseract recognize];
                 [[tesseract.recognizedText should] beNil];
                 [[[tesseract recognizedHOCRForPageNumber:1] should] beNil];
-                [[[tesseract recognizedPDFForImages:@[testImage, testImage] outputbase: @"test"] should] beNil];
+                [[[tesseract recognizedPDFForImages:@[testImage, testImage] outputbase:[resourcePath stringByAppendingPathComponent:@"outputbase"]] should] beNil];
                 [[[tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelTextline] should] beNil];
 
                 [tesseract analyseLayout];
@@ -718,7 +690,7 @@ describe(@"Tesseract initialization", ^{
                 [[tesseract.thresholdedImage should] beNil];
 
                 [tesseract setVariablesFromDictionary:dictionaryForRuntime()];
-                [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
+//                [[[tesseract variableValueForKey:kG8ParamTessdataManagerDebugLevel] should] equal:@"1"];
                 [[[tesseract variableValueForKey:kG8ParamUserWordsSuffix] should] equal:@"user-words"]; // for noninitialized engine this value should be cached
 
             }) shouldNot] raise];
@@ -731,4 +703,3 @@ describe(@"Tesseract initialization", ^{
 });
 
 SPEC_END
-
