@@ -54,6 +54,6 @@ Contributors
 =================
 
 Daniele Galiotto (founder) - iOS Freelance Developer -
-**[www.g8production.com](http://www.g8production.com)**
+**[www.nexor.it](http://www.nexor.it)**
 
 Kevin Conley - **[www.kevintechnology.com](http://www.kevintechnology.com)**
