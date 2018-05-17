@@ -248,6 +248,28 @@ extern NSInteger const kG8MaxCredibleResolution;
  */
 - (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
 
+
+/**
+ *	Retrieve Tesseract's recognition result starting at the provided level including
+ *	all sublevels down to the character level.
+ *	For example, the pageIteratorLevel == G8PageIteratorLevelTextline returns
+ *  an array of `G8RecognizedBlock`'s representing the lines recognized
+ *  in the target image. Each textline includes an array of `G8RecognizedBlock`'s 
+ *	representing words which in turn include an array of `G8RecognizedBlock`'s
+ *	representing characters.
+ *
+ *  @param pageIteratorLevel A `G8PageIteratorLevel` representing the start resolution
+ *                           See G8Constants.h for the available resolution options.
+ *
+ *	@return An array of `G8HierarchicalRecognizedBlock`'s, each containing a confidence
+ *			value and a bounding box for the text it represents.
+ *
+ *  @note The method returns nil, if the engine is not properly configured.
+ */
+- (NSArray *) recognizedHierarchicalBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
+
+
+
 #pragma mark - Debug methods
 
 /**
