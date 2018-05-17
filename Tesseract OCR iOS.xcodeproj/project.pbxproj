@@ -7,92 +7,92 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
-		73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73C0A7991A5932D200D823D4 /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73C0A79A1A5932D700D823D4 /* G8RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */; };
-		73C0A79B1A5932F000D823D4 /* G8RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */; };
-		73C0A79D1A5932F900D823D4 /* G8TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73C0A79E1A5932FD00D823D4 /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
-		73C0A79F1A59330100D823D4 /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73C0A7A01A59330A00D823D4 /* UIImage+G8Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 6490748A198A5A5600D728CC /* UIImage+G8Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+G8Filters.m */; };
-		73C0A7B21A594A8000D823D4 /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = 73C0A7B11A594A8000D823D4 /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		84803A121B8790DC00577EA2 /* jconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A071B8790DC00577EA2 /* jconfig.h */; };
-		84803A131B8790DC00577EA2 /* jerror.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A081B8790DC00577EA2 /* jerror.h */; };
-		84803A141B8790DC00577EA2 /* jmorecfg.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A091B8790DC00577EA2 /* jmorecfg.h */; };
-		84803A151B8790DC00577EA2 /* jpeglib.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0A1B8790DC00577EA2 /* jpeglib.h */; };
-		84803A161B8790DC00577EA2 /* png.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0B1B8790DC00577EA2 /* png.h */; };
-		84803A171B8790DC00577EA2 /* pngconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0C1B8790DC00577EA2 /* pngconf.h */; };
-		84803A181B8790DC00577EA2 /* pnglibconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0D1B8790DC00577EA2 /* pnglibconf.h */; };
-		84803A191B8790DC00577EA2 /* tiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0E1B8790DC00577EA2 /* tiff.h */; };
-		84803A1A1B8790DC00577EA2 /* tiffconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0F1B8790DC00577EA2 /* tiffconf.h */; };
-		84803A1B1B8790DC00577EA2 /* tiffio.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A101B8790DC00577EA2 /* tiffio.h */; };
-		84803A1C1B8790DC00577EA2 /* tiffvers.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A111B8790DC00577EA2 /* tiffvers.h */; };
-		84803A221B87921B00577EA2 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1D1B87921B00577EA2 /* libjpeg.a */; };
-		84803A231B87921B00577EA2 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1E1B87921B00577EA2 /* liblept.a */; };
-		84803A241B87921B00577EA2 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1F1B87921B00577EA2 /* libpng.a */; };
-		84803A261B87921B00577EA2 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A211B87921B00577EA2 /* libtiff.a */; };
-		84B790891B7B7CD100B1C726 /* allheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906B1B7B7CD100B1C726 /* allheaders.h */; };
-		84B7908A1B7B7CD100B1C726 /* alltypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906C1B7B7CD100B1C726 /* alltypes.h */; };
-		84B7908B1B7B7CD100B1C726 /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906D1B7B7CD100B1C726 /* array.h */; };
-		84B7908C1B7B7CD100B1C726 /* arrayaccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906E1B7B7CD100B1C726 /* arrayaccess.h */; };
-		84B7908D1B7B7CD100B1C726 /* bbuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906F1B7B7CD100B1C726 /* bbuffer.h */; };
-		84B7908E1B7B7CD100B1C726 /* bilateral.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790701B7B7CD100B1C726 /* bilateral.h */; };
-		84B7908F1B7B7CD100B1C726 /* bmf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790711B7B7CD100B1C726 /* bmf.h */; };
-		84B790901B7B7CD100B1C726 /* bmfdata.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790721B7B7CD100B1C726 /* bmfdata.h */; };
-		84B790911B7B7CD100B1C726 /* bmp.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790731B7B7CD100B1C726 /* bmp.h */; };
-		84B790921B7B7CD100B1C726 /* ccbord.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790741B7B7CD100B1C726 /* ccbord.h */; };
-		84B790931B7B7CD100B1C726 /* dewarp.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790751B7B7CD100B1C726 /* dewarp.h */; };
-		84B790941B7B7CD100B1C726 /* endianness.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790761B7B7CD100B1C726 /* endianness.h */; };
-		84B790951B7B7CD100B1C726 /* environ.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790771B7B7CD100B1C726 /* environ.h */; };
-		84B790961B7B7CD100B1C726 /* gplot.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790781B7B7CD100B1C726 /* gplot.h */; };
-		84B790971B7B7CD100B1C726 /* heap.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790791B7B7CD100B1C726 /* heap.h */; };
-		84B790981B7B7CD100B1C726 /* imageio.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907A1B7B7CD100B1C726 /* imageio.h */; };
-		84B790991B7B7CD100B1C726 /* jbclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907B1B7B7CD100B1C726 /* jbclass.h */; };
-		84B7909A1B7B7CD100B1C726 /* leptwin.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907C1B7B7CD100B1C726 /* leptwin.h */; };
-		84B7909B1B7B7CD100B1C726 /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907D1B7B7CD100B1C726 /* list.h */; };
-		84B7909C1B7B7CD100B1C726 /* morph.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907E1B7B7CD100B1C726 /* morph.h */; };
-		84B7909D1B7B7CD100B1C726 /* pix.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907F1B7B7CD100B1C726 /* pix.h */; };
-		84B7909E1B7B7CD100B1C726 /* ptra.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790801B7B7CD100B1C726 /* ptra.h */; };
-		84B7909F1B7B7CD100B1C726 /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790811B7B7CD100B1C726 /* queue.h */; };
-		84B790A01B7B7CD100B1C726 /* readbarcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790821B7B7CD100B1C726 /* readbarcode.h */; };
-		84B790A11B7B7CD100B1C726 /* recog.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790831B7B7CD100B1C726 /* recog.h */; };
-		84B790A21B7B7CD100B1C726 /* regutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790841B7B7CD100B1C726 /* regutils.h */; };
-		84B790A31B7B7CD100B1C726 /* stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790851B7B7CD100B1C726 /* stack.h */; };
-		84B790A41B7B7CD100B1C726 /* stringcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790861B7B7CD100B1C726 /* stringcode.h */; };
-		84B790A51B7B7CD100B1C726 /* sudoku.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790871B7B7CD100B1C726 /* sudoku.h */; };
-		84B790A61B7B7CD100B1C726 /* watershed.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790881B7B7CD100B1C726 /* watershed.h */; };
-		84B790C21B7B7CE500B1C726 /* apitypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A71B7B7CE500B1C726 /* apitypes.h */; };
-		84B790C31B7B7CE500B1C726 /* baseapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A81B7B7CE500B1C726 /* baseapi.h */; };
-		84B790C41B7B7CE500B1C726 /* basedir.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A91B7B7CE500B1C726 /* basedir.h */; };
-		84B790C51B7B7CE500B1C726 /* capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AA1B7B7CE500B1C726 /* capi.h */; };
-		84B790C61B7B7CE500B1C726 /* errcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AB1B7B7CE500B1C726 /* errcode.h */; };
-		84B790C71B7B7CE500B1C726 /* fileerr.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AC1B7B7CE500B1C726 /* fileerr.h */; };
-		84B790C81B7B7CE500B1C726 /* genericvector.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AD1B7B7CE500B1C726 /* genericvector.h */; };
-		84B790C91B7B7CE500B1C726 /* helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AE1B7B7CE500B1C726 /* helpers.h */; };
-		84B790CA1B7B7CE500B1C726 /* host.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AF1B7B7CE500B1C726 /* host.h */; };
-		84B790CB1B7B7CE500B1C726 /* ltrresultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B01B7B7CE500B1C726 /* ltrresultiterator.h */; };
-		84B790CC1B7B7CE500B1C726 /* memry.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B11B7B7CE500B1C726 /* memry.h */; };
-		84B790CD1B7B7CE500B1C726 /* ndminx.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B21B7B7CE500B1C726 /* ndminx.h */; };
-		84B790CE1B7B7CE500B1C726 /* ocrclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B31B7B7CE500B1C726 /* ocrclass.h */; };
-		84B790CF1B7B7CE500B1C726 /* osdetect.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B41B7B7CE500B1C726 /* osdetect.h */; };
-		84B790D01B7B7CE500B1C726 /* pageiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B51B7B7CE500B1C726 /* pageiterator.h */; };
-		84B790D11B7B7CE500B1C726 /* params.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B61B7B7CE500B1C726 /* params.h */; };
-		84B790D21B7B7CE500B1C726 /* platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B71B7B7CE500B1C726 /* platform.h */; };
-		84B790D31B7B7CE500B1C726 /* publictypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B81B7B7CE500B1C726 /* publictypes.h */; };
-		84B790D41B7B7CE500B1C726 /* renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B91B7B7CE500B1C726 /* renderer.h */; };
-		84B790D51B7B7CE500B1C726 /* resultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BA1B7B7CE500B1C726 /* resultiterator.h */; };
-		84B790D61B7B7CE500B1C726 /* serialis.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BB1B7B7CE500B1C726 /* serialis.h */; };
-		84B790D71B7B7CE500B1C726 /* strngs.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BC1B7B7CE500B1C726 /* strngs.h */; };
-		84B790D81B7B7CE500B1C726 /* tesscallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BD1B7B7CE500B1C726 /* tesscallback.h */; };
-		84B790D91B7B7CE500B1C726 /* thresholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BE1B7B7CE500B1C726 /* thresholder.h */; };
-		84B790DA1B7B7CE500B1C726 /* unichar.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BF1B7B7CE500B1C726 /* unichar.h */; };
-		84B790DB1B7B7CE500B1C726 /* unicharmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790C01B7B7CE500B1C726 /* unicharmap.h */; };
-		84B790DC1B7B7CE500B1C726 /* unicharset.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790C11B7B7CE500B1C726 /* unicharset.h */; };
-		84EA08BA1B8DDF6E00AD3FFC /* libtesseract.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA08B91B8DDF6E00AD3FFC /* libtesseract.a */; };
+		C2D977221FC4B3D900B39B7F /* TesseractOCR.h in Headers */ = {isa = PBXBuildFile; fileRef = C2D977201FC4B3D900B39B7F /* TesseractOCR.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D977271FC4B42800B39B7F /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1D1B87921B00577EA2 /* libjpeg.a */; };
+		C2D977281FC4B42800B39B7F /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1E1B87921B00577EA2 /* liblept.a */; };
+		C2D977291FC4B42800B39B7F /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A1F1B87921B00577EA2 /* libpng.a */; };
+		C2D9772A1FC4B42800B39B7F /* libtesseract.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA08B91B8DDF6E00AD3FFC /* libtesseract.a */; };
+		C2D9772B1FC4B42800B39B7F /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84803A211B87921B00577EA2 /* libtiff.a */; };
+		C2D9772C1FC4B46F00B39B7F /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
+		C2D9772D1FC4B46F00B39B7F /* G8RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B41A501A42ED7600D46246 /* G8RecognizedBlock.m */; };
+		C2D9772E1FC4B46F00B39B7F /* G8RecognitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DED1A3AFBF30085093C /* G8RecognitionOperation.m */; };
+		C2D9772F1FC4B46F00B39B7F /* G8TesseractParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A95DE91A3AF39B0085093C /* G8TesseractParameters.m */; };
+		C2D977301FC4B46F00B39B7F /* UIImage+G8Filters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490748B198A5A5600D728CC /* UIImage+G8Filters.m */; };
+		C2D977391FC4B51400B39B7F /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D9773A1FC4B51400B39B7F /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D9773B1FC4B51400B39B7F /* G8RecognizedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B41A4F1A42ED7600D46246 /* G8RecognizedBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D9773C1FC4B51400B39B7F /* G8RecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DEC1A3AFBF30085093C /* G8RecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D9773D1FC4B51400B39B7F /* G8TesseractParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D9773E1FC4B51400B39B7F /* G8Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 418997A71A42CC8B00D6477C /* G8Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D9773F1FC4B51400B39B7F /* UIImage+G8Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 6490748A198A5A5600D728CC /* UIImage+G8Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2D977401FC4B52D00B39B7F /* jconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A071B8790DC00577EA2 /* jconfig.h */; };
+		C2D977411FC4B52D00B39B7F /* jerror.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A081B8790DC00577EA2 /* jerror.h */; };
+		C2D977421FC4B52D00B39B7F /* jmorecfg.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A091B8790DC00577EA2 /* jmorecfg.h */; };
+		C2D977431FC4B52D00B39B7F /* jpeglib.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0A1B8790DC00577EA2 /* jpeglib.h */; };
+		C2D977441FC4B52D00B39B7F /* png.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0B1B8790DC00577EA2 /* png.h */; };
+		C2D977451FC4B52D00B39B7F /* pngconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0C1B8790DC00577EA2 /* pngconf.h */; };
+		C2D977461FC4B52D00B39B7F /* pnglibconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0D1B8790DC00577EA2 /* pnglibconf.h */; };
+		C2D977471FC4B52D00B39B7F /* tiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0E1B8790DC00577EA2 /* tiff.h */; };
+		C2D977481FC4B52D00B39B7F /* tiffconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A0F1B8790DC00577EA2 /* tiffconf.h */; };
+		C2D977491FC4B52D00B39B7F /* tiffio.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A101B8790DC00577EA2 /* tiffio.h */; };
+		C2D9774A1FC4B52D00B39B7F /* tiffvers.h in Headers */ = {isa = PBXBuildFile; fileRef = 84803A111B8790DC00577EA2 /* tiffvers.h */; };
+		C2D9774B1FC4B52D00B39B7F /* allheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906B1B7B7CD100B1C726 /* allheaders.h */; };
+		C2D9774C1FC4B52D00B39B7F /* alltypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906C1B7B7CD100B1C726 /* alltypes.h */; };
+		C2D9774D1FC4B52D00B39B7F /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906D1B7B7CD100B1C726 /* array.h */; };
+		C2D9774E1FC4B52D00B39B7F /* arrayaccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906E1B7B7CD100B1C726 /* arrayaccess.h */; };
+		C2D9774F1FC4B52D00B39B7F /* bbuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7906F1B7B7CD100B1C726 /* bbuffer.h */; };
+		C2D977501FC4B52D00B39B7F /* bilateral.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790701B7B7CD100B1C726 /* bilateral.h */; };
+		C2D977511FC4B52D00B39B7F /* bmf.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790711B7B7CD100B1C726 /* bmf.h */; };
+		C2D977521FC4B52D00B39B7F /* bmfdata.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790721B7B7CD100B1C726 /* bmfdata.h */; };
+		C2D977531FC4B52D00B39B7F /* bmp.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790731B7B7CD100B1C726 /* bmp.h */; };
+		C2D977541FC4B52D00B39B7F /* ccbord.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790741B7B7CD100B1C726 /* ccbord.h */; };
+		C2D977551FC4B52D00B39B7F /* dewarp.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790751B7B7CD100B1C726 /* dewarp.h */; };
+		C2D977561FC4B52D00B39B7F /* endianness.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790761B7B7CD100B1C726 /* endianness.h */; };
+		C2D977571FC4B52D00B39B7F /* environ.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790771B7B7CD100B1C726 /* environ.h */; };
+		C2D977581FC4B52D00B39B7F /* gplot.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790781B7B7CD100B1C726 /* gplot.h */; };
+		C2D977591FC4B52D00B39B7F /* heap.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790791B7B7CD100B1C726 /* heap.h */; };
+		C2D9775A1FC4B52D00B39B7F /* imageio.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907A1B7B7CD100B1C726 /* imageio.h */; };
+		C2D9775B1FC4B52D00B39B7F /* jbclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907B1B7B7CD100B1C726 /* jbclass.h */; };
+		C2D9775C1FC4B52D00B39B7F /* leptwin.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907C1B7B7CD100B1C726 /* leptwin.h */; };
+		C2D9775D1FC4B52D00B39B7F /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907D1B7B7CD100B1C726 /* list.h */; };
+		C2D9775E1FC4B52D00B39B7F /* morph.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907E1B7B7CD100B1C726 /* morph.h */; };
+		C2D9775F1FC4B52D00B39B7F /* pix.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B7907F1B7B7CD100B1C726 /* pix.h */; };
+		C2D977601FC4B52D00B39B7F /* ptra.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790801B7B7CD100B1C726 /* ptra.h */; };
+		C2D977611FC4B52D00B39B7F /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790811B7B7CD100B1C726 /* queue.h */; };
+		C2D977621FC4B52D00B39B7F /* readbarcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790821B7B7CD100B1C726 /* readbarcode.h */; };
+		C2D977631FC4B52D00B39B7F /* recog.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790831B7B7CD100B1C726 /* recog.h */; };
+		C2D977641FC4B52D00B39B7F /* regutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790841B7B7CD100B1C726 /* regutils.h */; };
+		C2D977651FC4B52D00B39B7F /* stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790851B7B7CD100B1C726 /* stack.h */; };
+		C2D977661FC4B52D00B39B7F /* stringcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790861B7B7CD100B1C726 /* stringcode.h */; };
+		C2D977671FC4B52D00B39B7F /* sudoku.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790871B7B7CD100B1C726 /* sudoku.h */; };
+		C2D977681FC4B52D00B39B7F /* watershed.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790881B7B7CD100B1C726 /* watershed.h */; };
+		C2D977691FC4B52D00B39B7F /* apitypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A71B7B7CE500B1C726 /* apitypes.h */; };
+		C2D9776A1FC4B52D00B39B7F /* baseapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A81B7B7CE500B1C726 /* baseapi.h */; };
+		C2D9776B1FC4B52D00B39B7F /* basedir.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790A91B7B7CE500B1C726 /* basedir.h */; };
+		C2D9776C1FC4B52D00B39B7F /* capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AA1B7B7CE500B1C726 /* capi.h */; };
+		C2D9776D1FC4B52D00B39B7F /* errcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AB1B7B7CE500B1C726 /* errcode.h */; };
+		C2D9776E1FC4B52D00B39B7F /* fileerr.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AC1B7B7CE500B1C726 /* fileerr.h */; };
+		C2D9776F1FC4B52D00B39B7F /* genericvector.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AD1B7B7CE500B1C726 /* genericvector.h */; };
+		C2D977701FC4B52D00B39B7F /* helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AE1B7B7CE500B1C726 /* helpers.h */; };
+		C2D977711FC4B52D00B39B7F /* host.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790AF1B7B7CE500B1C726 /* host.h */; };
+		C2D977721FC4B52D00B39B7F /* ltrresultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B01B7B7CE500B1C726 /* ltrresultiterator.h */; };
+		C2D977731FC4B52D00B39B7F /* memry.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B11B7B7CE500B1C726 /* memry.h */; };
+		C2D977741FC4B52D00B39B7F /* ndminx.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B21B7B7CE500B1C726 /* ndminx.h */; };
+		C2D977751FC4B52D00B39B7F /* ocrclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B31B7B7CE500B1C726 /* ocrclass.h */; };
+		C2D977761FC4B52D00B39B7F /* osdetect.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B41B7B7CE500B1C726 /* osdetect.h */; };
+		C2D977771FC4B52D00B39B7F /* pageiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B51B7B7CE500B1C726 /* pageiterator.h */; };
+		C2D977781FC4B52D00B39B7F /* params.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B61B7B7CE500B1C726 /* params.h */; };
+		C2D977791FC4B52D00B39B7F /* platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B71B7B7CE500B1C726 /* platform.h */; };
+		C2D9777A1FC4B52D00B39B7F /* publictypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B81B7B7CE500B1C726 /* publictypes.h */; };
+		C2D9777B1FC4B52D00B39B7F /* renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790B91B7B7CE500B1C726 /* renderer.h */; };
+		C2D9777C1FC4B52D00B39B7F /* resultiterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BA1B7B7CE500B1C726 /* resultiterator.h */; };
+		C2D9777D1FC4B52D00B39B7F /* serialis.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BB1B7B7CE500B1C726 /* serialis.h */; };
+		C2D9777E1FC4B52D00B39B7F /* strngs.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BC1B7B7CE500B1C726 /* strngs.h */; };
+		C2D9777F1FC4B52D00B39B7F /* tesscallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BD1B7B7CE500B1C726 /* tesscallback.h */; };
+		C2D977801FC4B52D00B39B7F /* thresholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BE1B7B7CE500B1C726 /* thresholder.h */; };
+		C2D977811FC4B52D00B39B7F /* unichar.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790BF1B7B7CE500B1C726 /* unichar.h */; };
+		C2D977821FC4B52D00B39B7F /* unicharmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790C01B7B7CE500B1C726 /* unicharmap.h */; };
+		C2D977831FC4B52D00B39B7F /* unicharset.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B790C11B7B7CE500B1C726 /* unicharset.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,7 +118,6 @@
 		64F74CCC172FD75F0068E657 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		73C0A7B11A594A8000D823D4 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
-		73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84803A071B8790DC00577EA2 /* jconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jconfig.h; path = TesseractOCR/include/jconfig.h; sourceTree = SOURCE_ROOT; };
 		84803A081B8790DC00577EA2 /* jerror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jerror.h; path = TesseractOCR/include/jerror.h; sourceTree = SOURCE_ROOT; };
 		84803A091B8790DC00577EA2 /* jmorecfg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jmorecfg.h; path = TesseractOCR/include/jmorecfg.h; sourceTree = SOURCE_ROOT; };
@@ -193,18 +192,22 @@
 		84B790C11B7B7CE500B1C726 /* unicharset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unicharset.h; sourceTree = "<group>"; };
 		84E5F9BA1B7773F40012381C /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		84EA08B91B8DDF6E00AD3FFC /* libtesseract.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract.a; sourceTree = "<group>"; };
+		C2D9771E1FC4B3D900B39B7F /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2D977201FC4B3D900B39B7F /* TesseractOCR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
+		C2D977211FC4B3D900B39B7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2D977851FC4B73F00B39B7F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		73C0A7781A592C2B00D823D4 /* Frameworks */ = {
+		C2D9771A1FC4B3D900B39B7F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84803A231B87921B00577EA2 /* liblept.a in Frameworks */,
-				84EA08BA1B8DDF6E00AD3FFC /* libtesseract.a in Frameworks */,
-				84803A221B87921B00577EA2 /* libjpeg.a in Frameworks */,
-				84803A241B87921B00577EA2 /* libpng.a in Frameworks */,
-				84803A261B87921B00577EA2 /* libtiff.a in Frameworks */,
+				C2D977271FC4B42800B39B7F /* libjpeg.a in Frameworks */,
+				C2D977281FC4B42800B39B7F /* liblept.a in Frameworks */,
+				C2D977291FC4B42800B39B7F /* libpng.a in Frameworks */,
+				C2D9772A1FC4B42800B39B7F /* libtesseract.a in Frameworks */,
+				C2D9772B1FC4B42800B39B7F /* libtiff.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,14 +363,16 @@
 			isa = PBXGroup;
 			children = (
 				64A0292F17307C1D002B12E7 /* TesseractOCR */,
+				C2D9771F1FC4B3D900B39B7F /* TesseractOCR */,
 				64F74CCB172FD75F0068E657 /* Frameworks */,
+				C2D9771E1FC4B3D900B39B7F /* TesseractOCR.framework */,
 			);
 			sourceTree = "<group>";
 		};
 		64F74CCB172FD75F0068E657 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */,
+				C2D977851FC4B73F00B39B7F /* libz.tbd */,
 				64907492198A6B9E00D728CC /* CoreImage.framework */,
 				64F74D77172FD8E90068E657 /* UIKit.framework */,
 				64F74CCC172FD75F0068E657 /* Foundation.framework */,
@@ -395,112 +400,121 @@
 			path = "../libtiff-ios/dependencies/include";
 			sourceTree = "<group>";
 		};
+		C2D9771F1FC4B3D900B39B7F /* TesseractOCR */ = {
+			isa = PBXGroup;
+			children = (
+				C2D977201FC4B3D900B39B7F /* TesseractOCR.h */,
+				C2D977211FC4B3D900B39B7F /* Info.plist */,
+			);
+			path = TesseractOCR;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		73C0A7791A592C2B00D823D4 /* Headers */ = {
+		C2D9771B1FC4B3D900B39B7F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84B7909F1B7B7CD100B1C726 /* queue.h in Headers */,
-				84803A141B8790DC00577EA2 /* jmorecfg.h in Headers */,
-				84B790961B7B7CD100B1C726 /* gplot.h in Headers */,
-				73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */,
-				84B790D61B7B7CE500B1C726 /* serialis.h in Headers */,
-				84B790A31B7B7CD100B1C726 /* stack.h in Headers */,
-				84B790D11B7B7CE500B1C726 /* params.h in Headers */,
-				84B7909A1B7B7CD100B1C726 /* leptwin.h in Headers */,
-				73C0A79D1A5932F900D823D4 /* G8TesseractParameters.h in Headers */,
-				84B790C71B7B7CE500B1C726 /* fileerr.h in Headers */,
-				73C0A7A01A59330A00D823D4 /* UIImage+G8Filters.h in Headers */,
-				84B790D21B7B7CE500B1C726 /* platform.h in Headers */,
-				84B790CE1B7B7CE500B1C726 /* ocrclass.h in Headers */,
-				84B790931B7B7CD100B1C726 /* dewarp.h in Headers */,
-				84B7908B1B7B7CD100B1C726 /* array.h in Headers */,
-				84B790C91B7B7CE500B1C726 /* helpers.h in Headers */,
-				84803A121B8790DC00577EA2 /* jconfig.h in Headers */,
-				84B7909E1B7B7CD100B1C726 /* ptra.h in Headers */,
-				84803A1B1B8790DC00577EA2 /* tiffio.h in Headers */,
-				84B790991B7B7CD100B1C726 /* jbclass.h in Headers */,
-				73C0A79B1A5932F000D823D4 /* G8RecognitionOperation.h in Headers */,
-				84B7909D1B7B7CD100B1C726 /* pix.h in Headers */,
-				73C0A7B21A594A8000D823D4 /* TesseractOCR.h in Headers */,
-				84B790911B7B7CD100B1C726 /* bmp.h in Headers */,
-				84B7909B1B7B7CD100B1C726 /* list.h in Headers */,
-				84B790941B7B7CD100B1C726 /* endianness.h in Headers */,
-				84B7908D1B7B7CD100B1C726 /* bbuffer.h in Headers */,
-				84B790A41B7B7CD100B1C726 /* stringcode.h in Headers */,
-				84B790CD1B7B7CE500B1C726 /* ndminx.h in Headers */,
-				84803A181B8790DC00577EA2 /* pnglibconf.h in Headers */,
-				84B790901B7B7CD100B1C726 /* bmfdata.h in Headers */,
-				84B790A21B7B7CD100B1C726 /* regutils.h in Headers */,
-				84B790C21B7B7CE500B1C726 /* apitypes.h in Headers */,
-				84B790D81B7B7CE500B1C726 /* tesscallback.h in Headers */,
-				84B790C61B7B7CE500B1C726 /* errcode.h in Headers */,
-				84803A151B8790DC00577EA2 /* jpeglib.h in Headers */,
-				84803A191B8790DC00577EA2 /* tiff.h in Headers */,
-				84B790CA1B7B7CE500B1C726 /* host.h in Headers */,
-				73C0A7991A5932D200D823D4 /* G8RecognizedBlock.h in Headers */,
-				84B790951B7B7CD100B1C726 /* environ.h in Headers */,
-				84B790D91B7B7CE500B1C726 /* thresholder.h in Headers */,
-				84B7908E1B7B7CD100B1C726 /* bilateral.h in Headers */,
-				84B790D01B7B7CE500B1C726 /* pageiterator.h in Headers */,
-				84B790DA1B7B7CE500B1C726 /* unichar.h in Headers */,
-				84B790971B7B7CD100B1C726 /* heap.h in Headers */,
-				84B790A11B7B7CD100B1C726 /* recog.h in Headers */,
-				84B790C31B7B7CE500B1C726 /* baseapi.h in Headers */,
-				84B7908C1B7B7CD100B1C726 /* arrayaccess.h in Headers */,
-				84B790D31B7B7CE500B1C726 /* publictypes.h in Headers */,
-				73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */,
-				84803A171B8790DC00577EA2 /* pngconf.h in Headers */,
-				84B7908A1B7B7CD100B1C726 /* alltypes.h in Headers */,
-				84B790C41B7B7CE500B1C726 /* basedir.h in Headers */,
-				84803A1C1B8790DC00577EA2 /* tiffvers.h in Headers */,
-				84B790981B7B7CD100B1C726 /* imageio.h in Headers */,
-				84B790A61B7B7CD100B1C726 /* watershed.h in Headers */,
-				84B790CC1B7B7CE500B1C726 /* memry.h in Headers */,
-				84803A131B8790DC00577EA2 /* jerror.h in Headers */,
-				84B790A51B7B7CD100B1C726 /* sudoku.h in Headers */,
-				84B790D51B7B7CE500B1C726 /* resultiterator.h in Headers */,
-				84B7908F1B7B7CD100B1C726 /* bmf.h in Headers */,
-				84B7909C1B7B7CD100B1C726 /* morph.h in Headers */,
-				84B790A01B7B7CD100B1C726 /* readbarcode.h in Headers */,
-				84B790DC1B7B7CE500B1C726 /* unicharset.h in Headers */,
-				73C0A79F1A59330100D823D4 /* G8Constants.h in Headers */,
-				84803A161B8790DC00577EA2 /* png.h in Headers */,
-				84B790D71B7B7CE500B1C726 /* strngs.h in Headers */,
-				84B790C81B7B7CE500B1C726 /* genericvector.h in Headers */,
-				84B790CF1B7B7CE500B1C726 /* osdetect.h in Headers */,
-				84803A1A1B8790DC00577EA2 /* tiffconf.h in Headers */,
-				84B790DB1B7B7CE500B1C726 /* unicharmap.h in Headers */,
-				84B790CB1B7B7CE500B1C726 /* ltrresultiterator.h in Headers */,
-				84B790891B7B7CD100B1C726 /* allheaders.h in Headers */,
-				84B790D41B7B7CE500B1C726 /* renderer.h in Headers */,
-				84B790921B7B7CD100B1C726 /* ccbord.h in Headers */,
-				84B790C51B7B7CE500B1C726 /* capi.h in Headers */,
+				C2D977221FC4B3D900B39B7F /* TesseractOCR.h in Headers */,
+				C2D977391FC4B51400B39B7F /* G8Tesseract.h in Headers */,
+				C2D9773A1FC4B51400B39B7F /* G8TesseractDelegate.h in Headers */,
+				C2D9773B1FC4B51400B39B7F /* G8RecognizedBlock.h in Headers */,
+				C2D9773C1FC4B51400B39B7F /* G8RecognitionOperation.h in Headers */,
+				C2D9773D1FC4B51400B39B7F /* G8TesseractParameters.h in Headers */,
+				C2D9773E1FC4B51400B39B7F /* G8Constants.h in Headers */,
+				C2D9773F1FC4B51400B39B7F /* UIImage+G8Filters.h in Headers */,
+				C2D977401FC4B52D00B39B7F /* jconfig.h in Headers */,
+				C2D977411FC4B52D00B39B7F /* jerror.h in Headers */,
+				C2D977421FC4B52D00B39B7F /* jmorecfg.h in Headers */,
+				C2D977431FC4B52D00B39B7F /* jpeglib.h in Headers */,
+				C2D977441FC4B52D00B39B7F /* png.h in Headers */,
+				C2D977451FC4B52D00B39B7F /* pngconf.h in Headers */,
+				C2D977461FC4B52D00B39B7F /* pnglibconf.h in Headers */,
+				C2D977471FC4B52D00B39B7F /* tiff.h in Headers */,
+				C2D977481FC4B52D00B39B7F /* tiffconf.h in Headers */,
+				C2D977491FC4B52D00B39B7F /* tiffio.h in Headers */,
+				C2D9774A1FC4B52D00B39B7F /* tiffvers.h in Headers */,
+				C2D9774B1FC4B52D00B39B7F /* allheaders.h in Headers */,
+				C2D9774C1FC4B52D00B39B7F /* alltypes.h in Headers */,
+				C2D9774D1FC4B52D00B39B7F /* array.h in Headers */,
+				C2D9774E1FC4B52D00B39B7F /* arrayaccess.h in Headers */,
+				C2D9774F1FC4B52D00B39B7F /* bbuffer.h in Headers */,
+				C2D977501FC4B52D00B39B7F /* bilateral.h in Headers */,
+				C2D977511FC4B52D00B39B7F /* bmf.h in Headers */,
+				C2D977521FC4B52D00B39B7F /* bmfdata.h in Headers */,
+				C2D977531FC4B52D00B39B7F /* bmp.h in Headers */,
+				C2D977541FC4B52D00B39B7F /* ccbord.h in Headers */,
+				C2D977551FC4B52D00B39B7F /* dewarp.h in Headers */,
+				C2D977561FC4B52D00B39B7F /* endianness.h in Headers */,
+				C2D977571FC4B52D00B39B7F /* environ.h in Headers */,
+				C2D977581FC4B52D00B39B7F /* gplot.h in Headers */,
+				C2D977591FC4B52D00B39B7F /* heap.h in Headers */,
+				C2D9775A1FC4B52D00B39B7F /* imageio.h in Headers */,
+				C2D9775B1FC4B52D00B39B7F /* jbclass.h in Headers */,
+				C2D9775C1FC4B52D00B39B7F /* leptwin.h in Headers */,
+				C2D9775D1FC4B52D00B39B7F /* list.h in Headers */,
+				C2D9775E1FC4B52D00B39B7F /* morph.h in Headers */,
+				C2D9775F1FC4B52D00B39B7F /* pix.h in Headers */,
+				C2D977601FC4B52D00B39B7F /* ptra.h in Headers */,
+				C2D977611FC4B52D00B39B7F /* queue.h in Headers */,
+				C2D977621FC4B52D00B39B7F /* readbarcode.h in Headers */,
+				C2D977631FC4B52D00B39B7F /* recog.h in Headers */,
+				C2D977641FC4B52D00B39B7F /* regutils.h in Headers */,
+				C2D977651FC4B52D00B39B7F /* stack.h in Headers */,
+				C2D977661FC4B52D00B39B7F /* stringcode.h in Headers */,
+				C2D977671FC4B52D00B39B7F /* sudoku.h in Headers */,
+				C2D977681FC4B52D00B39B7F /* watershed.h in Headers */,
+				C2D977691FC4B52D00B39B7F /* apitypes.h in Headers */,
+				C2D9776A1FC4B52D00B39B7F /* baseapi.h in Headers */,
+				C2D9776B1FC4B52D00B39B7F /* basedir.h in Headers */,
+				C2D9776C1FC4B52D00B39B7F /* capi.h in Headers */,
+				C2D9776D1FC4B52D00B39B7F /* errcode.h in Headers */,
+				C2D9776E1FC4B52D00B39B7F /* fileerr.h in Headers */,
+				C2D9776F1FC4B52D00B39B7F /* genericvector.h in Headers */,
+				C2D977701FC4B52D00B39B7F /* helpers.h in Headers */,
+				C2D977711FC4B52D00B39B7F /* host.h in Headers */,
+				C2D977721FC4B52D00B39B7F /* ltrresultiterator.h in Headers */,
+				C2D977731FC4B52D00B39B7F /* memry.h in Headers */,
+				C2D977741FC4B52D00B39B7F /* ndminx.h in Headers */,
+				C2D977751FC4B52D00B39B7F /* ocrclass.h in Headers */,
+				C2D977761FC4B52D00B39B7F /* osdetect.h in Headers */,
+				C2D977771FC4B52D00B39B7F /* pageiterator.h in Headers */,
+				C2D977781FC4B52D00B39B7F /* params.h in Headers */,
+				C2D977791FC4B52D00B39B7F /* platform.h in Headers */,
+				C2D9777A1FC4B52D00B39B7F /* publictypes.h in Headers */,
+				C2D9777B1FC4B52D00B39B7F /* renderer.h in Headers */,
+				C2D9777C1FC4B52D00B39B7F /* resultiterator.h in Headers */,
+				C2D9777D1FC4B52D00B39B7F /* serialis.h in Headers */,
+				C2D9777E1FC4B52D00B39B7F /* strngs.h in Headers */,
+				C2D9777F1FC4B52D00B39B7F /* tesscallback.h in Headers */,
+				C2D977801FC4B52D00B39B7F /* thresholder.h in Headers */,
+				C2D977811FC4B52D00B39B7F /* unichar.h in Headers */,
+				C2D977821FC4B52D00B39B7F /* unicharmap.h in Headers */,
+				C2D977831FC4B52D00B39B7F /* unicharset.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		73C0A77B1A592C2B00D823D4 /* TesseractOCR */ = {
+		C2D9771D1FC4B3D900B39B7F /* TesseractOCR */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 73C0A7931A592C2B00D823D4 /* Build configuration list for PBXNativeTarget "TesseractOCR" */;
+			buildConfigurationList = C2D977231FC4B3D900B39B7F /* Build configuration list for PBXNativeTarget "TesseractOCR" */;
 			buildPhases = (
-				84E5F9C61B7A2F4D0012381C /* ShellScript */,
-				73C0A7771A592C2B00D823D4 /* Sources */,
-				73C0A7781A592C2B00D823D4 /* Frameworks */,
-				73C0A7791A592C2B00D823D4 /* Headers */,
-				73C0A77A1A592C2B00D823D4 /* Resources */,
+				C2D977841FC4B5D600B39B7F /* ShellScript */,
+				C2D977191FC4B3D900B39B7F /* Sources */,
+				C2D9771A1FC4B3D900B39B7F /* Frameworks */,
+				C2D9771B1FC4B3D900B39B7F /* Headers */,
+				C2D9771C1FC4B3D900B39B7F /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = TesseractOCR;
-			productName = "TesseractOCR-Framework";
-			productReference = 73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */;
+			productName = TesseractOCR;
+			productReference = C2D9771E1FC4B3D900B39B7F /* TesseractOCR.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -513,8 +527,9 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Daniele Galiotto - www.g8production.com";
 				TargetAttributes = {
-					73C0A77B1A592C2B00D823D4 = {
-						CreatedOnToolsVersion = 6.1.1;
+					C2D9771D1FC4B3D900B39B7F = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -530,13 +545,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				73C0A77B1A592C2B00D823D4 /* TesseractOCR */,
+				C2D9771D1FC4B3D900B39B7F /* TesseractOCR */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		73C0A77A1A592C2B00D823D4 /* Resources */ = {
+		C2D9771C1FC4B3D900B39B7F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -546,7 +561,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		84E5F9C61B7A2F4D0012381C /* ShellScript */ = {
+		C2D977841FC4B5D600B39B7F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -557,20 +572,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/usr/local/bin\" # That's the path where the aclocal is installed\n# just uncomment the following line if you wish to make dependent libraries from xcode\n#export BUILD_DEPENDENT_LIBRARIES=\"true\"\nif [ $BUILD_DEPENDENT_LIBRARIES = \"true\" ]\nthen\n    cd TesseractOCR\n    make\nfi\n";
+			shellScript = "export PATH=\"$PATH:/usr/local/bin\" # That's the path where the aclocal is installed\n# just uncomment the following line if you wish to make dependent libraries from xcode\n#export BUILD_DEPENDENT_LIBRARIES=\"true\"\nif [ $BUILD_DEPENDENT_LIBRARIES = \"true\" ]\nthen\n    cd TesseractOCR\n    make\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		73C0A7771A592C2B00D823D4 /* Sources */ = {
+		C2D977191FC4B3D900B39B7F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73C0A79A1A5932D700D823D4 /* G8RecognizedBlock.m in Sources */,
-				73C0A7A11A59330E00D823D4 /* UIImage+G8Filters.m in Sources */,
-				73C0A79C1A5932F500D823D4 /* G8RecognitionOperation.m in Sources */,
-				73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */,
-				73C0A79E1A5932FD00D823D4 /* G8TesseractParameters.m in Sources */,
+				C2D9772C1FC4B46F00B39B7F /* G8Tesseract.mm in Sources */,
+				C2D9772D1FC4B46F00B39B7F /* G8RecognizedBlock.m in Sources */,
+				C2D9772E1FC4B46F00B39B7F /* G8RecognitionOperation.m in Sources */,
+				C2D9772F1FC4B46F00B39B7F /* G8TesseractParameters.m in Sources */,
+				C2D977301FC4B46F00B39B7F /* UIImage+G8Filters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,90 +669,195 @@
 			};
 			name = Release;
 		};
-		73C0A78F1A592C2B00D823D4 /* Debug */ = {
+		C2D977241FC4B3D900B39B7F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
+				INFOPLIST_FILE = TesseractOCR/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TesseractOCR/lib",
-					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
 				);
-				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lstdc++",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.g8production.TesseractOCR;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		73C0A7901A592C2B00D823D4 /* Release */ = {
+		C2D977251FC4B3D900B39B7F /* Coverage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
+				INFOPLIST_FILE = TesseractOCR/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TesseractOCR/lib",
-					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
 				);
-				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lstdc++",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.g8production.TesseractOCR;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Coverage;
+		};
+		C2D977261FC4B3D900B39B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = TesseractOCR/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TesseractOCR/lib",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lstdc++",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.g8production.TesseractOCR;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -780,52 +900,6 @@
 			};
 			name = Coverage;
 		};
-		F4EE1C7A1A612ADC007BB075 /* Coverage */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/TesseractOCR/lib",
-					"$(PROJECT_DIR)/TesseractOCR/libtiff-ios/dependencies/lib",
-				);
-				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Coverage;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -839,12 +913,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		73C0A7931A592C2B00D823D4 /* Build configuration list for PBXNativeTarget "TesseractOCR" */ = {
+		C2D977231FC4B3D900B39B7F /* Build configuration list for PBXNativeTarget "TesseractOCR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				73C0A78F1A592C2B00D823D4 /* Debug */,
-				F4EE1C7A1A612ADC007BB075 /* Coverage */,
-				73C0A7901A592C2B00D823D4 /* Release */,
+				C2D977241FC4B3D900B39B7F /* Debug */,
+				C2D977251FC4B3D900B39B7F /* Coverage */,
+				C2D977261FC4B3D900B39B7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
