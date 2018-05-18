@@ -3,8 +3,8 @@
 //  Tesseract OCR iOS
 //  This code is auto-generated from Tesseract headers.
 //
-//  Created by Nikolay Volosatov on 17/12/14.
-//  Copyright (c) 2014 Daniele Galiotto - www.g8production.com.
+//  Created by Nikolay Volosatov on 18/05/18.
+//  Copyright (c) 2018 Daniele Galiotto - www.g8production.com.
 //  All rights reserved.
 //
 
@@ -83,7 +83,7 @@ extern NSString *const kG8ParamRejAlphasInNumberPerm;
 ///@param Default 0
 extern NSString *const kG8ParamTessBnMatching;
 
-///Dont bother with word plausibility
+///Don't bother with word plausibility
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTesseditUnrejAnyWd;
@@ -108,15 +108,15 @@ extern NSString *const kG8ParamFragmentsGuideChopper;
 ///@param Default 1.0
 extern NSString *const kG8ParamTextordExpansionFactor;
 
+///Use ratings matrix/beam searct with lstm
+///@param Type BOOL
+///@param Default 1
+extern NSString *const kG8ParamLstmUseMatrix;
+
 ///Write repetition char code
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTesseditWriteRepCodes;
-
-///Print cube debug info.
-///@param Type INT
-///@param Default 1
-extern NSString *const kG8ParamCubeDebugLevel;
 
 ///Load unambiguous word dawg.
 ///@param Type BOOL
@@ -173,9 +173,9 @@ extern NSString *const kG8ParamChopMinOutlinePoints;
 ///@param Default 0.30
 extern NSString *const kG8ParamSpeckleLargeMaxSize;
 
-///Which OCR engine(s) to run (Tesseract, Cube, both). Defaults to loading and running only Tesseract (no Cube, no combiner). (Values from OcrEngineMode enum in tesseractclass.h)
+///Which OCR engine(s) to run (Tesseract, LSTM, both). Defaults to loading and running the most accurate available.
 ///@param Type INT
-///@param Default tesseract::OEM_TESSERACT_ONLY
+///@param Default tesseract::OEM_DEFAULT
 extern NSString *const kG8ParamTesseditOcrEngineMode;
 
 ///Output text with boxes
@@ -215,15 +215,15 @@ extern NSString *const kG8ParamTextordMinBlobsInRow;
 
 ///coord of test pt
 ///@param Type INT
-///@param Default -MAX_INT32
+///@param Default -INT32_MAX
 extern NSString *const kG8ParamTextordTestY;
 
 ///coord of test pt
 ///@param Type INT
-///@param Default -MAX_INT32
+///@param Default -INT32_MAX
 extern NSString *const kG8ParamTextordTestX;
 
-///A list of user-provided patterns.
+///A suffix of user-provided patterns located in tessdata.
 ///@param Type STRING
 ///@param Default ""
 extern NSString *const kG8ParamUserPatternsSuffix;
@@ -278,10 +278,25 @@ extern NSString *const kG8ParamTextordDebugXheights;
 ///@param Default 99
 extern NSString *const kG8ParamSuspectLevel;
 
+///Print multilang debug info.
+///@param Type INT
+///@param Default 0
+extern NSString *const kG8ParamMultilangDebugLevel;
+
 ///crunch garbage rating lt this
 ///@param Type double
 ///@param Default 60
 extern NSString *const kG8ParamCrunchPoorGarbageRate;
+
+///Threshold for new punc char certainty
+///@param Type double
+///@param Default -2.5
+extern NSString *const kG8ParamNoiseCertPunc;
+
+///Add words to the document dictionary
+///@param Type BOOL
+///@param Default true
+extern NSString *const kG8ParamTesseditEnableDocDict;
 
 ///Display unsorted blobs
 ///@param Type BOOL
@@ -308,7 +323,7 @@ extern NSString *const kG8ParamOkRepeatedChNonAlphanumWds;
 ///@param Default 10
 extern NSString *const kG8ParamLanguageModelViterbiListMaxNumPrunable;
 
-///Dont crunch words with long lower case strings
+///Don't crunch words with long lower case strings
 ///@param Type INT
 ///@param Default 4
 extern NSString *const kG8ParamCrunchLeaveUcStrings;
@@ -348,10 +363,10 @@ extern NSString *const kG8ParamParagraphDebugLevel;
 ///@param Default 1.0
 extern NSString *const kG8ParamQualityOutlinePc;
 
-///Debug level for TessdataManager functions.
-///@param Type INT
-///@param Default 0
-extern NSString *const kG8ParamTessdataManagerDebugLevel;
+///Don't touch bad rating limit
+///@param Type double
+///@param Default 999.9
+extern NSString *const kG8ParamSuspectRatingPerCh;
 
 ///Print blamer debug messages
 ///@param Type BOOL
@@ -408,10 +423,10 @@ extern NSString *const kG8ParamQualityRowrejPc;
 ///@param Default 10
 extern NSString *const kG8ParamSegsearchMaxFutileClassifications;
 
-///Call Tess to learn blobs
+///Remove and conditionally reassign small outlines when they confuse layout analysis, determining diacritics vs noise
 ///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamTesseditTrainingTess;
+///@param Default true
+extern NSString *const kG8ParamEnableNoiseRemoval;
 
 ///Del if word gt xht x this below bl
 ///@param Type double
@@ -437,6 +452,11 @@ extern NSString *const kG8ParamClassifyCpCutoffStrength;
 ///@param Type BOOL
 ///@param Default true
 extern NSString *const kG8ParamTesseditPreserveBlkRejPerfectWds;
+
+///Page separator (default is form feed control character)
+///@param Type STRING
+///@param Default "\f"
+extern NSString *const kG8ParamPageSeparator;
 
 ///Aspect ratio dot/hyphen test
 ///@param Type double
@@ -508,7 +528,7 @@ extern NSString *const kG8ParamTextordStraightBaselines;
 ///@param Default 0
 extern NSString *const kG8ParamDebugXHtLevel;
 
-///Dont pot crunch sensible strings
+///Don't pot crunch sensible strings
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamCrunchLeaveAcceptStrings;
@@ -582,6 +602,11 @@ extern NSString *const kG8ParamWordrecNoBlock;
 ///@param Type double
 ///@param Default 0.02
 extern NSString *const kG8ParamTextordSkewLag;
+
+///Max diacritics to apply to a blob
+///@param Type INT
+///@param Default 8
+extern NSString *const kG8ParamNoiseMaxperblob;
 
 ///Vertical creep
 ///@param Type BOOL
@@ -688,7 +713,7 @@ extern NSString *const kG8ParamSuperscriptScaledownRatio;
 ///@param Default 0.0
 extern NSString *const kG8ParamTospWideAspectRatio;
 
-///Dont trust spaces less than this time kn
+///Don't trust spaces less than this time kn
 ///@param Type double
 ///@param Default 1.5
 extern NSString *const kG8ParamTospMinSaneKnSp;
@@ -722,11 +747,6 @@ extern NSString *const kG8ParamTextordDescheightModeFraction;
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTesseditWriteImages;
-
-///Dont touch bad rating limit
-///@param Type double
-///@param Default 999.9
-extern NSString *const kG8ParamSuspectRatingPerCh;
 
 ///Run in parallel where possible
 ///@param Type INT
@@ -783,7 +803,7 @@ extern NSString *const kG8ParamClassifyClassPrunerMultiplier;
 ///@param Default true
 extern NSString *const kG8ParamRejUseGoodPerm;
 
-///Dont adapt to i/I at beginning of word
+///Don't adapt to i/I at beginning of word
 ///@param Type INT
 ///@param Default 0
 extern NSString *const kG8ParamIl1AdaptionTest;
@@ -853,10 +873,10 @@ extern NSString *const kG8ParamTesseditWriteUnlv;
 ///@param Default 0.0
 extern NSString *const kG8ParamQualityBlobPc;
 
-///super norm blobs to save row
-///@param Type INT
-///@param Default 1
-extern NSString *const kG8ParamTextordNoiseSncount;
+///A filename of user-provided words.
+///@param Type STRING
+///@param Default ""
+extern NSString *const kG8ParamUserWordsFile;
 
 ///Fract of xheight for fuzz sp
 ///@param Type double
@@ -867,6 +887,11 @@ extern NSString *const kG8ParamTospFuzzySpaceFactor1;
 ///@param Type double
 ///@param Default 0.72
 extern NSString *const kG8ParamTospFuzzySpaceFactor2;
+
+///Write .txt output file
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamTesseditCreateTxt;
 
 ///Run interactively?
 ///@param Type BOOL
@@ -907,6 +932,11 @@ extern NSString *const kG8ParamTospNarrowAspectRatio;
 ///@param Type BOOL
 ///@param Default FALSE
 extern NSString *const kG8ParamTextordShowParallelRows;
+
+///Write .tsv output file
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamTesseditCreateTsv;
 
 ///Percentile for small blobs
 ///@param Type double
@@ -973,12 +1003,22 @@ extern NSString *const kG8ParamTesseditRejectRowPercent;
 ///@param Default 230
 extern NSString *const kG8ParamClassifyAdaptFeatureThreshold;
 
+///Enable vertical detection
+///@param Type BOOL
+///@param Default true
+extern NSString *const kG8ParamTextordTabfindVerticalText;
+
+///Enable single word correction based on the dictionary.
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamTesseditEnableDictCorrection;
+
 ///Width change adjustment
 ///@param Type double
 ///@param Default 5.0
 extern NSString *const kG8ParamChopWidthChangeKnob;
 
-///Dont reject ANYTHING AT ALL
+///Don't reject ANYTHING AT ALL
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTesseditZeroKelvinRejection;
@@ -988,10 +1028,10 @@ extern NSString *const kG8ParamTesseditZeroKelvinRejection;
 ///@param Default 7
 extern NSString *const kG8ParamTextordMaxNoiseSize;
 
-///Dont autoflip kn to sp when large separation
+///Fract of xheight for narrow
 ///@param Type double
-///@param Default 0.0
-extern NSString *const kG8ParamTospFlipCaution;
+///@param Default 0.3
+extern NSString *const kG8ParamTospNarrowFraction;
 
 ///xcoord
 ///@param Type double
@@ -1007,6 +1047,11 @@ extern NSString *const kG8ParamTesseditGoodQualityUnrej;
 ///@param Type INT
 ///@param Default 0
 extern NSString *const kG8ParamClassifyLearningDebugLevel;
+
+///Max width of blobs to make rows
+///@param Type double
+///@param Default 8
+extern NSString *const kG8ParamTextordWidthLimit;
 
 ///xht multiplier
 ///@param Type double
@@ -1053,6 +1098,11 @@ extern NSString *const kG8ParamTesseditImageBorder;
 ///@param Default false
 extern NSString *const kG8ParamTospAllFlipsFuzzy;
 
+///super norm blobs to save row
+///@param Type INT
+///@param Default 1
+extern NSString *const kG8ParamTextordNoiseSncount;
+
 ///Contextual fixspace debug
 ///@param Type INT
 ///@param Default 0
@@ -1088,10 +1138,10 @@ extern NSString *const kG8ParamTesseditTimingDebug;
 ///@param Default FALSE
 extern NSString *const kG8ParamPrioritizeDivision;
 
-///Add words to the document dictionary
-///@param Type BOOL
-///@param Default true
-extern NSString *const kG8ParamTesseditEnableDocDict;
+///Hingepoint for disjoint certainty
+///@param Type double
+///@param Default -2.5
+extern NSString *const kG8ParamNoiseCertDisjoint;
 
 ///POTENTIAL crunch cert lt this
 ///@param Type double
@@ -1133,6 +1183,11 @@ extern NSString *const kG8ParamTextordBlshiftXfraction;
 ///@param Default false
 extern NSString *const kG8ParamTospOldToConstrainSpKn;
 
+///Break input into lines and remap boxes if present
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamTesseditTrainLineRecognizer;
+
 ///Rating scaling factor
 ///@param Type double
 ///@param Default 1.5
@@ -1153,7 +1208,7 @@ extern NSString *const kG8ParamTextordDescxRatioMax;
 ///@param Default true
 extern NSString *const kG8ParamTesseditConsistentReps;
 
-///Dont let sp minus kn get too small
+///Don't let sp minus kn get too small
 ///@param Type double
 ///@param Default 0.2
 extern NSString *const kG8ParamTospSillyKnSpGap;
@@ -1208,10 +1263,10 @@ extern NSString *const kG8ParamSuperscriptMinYBottom;
 ///@param Default 500
 extern NSString *const kG8ParamLanguageModelViterbiListMaxSize;
 
-///Max width of blobs to make rows
+///Fraction of height used as a minimum gap for aligned blobs.
 ///@param Type double
-///@param Default 8
-extern NSString *const kG8ParamTextordWidthLimit;
+///@param Default 0.75
+extern NSString *const kG8ParamTextordTabfindAlignedGapFraction;
 
 ///Fraction of line spacing for outlier
 ///@param Type double
@@ -1233,20 +1288,15 @@ extern NSString *const kG8ParamClassifyNormMethod;
 ///@param Default 7.0
 extern NSString *const kG8ParamMinOrientationMargin;
 
-///Great Match (0-1)
-///@param Type double
-///@param Default 0.0
-extern NSString *const kG8ParamMatcherGreatThreshold;
-
 ///Only initialize with the config file. Useful if the instance is not going to be used for OCR but say only for layout analysis.
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTesseditInitConfigOnly;
 
-///Display rows after expanding
+///Preserve multiple interword spaces
 ///@param Type BOOL
-///@param Default FALSE
-extern NSString *const kG8ParamTextordShowExpandedRows;
+///@param Default false
+extern NSString *const kG8ParamPreserveInterwordSpaces;
 
 ///Only rej partially rejected words in row rejection
 ///@param Type BOOL
@@ -1273,7 +1323,7 @@ extern NSString *const kG8ParamSubscriptMaxYTop;
 ///@param Default TRUE
 extern NSString *const kG8ParamMergeFragmentsInMatrix;
 
-///unrej potential with no chekcs
+///unrej potential with no checks
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamBlandUnrej;
@@ -1283,10 +1333,25 @@ extern NSString *const kG8ParamBlandUnrej;
 ///@param Default 1.5
 extern NSString *const kG8ParamCrunchDelHighWord;
 
+///Debug reassignment of small outlines
+///@param Type INT
+///@param Default 0
+extern NSString *const kG8ParamDebugNoiseRemoval;
+
+///List of chars to override tessedit_char_blacklist
+///@param Type STRING
+///@param Default ""
+extern NSString *const kG8ParamTesseditCharUnblacklist;
+
 ///fraction of linesize for min xheight
 ///@param Type double
 ///@param Default 0.25
 extern NSString *const kG8ParamTextordMinxh;
+
+///Use divisible blobs chopping
+///@param Type BOOL
+///@param Default true
+extern NSString *const kG8ParamAllowBlobDivision;
 
 ///Factor for defining space threshold in terms of space and kern sizes
 ///@param Type double
@@ -1323,6 +1388,11 @@ extern NSString *const kG8ParamTesseditRejectBadQualWds;
 ///@param Default ".
 extern NSString *const kG8ParamNumericPunctuation;
 
+///Save Document Words
+///@param Type BOOL
+///@param Default 0
+extern NSString *const kG8ParamSaveDocWords;
+
 ///Split sharpness adjustment
 ///@param Type double
 ///@param Default 0.06
@@ -1338,7 +1408,7 @@ extern NSString *const kG8ParamConflictSetIL1;
 ///@param Default 10
 extern NSString *const kG8ParamClassifyIntegerMatcherMultiplier;
 
-///Dont Suspect dict wds longer than this
+///Don't Suspect dict wds longer than this
 ///@param Type INT
 ///@param Default 2
 extern NSString *const kG8ParamSuspectShortWords;
@@ -1488,7 +1558,7 @@ extern NSString *const kG8ParamTextordNoiseAreaRatio;
 ///@param Default ""
 extern NSString *const kG8ParamTesseditCharWhitelist;
 
-///Dont touch sensible strings
+///Don't touch sensible strings
 ///@param Type BOOL
 ///@param Default true
 extern NSString *const kG8ParamCrunchLeaveOkStrings;
@@ -1553,7 +1623,7 @@ extern NSString *const kG8ParamTesseditFlip0O;
 ///@param Default 2000
 extern NSString *const kG8ParamChopMinOutlineArea;
 
-///Dont reject ANYTHING
+///Don't reject ANYTHING
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTesseditZeroRejection;
@@ -1572,11 +1642,6 @@ extern NSString *const kG8ParamTospSanityMethod;
 ///@param Type double
 ///@param Default 0.5
 extern NSString *const kG8ParamTospFuzzySpFraction;
-
-///Deprecated- backward compatability only
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamSaveRawChoices;
 
 ///Avg. noise blob length:
 ///@param Type double
@@ -1603,7 +1668,7 @@ extern NSString *const kG8ParamMatcherGoodThreshold;
 ///@param Default ""
 extern NSString *const kG8ParamWordToDebug;
 
-///A list of user-provided words.
+///A suffix of user-provided words located in tessdata.
 ///@param Type STRING
 ///@param Default ""
 extern NSString *const kG8ParamUserWordsSuffix;
@@ -1623,10 +1688,20 @@ extern NSString *const kG8ParamRejUseSensibleWd;
 ///@param Default TRUE
 extern NSString *const kG8ParamWordrecEnableAssoc;
 
+///Fraction of textlines deemed vertical to use vertical page mode
+///@param Type double
+///@param Default 0.5
+extern NSString *const kG8ParamTextordTabfindVerticalTextRatio;
+
 ///Top choice only from CP
 ///@param Type INT
 ///@param Default FALSE
 extern NSString *const kG8ParamTesseditSingleMatch;
+
+///Scaling on certainty diff from Hingepoint
+///@param Type double
+///@param Default 0.375
+extern NSString *const kG8ParamNoiseCertFactor;
 
 ///Width of (smaller) chopped blobs above which we don't care that a chop is not near the center.
 ///@param Type INT
@@ -1643,11 +1718,6 @@ extern NSString *const kG8ParamLoadFreqDawg;
 ///@param Default 0.5
 extern NSString *const kG8ParamTextordSkewIle;
 
-///Multipler to for the best choice from the ngram model.
-///@param Type double
-///@param Default 1.24
-extern NSString *const kG8ParamSegmentPenaltyNgramBestChoice;
-
 ///Min desc/xheight
 ///@param Type double
 ///@param Default 0.25
@@ -1658,10 +1728,10 @@ extern NSString *const kG8ParamTextordDescxRatioMin;
 ///@param Default 1.50
 extern NSString *const kG8ParamSegmentPenaltyGarbage;
 
-///Save Document Words
+///Create PDF with only one invisible text layer
 ///@param Type BOOL
-///@param Default 0
-extern NSString *const kG8ParamSaveDocWords;
+///@param Default false
+extern NSString *const kG8ParamTextonlyPdf;
 
 ///Split Length
 ///@param Type INT
@@ -1748,7 +1818,7 @@ extern NSString *const kG8ParamTextordUseCjkFpModel;
 ///@param Default 8
 extern NSString *const kG8ParamLanguageModelNgramOrder;
 
-///Dont crunch words with long lower case strings
+///Don't crunch words with long lower case strings
 ///@param Type INT
 ///@param Default 4
 extern NSString *const kG8ParamCrunchLeaveLcStrings;
@@ -1768,10 +1838,10 @@ extern NSString *const kG8ParamFixspSmallOutlinesSize;
 ///@param Default 0
 extern NSString *const kG8ParamWordrecDebugLevel;
 
-///Page seg mode: 0=osd only, 1=auto+osd, 2=auto, 3=col, 4=block, 5=line, 6=word, 7=char (Values from PageSegMode enum in publictypes.h)
-///@param Type INT
-///@param Default PSM_SINGLE_BLOCK
-extern NSString *const kG8ParamTesseditPagesegMode;
+///2nd Trailing punctuation
+///@param Type STRING
+///@param Default ")'`\""
+extern NSString *const kG8ParamChsTrailingPunct2;
 
 ///1st Trailing punctuation
 ///@param Type STRING
@@ -1782,6 +1852,11 @@ extern NSString *const kG8ParamChsTrailingPunct1;
 ///@param Type INT
 ///@param Default 3
 extern NSString *const kG8ParamLanguageModelMinCompoundLength;
+
+///Display rows after expanding
+///@param Type BOOL
+///@param Default FALSE
+extern NSString *const kG8ParamTextordShowExpandedRows;
 
 ///Load dawg with punctuation patterns.
 ///@param Type BOOL
@@ -1823,10 +1898,10 @@ extern NSString *const kG8ParamTesseditBigramDebug;
 ///@param Default 0.0
 extern NSString *const kG8ParamDocDictPendingThreshold;
 
-///2nd Trailing punctuation
-///@param Type STRING
-///@param Default ")'`\""
-extern NSString *const kG8ParamChsTrailingPunct2;
+///Page seg mode: 0=osd only, 1=auto+osd, 2=auto, 3=col, 4=block, 5=line, 6=word, 7=char (Values from PageSegMode enum in publictypes.h)
+///@param Type INT
+///@param Default PSM_SINGLE_BLOCK
+extern NSString *const kG8ParamTesseditPagesegMode;
 
 ///For smooth factor
 ///@param Type INT
@@ -1862,6 +1937,11 @@ extern NSString *const kG8ParamTesseditFixHyphens;
 ///@param Type INT
 ///@param Default 0
 extern NSString *const kG8ParamMatcherDebugLevel;
+
+///Max diacritics to apply to a word
+///@param Type INT
+///@param Default 16
+extern NSString *const kG8ParamNoiseMaxperword;
 
 ///UNLV keep 1Il chars rejected
 ///@param Type BOOL
@@ -1978,15 +2058,15 @@ extern NSString *const kG8ParamClassifyMaxNormScaleX;
 ///@param Default 0.325
 extern NSString *const kG8ParamClassifyMaxNormScaleY;
 
-///Dont chng kn to space next to punct
+///Don't chng kn to space next to punct
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTospRule9TestPunct;
 
-///Fract of xheight for narrow
+///Don't autoflip kn to sp when large separation
 ///@param Type double
-///@param Default 0.3
-extern NSString *const kG8ParamTospNarrowFraction;
+///@param Default 0.0
+extern NSString *const kG8ParamTospFlipCaution;
 
 ///Each bounding box is assumed to contain ngrams. Only learn the ngrams whose outlines overlap horizontally.
 ///@param Type BOOL
@@ -2028,6 +2108,11 @@ extern NSString *const kG8ParamMatcherBadMatchPad;
 ///@param Default 0.2
 extern NSString *const kG8ParamTextordLinespaceIqrlimit;
 
+///Great Match (0-1)
+///@param Type double
+///@param Default 0.0
+extern NSString *const kG8ParamMatcherReliableAdaptiveResult;
+
 ///Debug level
 ///@param Type INT
 ///@param Default 1
@@ -2057,6 +2142,11 @@ extern NSString *const kG8ParamTospShortRow;
 ///@param Type double
 ///@param Default 0.125
 extern NSString *const kG8ParamXheightPenaltySubscripts;
+
+///Hingepoint for base char certainty
+///@param Type double
+///@param Default -8.0
+extern NSString *const kG8ParamNoiseCertBasechar;
 
 ///Take out ~^ early?
 ///@param Type BOOL
@@ -2118,7 +2208,7 @@ extern NSString *const kG8ParamMatcherMinExamplesForPrototyping;
 ///@param Default 2
 extern NSString *const kG8ParamTesseditPreserveMinWdLen;
 
-///-1 -> All pages, else specifc page to process
+///-1 -> All pages, else specific page to process
 ///@param Type INT
 ///@param Default -1
 extern NSString *const kG8ParamTesseditPageNumber;
@@ -2158,10 +2248,15 @@ extern NSString *const kG8ParamWordrecDisplaySegmentations;
 ///@param Default ""
 extern NSString *const kG8ParamOutputAmbigWordsFile;
 
-///Dont restrict kn->sp fuzzy limit to tables
+///Don't restrict kn->sp fuzzy limit to tables
 ///@param Type BOOL
 ///@param Default true
 extern NSString *const kG8ParamTospFuzzyLimitAll;
+
+///A filename of user-provided patterns.
+///@param Type STRING
+///@param Default ""
+extern NSString *const kG8ParamUserPatternsFile;
 
 ///if >this fract
 ///@param Type double
@@ -2208,6 +2303,11 @@ extern NSString *const kG8ParamForceWordAssoc;
 ///@param Default 2.2
 extern NSString *const kG8ParamTospInitGuessKnMult;
 
+///Force using vertical text page mode
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamTextordTabfindForceVerticalText;
+
 ///Maximum character width-to-height ratio
 ///@param Type double
 ///@param Default 2.0
@@ -2233,10 +2333,15 @@ extern NSString *const kG8ParamTextordMaxBlobOverlaps;
 ///@param Default false
 extern NSString *const kG8ParamTesseditDebugBlockRejection;
 
-///Dont reduce box if the top left is non blank
+///Don't reduce box if the top left is non blank
 ///@param Type double
 ///@param Default 0
 extern NSString *const kG8ParamTospNearLhEdge;
+
+///Add font info to hocr output
+///@param Type BOOL
+///@param Default false
+extern NSString *const kG8ParamHocrFontInfo;
 
 ///gap ratio to flip kern->sp
 ///@param Type double
@@ -2258,7 +2363,7 @@ extern NSString *const kG8ParamTospKernGapFactor1;
 ///@param Default 0
 extern NSString *const kG8ParamBidiDebug;
 
-///Dont double check
+///Don't double check
 ///@param Type BOOL
 ///@param Default true
 extern NSString *const kG8ParamRej1IlTrustPermuterType;
@@ -2287,120 +2392,5 @@ extern NSString *const kG8ParamTextordBiasedSkewcalc;
 ///@param Type BOOL
 ///@param Default false
 extern NSString *const kG8ParamTospOnlyUseXhtGaps;
-
-///max char width-to-height ratio allowed in segmentation
-///@param Type double
-///@param Default 2.0
-extern NSString *const kG8ParamHeuristicMaxCharWhRatio DEPRECATED_ATTRIBUTE;
-
-///Turn on word script consistency permuter
-///@param Type BOOL
-///@param Default 0
-extern NSString *const kG8ParamPermuteScriptWord DEPRECATED_ATTRIBUTE;
-
-///weight associated with width evidence in combined cost of state
-///@param Type double
-///@param Default 1000.0
-extern NSString *const kG8ParamHeuristicWeightWidth DEPRECATED_ATTRIBUTE;
-
-///Depth of blob choice lists to explore when fixed length dawgs are on
-///@param Type INT
-///@param Default 3
-extern NSString *const kG8ParamLanguageModelFixedLengthChoicesDepth DEPRECATED_ATTRIBUTE;
-
-///char permutation debug
-///@param Type BOOL
-///@param Default 0
-extern NSString *const kG8ParamPermuteDebug DEPRECATED_ATTRIBUTE;
-
-///Multiplying factor of current best rate to prune other hypotheses
-///@param Type double
-///@param Default 2.0
-extern NSString *const kG8ParamBestratePruningFactor DEPRECATED_ATTRIBUTE;
-
-///Maximum character width-to-height ratio for fixed pitch fonts
-///@param Type double
-///@param Default 2.0
-extern NSString *const kG8ParamSegsearchMaxFixedPitchCharWhRatio DEPRECATED_ATTRIBUTE;
-
-///Score multipler for ngram permuter's best choice (only used in the Han script path).
-///@param Type double
-///@param Default 0.99
-extern NSString *const kG8ParamSegmentRewardNgramBestChoice DEPRECATED_ATTRIBUTE;
-
-///use new state cost heuristics for segmentation state evaluation
-///@param Type BOOL
-///@param Default FALSE
-extern NSString *const kG8ParamUseNewStateCost DEPRECATED_ATTRIBUTE;
-
-///Score multipler for script consistency within a word. Being a 'reward' factor, it should be <= 1. Smaller value implies bigger reward.
-///@param Type double
-///@param Default 0.95
-extern NSString *const kG8ParamSegmentRewardScript DEPRECATED_ATTRIBUTE;
-
-///Acceptance decision algorithm
-///@param Type INT
-///@param Default 5
-extern NSString *const kG8ParamTesseditOkMode DEPRECATED_ATTRIBUTE;
-
-///Turn on character type (property) consistency permuter
-///@param Type BOOL
-///@param Default 0
-extern NSString *const kG8ParamPermuteChartypeWord DEPRECATED_ATTRIBUTE;
-
-///Activate character-level n-gram-based permuter
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamNgramPermuterActivated DEPRECATED_ATTRIBUTE;
-
-///Score multipler for char type consistency within a word.
-///@param Type double
-///@param Default 0.97
-extern NSString *const kG8ParamSegmentRewardChartype DEPRECATED_ATTRIBUTE;
-
-///weight associated with seam cut in combined cost of state
-///@param Type double
-///@param Default 0
-extern NSString *const kG8ParamHeuristicWeightSeamcut DEPRECATED_ATTRIBUTE;
-
-///Load fixed length dawgs (e.g. for non-space delimited languages)
-///@param Type BOOL
-///@param Default true
-extern NSString *const kG8ParamLoadFixedLengthDawgs DEPRECATED_ATTRIBUTE;
-
-///Enable new segmentation search path.
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamEnableNewSegsearch DEPRECATED_ATTRIBUTE;
-
-///Turn on fixed-length phrasebook search permuter
-///@param Type BOOL
-///@param Default 0
-extern NSString *const kG8ParamPermuteFixedLengthDawg DEPRECATED_ATTRIBUTE;
-
-///weight associated with char rating in combined cost of state
-///@param Type double
-///@param Default 1
-extern NSString *const kG8ParamHeuristicWeightRating DEPRECATED_ATTRIBUTE;
-
-///base factor for adding segmentation cost into word rating. It's a multiplying factor, the larger the value above 1, the bigger the effect of segmentation cost.
-///@param Type double
-///@param Default 1.25
-extern NSString *const kG8ParamHeuristicSegcostRatingBase DEPRECATED_ATTRIBUTE;
-
-///Run only the top choice permuter
-///@param Type BOOL
-///@param Default false
-extern NSString *const kG8ParamPermuteOnlyTop DEPRECATED_ATTRIBUTE;
-
-///Debug the whole segmentation process
-///@param Type INT
-///@param Default 0
-extern NSString *const kG8ParamSegmentDebug DEPRECATED_ATTRIBUTE;
-
-///incorporate segmentation cost in word rating?
-///@param Type BOOL
-///@param Default 0
-extern NSString *const kG8ParamSegmentSegcostRating DEPRECATED_ATTRIBUTE;
 
 #endif
