@@ -193,8 +193,7 @@
 		333B8E9F2095CF7C0084EE39 /* libtesseract.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract.a; sourceTree = "<group>"; };
 		333B8EA02095CF7C0084EE39 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
 		333B8EA12095CF7C0084EE39 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
-		338758DB206A6A7F006E5B96 /* TesseractOCRmacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCRmacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		338758DC206A6A7F006E5B96 /* TesseractOCR copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TesseractOCR copy-Info.plist"; path = "/Users/hami/projects/swift/Tesseract-OCR-iOS/TesseractOCR copy-Info.plist"; sourceTree = "<absolute>"; };
+		334A67C820AF6BEC00AAA630 /* TesseractOCRmacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCRmacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33CFDF4B20ACCAFE0048CD65 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblept.a; path = TesseractOCR/macos/lib/liblept.a; sourceTree = "<group>"; };
 		33CFDF4C20ACCAFF0048CD65 /* libtesseract.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtesseract.a; path = TesseractOCR/macos/lib/libtesseract.a; sourceTree = "<group>"; };
 		33CFDF4D20ACCAFF0048CD65 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = TesseractOCR/macos/lib/libjpeg.a; sourceTree = "<group>"; };
@@ -214,14 +213,13 @@
 		64907492198A6B9E00D728CC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		64A0292D17307C1D002B12E7 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64A0293117307C1D002B12E7 /* TesseractOCR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesseractOCR-Info.plist"; sourceTree = "<group>"; };
-		64A0293317307C1D002B12E7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		64A0293517307C1D002B12E7 /* TesseractOCR-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TesseractOCR-Prefix.pch"; sourceTree = "<group>"; };
 		64A029D617307CD0002B12E7 /* G8Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Tesseract.h; sourceTree = "<group>"; };
 		64A029D717307CD0002B12E7 /* G8Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = G8Tesseract.mm; sourceTree = "<group>"; };
 		64F74CCC172FD75F0068E657 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		64F74D77172FD8E90068E657 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		73C0A7B11A594A8000D823D4 /* TesseractOCR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractOCR.h; sourceTree = "<group>"; };
-		73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TesseractOCR.framework; path = "/Users/hami/projects/swift/Tesseract-OCR-iOS/build/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,7 +407,6 @@
 			isa = PBXGroup;
 			children = (
 				64A0293117307C1D002B12E7 /* TesseractOCR-Info.plist */,
-				64A0293217307C1D002B12E7 /* InfoPlist.strings */,
 				64A0293517307C1D002B12E7 /* TesseractOCR-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -420,8 +417,7 @@
 			children = (
 				64A0292F17307C1D002B12E7 /* TesseractOCR */,
 				64F74CCB172FD75F0068E657 /* Frameworks */,
-				338758DB206A6A7F006E5B96 /* TesseractOCRmacOS.framework */,
-				338758DC206A6A7F006E5B96 /* TesseractOCR copy-Info.plist */,
+				334A67C820AF6BEC00AAA630 /* TesseractOCRmacOS.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -440,7 +436,6 @@
 				33CFDF4F20ACCAFF0048CD65 /* libtiff.a */,
 				33E94E74207540260005399D /* libz.tbd */,
 				333B8E462093C79E0084EE39 /* libz.tbd */,
-				73C0A7BA1A5955E200D823D4 /* TesseractOCR.framework */,
 				64907492198A6B9E00D728CC /* CoreImage.framework */,
 				64F74D77172FD8E90068E657 /* UIKit.framework */,
 				64F74CCC172FD75F0068E657 /* Foundation.framework */,
@@ -568,7 +563,7 @@
 			);
 			name = TesseractOCRmacOS;
 			productName = "TesseractOCR-Framework";
-			productReference = 338758DB206A6A7F006E5B96 /* TesseractOCRmacOS.framework */;
+			productReference = 334A67C820AF6BEC00AAA630 /* TesseractOCRmacOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		73C0A77B1A592C2B00D823D4 /* TesseractOCR */ = {
@@ -694,17 +689,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		64A0293217307C1D002B12E7 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				64A0293317307C1D002B12E7 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		338758D8206A6A7F006E5B96 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -732,7 +716,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "TesseractOCR copy-Info.plist";
+				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks";
@@ -783,7 +767,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "TesseractOCR copy-Info.plist";
+				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks";
@@ -831,7 +815,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "TesseractOCR copy-Info.plist";
+				INFOPLIST_FILE = "TesseractOCR/TesseractOCR-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks";

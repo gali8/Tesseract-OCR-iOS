@@ -1372,7 +1372,8 @@ namespace tesseract {
         if ([imageRep pixelsWide] > width) { width = [imageRep pixelsWide]; }
         if ([imageRep pixelsHigh] > height) { height = [imageRep pixelsHigh]; }
         // Representations with both width and height of 0 seem to be problematic,
-        // specifically on macOS, so we just remove them
+        // specifically on macOS, so we just remove them.
+        // TODO: Maybe this could be done in setEngineImage?
         if ([imageRep pixelsWide] == 0 && [imageRep pixelsHigh] == 0) { [image removeRepresentation:imageRep]; }
     }
 

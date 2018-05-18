@@ -11,7 +11,6 @@ MACOS_DEPLOY_TGT="10.13"
 
 TESSERACT_SRC = $(shell pwd)/tesseract-ocr
 LEPTON_SRC = $(shell pwd)/$(LEPTON_NAME)
-# TODO: libtiff-ios -> libtiff-macos?
 IMAGE_SRC = $(shell pwd)/libtiff-ios/$(PLATFORM_PREFIX)
 PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
 JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
