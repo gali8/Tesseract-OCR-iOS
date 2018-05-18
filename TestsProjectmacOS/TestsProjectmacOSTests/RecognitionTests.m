@@ -273,7 +273,6 @@ describe(@"Well scanned page", ^{
 describe(@"hOCR", ^{
 
     it(@"Should sample image", ^{
-
         NSString *path = [[NSBundle mainBundle] pathForResource:@"image_sample" ofType:@"hOCR"];
 
         helper.image = [NSImage imageNamed:@"image_sample.jpg"];
@@ -318,6 +317,7 @@ describe(@"PDF", ^{
     NSData *(^recognizedPDFForImages)(NSArray*images) = ^NSData*(NSArray*images) {
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
 
+        // TODO: Shouldn't use this directory
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *outputFilePath = [documentsDirectory stringByAppendingPathComponent:@"outputbase"];

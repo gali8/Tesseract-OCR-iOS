@@ -739,7 +739,6 @@ namespace tesseract {
 
 - (CGRect)normalizedRectForX:(CGFloat)x y:(CGFloat)y width:(CGFloat)width height:(CGFloat)height
 {
-    // TODO: Maybe some size weirdness again, because of using self.imageSize
     x /= self.imageSize.width;
     y /= self.imageSize.height;
     width /= self.imageSize.width;
@@ -1366,14 +1365,21 @@ namespace tesseract {
 #elif TARGET_OS_MAC
 - (Pix *)pixForImage:(NSImage *)image
 {
-    // TODO: Maybe use representations here?
-    CGImage *cgImage = [image CGImageForProposedRect:nil context:nil hints:nil];
+    NSInteger width = 0;
+    NSInteger height = 0;
+
+    for (NSImageRep * imageRep in [image representations]) {
+        if ([imageRep pixelsWide] > width) { width = [imageRep pixelsWide]; }
+        if ([imageRep pixelsHigh] > height) { height = [imageRep pixelsHigh]; }
+        // Representations with both width and height of 0 seem to be problematic,
+        // specifically on macOS, so we just remove them
+        if ([imageRep pixelsWide] == 0 && [imageRep pixelsHigh] == 0) { [image removeRepresentation:imageRep]; }
+    }
+
+    struct CGImage *cgImage = [image CGImageForProposedRect:nil context:nil hints:nil];
     CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
 
     const UInt8 *pixels = CFDataGetBytePtr(imageData);
-
-    int width = (int)CGImageGetWidth(cgImage);
-    int height = (int)CGImageGetHeight(cgImage);
 
     size_t bitsPerPixel = CGImageGetBitsPerPixel(cgImage);
     size_t bytesPerPixel = bitsPerPixel / 8;
