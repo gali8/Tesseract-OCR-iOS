@@ -19,7 +19,6 @@
 		334A6A4D20B8B85E00AAA630 /* RecognitionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A4A20B8B85E00AAA630 /* RecognitionTests.m */; };
 		334A6A4E20B8B85E00AAA630 /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A4B20B8B85E00AAA630 /* InitializationTests.m */; };
 		334A6A5920B8B8F700AAA630 /* TesseractOCRmacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */; };
-		334A6A5F20B8BA8300AAA630 /* TesseractOCRmacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */; };
 		33A5D6CA20B984750038CE67 /* XPlatformImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A5D6C920B984750038CE67 /* XPlatformImage.m */; };
 		33E40C9320B9816D0055645B /* G8RecognitionTestsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C9020B9816D0055645B /* G8RecognitionTestsHelper.m */; };
 		33E40C9420B9816D0055645B /* NSData+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C9120B9816D0055645B /* NSData+G8Equal.m */; };
@@ -78,7 +77,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				334A6A5F20B8BA8300AAA630 /* TesseractOCRmacOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,7 +474,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				OTHER_LDFLAGS = "-lc++";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "gg.hc.Tests-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -494,7 +492,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				OTHER_LDFLAGS = "-lc++";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "gg.hc.Tests-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

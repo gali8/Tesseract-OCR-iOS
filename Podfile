@@ -17,15 +17,3 @@ target 'Tests-macOSTests' do
   platform :osx, '10.13'
   testing_pods
 end
-
-target 'TestsProjectTests' do
-  project 'TestsProject/TestsProject.xcodeproj/', 'Coverage' => :debug
-  platform :ios, '11.3'
-  testing_pods
-end
-
-target 'TestsProjectmacOSTests' do
-  project 'TestsProjectmacOS/TestsProjectmacOS.xcodeproj/', 'Coverage' => :debug
-  platform :osx, '10.13'
-  testing_pods
-end

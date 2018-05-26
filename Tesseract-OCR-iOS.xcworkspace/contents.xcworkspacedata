@@ -11,12 +11,6 @@
       location = "group:Tests-macOS/Tests-macOS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:TestsProject/TestsProject.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:TestsProjectmacOS/TestsProjectmacOS.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Template Framework Project/Template Framework Project.xcodeproj">
    </FileRef>
    <FileRef

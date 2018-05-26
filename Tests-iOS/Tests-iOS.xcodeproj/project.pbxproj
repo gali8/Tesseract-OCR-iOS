@@ -11,6 +11,7 @@
 		334AC69920B981D800D2675A /* G8RecognitionTestsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AC69620B981D800D2675A /* G8RecognitionTestsHelper.m */; };
 		334AC69A20B981D800D2675A /* NSData+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AC69720B981D800D2675A /* NSData+G8Equal.m */; };
 		33A5D6CD20B984930038CE67 /* XPlatformImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A5D6CC20B984930038CE67 /* XPlatformImage.m */; };
+		33A5D86D20B98D910038CE67 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33A5D86C20B98D910038CE67 /* TesseractOCR.framework */; };
 		33E40C5E20B97F850055645B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C5D20B97F850055645B /* AppDelegate.m */; };
 		33E40C6120B97F850055645B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C6020B97F850055645B /* ViewController.m */; };
 		33E40C6420B97F860055645B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E40C6220B97F860055645B /* Main.storyboard */; };
@@ -25,7 +26,6 @@
 		33E40C8B20B9803D0055645B /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C8820B9803D0055645B /* InitializationTests.m */; };
 		33E40C9A20B981810055645B /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C9820B981810055645B /* Defaults.m */; };
 		33FBE82A20B982F100B5A642 /* UIImage+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FBE82920B982F100B5A642 /* UIImage+G8Equal.m */; };
-		33FBE82D20B9830800B5A642 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FBE82C20B9830800B5A642 /* TesseractOCR.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +45,7 @@
 		334AC69820B981D800D2675A /* NSData+G8Equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+G8Equal.h"; path = "../../Tests/Supporting Files/NSData+G8Equal.h"; sourceTree = "<group>"; };
 		33A5D6CB20B984930038CE67 /* XPlatformImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPlatformImage.h; path = "../../Tests/Supporting Files/XPlatformImage.h"; sourceTree = "<group>"; };
 		33A5D6CC20B984930038CE67 /* XPlatformImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPlatformImage.m; path = "../../Tests/Supporting Files/XPlatformImage.m"; sourceTree = "<group>"; };
+		33A5D86C20B98D910038CE67 /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E40C5920B97F850055645B /* Tests-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tests-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E40C5C20B97F850055645B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33E40C5D20B97F850055645B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -78,7 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33FBE82D20B9830800B5A642 /* TesseractOCR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33A5D86D20B98D910038CE67 /* TesseractOCR.framework in Frameworks */,
 				164A3DC4FA1637E7429F3B0F /* libPods-Tests-iOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,6 +173,7 @@
 		33FBE82B20B9830800B5A642 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				33A5D86C20B98D910038CE67 /* TesseractOCR.framework */,
 				33FBE82C20B9830800B5A642 /* TesseractOCR.framework */,
 				AA2269167D6F10EE29C563CE /* libPods-Tests-iOSTests.a */,
 			);
