@@ -1,5 +1,5 @@
 //
-//  UIImage+G8Equal.m
+//  NSImage+G8Equal.m
 //  TestsProject
 //
 //  Created by Nikolay Volosatov on 17.12.14.
@@ -113,7 +113,7 @@ static CGFloat const kG8MinimalSimilarity = 0.99;
 
     [drawnImage lockFocus];
 
-    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+//    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
 
     [self drawInRect:(CGRect){CGPointZero, pixelSize}];
 
@@ -166,6 +166,12 @@ static CGFloat const kG8MinimalSimilarity = 0.99;
     [image unlockFocus];
 
     return image;
+}
+
++ (NSImage *)imageWithName:(NSString *)name
+{
+    NSString *filePath = [[[NSBundle.mainBundle resourcePath] stringByAppendingString:@"/images/"] stringByAppendingString:name];
+    return [[NSImage alloc] initWithContentsOfFile:filePath];
 }
 
 @end

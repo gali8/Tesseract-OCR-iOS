@@ -1,0 +1,584 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		334A6A1520B8AA4400AAA630 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A1420B8AA4400AAA630 /* AppDelegate.m */; };
+		334A6A1820B8AA4400AAA630 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A1720B8AA4400AAA630 /* ViewController.m */; };
+		334A6A1A20B8AA4800AAA630 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 334A6A1920B8AA4800AAA630 /* Assets.xcassets */; };
+		334A6A1D20B8AA4800AAA630 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 334A6A1B20B8AA4800AAA630 /* Main.storyboard */; };
+		334A6A2020B8AA4800AAA630 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A1F20B8AA4800AAA630 /* main.m */; };
+		334A6A3720B8AB5E00AAA630 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 334A6A3520B8AB5E00AAA630 /* tessdata */; };
+		334A6A3820B8AB5E00AAA630 /* tessdata-rus in Resources */ = {isa = PBXBuildFile; fileRef = 334A6A3620B8AB5E00AAA630 /* tessdata-rus */; };
+		334A6A3A20B8AC1C00AAA630 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 334A6A3920B8AC1B00AAA630 /* images */; };
+		334A6A4C20B8B85E00AAA630 /* RecognizedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A4920B8B85E00AAA630 /* RecognizedBlock.m */; };
+		334A6A4D20B8B85E00AAA630 /* RecognitionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A4A20B8B85E00AAA630 /* RecognitionTests.m */; };
+		334A6A4E20B8B85E00AAA630 /* InitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A4B20B8B85E00AAA630 /* InitializationTests.m */; };
+		334A6A5920B8B8F700AAA630 /* TesseractOCRmacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */; };
+		334A6A5F20B8BA8300AAA630 /* TesseractOCRmacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */; };
+		33A5D6CA20B984750038CE67 /* XPlatformImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A5D6C920B984750038CE67 /* XPlatformImage.m */; };
+		33E40C9320B9816D0055645B /* G8RecognitionTestsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C9020B9816D0055645B /* G8RecognitionTestsHelper.m */; };
+		33E40C9420B9816D0055645B /* NSData+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C9120B9816D0055645B /* NSData+G8Equal.m */; };
+		33E40C9720B981790055645B /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C9520B981790055645B /* Defaults.m */; };
+		33FBE82620B982E000B5A642 /* NSImage+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FBE82420B982E000B5A642 /* NSImage+G8Equal.m */; };
+		E6D4A6057A015668DB083CE7 /* libPods-Tests-macOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ECC0E3D92C9F6A94C909295 /* libPods-Tests-macOSTests.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		334A6A3020B8AAA600AAA630 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 334A6A0820B8AA4300AAA630 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 334A6A0F20B8AA4400AAA630;
+			remoteInfo = "Tests-macOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0ECC0E3D92C9F6A94C909295 /* libPods-Tests-macOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests-macOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23DF45761A3CEA7D458F5E84 /* Pods-Tests-macOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-macOSTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Tests-macOSTests/Pods-Tests-macOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		334A6A1020B8AA4400AAA630 /* Tests-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tests-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		334A6A1320B8AA4400AAA630 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		334A6A1420B8AA4400AAA630 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		334A6A1620B8AA4400AAA630 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		334A6A1720B8AA4400AAA630 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		334A6A1920B8AA4800AAA630 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		334A6A1C20B8AA4800AAA630 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		334A6A1E20B8AA4800AAA630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		334A6A1F20B8AA4800AAA630 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		334A6A2120B8AA4800AAA630 /* Tests_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tests_macOS.entitlements; sourceTree = "<group>"; };
+		334A6A2B20B8AAA600AAA630 /* Tests-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		334A6A2F20B8AAA600AAA630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		334A6A3520B8AB5E00AAA630 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tessdata; path = ../../Tests/tessdata; sourceTree = "<group>"; };
+		334A6A3620B8AB5E00AAA630 /* tessdata-rus */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tessdata-rus"; path = "../../Tests/tessdata-rus"; sourceTree = "<group>"; };
+		334A6A3920B8AC1B00AAA630 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../../Tests/images; sourceTree = "<group>"; };
+		334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TesseractOCRmacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		334A6A4920B8B85E00AAA630 /* RecognizedBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecognizedBlock.m; path = ../../Tests/RecognizedBlock.m; sourceTree = "<group>"; };
+		334A6A4A20B8B85E00AAA630 /* RecognitionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecognitionTests.m; path = ../../Tests/RecognitionTests.m; sourceTree = "<group>"; };
+		334A6A4B20B8B85E00AAA630 /* InitializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitializationTests.m; path = ../../Tests/InitializationTests.m; sourceTree = "<group>"; };
+		33A5D6C820B984750038CE67 /* XPlatformImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XPlatformImage.h; path = "../../Tests/Supporting Files/XPlatformImage.h"; sourceTree = "<group>"; };
+		33A5D6C920B984750038CE67 /* XPlatformImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XPlatformImage.m; path = "../../Tests/Supporting Files/XPlatformImage.m"; sourceTree = "<group>"; };
+		33E40C8F20B9816D0055645B /* G8RecognitionTestsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = G8RecognitionTestsHelper.h; path = "../../Tests/Supporting Files/G8RecognitionTestsHelper.h"; sourceTree = "<group>"; };
+		33E40C9020B9816D0055645B /* G8RecognitionTestsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = G8RecognitionTestsHelper.m; path = "../../Tests/Supporting Files/G8RecognitionTestsHelper.m"; sourceTree = "<group>"; };
+		33E40C9120B9816D0055645B /* NSData+G8Equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+G8Equal.m"; path = "../../Tests/Supporting Files/NSData+G8Equal.m"; sourceTree = "<group>"; };
+		33E40C9220B9816D0055645B /* NSData+G8Equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+G8Equal.h"; path = "../../Tests/Supporting Files/NSData+G8Equal.h"; sourceTree = "<group>"; };
+		33E40C9520B981790055645B /* Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Defaults.m; path = ../../Tests/Defaults.m; sourceTree = "<group>"; };
+		33E40C9620B981790055645B /* Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Defaults.h; path = ../../Tests/Defaults.h; sourceTree = "<group>"; };
+		33FBE82420B982E000B5A642 /* NSImage+G8Equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+G8Equal.m"; sourceTree = "<group>"; };
+		33FBE82520B982E000B5A642 /* NSImage+G8Equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+G8Equal.h"; sourceTree = "<group>"; };
+		5EDAFAF185CA24EB201B66A4 /* Pods-Tests-macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-macOSTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Tests-macOSTests/Pods-Tests-macOSTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		334A6A0D20B8AA4400AAA630 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				334A6A5F20B8BA8300AAA630 /* TesseractOCRmacOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		334A6A2820B8AAA600AAA630 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				334A6A5920B8B8F700AAA630 /* TesseractOCRmacOS.framework in Frameworks */,
+				E6D4A6057A015668DB083CE7 /* libPods-Tests-macOSTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		334A6A0720B8AA4300AAA630 = {
+			isa = PBXGroup;
+			children = (
+				334A6A1220B8AA4400AAA630 /* Tests-macOS */,
+				334A6A2C20B8AAA600AAA630 /* Tests-macOSTests */,
+				334A6A1120B8AA4400AAA630 /* Products */,
+				334A6A4320B8B6C800AAA630 /* Frameworks */,
+				A7F9CC9531F50B19AF71EBDB /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		334A6A1120B8AA4400AAA630 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				334A6A1020B8AA4400AAA630 /* Tests-macOS.app */,
+				334A6A2B20B8AAA600AAA630 /* Tests-macOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		334A6A1220B8AA4400AAA630 /* Tests-macOS */ = {
+			isa = PBXGroup;
+			children = (
+				334A6A3520B8AB5E00AAA630 /* tessdata */,
+				334A6A3620B8AB5E00AAA630 /* tessdata-rus */,
+				334A6A3920B8AC1B00AAA630 /* images */,
+				334A6A1320B8AA4400AAA630 /* AppDelegate.h */,
+				334A6A1420B8AA4400AAA630 /* AppDelegate.m */,
+				334A6A1620B8AA4400AAA630 /* ViewController.h */,
+				334A6A1720B8AA4400AAA630 /* ViewController.m */,
+				334A6A1920B8AA4800AAA630 /* Assets.xcassets */,
+				334A6A1B20B8AA4800AAA630 /* Main.storyboard */,
+				334A6A1E20B8AA4800AAA630 /* Info.plist */,
+				334A6A1F20B8AA4800AAA630 /* main.m */,
+				334A6A2120B8AA4800AAA630 /* Tests_macOS.entitlements */,
+			);
+			path = "Tests-macOS";
+			sourceTree = "<group>";
+		};
+		334A6A2C20B8AAA600AAA630 /* Tests-macOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				334A6A4B20B8B85E00AAA630 /* InitializationTests.m */,
+				334A6A4A20B8B85E00AAA630 /* RecognitionTests.m */,
+				334A6A4920B8B85E00AAA630 /* RecognizedBlock.m */,
+				334A6A5820B8B89200AAA630 /* Supporting Files */,
+				334A6A3F20B8B48300AAA630 /* OS-Specific Supporting Files */,
+				33E40C9620B981790055645B /* Defaults.h */,
+				33E40C9520B981790055645B /* Defaults.m */,
+				334A6A2F20B8AAA600AAA630 /* Info.plist */,
+			);
+			path = "Tests-macOSTests";
+			sourceTree = "<group>";
+		};
+		334A6A3F20B8B48300AAA630 /* OS-Specific Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				33FBE82520B982E000B5A642 /* NSImage+G8Equal.h */,
+				33FBE82420B982E000B5A642 /* NSImage+G8Equal.m */,
+			);
+			path = "OS-Specific Supporting Files";
+			sourceTree = "<group>";
+		};
+		334A6A4320B8B6C800AAA630 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */,
+				0ECC0E3D92C9F6A94C909295 /* libPods-Tests-macOSTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		334A6A5820B8B89200AAA630 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				33E40C8F20B9816D0055645B /* G8RecognitionTestsHelper.h */,
+				33E40C9020B9816D0055645B /* G8RecognitionTestsHelper.m */,
+				33E40C9220B9816D0055645B /* NSData+G8Equal.h */,
+				33E40C9120B9816D0055645B /* NSData+G8Equal.m */,
+				33A5D6C820B984750038CE67 /* XPlatformImage.h */,
+				33A5D6C920B984750038CE67 /* XPlatformImage.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A7F9CC9531F50B19AF71EBDB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				23DF45761A3CEA7D458F5E84 /* Pods-Tests-macOSTests.debug.xcconfig */,
+				5EDAFAF185CA24EB201B66A4 /* Pods-Tests-macOSTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		334A6A0F20B8AA4400AAA630 /* Tests-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 334A6A2420B8AA4800AAA630 /* Build configuration list for PBXNativeTarget "Tests-macOS" */;
+			buildPhases = (
+				334A6A0C20B8AA4400AAA630 /* Sources */,
+				334A6A0D20B8AA4400AAA630 /* Frameworks */,
+				334A6A0E20B8AA4400AAA630 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Tests-macOS";
+			productName = "Tests-macOS";
+			productReference = 334A6A1020B8AA4400AAA630 /* Tests-macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		334A6A2A20B8AAA600AAA630 /* Tests-macOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 334A6A3220B8AAA600AAA630 /* Build configuration list for PBXNativeTarget "Tests-macOSTests" */;
+			buildPhases = (
+				3FCE256E7D827408C834DCC2 /* [CP] Check Pods Manifest.lock */,
+				334A6A2720B8AAA600AAA630 /* Sources */,
+				334A6A2820B8AAA600AAA630 /* Frameworks */,
+				334A6A2920B8AAA600AAA630 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				334A6A3120B8AAA600AAA630 /* PBXTargetDependency */,
+			);
+			name = "Tests-macOSTests";
+			productName = "Tests-macOSTests";
+			productReference = 334A6A2B20B8AAA600AAA630 /* Tests-macOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		334A6A0820B8AA4300AAA630 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = hc.gg;
+				TargetAttributes = {
+					334A6A0F20B8AA4400AAA630 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+					334A6A2A20B8AAA600AAA630 = {
+						CreatedOnToolsVersion = 9.3.1;
+						TestTargetID = 334A6A0F20B8AA4400AAA630;
+					};
+				};
+			};
+			buildConfigurationList = 334A6A0B20B8AA4300AAA630 /* Build configuration list for PBXProject "Tests-macOS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 334A6A0720B8AA4300AAA630;
+			productRefGroup = 334A6A1120B8AA4400AAA630 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				334A6A0F20B8AA4400AAA630 /* Tests-macOS */,
+				334A6A2A20B8AAA600AAA630 /* Tests-macOSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		334A6A0E20B8AA4400AAA630 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				334A6A3A20B8AC1C00AAA630 /* images in Resources */,
+				334A6A3820B8AB5E00AAA630 /* tessdata-rus in Resources */,
+				334A6A1A20B8AA4800AAA630 /* Assets.xcassets in Resources */,
+				334A6A1D20B8AA4800AAA630 /* Main.storyboard in Resources */,
+				334A6A3720B8AB5E00AAA630 /* tessdata in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		334A6A2920B8AAA600AAA630 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3FCE256E7D827408C834DCC2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Tests-macOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		334A6A0C20B8AA4400AAA630 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				334A6A1820B8AA4400AAA630 /* ViewController.m in Sources */,
+				334A6A2020B8AA4800AAA630 /* main.m in Sources */,
+				334A6A1520B8AA4400AAA630 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		334A6A2720B8AAA600AAA630 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				334A6A4D20B8B85E00AAA630 /* RecognitionTests.m in Sources */,
+				33E40C9420B9816D0055645B /* NSData+G8Equal.m in Sources */,
+				334A6A4C20B8B85E00AAA630 /* RecognizedBlock.m in Sources */,
+				33A5D6CA20B984750038CE67 /* XPlatformImage.m in Sources */,
+				33E40C9720B981790055645B /* Defaults.m in Sources */,
+				334A6A4E20B8B85E00AAA630 /* InitializationTests.m in Sources */,
+				33E40C9320B9816D0055645B /* G8RecognitionTestsHelper.m in Sources */,
+				33FBE82620B982E000B5A642 /* NSImage+G8Equal.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		334A6A3120B8AAA600AAA630 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 334A6A0F20B8AA4400AAA630 /* Tests-macOS */;
+			targetProxy = 334A6A3020B8AAA600AAA630 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		334A6A1B20B8AA4800AAA630 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				334A6A1C20B8AA4800AAA630 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		334A6A2220B8AA4800AAA630 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		334A6A2320B8AA4800AAA630 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		334A6A2520B8AA4800AAA630 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Tests-macOS/Tests_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Tests-macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lc++";
+				PRODUCT_BUNDLE_IDENTIFIER = "gg.hc.Tests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		334A6A2620B8AA4800AAA630 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Tests-macOS/Tests_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Tests-macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lc++";
+				PRODUCT_BUNDLE_IDENTIFIER = "gg.hc.Tests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		334A6A3320B8AAA600AAA630 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23DF45761A3CEA7D458F5E84 /* Pods-Tests-macOSTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Tests-macOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "gg.hc.Tests-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tests-macOS.app/Contents/MacOS/Tests-macOS";
+			};
+			name = Debug;
+		};
+		334A6A3420B8AAA600AAA630 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EDAFAF185CA24EB201B66A4 /* Pods-Tests-macOSTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Tests-macOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "gg.hc.Tests-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tests-macOS.app/Contents/MacOS/Tests-macOS";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		334A6A0B20B8AA4300AAA630 /* Build configuration list for PBXProject "Tests-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				334A6A2220B8AA4800AAA630 /* Debug */,
+				334A6A2320B8AA4800AAA630 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		334A6A2420B8AA4800AAA630 /* Build configuration list for PBXNativeTarget "Tests-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				334A6A2520B8AA4800AAA630 /* Debug */,
+				334A6A2620B8AA4800AAA630 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		334A6A3220B8AAA600AAA630 /* Build configuration list for PBXNativeTarget "Tests-macOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				334A6A3320B8AAA600AAA630 /* Debug */,
+				334A6A3420B8AAA600AAA630 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 334A6A0820B8AA4300AAA630 /* Project object */;
+}

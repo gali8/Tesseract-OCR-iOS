@@ -4,9 +4,13 @@ PODS:
 DEPENDENCIES:
   - Kiwi (~> 3.0.0)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Kiwi
+
 SPEC CHECKSUMS:
   Kiwi: fbeafef0f00e4d8f7dcb3420a4930afe70af77f7
 
-PODFILE CHECKSUM: b27c16fa7963b71cbfd1d0ba619df88abf72f789
+PODFILE CHECKSUM: 53c482b4fa2170e611223e24307ff4f85fbc62e5
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

@@ -2,16 +2,22 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Template Framework Project/Template Framework Project.xcodeproj">
+      location = "group:Tesseract OCR iOS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:TestsProjectmacOS/TestsProjectmacOS.xcodeproj">
+      location = "group:Tests-iOS/Tests-iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Tests-macOS/Tests-macOS.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:TestsProject/TestsProject.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Tesseract OCR iOS.xcodeproj">
+      location = "group:TestsProjectmacOS/TestsProjectmacOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Template Framework Project/Template Framework Project.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
