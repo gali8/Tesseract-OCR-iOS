@@ -53,14 +53,12 @@ codeTemplate = '''%s
 
 externVarTemplate = '''
 ///%s
-///@param Type %s
-///@param Default %s
+///@brief Type %s Default %s
 extern NSString *const %s;
 '''
 depricatedExternVarTemplate = '''
 ///%s
-///@param Type %s
-///@param Default %s
+///@brief Type %s Default %s
 extern NSString *const %s DEPRECATED_ATTRIBUTE;
 '''
 codeVarTemplate = 'NSString *const %s = @"%s";\n'
