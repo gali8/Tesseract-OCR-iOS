@@ -19,7 +19,7 @@
 #ifndef TESSERACT_LSTM_NETWORK_H_
 #define TESSERACT_LSTM_NETWORK_H_
 
-#include <stdio.h>
+#include <cstdio>
 #include <cmath>
 
 #include "genericvector.h"
@@ -106,7 +106,7 @@ class Network {
  public:
   Network();
   Network(NetworkType type, const STRING& name, int ni, int no);
-  virtual ~Network();
+  virtual ~Network() = default;
 
   // Accessors.
   NetworkType type() const {

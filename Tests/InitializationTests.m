@@ -402,7 +402,7 @@ describe(@"Tesseract initialization", ^{
         });
     });
 
-    NSDictionary *(^dictionaryForRuntime)() = ^NSDictionary *() {
+    NSDictionary *(^dictionaryForRuntime)(void) = ^NSDictionary *() {
         return @{
 //                 kG8ParamTessdataManagerDebugLevel  : @"1",
                  kG8ParamUserWordsSuffix            : @"user-words",
@@ -432,7 +432,7 @@ describe(@"Tesseract initialization", ^{
 
         context(@"no tessdata folder in the Caches yet", ^{
 
-            void (^moveRusLanguageFilesToTheCachesFolder)() = ^{
+            void (^moveRusLanguageFilesToTheCachesFolder)(void) = ^{
                 // move rus language files to the folder created on previous steps
                 NSString *rusTessdataSourcePath = [[resourcePath stringByAppendingPathComponent:tessdataFolderName] stringByAppendingString:@"-rus"];
                 NSString *destinationPath = [[cachesPath stringByAppendingPathComponent:tessdataPath] stringByAppendingPathComponent:tessdataFolderName];
@@ -455,7 +455,7 @@ describe(@"Tesseract initialization", ^{
                 }
             };
 
-            G8Tesseract* (^tesseractInitializedWithTessData)() = ^{
+            G8Tesseract* (^tesseractInitializedWithTessData)(void) = ^{
                 // prove Caches folder is empty
                 BOOL folderExists = [fileManager fileExistsAtPath:cachesTessDataPath];
 

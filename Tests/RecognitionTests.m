@@ -325,8 +325,6 @@ describe(@"hOCR", ^{
 
         [helper recognizeImage];
 
-        NSString *recognizedText = helper.tesseract.recognizedText;
-
         NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
 
         NSError *error = nil;

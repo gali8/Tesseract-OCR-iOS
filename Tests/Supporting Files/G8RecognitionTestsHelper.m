@@ -39,7 +39,7 @@ static NSString *const kG8Languages = @"eng";
     return self;
 }
 
-- (void)waitTimeLmit:(NSTimeInterval)maximumWait whileTrue:(BOOL (^)())shouldKeepRunning
+- (void)waitTimeLmit:(NSTimeInterval)maximumWait whileTrue:(BOOL (^)(void))shouldKeepRunning
 {
     NSDate *deadlineDate = [NSDate dateWithTimeInterval:maximumWait sinceDate:[NSDate date]];
     BOOL isDeadline = NO;
@@ -305,7 +305,7 @@ static NSString *const kG8Languages = @"eng";
 
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
-    [sourceImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    [sourceImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height) fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
     [NSGraphicsContext restoreGraphicsState];
 
     NSImage *newImage = [[NSImage alloc] initWithSize:scaledSize];
