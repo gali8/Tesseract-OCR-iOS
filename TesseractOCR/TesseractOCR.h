@@ -31,4 +31,3 @@ FOUNDATION_EXPORT const unsigned char TesseractOCRVersionString[];
 #import "G8Constants.h"
 
 #endif
-
