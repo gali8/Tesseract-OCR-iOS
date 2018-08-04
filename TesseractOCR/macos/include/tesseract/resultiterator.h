@@ -22,13 +22,16 @@
 #ifndef TESSERACT_CCMAIN_RESULT_ITERATOR_H_
 #define TESSERACT_CCMAIN_RESULT_ITERATOR_H_
 
-#include "platform.h"
-#include "ltrresultiterator.h"
+#include <set>                  // for std::pair
+#include <vector>               // for std::vector
+#include "ltrresultiterator.h"  // for LTRResultIterator
+#include "platform.h"           // for TESS_API, TESS_LOCAL
+#include "publictypes.h"        // for PageIteratorLevel
+#include "unichar.h"            // for StrongScriptDirection
 
 template <typename T> class GenericVector;
 template <typename T> class GenericVectorEqEq;
-class BLOB_CHOICE_IT;
-class WERD_RES;
+
 class STRING;
 
 namespace tesseract {
@@ -93,6 +96,11 @@ class TESS_API ResultIterator : public LTRResultIterator {
    * object at the given level. Use delete [] to free after use.
   */
   virtual char* GetUTF8Text(PageIteratorLevel level) const;
+
+  /**
+   * Returns the glyph confidences for every LSTM timestep for the current Word
+  */
+  virtual std::vector<std::vector<std::pair<const char*, float>>>* GetGlyphConfidences() const;
 
   /**
    * Return whether the current paragraph's dominant reading direction

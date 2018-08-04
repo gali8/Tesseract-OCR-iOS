@@ -97,36 +97,40 @@ typedef uintptr_t l_uintptr_t;
  *  non-functioning stubs to be linked.
  */
 #if !defined(HAVE_CONFIG_H) && !defined(ANDROID_BUILD) && !defined(OS_IOS)
-#define  HAVE_LIBJPEG     1
-#define  HAVE_LIBTIFF     1
-#define  HAVE_LIBPNG      1
-#define  HAVE_LIBZ        1
-#define  HAVE_LIBGIF      0
-#define  HAVE_LIBUNGIF    0
-#define  HAVE_LIBWEBP     0
-#define  HAVE_LIBJP2K     0
 
-    /* Leptonica supports OpenJPEG 2.0+.  If you have a version of
-     * openjpeg (HAVE_LIBJP2K == 1) that is >= 2.0, set the path
-     * to the openjpeg.h header in angle brackets here. */
-#define  LIBJP2K_HEADER   <openjpeg-2.3/openjpeg.h>
+  #if !defined(HAVE_LIBJPEG)
+  #define  HAVE_LIBJPEG       1
+  #endif
+  #if !defined(HAVE_LIBTIFF)
+  #define  HAVE_LIBTIFF       1
+  #endif
+  #if !defined(HAVE_LIBPNG)
+  #define  HAVE_LIBPNG        1
+  #endif
+  #if !defined(HAVE_LIBZ)
+  #define  HAVE_LIBZ          1
+  #endif
+  #if !defined(HAVE_LIBGIF)
+  #define  HAVE_LIBGIF        0
+  #endif
+  #if !defined(HAVE_LIBUNGIF)
+  #define  HAVE_LIBUNGIF      0
+  #endif
+  #if !defined(HAVE_LIBWEBP)
+  #define  HAVE_LIBWEBP       0
+  #endif
+  #if !defined(HAVE_LIBJP2K)
+  #define  HAVE_LIBJP2K       0
+  #endif
+
+  /*-----------------------------------------------------------------------*
+   * Leptonica supports OpenJPEG 2.0+.  If you have a version of openjpeg  *
+   * (HAVE_LIBJP2K == 1) that is >= 2.0, set the path to the openjpeg.h    *
+   * header in angle brackets here.                                        *
+   *-----------------------------------------------------------------------*/
+  #define  LIBJP2K_HEADER   <openjpeg-2.3/openjpeg.h>
+
 #endif  /* ! HAVE_CONFIG_H etc. */
-
-/*
- * On linux systems, you can do I/O between Pix and memory.  Specifically,
- * you can compress (write compressed data to memory from a Pix) and
- * uncompress (read from compressed data in memory to a Pix).
- * For jpeg, png, jp2k, gif, pnm and bmp, these use the non-posix GNU
- * functions fmemopen() and open_memstream().  These functions are not
- * available on other systems.
- * To use these functions in linux, you must define HAVE_FMEMOPEN to 1.
- * To use them on MacOS, which does not support these functions, set it to 0.
- */
-#if !defined(HAVE_CONFIG_H) && !defined(ANDROID_BUILD) && !defined(OS_IOS) && \
-    !defined(_WIN32)
-#define  HAVE_FMEMOPEN    1
-#endif  /* ! HAVE_CONFIG_H etc. */
-
 
 /*--------------------------------------------------------------------*
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
@@ -148,6 +152,30 @@ typedef uintptr_t l_uintptr_t;
 #define  USE_PSIO         1
 
 
+/*-------------------------------------------------------------------------*
+ * On linux systems, you can do I/O between Pix and memory.  Specifically,
+ * you can compress (write compressed data to memory from a Pix) and
+ * uncompress (read from compressed data in memory to a Pix).
+ * For jpeg, png, jp2k, gif, pnm and bmp, these use the non-posix GNU
+ * functions fmemopen() and open_memstream().  These functions are not
+ * available on other systems.
+ * To use these functions in linux, you must define HAVE_FMEMOPEN to 1.
+ * To use them on MacOS, which does not support these functions, set it to 0.
+ *-------------------------------------------------------------------------*/
+#if !defined(HAVE_CONFIG_H) && !defined(ANDROID_BUILD) && !defined(OS_IOS) && \
+    !defined(_WIN32)
+#define  HAVE_FMEMOPEN    1
+#endif  /* ! HAVE_CONFIG_H etc. */
+
+/*-------------------------------------------------------------------------*
+ * fstatat() is defined by POSIX, but some systems do not support it.      *
+ * One example is older macOS systems (pre-10.10).                         *
+ * Play it safe and set the default value to 0.                            *
+ *-------------------------------------------------------------------------*/
+#if !defined(HAVE_CONFIG_H)
+#define  HAVE_FSTATAT     0
+#endif /* ! HAVE_CONFIG_H */
+
 /*--------------------------------------------------------------------*
  * It is desirable on Windows to have all temp files written to the same
  * subdirectory of the Windows <Temp> directory, because files under <Temp>
@@ -161,6 +189,7 @@ typedef uintptr_t l_uintptr_t;
 /*--------------------------------------------------------------------*
  *                          Built-in types                            *
  *--------------------------------------------------------------------*/
+typedef int                     l_ok;    /*!< return type 0 if OK, 1 on error */
 typedef signed char             l_int8;     /*!< signed 8-bit value */
 typedef unsigned char           l_uint8;    /*!< unsigned 8-bit value */
 typedef short                   l_int16;    /*!< signed 16-bit value */
@@ -178,6 +207,20 @@ typedef unsigned long long      l_uint64;   /*!< unsigned 64-bit value */
 #endif  /* COMPILER_MSVC */
 
 
+/*-------------------------------------------------------------------------*
+ * For security, the library is distributed in a configuration that does   *
+ * not permit (1) forking with 'system', which is used for displaying      *
+ * images and generating gnuplots, and (2) writing files with specified    *
+ * compiled-in file names.  All such writes are with functions such as     *
+ * pixWriteDebug() where the "Debug" is appended to the usual name.        *
+ * Whether the "Debug" version defaults to the standard version or is a    *
+ * no-op depends on the value of this global variable.  The default value  *
+ * of LeptDebugOK is 0, and it is set in writefile.c.  This value can be   *
+ * over-ridden, for development and debugging, by setLeptDebugOK().        *
+ *-------------------------------------------------------------------------*/
+LEPT_DLL extern l_int32  LeptDebugOK;  /* default is 0 */
+
+
 /*------------------------------------------------------------------------*
  *                            Standard macros                             *
  *------------------------------------------------------------------------*/
@@ -192,7 +235,7 @@ typedef unsigned long long      l_uint64;   /*!< unsigned 64-bit value */
 #endif
 
 #ifndef L_ABS
-/*! Absoulute value of %x */
+/*! Absolute value of %x */
 #define L_ABS(x)     (((x) < 0) ? (-1 * (x)) : (x))
 #endif
 
@@ -239,7 +282,6 @@ typedef unsigned long long      l_uint64;   /*!< unsigned 64-bit value */
 /*------------------------------------------------------------------------*
  *                    Simple search state variables                       *
  *------------------------------------------------------------------------*/
-
 /*! Simple search state variables */
 enum {
     L_NOT_FOUND = 0,
@@ -250,7 +292,6 @@ enum {
 /*------------------------------------------------------------------------*
  *                     Path separator conversion                          *
  *------------------------------------------------------------------------*/
-
 /*! Path separator conversion */
 enum {
     UNIX_PATH_SEPCHAR = 0,

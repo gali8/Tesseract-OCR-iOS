@@ -3,7 +3,7 @@
 //  Tesseract OCR iOS
 //  This code is auto-generated from Tesseract headers.
 //
-//  Created by Nikolay Volosatov on 26/05/18.
+//  Created by Nikolay Volosatov on 04/08/18.
 //  Copyright (c) 2018 Daniele Galiotto - www.g8production.com.
 //  All rights reserved.
 //
@@ -564,6 +564,10 @@ extern NSString *const kG8ParamTospTableKnSpRatio;
 ///Min pile height to make ascheight
 ///@brief Type double Default 0.08
 extern NSString *const kG8ParamTextordAscheightModeFraction;
+
+///Allows to include glyph confidences in the hOCR output
+///@brief Type BOOL Default false
+extern NSString *const kG8ParamGlyphConfidences;
 
 ///A superscript scaled down more than this is unbelievably small.  For example, 0.3 means we expect the font size to be no smaller than 30% of the text line font size.
 ///@brief Type double Default 0.4
@@ -1757,7 +1761,7 @@ extern NSString *const kG8ParamChopEnable;
 ///@brief Type BOOL Default true
 extern NSString *const kG8ParamCrunchTerribleGarbage;
 
-///Reward punctation joins
+///Reward punctuation joins
 ///@brief Type BOOL Default false
 extern NSString *const kG8ParamTesseditPreferJoinedPunct;
 

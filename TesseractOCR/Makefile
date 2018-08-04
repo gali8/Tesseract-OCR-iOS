@@ -1,28 +1,10 @@
-LEPTON_NAME = leptonica
 PNG_NAME    = libpng-1.6.34
 JPEG_NAME   = jpeg-9c
 TIFF_NAME   = tiff-4.0.9
 
-PLATFORM_PREFIX=ios
-SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
-SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
-XCODE_DEVELOPER_PATH="`xcode-select -p`"
-XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
-IOS_DEPLOY_TGT="9.0"
-
 TESSERACT_SRC = $(shell pwd)/tesseract-ocr
-LEPTON_SRC = $(shell pwd)/$(LEPTON_NAME)
-IMAGE_SRC = $(shell pwd)/libtiff-ios/$(PLATFORM_PREFIX)
-PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
-JPEG_SRC = $(IMAGE_SRC)/$(JPEG_NAME)
-TIFF_SRC = $(IMAGE_SRC)/$(TIFF_NAME)
-
-IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/$(PLATFORM_PREFIX)/lib/
-IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/$(PLATFORM_PREFIX)/include/
-INCLUDE_DIR   = $(shell pwd)/$(PLATFORM_PREFIX)/include
-LEPT_INC_DIR  = $(INCLUDE_DIR)
-TESS_INC_DIR  = $(INCLUDE_DIR)
-LIB_FAT_DIR   = $(shell pwd)/$(PLATFORM_PREFIX)/lib
+LEPTON_SRC = $(shell pwd)/leptonica
+IMG_SRC = $(shell pwd)/libtiff-ios
 
 libtessfiles = libtesseract.a
 libleptfiles = liblept.a
@@ -30,11 +12,63 @@ libpngfiles = libpng.a
 libjpegfiles = libjpeg.a
 libtifffiles = libtiff.a
 
-sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH) $(SDK_IPHONESIMULATOR_PATH)
-archs_all = armv7 armv7s arm64 i386 x86_64
-arch_names_all = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-darwin x86_64-apple-darwin
-arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
-ARCHS ?= $(archs_all)
+libtessautogen = $(TESSERACT_SRC)/autogen.sh
+libtessconfig = $(TESSERACT_SRC)/configure
+libleptautogen = $(LEPTON_SRC)/autogen.sh
+libleptconfig = $(LEPTON_SRC)/configure
+
+XCODE_DEVELOPER_PATH="`xcode-select -p`"
+XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
+
+index = $(words $(shell a="$(2)";echo $${a/$(1)*/$(1)} ))
+swap  = $(word $(call index,$(1),$(2)),$(3))
+
+# platform specific config
+#
+# make platform=ios
+ifeq ($(platform), ios)
+	PLATFORM_PREFIX=ios
+	SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
+	SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
+	IOS_DEPLOY_TGT="10.0"
+	PLATFORM_VERSION_MIN=iphoneos-version-min=$(IOS_DEPLOY_TGT)
+
+	sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH) $(SDK_IPHONESIMULATOR_PATH)
+	archs_all = armv7 armv7s arm64 i386 x86_64
+	arch_names_all = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-darwin x86_64-apple-darwin
+	arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
+	ARCHS ?= $(archs_all)
+# make platform=macos
+else ifeq ($(platform), macos)
+	PLATFORM_PREFIX=macos
+	SDK_MACOS_PATH=$(shell xcrun --sdk macosx --show-sdk-path)
+	MACOS_DEPLOY_TGT="10.13"
+	PLATFORM_VERSION_MIN=macosx-version-min=$(MACOS_DEPLOY_TGT)
+
+	sdks = $(SDK_MACOS_PATH)
+	archs_all = x86_64
+	arch_names_all = x86_64-apple-darwin
+	arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
+	ARCHS ?= $(archs_all)
+# make platform=all
+else ifeq ($(platform), all)
+	# we will call make for all platforms, so nothing to do for now
+endif
+
+
+PNG_SRC   = $(IMG_SRC)/$(PNG_NAME)
+JPEG_SRC  = $(IMG_SRC)/$(JPEG_NAME)
+TIFF_SRC  = $(IMG_SRC)/$(TIFF_NAME)
+
+# TOOD: Rename IMAGE_SRC and maybe IMG_SRC to be more descriptive
+IMAGE_SRC = $(IMG_SRC)/$(PLATFORM_PREFIX)
+
+IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/lib/
+IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/include/
+INCLUDE_DIR   = $(shell pwd)/$(PLATFORM_PREFIX)/include
+LEPT_INC_DIR  = $(INCLUDE_DIR)
+TESS_INC_DIR  = $(INCLUDE_DIR)
+LIB_FAT_DIR   = $(shell pwd)/$(PLATFORM_PREFIX)/lib
 
 libleptfolders = $(foreach arch, $(arch_names), $(LEPTON_SRC)/$(PLATFORM_PREFIX)/$(arch)/)
 libtessfolders = $(foreach arch, $(arch_names), $(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$(arch)/)
@@ -59,19 +93,19 @@ libpng     = $(addprefix $(IMAGE_LIB_DIR), $(libpngfiles))
 libjpeg    = $(addprefix $(IMAGE_LIB_DIR), $(libjpegfiles))
 libtiff    = $(addprefix $(IMAGE_LIB_DIR), $(libtifffiles))
 
-libtessautogen = $(TESSERACT_SRC)/autogen.sh
-libtessconfig = $(TESSERACT_SRC)/configure
-libleptconfig = $(LEPTON_SRC)/configure
+dependant_libs = $(libpngfat) $(libjpegfat) $(libtifffat) $(libleptfat) $(libtessfat)
 
-index = $(words $(shell a="$(2)";echo $${a/$(1)*/$(1)} ))
-swap  = $(word $(call index,$(1),$(2)),$(3))
+common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -m$(PLATFORM_VERSION_MIN) -O2
 
-dependant_libs = $(libtessfat) $(libleptfat) $(libpngfat) $(libjpegfat) $(libtifffat)
-
-common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -miphoneos-version-min=$(IOS_DEPLOY_TGT) -O2
-
+ifneq (,$(filter $(platform),ios macos))
 .PHONY : all
 all : $(dependant_libs)
+else
+.PHONY : all
+all :
+	$(MAKE) platform=ios
+	$(MAKE) platform=macos
+endif
 
 #######################
 # TESSERACT-OCR
@@ -103,7 +137,7 @@ $(libtessconfig) : $(libtessautogen)
 	cd $(@D) && ./autogen.sh 2> /dev/null
 
 #######################
-# LEPTONLIB
+# LEPTONICA
 #######################
 $(libleptfat) : $(liblept)
 	mkdir -p $(LIB_FAT_DIR)
@@ -121,11 +155,14 @@ $(LEPTON_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
-  export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
-  export PKG_CONFIG_PATH=$(PNG_SRC)/$*/:$(JPEG_SRC)/$*/:$(TIFF_SRC)/$*/ ; \
+	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
+	export PKG_CONFIG_PATH=$(PNG_SRC)/$*/:$(JPEG_SRC)/$*/:$(TIFF_SRC)/$*/ ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
-  ../../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
+	../../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
+
+$(libleptconfig) : $(libleptautogen)
+	cd $(@D) && ./autogen.sh 2> /dev/null
 
 #######################
 # Build libtiff and all of its dependencies
@@ -137,8 +174,8 @@ $(imagesfat) : $(images)
 	cp -rvf $(IMAGE_INC_DIR) $(INCLUDE_DIR)
 
 $(images) : $(imagesmakefile) FORCE
-	cd $(IMAGE_SRC) ; \
-	until `$(MAKE) -s -f Makefile.ios`; do sleep 5; done
+	cd $(IMG_SRC)/ ; \
+	until `$(MAKE) -s platform=$(platform)`; do sleep 5; done
 
 #######################
 # Download dependencies
@@ -147,8 +184,6 @@ $(imagesmakefile) $(libtessautogen) :
 	git submodule init
 	git submodule update
 
-$(libleptconfig) :
-	curl http://leptonica.org/source/$(LEPTON_NAME).tar.gz | tar -xpf-
 
 #######################
 # Clean
@@ -170,16 +205,16 @@ cleanimages :
 .PHONY : cleanlept
 cleanlept :
 	for folder in $(realpath $(libleptfolders_all) ); do \
-      cd $$folder; \
-      $(MAKE) clean; \
+		cd $$folder; \
+		$(MAKE) clean; \
 	done ;
 
 .PHONY : cleantess
 cleantess :
 	for folder in $(realpath $(libtessfolders_all) ); do \
-      cd $$folder; \
-      $(MAKE) clean; \
-  done ;
+		cd $$folder; \
+		$(MAKE) clean; \
+	done ;
 
 .PHONY : mostlycleanimages
 mostlycleanimages :
@@ -187,16 +222,16 @@ mostlycleanimages :
 .PHONY : mostlycleanlept
 mostlycleanlept :
 	for folder in $(realpath $(libleptfolders) ); do \
-      cd $$folder; \
-      $(MAKE) mostlyclean; \
-  done ;
+		cd $$folder; \
+		$(MAKE) mostlyclean; \
+	done ;
 
 .PHONY : mostlycleantess
 mostlycleantess :
 	for folder in $(realpath $(libtessfolders_all) ); do \
-      cd $$folder; \
-      $(MAKE) mostlyclean; \
-  done ;
+		cd $$folder; \
+		$(MAKE) mostlyclean; \
+	done ;
 
 .PHONY : distcleanimages
 distcleanimages :

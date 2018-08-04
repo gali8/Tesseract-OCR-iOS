@@ -3,7 +3,7 @@
 //  Tesseract OCR iOS
 //  This code is auto-generated from Tesseract headers.
 //
-//  Created by Nikolay Volosatov on 26/05/18.
+//  Created by Nikolay Volosatov on 04/08/18.
 //  Copyright (c) 2018 Daniele Galiotto - www.g8production.com.
 //  All rights reserved.
 //
@@ -148,6 +148,7 @@ NSString *const kG8ParamUnrecognisedChar = @"unrecognised_char";
 NSString *const kG8ParamCrunchDelMinWidth = @"crunch_del_min_width";
 NSString *const kG8ParamTospTableKnSpRatio = @"tosp_table_kn_sp_ratio";
 NSString *const kG8ParamTextordAscheightModeFraction = @"textord_ascheight_mode_fraction";
+NSString *const kG8ParamGlyphConfidences = @"glyph_confidences";
 NSString *const kG8ParamSuperscriptScaledownRatio = @"superscript_scaledown_ratio";
 NSString *const kG8ParamTospWideAspectRatio = @"tosp_wide_aspect_ratio";
 NSString *const kG8ParamTospMinSaneKnSp = @"tosp_min_sane_kn_sp";

@@ -1,8 +1,8 @@
 /**********************************************************************
  * File:        strngs.h  (Formerly strings.h)
  * Description: STRING class definition.
- * Author:					Ray Smith
- * Created:					Fri Feb 15 09:15:01 GMT 1991
+ * Author:      Ray Smith
+ * Created:     Fri Feb 15 09:15:01 GMT 1991
  *
  * (C) Copyright 1991, Hewlett-Packard Ltd.
  ** Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,14 +17,14 @@
  *
  **********************************************************************/
 
-#ifndef           STRNGS_H
-#define           STRNGS_H
+#ifndef STRNGS_H
+#define STRNGS_H
 
-#include <cassert>
-#include <cstdio>
-#include <cstring>
-#include "memry.h"
-#include "platform.h"
+#include <cassert>      // for assert
+#include <cstdint>      // for uint32_t
+#include <cstdio>       // for FILE
+#include <cstring>      // for strncpy
+#include "platform.h"   // for TESS_API
 
 namespace tesseract {
 class TFile;

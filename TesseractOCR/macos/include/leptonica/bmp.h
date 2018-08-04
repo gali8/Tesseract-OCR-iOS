@@ -91,5 +91,17 @@ typedef struct BMP_InfoHeader  BMP_IH;
 /*! Number of bytes in a BMP info header */
 #define BMP_IHBYTES  sizeof(BMP_IH)
 
+/*-------------------------------------------------------------*
+ *           Align BMP headers on 4 byte boundaries            *
+ *-------------------------------------------------------------*/
+
+/*! BMP_IH is misaligned, causing crashes on some big-endians.
+ *  A packed struct forces alignment. */
+#if defined(__GNUC__)
+typedef struct __attribute__((__packed__)) {
+  BMP_FH bmpfh;
+  BMP_IH bmpih;
+} BMP_HEADER;
+#endif
 
 #endif  /* LEPTONICA_BMP_H */

@@ -240,9 +240,9 @@ enum {
  *          International Telecommunications Union, via ITU-R.
  * </pre>
  */
-static const l_float32  L_RED_WEIGHT =   0.3;  /*!< Percept. weight for red   */
-static const l_float32  L_GREEN_WEIGHT = 0.5;  /*!< Percept. weight for green */
-static const l_float32  L_BLUE_WEIGHT =  0.2;  /*!< Percept. weight for blue  */
+static const l_float32 L_RED_WEIGHT =   0.3f; /*!< Percept. weight for red   */
+static const l_float32 L_GREEN_WEIGHT = 0.5f; /*!< Percept. weight for green */
+static const l_float32 L_BLUE_WEIGHT =  0.2f; /*!< Percept. weight for blue  */
 
 
 /*-------------------------------------------------------------------------*
@@ -679,9 +679,13 @@ typedef struct PixaComp PIXAC;
  *               Can be undesirable if very large, such as an image or
  *               an array of images.)
  *     (3) clone (Makes another handle to the same struct, and bumps the
- *                refcount up by 1.  Safe to do unless you're changing
- *                data through one of the handles but don't want those
- *                changes to be seen by the other handle.)
+ *                refcount up by 1.  OK to use except in two situations:
+ *                (a) You change data through one of the handles but don't
+ *                    want those changes to be seen by the other handle.
+ *                (b) The application is multi-threaded.  Because the clone
+ *                    operation is not atomic (e.g., locked with a mutex),
+ *                    it is possible to end up with an incorrect ref count,
+ *                    causing either a memory leak or a crash.
  *
  *  For Pixa and Boxa, which are structs that hold an array of clonable
  *  structs, there is an additional method:
@@ -689,25 +693,33 @@ typedef struct PixaComp PIXAC;
  *                     of 1, but clones all the structs in the array.)
  *
  *  Unlike the other structs, when retrieving a string from an Sarray,
- *  you are allowed to get a handle without a copy or clone (i.e., that
- *  you don't own!).  You must not free or insert such a string!
- *  Specifically, for an Sarray, the copyflag for retrieval is either:
+ *  you are allowed to get a handle without a copy or clone (i.e., the
+ *  string is not owned by the handle).  You must not either free the string
+ *  or insert it in some other struct that would own it.  Specifically,
+ *  for an Sarray, the copyflag for retrieval is either:
  *         L_COPY or L_NOCOPY
  *  and for insertion, the copyflag is either:
  *         L_COPY or one of {L_INSERT , L_NOCOPY} (the latter are equivalent
  *                                                 for insertion))
+ *  Typical patterns are:
+ *  (1) Reference a string in an Sarray with L_NOCOPY and insert a copy
+ *      of it in another Sarray with L_COPY.
+ *  (2) Copy a string from an Sarray with L_COPY and insert it in
+ *      another Sarray with L_INSERT (or L_NOCOPY).
+ *  In both cases, a copy is made and both Sarrays own their instance
+ *  of that string.
  * </pre>
  */
 
 /*! Access and storage flags */
 enum {
     L_NOCOPY = 0,     /*!< do not copy the object; do not delete the ptr  */
+    L_INSERT = L_NOCOPY,    /*!< stuff it in; do not copy or clone        */
     L_COPY = 1,       /*!< make/use a copy of the object                  */
     L_CLONE = 2,      /*!< make/use clone (ref count) of the object       */
-    L_COPY_CLONE = 3  /*!< make a new object and fill each object in the  */
-                      /*!< array(s) with clones                           */
+    L_COPY_CLONE = 3  /*!< make a new array object (e.g., pixa) and fill  */
+                      /*!< the array with clones (e.g., pix)              */
 };
-static const l_int32  L_INSERT = 0;  /*!< stuff it in; no copy or clone   */
 
 
 /*----------------------------------------------------------------------------*
@@ -1116,13 +1128,13 @@ enum {
  *                            Horizontal warp                              *
  *-------------------------------------------------------------------------*/
 
-/*! Horizonal warp direction */
+/*! Horizontal warp direction */
 enum {
     L_WARP_TO_LEFT = 1,    /*!< increasing stretch or contraction to left  */
     L_WARP_TO_RIGHT = 2    /*!< increasing stretch or contraction to right */
 };
 
-/*! Horizonal warp stretch mode */
+/*! Horizontal warp stretch mode */
 enum {
     L_LINEAR_WARP = 1,     /*!< stretch or contraction grows linearly      */
     L_QUADRATIC_WARP = 2   /*!< stretch or contraction grows quadratically */

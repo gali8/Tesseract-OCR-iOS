@@ -62,21 +62,27 @@
  *  defined for SET macros.  If SET_DATA_QBIT were defined as a
  *  compound macro, in analogy to l_setDataQbit(), it requires
  *  surrounding braces:
+ * \code
  *     #define  SET_DATA_QBIT(pdata, n, val) \
  *        {l_uint32 *_TEMP_WORD_PTR_; \
  *         _TEMP_WORD_PTR_ = (l_uint32 *)(pdata) + ((n) >> 3); \
  *         *_TEMP_WORD_PTR_ &= ~(0xf0000000 >> (4 * ((n) & 7))); \
  *         *_TEMP_WORD_PTR_ |= (((val) & 15) << (28 - 4 * ((n) & 7)));}
+ * \endcode
  *  but if used in an if/else
+ * \code
  *      if (x)
  *         SET_DATA_QBIT(...);
  *      else
  *         ...
+ * \endcode
  *  the compiler sees
+ * \code
  *      if (x)
  *         {......};
  *      else
  *         ...
+ * \endcode
  *  The semicolon comes after the brace and will not compile.
  *  This can be fixed in the call by either omitting the semicolon
  *  or requiring another set of braces around SET_DATA_QBIT(), but

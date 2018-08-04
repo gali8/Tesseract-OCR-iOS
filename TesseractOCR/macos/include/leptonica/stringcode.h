@@ -31,7 +31,7 @@
  * \file stringcode.h
  *
  *     Data structure to hold accumulating generated code for storing
- *     and extracing serializable leptonica objects (e.g., pixa, recog).
+ *     and extracting serializable leptonica objects (e.g., pixa, recog).
  *
  *     Also a flag for selecting a string from the L_GenAssoc struct
  *     in stringcode.
