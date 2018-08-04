@@ -79,7 +79,7 @@ describe(@"Tesseract initialization", ^{
     context(@"Should check common functions", ^{
 
         it(@"Should print version", ^{
-            [[[G8Tesseract version] should] equal:@"4.0.0-beta.1"];
+            [[[G8Tesseract version] should] equal:@"4.0.0-beta.3"];
         });
 
         it(@"Should not raise on cache clearing", ^{

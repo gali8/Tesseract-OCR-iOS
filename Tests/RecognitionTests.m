@@ -330,8 +330,8 @@ describe(@"hOCR", ^{
         NSError *error = nil;
         NSString *fileString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 
-        [[hOCR should] equal:fileString];
         NSAssert(error == nil, @"error loading hOCR from file %@: %@", path, error);
+        [[hOCR should] equal:fileString];
     });
 
     it(@"Should return nil without prerecognition", ^{
