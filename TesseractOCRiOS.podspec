@@ -35,6 +35,6 @@ Pod::Spec.new do |s|
 
   s.requires_arc               = true
 
-  s.xcconfig                   = { 'OTHER_LDFLAGS' => '-lstdc++ -lz',
+  s.xcconfig                   = { 'OTHER_LDFLAGS' => '-lc++ -lz',
                                    'CLANG_CXX_LIBRARY' => 'compiler-default' }
 end
