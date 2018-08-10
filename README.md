@@ -9,7 +9,7 @@ These are the current versions of the upstream bundled libraries within the fram
 
 * Tesseract 3.03-rc1 ([homepage](https://code.google.com/p/tesseract-ocr/))
 * Leptonica 1.72 ([homepage](http://leptonica.org/))
-* Image libraries (Thx to ashtons and his [libtiff-ios] (https://github.com/ashtons/libtiff-ios) port):
+* Image libraries (Thx to ashtons and his [libtiff-ios](https://github.com/ashtons/libtiff-ios) port):
 - Libtiff 4.0.4 ([homepage](http://www.remotesensing.org/libtiff/))
 - Libpng 1.6.18 ([homepage](http://www.libpng.org/pub/png/libpng.html))
 - Libjpeg 9a ([homepage](http://libjpeg.sourceforge.net/))
