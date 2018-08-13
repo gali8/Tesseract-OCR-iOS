@@ -57,3 +57,5 @@ Daniele Galiotto (founder) - iOS Freelance Developer -
 **[www.nexor.it](http://www.nexor.it)**
 
 Kevin Conley - **[www.kevintechnology.com](http://www.kevintechnology.com)**
+
+Hamilton Che hapman - 
