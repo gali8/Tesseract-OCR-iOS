@@ -14,7 +14,9 @@ xcode_scheme:
 env:
     - BUILD_DEPENDENT_LIBRARIES=true
     - BUILD_DEPENDENT_LIBRARIES=false
+
 before_install:
+    - gem install cocoapods -v '1.5.3'
     - brew uninstall xctool
     - brew install xctool --HEAD
     - xctool --version
