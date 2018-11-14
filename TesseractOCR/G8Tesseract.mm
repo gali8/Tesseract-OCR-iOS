@@ -13,6 +13,7 @@
 #import "G8TesseractParameters.h"
 #import "G8Constants.h"
 #import "G8RecognizedBlock.h"
+#import "G8HierarchicalRecognizedBlock.h"
 
 #import "baseapi.h"
 #import "environ.h"
@@ -673,6 +674,57 @@ namespace tesseract {
     return block;
 }
 
+
+
+- (G8HierarchicalRecognizedBlock *)hierarchicalBlockFromIterator:(tesseract::ResultIterator *)iterator
+									   iteratorLevel:(G8PageIteratorLevel)iteratorLevel {
+
+	G8HierarchicalRecognizedBlock* block = [[G8HierarchicalRecognizedBlock alloc] initWithBlock:[self blockFromIterator:iterator iteratorLevel:iteratorLevel]];
+
+	if (iteratorLevel == G8PageIteratorLevelWord) {
+		
+		bool isBold;
+		bool isItalic;
+		bool isUnderlined;
+		bool isMonospace;
+		bool isSerif;
+		bool isSmallcaps;
+		int pointsize;
+		int fontId;
+		
+		iterator->WordFontAttributes(&isBold, &isItalic, &isUnderlined, &isMonospace, &isSerif, &isSmallcaps, &pointsize, &fontId);
+		
+		block.isFromDict = iterator->WordIsFromDictionary();
+		block.isNumeric = iterator->WordIsNumeric();
+		block.isBold = isBold;
+		block.isItalic = isItalic;
+		
+	} else if (iteratorLevel == G8PageIteratorLevelSymbol) {
+	
+		// get character choices
+		NSMutableArray *choices = [NSMutableArray array];
+		
+		tesseract::ChoiceIterator choiceIterator(*iterator);
+		do {
+			const char *choiceWord = choiceIterator.GetUTF8Text();
+			if (choiceWord != NULL) {
+				NSString *text = [NSString stringWithUTF8String:choiceWord];
+				CGFloat confidence = choiceIterator.Confidence();
+				
+				G8RecognizedBlock *choiceBlock = [[G8RecognizedBlock alloc] initWithText:text
+																			 boundingBox:block.boundingBox
+																			  confidence:confidence
+																				   level:G8PageIteratorLevelSymbol];
+				[choices addObject:choiceBlock];
+			}
+		} while (choiceIterator.Next());
+		
+		block.characterChoices = [choices copy];
+	}
+
+	return block;
+}
+
 - (NSArray *)characterChoices
 {
     if (!self.isEngineConfigured) {
@@ -709,6 +761,72 @@ namespace tesseract {
     
     return [array copy];
 }
+
+
+
+- (NSArray *) recognizedHierarchicalBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel {
+	
+	if (!self.engineConfigured) {
+		return nil;
+	}
+	
+	tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
+	
+	NSArray* blocks = [self getBlocksFromIterator:resultIterator forLevel:pageIteratorLevel highestLevel:pageIteratorLevel];
+	
+	return blocks;
+}
+
+
+-(NSArray*) getBlocksFromIterator:(tesseract::ResultIterator*)resultIterator forLevel:(G8PageIteratorLevel)pageIteratorLevel highestLevel:(G8PageIteratorLevel)highestLevel {
+	
+	NSMutableArray* blocks = [[NSMutableArray alloc] init];
+	
+	tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
+	
+	BOOL endOfBlock = NO;
+	
+	do {
+		G8HierarchicalRecognizedBlock *block = [self hierarchicalBlockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
+		[blocks addObject:block];
+		
+		// if we are on a higher level than symbol call the getblocks function for the next deeper level
+		if(pageIteratorLevel != G8PageIteratorLevelSymbol) {
+			block.childBlocks = [self getBlocksFromIterator:resultIterator forLevel:[self getDeeperIteratorLevel:pageIteratorLevel] highestLevel:highestLevel];
+		}
+
+		// check if we are at the end of a block
+		endOfBlock = (pageIteratorLevel != highestLevel && resultIterator->IsAtFinalElement((tesseract::PageIteratorLevel)[self getHigherIteratorLevel:pageIteratorLevel], level)) || !resultIterator->Next(level);
+	
+		
+	} while (!endOfBlock);
+	
+	return blocks;
+}
+
+-(G8PageIteratorLevel)getDeeperIteratorLevel:(G8PageIteratorLevel)iteratorLevel {
+	
+	switch (iteratorLevel) {
+		case G8PageIteratorLevelBlock: return G8PageIteratorLevelParagraph;
+		case G8PageIteratorLevelParagraph: return G8PageIteratorLevelTextline;
+		case G8PageIteratorLevelTextline: return G8PageIteratorLevelWord;
+		case G8PageIteratorLevelWord: return G8PageIteratorLevelSymbol;
+		case G8PageIteratorLevelSymbol: return G8PageIteratorLevelSymbol;
+	}
+}
+
+
+-(G8PageIteratorLevel)getHigherIteratorLevel:(G8PageIteratorLevel)iteratorLevel {
+	
+	switch (iteratorLevel) {
+		case G8PageIteratorLevelBlock: return G8PageIteratorLevelBlock;
+		case G8PageIteratorLevelParagraph: return G8PageIteratorLevelBlock;
+		case G8PageIteratorLevelTextline: return G8PageIteratorLevelParagraph;
+		case G8PageIteratorLevelWord: return G8PageIteratorLevelTextline;
+		case G8PageIteratorLevelSymbol: return G8PageIteratorLevelWord;
+	}
+}
+
 
 - (NSArray *)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel
 {

@@ -248,6 +248,7 @@ extern NSInteger const kG8MaxCredibleResolution;
      */
 - (NSArray *_Nullable)recognizedBlocksByIteratorLevel:(G8PageIteratorLevel)pageIteratorLevel;
     
+
 #pragma mark - Debug methods
     
     /**

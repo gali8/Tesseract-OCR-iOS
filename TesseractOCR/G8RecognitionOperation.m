@@ -20,10 +20,17 @@
 
 @implementation G8RecognitionOperation
 
+
 - (id) initWithLanguage:(NSString *)language {
+
     self = [super init];
     if (self != nil) {
-        _tesseract = [[G8Tesseract alloc] initWithLanguage:language];
+        _tesseract = [[G8Tesseract alloc] initWithLanguage:language
+                                          configDictionary:configDictionary
+                                           configFileNames:configFileNames
+                                          absoluteDataPath:absoluteDataPath
+                                                engineMode:engineMode
+                                    copyFilesFromResources:copyFilesFromResources];
         _tesseract.delegate = self;
 
         __weak __typeof(self) weakSelf = self;

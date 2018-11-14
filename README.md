@@ -9,7 +9,7 @@ These are the current versions of the upstream bundled libraries within the fram
 
 * Tesseract 3.03-rc1 ([homepage](https://code.google.com/p/tesseract-ocr/))
 * Leptonica 1.72 ([homepage](http://leptonica.org/))
-* Image libraries (Thx to ashtons and his [libtiff-ios] (https://github.com/ashtons/libtiff-ios) port):
+* Image libraries (Thx to ashtons and his [libtiff-ios](https://github.com/ashtons/libtiff-ios) port):
 - Libtiff 4.0.4 ([homepage](http://www.remotesensing.org/libtiff/))
 - Libpng 1.6.18 ([homepage](http://www.libpng.org/pub/png/libpng.html))
 - Libjpeg 9a ([homepage](http://libjpeg.sourceforge.net/))
@@ -23,7 +23,7 @@ These are the current versions of the upstream bundled libraries within the fram
 
 Add the following line to your Cartfile:
 ```
-github "eduardo22i/Tesseract-OCR-iOS"
+github "gali8/Tesseract-OCR-iOS"
 ```
 Run `carthage update`
 
@@ -60,8 +60,12 @@ http://www.apache.org/licenses/LICENSE-2.0).
 ## Contributors
 
 Daniele Galiotto (founder) - iOS Freelance Developer -
-**[www.g8production.com](http://www.g8production.com)**
+**[www.nexor.it](http://www.nexor.it)**
 
 Kevin Conley - **[www.kevintechnology.com](http://www.kevintechnology.com)**
 
+
 Eduardo Irias - **[estamp.co](http://estamp.co)**
+
+Hamilton Che hapman - 
+
