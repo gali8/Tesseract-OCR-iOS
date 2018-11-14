@@ -146,6 +146,8 @@ $(imagesmakefile) $(libtessautogen) :
 
 $(libleptconfig) :
 	curl http://leptonica.org/source/$(LEPTON_NAME).tar.gz | tar -xpf-
+	cd $(LEPTON_NAME) ; \
+	patch -p1 < ../leptonica.patch
 
 #######################
 # Clean
