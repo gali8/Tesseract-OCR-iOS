@@ -22,24 +22,9 @@
 
 - (id) initWithLanguage:(NSString *)language
 {
-    return [self initWithLanguage:language configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly copyFilesFromResources: FALSE];
-}
-
-- (id)initWithLanguage:(NSString *)language
-      configDictionary:(NSDictionary *)configDictionary
-       configFileNames:(NSArray *)configFileNames
-      absoluteDataPath:(NSString *)absoluteDataPath
-            engineMode:(G8OCREngineMode)engineMode
-copyFilesFromResources:(BOOL)copyFilesFromResources
-{
     self = [super init];
     if (self != nil) {
-        _tesseract = [[G8Tesseract alloc] initWithLanguage:language
-                                          configDictionary:configDictionary
-                                           configFileNames:configFileNames
-                                          absoluteDataPath:absoluteDataPath
-                                                engineMode:engineMode
-                                    copyFilesFromResources:copyFilesFromResources];
+        _tesseract = [[G8Tesseract alloc] initWithLanguage:language];
         _tesseract.delegate = self;
 
         __weak __typeof(self) weakSelf = self;
