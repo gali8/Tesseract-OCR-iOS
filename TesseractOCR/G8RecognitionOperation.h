@@ -73,9 +73,9 @@ typedef void(^G8RecognitionOperationCallback)(G8Tesseract * _Nullable tesseract)
 - (id _Nullable )initWithLanguage:(nonnull NSString*)language;
 
 - (id _Nullable)initWithLanguage:(nonnull NSString *)language
-      configDictionary:(nonnull NSDictionary *)configDictionary
-       configFileNames:(nonnull NSArray *)configFileNames
-      absoluteDataPath:(nonnull NSString *)absoluteDataPath
+      configDictionary:(nullable NSDictionary *)configDictionary
+       configFileNames:(nullable NSArray *)configFileNames
+      absoluteDataPath:(nullable NSString *)absoluteDataPath
             engineMode:(G8OCREngineMode)engineMode;
 
 @end
