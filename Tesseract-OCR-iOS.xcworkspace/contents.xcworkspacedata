@@ -2,7 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Template Framework Project/Template Framework Project.xcodeproj">
+      location = "group:/Users/eduardoirias/Developer/Xcode/Tesseract-OCR-iOS/Template Framework Project/Example Objc.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Examples/Example Swift/Example Swift.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:TestsProject/TestsProject.xcodeproj">

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Example_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HAm-6G-vbK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="267" translatesAutoresizingMaskIntoConstraints="NO" id="Kai-1M-Yni">
+                                <rect key="frame" x="121" y="137.5" width="133" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="KkU-Sl-lq4"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Read the code in ">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="G8ViewController">
+                                        <attributes>
+                                            <color key="NSColor" red="0.9230155109489051" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d7o-DG-rLk">
+                                <rect key="frame" x="113" y="603" width="150" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="gor-Fk-fhy"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="www.">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="g8production">
+                                        <attributes>
+                                            <color key="NSColor" red="0.50196081399917603" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=".">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="com">
+                                        <attributes>
+                                            <color key="NSColor" red="1" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XM3-h4-SBh">
+                                <rect key="frame" x="129" y="241.5" width="117" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="zXk-S8-Uf5"/>
+                                </constraints>
+                                <state key="normal" title="touch for camera">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="openCameraWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NIK-0o-2ue"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fGZ-a4-yKP">
+                                <rect key="frame" x="178" y="324" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WSO-Ag-dsD">
+                                <rect key="frame" x="95" y="286.5" width="185" height="30"/>
+                                <state key="normal" title="or recognize sample image">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="recognizeSampleImageWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Exv-Yv-Z91"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHc-Kb-BVq">
+                                <rect key="frame" x="148" y="324.5" width="79" height="30"/>
+                                <state key="normal" title="clear cache">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U0X-6t-bNu">
+                                <rect key="frame" x="16" y="386.5" width="343" height="200.5"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="bSf-UV-J4g" firstAttribute="trailing" secondItem="U0X-6t-bNu" secondAttribute="trailing" constant="16" id="42m-B7-GGV"/>
+                            <constraint firstItem="U0X-6t-bNu" firstAttribute="leading" secondItem="bSf-UV-J4g" secondAttribute="leading" constant="16" id="53M-Zw-iEq"/>
+                            <constraint firstItem="U0X-6t-bNu" firstAttribute="top" secondItem="oHc-Kb-BVq" secondAttribute="bottom" constant="32" id="8aW-JA-pOX"/>
+                            <constraint firstItem="XM3-h4-SBh" firstAttribute="height" secondItem="WSO-Ag-dsD" secondAttribute="height" id="9TD-Jw-agz"/>
+                            <constraint firstItem="bSf-UV-J4g" firstAttribute="bottom" secondItem="d7o-DG-rLk" secondAttribute="bottom" constant="32" id="JSU-RG-BRa"/>
+                            <constraint firstItem="fGZ-a4-yKP" firstAttribute="centerY" secondItem="HAm-6G-vbK" secondAttribute="centerY" id="PGw-Xx-M3Q"/>
+                            <constraint firstItem="XM3-h4-SBh" firstAttribute="centerX" secondItem="WSO-Ag-dsD" secondAttribute="centerX" id="Rl6-fi-CLQ"/>
+                            <constraint firstItem="Kai-1M-Yni" firstAttribute="centerX" secondItem="HAm-6G-vbK" secondAttribute="centerX" id="RmM-FV-Fcn"/>
+                            <constraint firstItem="WSO-Ag-dsD" firstAttribute="height" secondItem="oHc-Kb-BVq" secondAttribute="height" id="VOa-ZB-c6f"/>
+                            <constraint firstItem="WSO-Ag-dsD" firstAttribute="centerY" secondItem="HAm-6G-vbK" secondAttribute="centerY" constant="-32" id="a7k-d0-zyc"/>
+                            <constraint firstItem="d7o-DG-rLk" firstAttribute="centerX" secondItem="HAm-6G-vbK" secondAttribute="centerX" id="aaZ-oD-kYN"/>
+                            <constraint firstItem="WSO-Ag-dsD" firstAttribute="top" secondItem="XM3-h4-SBh" secondAttribute="bottom" constant="15" id="bJA-ub-Xvb"/>
+                            <constraint firstItem="oHc-Kb-BVq" firstAttribute="centerX" secondItem="WSO-Ag-dsD" secondAttribute="centerX" id="bnc-No-lrK"/>
+                            <constraint firstItem="fGZ-a4-yKP" firstAttribute="centerX" secondItem="HAm-6G-vbK" secondAttribute="centerX" id="h6O-td-LsN"/>
+                            <constraint firstItem="U0X-6t-bNu" firstAttribute="centerX" secondItem="HAm-6G-vbK" secondAttribute="centerX" id="if9-Yj-LPA"/>
+                            <constraint firstItem="d7o-DG-rLk" firstAttribute="top" secondItem="U0X-6t-bNu" secondAttribute="bottom" constant="16" id="kOo-8X-jKl"/>
+                            <constraint firstItem="oHc-Kb-BVq" firstAttribute="top" secondItem="WSO-Ag-dsD" secondAttribute="bottom" constant="8" id="m9g-Ry-NoE"/>
+                            <constraint firstItem="Kai-1M-Yni" firstAttribute="top" relation="greaterThanOrEqual" secondItem="bSf-UV-J4g" secondAttribute="top" constant="8" id="pwd-FJ-sL3"/>
+                            <constraint firstItem="WSO-Ag-dsD" firstAttribute="centerX" secondItem="HAm-6G-vbK" secondAttribute="centerX" id="t8U-Th-alX"/>
+                            <constraint firstItem="XM3-h4-SBh" firstAttribute="top" secondItem="Kai-1M-Yni" secondAttribute="bottom" priority="750" constant="64" id="y3D-YZ-qtT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bSf-UV-J4g"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="fGZ-a4-yKP" id="LMu-n7-d1l"/>
+                        <outlet property="imageToRecognize" destination="U0X-6t-bNu" id="Jov-VF-f9k"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
