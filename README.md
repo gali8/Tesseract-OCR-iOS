@@ -32,7 +32,7 @@ Run `carthage update`
 
 ## Known Limitations
 
-- No OS X support here. Follow ([https://github.com/hamchapman/Tesseract-OCR-iOS/tree/macos-support](https://github.com/hamchapman/Tesseract-OCR-iOS/tree/macos-support))
+- macOS support using ([https://github.com/hamchapman/Tesseract-OCR-iOS/tree/macos-support](https://github.com/hamchapman/Tesseract-OCR-iOS/tree/macos-support))
 - Strict requirement on language files existing in a referenced "tessdata" folder.
 
 ## Release Notes
