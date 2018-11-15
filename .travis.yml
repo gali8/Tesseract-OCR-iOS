@@ -7,7 +7,7 @@ xcode_sdk:
 #    - iphonesimulator7.1
 #    - iphonesimulator8.1
 #    - iphonesimulator9.0
-    - iphonesimulator10.3
+     - iphonesimulator12.1
 xcode_scheme:
     - Template Framework Project
     - TestsProject
