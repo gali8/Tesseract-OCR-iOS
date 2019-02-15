@@ -1,5 +1,5 @@
 LEPTON_NAME = leptonica-1.72
-PNG_NAME    = libpng-1.6.20
+PNG_NAME    = libpng-1.6.34
 JPEG_NAME   = jpeg-9a
 TIFF_NAME   = tiff-4.0.4
 
