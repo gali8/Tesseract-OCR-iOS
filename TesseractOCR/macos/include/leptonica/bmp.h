@@ -46,20 +46,36 @@
  *                       BMP file header                       *
  *-------------------------------------------------------------*/
 
-/*! BMP file header */
+/*! BMP file header
+ *
+ * Notes:
+ *  (1) The bfSize field is stored as a 32 bit integer and includes
+ *      the size of the BMP_FileHeader, BMP_InfoHeader, the color
+ *      table (if any), and the size of the DIB bits.
+ *  (2) The bfOffBits field is also stored as a 32 bit integer and
+ *      contains the absolute offset in bytes of the image data
+ *      in this file. Some bmp files have additional data after the
+ *      BMP_InfoHeader and before the color table (if it exists).
+ *      However, enabling reading of these files makes the reader
+ *      vulnerable to various malware attacks.  Therefore we do not
+ *      read bmp files with extra data, and require that the size
+ *      of the color table in bytes is
+ *         offset - sizeof(BMP_FileHeader) - sizeof(BMP_InfoHeader)
+ *  (3) Use arrays of l_uint8[] to make an endianness agnostic
+ *      access to the BMP_FileHeader easier.
+ */
 struct BMP_FileHeader
 {
-    l_int16        bfType;         /*!< file type; must be "BM"            */
-    l_int16        bfSize;         /*!< length of the file;
+    l_uint8        bfType[2];      /*!< file type; must be "BM"            */
+    l_uint8        bfSize[4];      /*!< length of the file;
                                        sizeof(BMP_FileHeader) +
                                        sizeof(BMP_InfoHeader) +
+                                       size of optional extra data +
                                        size of color table +
                                        size of DIB bits                    */
-    l_int16        bfFill1;        /*!< remainder of the bfSize field      */
-    l_int16        bfReserved1;    /*!< don't care (set to 0)              */
-    l_int16        bfReserved2;    /*!< don't care (set to 0)              */
-    l_int16        bfOffBits;      /*!< offset from beginning of file      */
-    l_int16        bfFill2;        /*!< remainder of the bfOffBits field   */
+    l_uint8        bfReserved1[2]; /*!< don't care (set to 0)              */
+    l_uint8        bfReserved2[2]; /*!< don't care (set to 0)              */
+    l_uint8        bfOffBits[4];   /*!< offset from beginning of file      */
 };
 typedef struct BMP_FileHeader  BMP_FH;
 
@@ -90,6 +106,7 @@ typedef struct BMP_InfoHeader  BMP_IH;
 
 /*! Number of bytes in a BMP info header */
 #define BMP_IHBYTES  sizeof(BMP_IH)
+
 
 /*-------------------------------------------------------------*
  *           Align BMP headers on 4 byte boundaries            *

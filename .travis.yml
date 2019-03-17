@@ -1,23 +1,25 @@
 language: objective-c
 os: osx
-osx_image: xcode7
+osx_image: xcode10.1
 xcode_workspace: Tesseract-OCR-iOS.xcworkspace
 # these sdks are not yet supported in xcode7 build envirenment
 xcode_sdk:
 #    - iphonesimulator7.1
-#    - iphonesimulator8.1 
-    - iphonesimulator9.0
-xcode_scheme: 
-    - Template Framework Project
-    - TestsProject
+#    - iphonesimulator8.1
+#    - iphonesimulator9.0
+     - iphonesimulator12.1
+xcode_scheme:
+    #- Template Framework Project
+    #- TestsProject
 env:
     - BUILD_DEPENDENT_LIBRARIES=true
     - BUILD_DEPENDENT_LIBRARIES=false
+
 before_install:
+    - gem install cocoapods -v '1.5.3'
     - brew uninstall xctool
     - brew install xctool --HEAD
     - xctool --version
     - ./scripts/before_install.sh
 after_success:
     ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include --exclude-folder TestsProject
-

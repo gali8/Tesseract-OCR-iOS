@@ -56,4 +56,4 @@ tesseract-*
 *.gcda
 *.gcno
 
-*.DS_Store
+.DS_Store

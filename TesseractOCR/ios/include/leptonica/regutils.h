@@ -129,6 +129,7 @@ typedef struct L_RegParams  L_REGPARAMS;
 
 
     /*! Running modes for the test */
+/*! Regtest Mode */
 enum {
     L_REG_GENERATE = 0,
     L_REG_COMPARE = 1,

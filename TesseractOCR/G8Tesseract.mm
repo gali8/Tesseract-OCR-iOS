@@ -103,60 +103,11 @@ namespace tesseract {
     tesseract::TessBaseAPI::ClearPersistentCache();
 }
 
+
 - (instancetype)init {
-
-    return [self initWithLanguage:nil];
-}
-
-- (instancetype)initWithLanguage:(NSString*)language
-{
-    return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
-}
-
-- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode
-{
-    return [self initWithLanguage:language configDictionary:nil configFileNames:nil cachesRelatedDataPath:nil engineMode:engineMode];
-}
-
-- (instancetype)initWithLanguage:(NSString *)language
-                configDictionary:(NSDictionary *)configDictionary
-                 configFileNames:(NSArray *)configFileNames
-           cachesRelatedDataPath:(NSString *)cachesRelatedPath
-                      engineMode:(G8OCREngineMode)engineMode
-{
-    NSString *absoluteDataPath = nil;
-    if (cachesRelatedPath) {
-        // config Tesseract to search trainedData in tessdata folder of the Caches folder
-        NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSString *cachesPath = cachesPaths.firstObject;
-
-        absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
-    }
-    return [self initWithLanguage:language
-                 configDictionary:configDictionary
-                  configFileNames:configFileNames
-                 absoluteDataPath:absoluteDataPath
-                       engineMode:engineMode];
-}
-
-- (instancetype)initWithLanguage:(NSString *)language
-                configDictionary:(NSDictionary *)configDictionary
-                 configFileNames:(NSArray *)configFileNames
-                absoluteDataPath:(NSString *)absoluteDataPath
-                      engineMode:(G8OCREngineMode)engineMode
-{
     self = [super init];
     if (self != nil) {
-        if (configFileNames) {
-            NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
-        }
-        if (absoluteDataPath != nil) {
-            [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
-        }
-        _absoluteDataPath = absoluteDataPath.copy;
-        _configDictionary = configDictionary;
-        _configFileNames = configFileNames;
-        _engineMode = engineMode;
+
         _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
         _sourceResolution = kG8DefaultResolution;
@@ -166,14 +117,76 @@ namespace tesseract {
         _monitor->cancel = tesseractCancelCallbackFunction;
         _monitor->cancel_this = (__bridge void*)self;
 
-        if (self.absoluteDataPath == nil) {
-            // config Tesseract to search trainedData in tessdata folder of the application bundle];
-            #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-                _absoluteDataPath = [NSBundle mainBundle].bundlePath;
-            #elif TARGET_OS_MAC
-                _absoluteDataPath = [[NSBundle mainBundle] resourcePath];
-            #endif
+        // config Tesseract to search traineddata in tessdata folder of the application bundle
+        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+        _absoluteDataPath = [NSBundle mainBundle].bundlePath;
+        #elif TARGET_OS_MAC
+        _absoluteDataPath = [[NSBundle mainBundle] resourcePath];
+        #endif
+
+        // TODO: Do we still want this?
+        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
+
+    }
+    return self;
+}
+
+- (instancetype)initWithLanguage:(NSString*)language
+{
+    self = [self init];
+    self.language = language.copy;
+    return self;
+}
+
+- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode {
+    self = [self initWithLanguage:language];
+    _engineMode = engineMode;
+    return self;
+}
+
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+           cachesRelatedDataPath:(NSString *)cachesRelatedPath
+                      engineMode:(G8OCREngineMode)engineMode {
+
+    // config Tesseract to search trainedData in tessdata folder of the Caches folder
+    NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesPath = cachesPaths.firstObject;
+
+    NSString *absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
+
+
+    self = [self initWithLanguage:language engineMode:engineMode];
+
+    if (configFileNames) {
+        NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
+    }
+
+    _absoluteDataPath = absoluteDataPath.copy;
+    _configDictionary = configDictionary;
+    _configFileNames = configFileNames;
+
+    return self;
+}
+
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+                absoluteDataPath:(NSString *)absoluteDataPath
+                      engineMode:(G8OCREngineMode)engineMode {
+
+    self = [self initWithLanguage:language engineMode:engineMode];
+
+
+    if (self != nil) {
+
+        if (absoluteDataPath != nil) {
+            [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
         }
+        _absoluteDataPath = absoluteDataPath.copy;
+        _configDictionary = configDictionary;
+        _configFileNames = configFileNames;
 
         if ([[_absoluteDataPath substringFromIndex:_absoluteDataPath.length - 1] isEqual:@"/"]) {
             _absoluteDataPath = [_absoluteDataPath substringToIndex:_absoluteDataPath.length - 1];
@@ -186,8 +199,6 @@ namespace tesseract {
         }
 
         setenv("TESSDATA_PREFIX", _absoluteDataPath.fileSystemRepresentation, 1);
-
-        self.language = language.copy;
     }
     return self;
 }
@@ -805,9 +816,9 @@ namespace tesseract {
 		bool isSmallcaps;
 		int pointsize;
 		int fontId;
-		
+
 		iterator->WordFontAttributes(&isBold, &isItalic, &isUnderlined, &isMonospace, &isSerif, &isSmallcaps, &pointsize, &fontId);
-		
+
 		block.isFromDict = iterator->WordIsFromDictionary();
 		block.isNumeric = iterator->WordIsNumeric();
 		block.isBold = isBold;
@@ -815,14 +826,14 @@ namespace tesseract {
 	} else if (iteratorLevel == G8PageIteratorLevelSymbol) {
 		// get character choices
 		NSMutableArray *choices = [NSMutableArray array];
-		
+
 		tesseract::ChoiceIterator choiceIterator(*iterator);
 		do {
 			const char *choiceWord = choiceIterator.GetUTF8Text();
 			if (choiceWord != NULL) {
 				NSString *text = [NSString stringWithUTF8String:choiceWord];
 				CGFloat confidence = choiceIterator.Confidence();
-				
+
 				G8RecognizedBlock *choiceBlock = [[G8RecognizedBlock alloc] initWithText:text
 																			 boundingBox:block.boundingBox
 																			  confidence:confidence
@@ -830,7 +841,7 @@ namespace tesseract {
 				[choices addObject:choiceBlock];
 			}
 		} while (choiceIterator.Next());
-		
+
 		block.characterChoices = [choices copy];
 	}
 	return block;
@@ -877,26 +888,26 @@ namespace tesseract {
 	if (!self.engineConfigured) {
 		return nil;
 	}
-	
+
 	tesseract::ResultIterator *resultIterator = _tesseract->GetIterator();
-	
-	NSArray *blocks = [self getBlocksFromIterator:resultIterator forLevel:pageIteratorLevel highestLevel:pageIteratorLevel];
-	
+
+	NSArray* blocks = [self getBlocksFromIterator:resultIterator forLevel:pageIteratorLevel highestLevel:pageIteratorLevel];
+
 	return blocks;
 }
 
 -(NSArray*) getBlocksFromIterator:(tesseract::ResultIterator*)resultIterator forLevel:(G8PageIteratorLevel)pageIteratorLevel highestLevel:(G8PageIteratorLevel)highestLevel {
-	
-	NSMutableArray *blocks = [[NSMutableArray alloc] init];
-	
+
+	NSMutableArray* blocks = [[NSMutableArray alloc] init];
+
 	tesseract::PageIteratorLevel level = (tesseract::PageIteratorLevel)pageIteratorLevel;
-	
+
 	BOOL endOfBlock = NO;
-	
+
 	do {
         G8HierarchicalRecognizedBlock *block = [self hierarchicalBlockFromIterator:resultIterator iteratorLevel:pageIteratorLevel];
 		[blocks addObject:block];
-		
+
 		// if we are on a higher level than symbol call the getblocks function for the next deeper level
 		if (pageIteratorLevel != G8PageIteratorLevelSymbol) {
 			block.childBlocks = [self getBlocksFromIterator:resultIterator forLevel:[self getDeeperIteratorLevel:pageIteratorLevel] highestLevel:highestLevel];
@@ -904,10 +915,10 @@ namespace tesseract {
 
 		// check if we are at the end of a block
 		endOfBlock = (pageIteratorLevel != highestLevel && resultIterator->IsAtFinalElement((tesseract::PageIteratorLevel)[self getHigherIteratorLevel:pageIteratorLevel], level)) || !resultIterator->Next(level);
-	
-		
+
+
 	} while (!endOfBlock);
-	
+
 	return blocks;
 }
 

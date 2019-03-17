@@ -37,12 +37,14 @@
  */
 
     /*! Use in ccbaStepChainsToPixCoords() */
+/*! CCB Coords */
 enum {
       CCB_LOCAL_COORDS = 1,
       CCB_GLOBAL_COORDS = 2
 };
 
     /*! Use in ccbaGenerateSPGlobalLocs() */
+/*! CCB Points */
 enum {
       CCB_SAVE_ALL_PTS = 1,
       CCB_SAVE_TURNING_PTS = 2

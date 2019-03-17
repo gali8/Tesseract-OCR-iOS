@@ -241,7 +241,7 @@ typedef struct L_Rdid L_RDID;
 /*-------------------------------------------------------------------------*
  *             Flags for describing limited character sets                 *
  *-------------------------------------------------------------------------*/
-/*! Flags for describing limited character sets */
+/*! Character Set */
 enum {
     L_UNKNOWN = 0,           /*!< character set type is not specified      */
     L_ARABIC_NUMERALS = 1,   /*!< 10 digits                                */
@@ -252,9 +252,10 @@ enum {
 };
 
 /*-------------------------------------------------------------------------*
- *      Flags for selecting between using average and all templates        *
+ *      Flags for selecting between using average and all templates:       *
+ *                           recog->templ_use                              *
  *-------------------------------------------------------------------------*/
-/*! Flags for selecting average or all templates: recog->templ_use */
+/*! Template Select */
 enum {
     L_USE_ALL_TEMPLATES = 0,     /*!< use all templates; default            */
     L_USE_AVERAGE_TEMPLATES = 1  /*!< use average templates; special cases  */

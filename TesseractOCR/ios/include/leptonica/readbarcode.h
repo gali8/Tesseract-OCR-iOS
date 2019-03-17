@@ -31,7 +31,7 @@
      *            Flags for method of extracting barcode widths          *
      * ----------------------------------------------------------------- */
 
-/*! Flags for method of extracting barcode widths */
+/*! Barcode Method */
 enum {
     L_USE_WIDTHS = 1,     /*!< use histogram of barcode widths           */
     L_USE_WINDOWS = 2     /*!< find best window for decoding transitions */
@@ -43,7 +43,7 @@ enum {
      * the decoding method to use on a barcode.                          *
      * ----------------------------------------------------------------- */
 
-/*! Flags for barcode formats */
+/*! Barcode Format */
 enum {
     L_BF_UNKNOWN = 0,     /*!< unknown format                            */
     L_BF_ANY = 1,         /*!< try decoding with all known formats       */

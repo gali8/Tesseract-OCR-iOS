@@ -226,12 +226,12 @@ LEPT_DLL extern l_int32  LeptDebugOK;  /* default is 0 */
  *------------------------------------------------------------------------*/
 #ifndef L_MIN
 /*! Minimum of %x and %y */
-#define L_MIN(x,y)   (((x) < (y)) ? (x) : (y))
+#define L_MIN(x, y)   (((x) < (y)) ? (x) : (y))
 #endif
 
 #ifndef L_MAX
 /*! Maximum of %x and %y */
-#define L_MAX(x,y)   (((x) > (y)) ? (x) : (y))
+#define L_MAX(x, y)   (((x) > (y)) ? (x) : (y))
 #endif
 
 #ifndef L_ABS
@@ -282,7 +282,7 @@ LEPT_DLL extern l_int32  LeptDebugOK;  /* default is 0 */
 /*------------------------------------------------------------------------*
  *                    Simple search state variables                       *
  *------------------------------------------------------------------------*/
-/*! Simple search state variables */
+/*! Search State */
 enum {
     L_NOT_FOUND = 0,
     L_FOUND = 1
@@ -292,7 +292,7 @@ enum {
 /*------------------------------------------------------------------------*
  *                     Path separator conversion                          *
  *------------------------------------------------------------------------*/
-/*! Path separator conversion */
+/*! Path Separators */
 enum {
     UNIX_PATH_SEPCHAR = 0,
     WIN_PATH_SEPCHAR = 1
@@ -365,7 +365,8 @@ typedef struct L_WallTimer  L_WALLTIMER;
  *  "Print messages that have an equal or greater severity than this."    *
  *------------------------------------------------------------------------*/
 
-/*! Control printing of error, warning and info messages */
+    /*! Control printing of error, warning and info messages */
+/*! Message Control */
 enum {
     L_SEVERITY_EXTERNAL = 0,   /* Get the severity from the environment   */
     L_SEVERITY_ALL      = 1,   /* Lowest severity: print all messages     */
@@ -485,51 +486,51 @@ LEPT_DLL extern l_int32  LeptMsgSeverity;
 #ifdef  NO_CONSOLE_IO
 
   #define PROCNAME(name)
-  #define ERROR_INT(a,b,c)            ((l_int32)(c))
-  #define ERROR_FLOAT(a,b,c)          ((l_float32)(c))
-  #define ERROR_PTR(a,b,c)            ((void *)(c))
-  #define L_ERROR(a,...)
-  #define L_WARNING(a,...)
-  #define L_INFO(a,...)
+  #define ERROR_INT(a, b, c)            ((l_int32)(c))
+  #define ERROR_FLOAT(a, b, c)          ((l_float32)(c))
+  #define ERROR_PTR(a, b, c)            ((void *)(c))
+  #define L_ERROR(a, ...)
+  #define L_WARNING(a, ...)
+  #define L_INFO(a, ...)
 
 #else
 
   #define PROCNAME(name)              static const char procName[] = name
-  #define IF_SEV(l,t,f) \
+  #define IF_SEV(l, t, f) \
       ((l) >= MINIMUM_SEVERITY && (l) >= LeptMsgSeverity ? (t) : (f))
 
-  #define ERROR_INT(a,b,c) \
-      IF_SEV(L_SEVERITY_ERROR, returnErrorInt((a),(b),(c)), (l_int32)(c))
-  #define ERROR_FLOAT(a,b,c) \
-      IF_SEV(L_SEVERITY_ERROR, returnErrorFloat((a),(b),(c)), (l_float32)(c))
-  #define ERROR_PTR(a,b,c) \
-      IF_SEV(L_SEVERITY_ERROR, returnErrorPtr((a),(b),(c)), (void *)(c))
+  #define ERROR_INT(a, b, c) \
+      IF_SEV(L_SEVERITY_ERROR, returnErrorInt((a), (b), (c)), (l_int32)(c))
+  #define ERROR_FLOAT(a, b, c) \
+      IF_SEV(L_SEVERITY_ERROR, returnErrorFloat((a), (b), (c)), (l_float32)(c))
+  #define ERROR_PTR(a, b, c) \
+      IF_SEV(L_SEVERITY_ERROR, returnErrorPtr((a), (b), (c)), (void *)(c))
 
-  #define L_ERROR(a,...) \
+  #define L_ERROR(a, ...) \
       IF_SEV(L_SEVERITY_ERROR, \
              (void)fprintf(stderr, "Error in %s: " a, __VA_ARGS__), \
              (void)0)
-  #define L_WARNING(a,...) \
+  #define L_WARNING(a, ...) \
       IF_SEV(L_SEVERITY_WARNING, \
              (void)fprintf(stderr, "Warning in %s: " a, __VA_ARGS__), \
              (void)0)
-  #define L_INFO(a,...) \
+  #define L_INFO(a, ...) \
       IF_SEV(L_SEVERITY_INFO, \
              (void)fprintf(stderr, "Info in %s: " a, __VA_ARGS__), \
              (void)0)
 
 #if 0  /* Alternative method for controlling L_* message output */
-  #define L_ERROR(a,...) \
+  #define L_ERROR(a, ...) \
     { if (L_SEVERITY_ERROR >= MINIMUM_SEVERITY && \
           L_SEVERITY_ERROR >= LeptMsgSeverity) \
           fprintf(stderr, "Error in %s: " a, __VA_ARGS__) \
     }
-  #define L_WARNING(a,...) \
+  #define L_WARNING(a, ...) \
     { if (L_SEVERITY_WARNING >= MINIMUM_SEVERITY && \
           L_SEVERITY_WARNING >= LeptMsgSeverity) \
           fprintf(stderr, "Warning in %s: " a, __VA_ARGS__) \
     }
-  #define L_INFO(a,...) \
+  #define L_INFO(a, ...) \
     { if (L_SEVERITY_INFO >= MINIMUM_SEVERITY && \
           L_SEVERITY_INFO >= LeptMsgSeverity) \
              fprintf(stderr, "Info in %s: " a, __VA_ARGS__) \

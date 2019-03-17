@@ -22,15 +22,28 @@
 
 - (id) initWithLanguage:(NSString *)language
 {
+    return [self initWithLanguage:language configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
+}
+
+- (id)initWithLanguage:(NSString *)language
+      configDictionary:(NSDictionary *)configDictionary
+       configFileNames:(NSArray *)configFileNames
+      absoluteDataPath:(NSString *)absoluteDataPath
+            engineMode:(G8OCREngineMode)engineMode
+{
     self = [super init];
     if (self != nil) {
-        _tesseract = [[G8Tesseract alloc] initWithLanguage:language];
+        _tesseract = [[G8Tesseract alloc] initWithLanguage:language
+                                          configDictionary:configDictionary
+                                           configFileNames:configFileNames
+                                          absoluteDataPath:absoluteDataPath
+                                                engineMode:engineMode];
         _tesseract.delegate = self;
-
+        
         __weak __typeof(self) weakSelf = self;
         self.completionBlock = ^{
             __strong __typeof(weakSelf) strongSelf = weakSelf;
-
+            
             G8RecognitionOperationCallback callback = [strongSelf.recognitionCompleteBlock copy];
             G8Tesseract *tesseract = strongSelf.tesseract;
             if (callback != nil) {

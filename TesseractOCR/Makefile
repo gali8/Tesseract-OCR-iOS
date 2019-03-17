@@ -1,6 +1,6 @@
-PNG_NAME    = libpng-1.6.34
+PNG_NAME    = libpng-1.6.36
 JPEG_NAME   = jpeg-9c
-TIFF_NAME   = tiff-4.0.9
+TIFF_NAME   = tiff-4.0.10
 
 TESSERACT_SRC = $(shell pwd)/tesseract-ocr
 LEPTON_SRC = $(shell pwd)/leptonica
@@ -33,9 +33,9 @@ ifeq ($(platform), ios)
 	IOS_DEPLOY_TGT="10.0"
 	PLATFORM_VERSION_MIN=iphoneos-version-min=$(IOS_DEPLOY_TGT)
 
-	sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH) $(SDK_IPHONESIMULATOR_PATH)
-	archs_all = armv7 armv7s arm64 i386 x86_64
-	arch_names_all = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-darwin x86_64-apple-darwin
+	sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH)
+	archs_all = arm64 x86_64
+	arch_names_all = arm-apple-darwin64 x86_64-apple-darwin
 	arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
 	ARCHS ?= $(archs_all)
 # make platform=macos
@@ -86,8 +86,8 @@ libpngfat  = $(LIB_FAT_DIR)/$(libpngfiles)
 libjpegfat = $(LIB_FAT_DIR)/$(libjpegfiles)
 libtifffat = $(LIB_FAT_DIR)/$(libtifffiles)
 
-libtess    = $(foreach folder, $(libtessfolders), $(addprefix $(folder)/lib/, $(libtessfiles)) )
-liblept    = $(foreach folder, $(libleptfolders), $(addprefix $(folder)/lib/, $(libleptfiles)) )
+libtess    = $(foreach folder, $(libtessfolders), $(addprefix $(folder)lib/, $(libtessfiles)) )
+liblept    = $(foreach folder, $(libleptfolders), $(addprefix $(folder)lib/, $(libleptfiles)) )
 images     = $(libpng) $(libjpeg) $(libtiff)
 libpng     = $(addprefix $(IMAGE_LIB_DIR), $(libpngfiles))
 libjpeg    = $(addprefix $(IMAGE_LIB_DIR), $(libjpegfiles))
@@ -114,7 +114,7 @@ $(libtessfat) : $(libtess)
 	mkdir -p $(LIB_FAT_DIR)
 	xcrun lipo $(realpath $(addsuffix lib/$(@F), $(libtessfolders_all)) ) -create -output $@
 	mkdir -p $(TESS_INC_DIR)
-	cp -rvf $(firstword $(libtessfolders))/include/tesseract $(TESS_INC_DIR)
+	cp -rvf $(firstword $(libtessfolders))include/tesseract $(TESS_INC_DIR)
 
 $(libtess) : $(libtessmakefile)
 	cd $(abspath $(@D)/..) && $(MAKE) -sj8 && $(MAKE) install
@@ -143,7 +143,7 @@ $(libleptfat) : $(liblept)
 	mkdir -p $(LIB_FAT_DIR)
 	xcrun lipo $(realpath $(addsuffix lib/$(@F), $(libleptfolders_all)) ) -create -output $@
 	mkdir -p $(LEPT_INC_DIR)
-	cp -rvf $(firstword $(libleptfolders))/include/leptonica $(LEPT_INC_DIR)
+	cp -rvf $(firstword $(libleptfolders))include/leptonica $(LEPT_INC_DIR)
 
 $(liblept) : $(libleptmakefile)
 	cd $(abspath $(@D)/..) ; \
@@ -183,7 +183,6 @@ $(images) : $(imagesmakefile) FORCE
 $(imagesmakefile) $(libtessautogen) :
 	git submodule init
 	git submodule update
-
 
 #######################
 # Clean

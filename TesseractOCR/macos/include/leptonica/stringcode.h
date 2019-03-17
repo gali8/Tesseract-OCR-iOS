@@ -49,7 +49,8 @@ struct L_StrCode
 typedef struct L_StrCode  L_STRCODE;
 
 
-/*! Select string in stringcode for a specific serializable data type */
+    /*! Select string in stringcode for a specific serializable data type */
+/*! Stringcode Select */
 enum {
     L_STR_TYPE = 0,      /*!< typedef for the data type                      */
     L_STR_NAME = 1,      /*!< name of the data type                          */

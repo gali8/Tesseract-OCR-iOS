@@ -136,24 +136,23 @@ typedef struct L_Bytea L_BYTEA;
 /*------------------------------------------------------------------------*
  *                              Array flags                               *
  *------------------------------------------------------------------------*/
-    /*! Flags for interpolation in Numa */
+/*! Numa Interpolation */
 enum {
     L_LINEAR_INTERP = 1,        /*!< linear     */
     L_QUADRATIC_INTERP = 2      /*!< quadratic  */
 };
 
-    /*! Flags for added borders in Numa and Fpix */
+/*! Border Adding */
 enum {
     L_CONTINUED_BORDER = 1,    /*!< extended with same value                  */
     L_SLOPE_BORDER = 2,        /*!< extended with constant normal derivative  */
     L_MIRRORED_BORDER = 3      /*!< mirrored                                  */
 };
 
-    /*! Flags for data type converted from Numa */
+/*! Numa Data Conversion */
 enum {
     L_INTEGER_VALUE = 1,        /*!< convert to integer  */
     L_FLOAT_VALUE = 2           /*!< convert to float    */
 };
-
 
 #endif  /* LEPTONICA_ARRAY_H */
