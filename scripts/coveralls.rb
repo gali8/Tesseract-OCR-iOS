@@ -24,7 +24,7 @@ end
 opts.on('-h', '--exclude-headers', 'Ignores headers') do |v|
   excludeHeaders = true
 end
-  
+
 opts.on('-x', '--extension EXT', 'Source file extension to process') do |v|
    extensionsToProcess << v
    coveralls_cmd.concat(" -x #{v}")
@@ -34,9 +34,9 @@ opts.on_tail("-?", "--help", "Show this message") do
   puts opts
   exit
 end
-  
+
 # parse the options
-begin      
+begin
   opts.parse!(ARGV)
 rescue OptionParser::InvalidOption => e
   puts e
@@ -50,83 +50,77 @@ derivedDataDir = "#{Etc.getpwuid.dir}/Library/Developer/Xcode/DerivedData/"
 outputDir = workingDir + "/gcov"
 
 # create gcov output folder
-FileUtils.mkdir outputDir 
+FileUtils.mkdir outputDir
 
 # pattern to get source file from first line of gcov file
 GCOV_SOURCE_PATTERN = Regexp.new(/Source:(.*)/)
 
 # enumerate all gcda files underneath derivedData
 Find.find(derivedDataDir) do |gcda_file|
-
   if gcda_file.match(/\.gcda\Z/)
-    
-      #get just the folder name
-      gcov_dir = File.dirname(gcda_file)
- 
-      # cut off absolute working dir to get relative source path
-      relative_input_path = gcda_file.slice(derivedDataDir.length, gcda_file.length)
-      puts "\nINPUT: #{relative_input_path}"
+    #get just the folder name
+    gcov_dir = File.dirname(gcda_file)
 
-      #process the file
-      result = %x( gcov '#{gcda_file}' -o '#{gcov_dir}' )
-      
-      # filter the resulting output
-      Dir.glob("*.gcov") do |gcov_file|
-        
-        firstLine = File.open(gcov_file).readline
-        match = GCOV_SOURCE_PATTERN.match(firstLine)
-        
-        if (match)
-          
-          source_path = match[1]
+    # cut off absolute working dir to get relative source path
+    relative_input_path = gcda_file.slice(derivedDataDir.length, gcda_file.length)
+    puts "\nINPUT: #{relative_input_path}"
 
-          puts "source: #{source_path} - #{workingDir}"
+    #process the file
+    result = %x( gcov '#{gcda_file}' -o '#{gcov_dir}' )
 
-          if (source_path.start_with? workingDir)
-            
-            # cut off absolute working dir to get relative source path
-            relative_path = source_path.slice(workingDir.length+1, source_path.length)
-            
-            extension = File.extname(relative_path)
-                extension = extension.slice(1, extension.length-1)
-            
-            puts "#{extension}"
-            
-            # get the path components
-            path_comps = relative_path.split(File::SEPARATOR)
-            
-            shouldProcess = false
-            exclusionMsg =""
-            
-            if (excludedFolders.include?(path_comps[0]))
-              exclusionMsg = "excluded via option"
+    # filter the resulting output
+    Dir.glob("*.gcov") do |gcov_file|
+      firstLine = File.open(gcov_file).readline
+      match = GCOV_SOURCE_PATTERN.match(firstLine)
+
+      if match
+        source_path = match[1]
+        puts "source: #{source_path} - #{workingDir}"
+
+        if (source_path.start_with? workingDir)
+          # cut off absolute working dir to get relative source path
+          relative_path = source_path.slice(workingDir.length+1, source_path.length)
+
+          extension = File.extname(relative_path)
+          extension = extension.slice(1, extension.length-1)
+
+          puts "#{extension}"
+
+          # get the path components
+          path_comps = relative_path.split(File::SEPARATOR)
+
+          shouldProcess = false
+          exclusionMsg = ""
+
+          if excludedFolders.include?(path_comps[0])
+            exclusionMsg = "excluded via option"
+          else
+            if (excludeHeaders == true && extension == 'h')
+              exclusionMsg = "excluded header"
             else
-              if (excludeHeaders == true && extension == 'h')
-                exclusionMsg = "excluded header"
+              if (extensionsToProcess.count == 0 || extensionsToProcess.include?(extension))
+                shouldProcess = true
               else
-                if (extensionsToProcess.count == 0 || extensionsToProcess.include?(extension))
-                  shouldProcess = true
-                else
-                   exclusionMsg = "excluded extension"
-                   shouldProcess = false
-                end
+                 exclusionMsg = "excluded extension"
+                 shouldProcess = false
               end
             end
-            
-            if (shouldProcess)
-              puts "   - process: #{relative_path}"
-              FileUtils.mv(gcov_file, outputDir)
-            else
-              puts "   - ignore:  #{relative_path} (#{exclusionMsg})"
-              FileUtils.rm gcov_file
-            end
+          end
+
+          if shouldProcess
+            puts "   - process: #{relative_path}"
+            FileUtils.mv(gcov_file, outputDir)
           else
-            puts "   - ignore:  #{gcov_file} (outside source folder)"
+            puts "   - ignore:  #{relative_path} (#{exclusionMsg})"
             FileUtils.rm gcov_file
           end
+        else
+          puts "   - ignore:  #{gcov_file} (outside source folder)"
+          FileUtils.rm gcov_file
         end
       end
-   end
+    end
+  end
 end
 
 #call the coveralls, exclude some files
