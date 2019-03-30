@@ -23,8 +23,8 @@ script:
       echo "$SIMULARTOR_ID";
       open -a "simulator" --args -CurrentDeviceUDID $SIMULATOR_ID || true; sleep 20;
     fi
-  - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -project "$XC_PROJECT" clean build | xcpretty -tc;
-  - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -project "$XC_PROJECT" -enableCodeCoverage YES $ACTION | xcpretty -tc;
+  - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -project "$XC_PROJECT" clean build | xcpretty -tc
+  - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -project "$XC_PROJECT" -enableCodeCoverage YES $ACTION | xcpretty -tc
 
 after_success:
   ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include --exclude-folder Tests --exclude-folder Tests-iOS --exclude-folder Tests-macOS

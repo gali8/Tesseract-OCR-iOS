@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37DEFECE2250232300C43F4D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DEFECD2250232300C43F4D /* TesseractOCR.framework */; };
 		F9A489F12037776A00887BDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A489F02037776A00887BDC /* AppDelegate.swift */; };
 		F9A489F32037776A00887BDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A489F22037776A00887BDC /* ViewController.swift */; };
 		F9A489F62037776A00887BDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9A489F42037776A00887BDC /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		37DEFECD2250232300C43F4D /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9A489ED2037776A00887BDC /* Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9A489F02037776A00887BDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F9A489F22037776A00887BDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,17 +33,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37DEFECE2250232300C43F4D /* TesseractOCR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37DEFECC2250232300C43F4D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				37DEFECD2250232300C43F4D /* TesseractOCR.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F9A489E42037776A00887BDC = {
 			isa = PBXGroup;
 			children = (
 				F9A489EF2037776A00887BDC /* Example Swift */,
 				F9A489EE2037776A00887BDC /* Products */,
+				37DEFECC2250232300C43F4D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +111,7 @@
 				TargetAttributes = {
 					F9A489EC2037776A00887BDC = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -288,7 +301,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.Template-Framework-Project.Example-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -303,7 +316,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.g8production.Template-Framework-Project.Example-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
