@@ -3,8 +3,8 @@
 //  Tesseract OCR iOS
 //  This code is auto-generated from Tesseract headers.
 //
-//  Created by Nikolay Volosatov on 04/08/18.
-//  Copyright (c) 2018 Daniele Galiotto - www.g8production.com.
+//  Created by Nikolay Volosatov on 27/03/19.
+//  Copyright (c) 2019 Daniele Galiotto - www.g8production.com.
 //  All rights reserved.
 //
 
@@ -20,6 +20,10 @@ extern NSString *const kG8ParamTospTableXhtSpRatio;
 ///Generate training data from boxed chars
 ///@brief Type BOOL Default false
 extern NSString *const kG8ParamTesseditTrainFromBoxes;
+
+///Set JPEG quality level
+///@brief Type INT Default 85
+extern NSString *const kG8ParamJpgQuality;
 
 ///* blob height for initial linesize
 ///@brief Type double Default 1.25
@@ -60,6 +64,10 @@ extern NSString *const kG8ParamClassifyUsePreAdaptedTemplates;
 ///Split overlap adjustment
 ///@brief Type double Default 0.9
 extern NSString *const kG8ParamChopOverlapKnob;
+
+///Allows to include alternative symbols choices in the hOCR output. Valid input values are 0, 1, 2 and 3. 0 is the default value. With 1 the alternative symbol choices per timestep are included. With 2 the alternative symbol choices are accumulated per character. With 3 the alternative symbol choices per timestep are included and separated by the suggested segmentation of Tesseract
+///@brief Type INT Default 0
+extern NSString *const kG8ParamLstmChoiceMode;
 
 ///Extend permuter check
 ///@brief Type BOOL Default false
@@ -129,9 +137,9 @@ extern NSString *const kG8ParamLanguageModelNgramRatingFactor;
 ///@brief Type double Default 1.6
 extern NSString *const kG8ParamTospRepSpace;
 
-///or should we use mean
-///@brief Type INT Default 3
-extern NSString *const kG8ParamTospEnoughSpaceSamplesForMedian;
+///Reduce rejection on good docs
+///@brief Type BOOL Default true
+extern NSString *const kG8ParamTesseditGoodQualityUnrej;
 
 ///Min Number of Points on Outline
 ///@brief Type INT Default 6
@@ -194,7 +202,7 @@ extern NSString *const kG8ParamTospUseXhtGaps;
 extern NSString *const kG8ParamTesseditResegmentFromLineBoxes;
 
 ///Mark v.bad words for tilde crunch
-///@brief Type BOOL Default true
+///@brief Type BOOL Default false
 extern NSString *const kG8ParamUnlvTildeCrunching;
 
 ///SegSearch debug level
@@ -308,6 +316,10 @@ extern NSString *const kG8ParamTesseditRejectMode;
 ///crunch rating lt this
 ///@brief Type double Default 80.0
 extern NSString *const kG8ParamCrunchTerribleRating;
+
+///Specify minimum characters to try during OSD
+///@brief Type INT Default 50
+extern NSString *const kG8ParamMinCharactersToTry;
 
 ///Certainty threshold for non-dict words
 ///@brief Type double Default -2.50
@@ -564,10 +576,6 @@ extern NSString *const kG8ParamTospTableKnSpRatio;
 ///Min pile height to make ascheight
 ///@brief Type double Default 0.08
 extern NSString *const kG8ParamTextordAscheightModeFraction;
-
-///Allows to include glyph confidences in the hOCR output
-///@brief Type BOOL Default false
-extern NSString *const kG8ParamGlyphConfidences;
 
 ///A superscript scaled down more than this is unbelievably small.  For example, 0.3 means we expect the font size to be no smaller than 30% of the text line font size.
 ///@brief Type double Default 0.4
@@ -837,9 +845,9 @@ extern NSString *const kG8ParamTospNarrowFraction;
 ///@brief Type double Default 99999.99
 extern NSString *const kG8ParamTestPtX;
 
-///Reduce rejection on good docs
-///@brief Type BOOL Default true
-extern NSString *const kG8ParamTesseditGoodQualityUnrej;
+///ycoord
+///@brief Type double Default 99999.99
+extern NSString *const kG8ParamTestPtY;
 
 ///Learning Debug Level:
 ///@brief Type INT Default 0
@@ -997,9 +1005,9 @@ extern NSString *const kG8ParamTesseditWordForWord;
 ///@brief Type INT Default 0
 extern NSString *const kG8ParamSegmentAdjustDebug;
 
-///Min pile height to make xheight
-///@brief Type double Default 0.4
-extern NSString *const kG8ParamTextordXheightModeFraction;
+///or should we use mean
+///@brief Type INT Default 3
+extern NSString *const kG8ParamTospEnoughSpaceSamplesForMedian;
 
 ///In multilingual mode use params model of the primary language
 ///@brief Type BOOL Default false
@@ -1137,6 +1145,10 @@ extern NSString *const kG8ParamClassifyIntegerMatcherMultiplier;
 ///@brief Type INT Default 2
 extern NSString *const kG8ParamSuspectShortWords;
 
+///Specify DPI for input image
+///@brief Type INT Default 0
+extern NSString *const kG8ParamUserDefinedDpi;
+
 ///Assume the input is numbers [0-9].
 ///@brief Type BOOL Default 0
 extern NSString *const kG8ParamClassifyBlnNumericMode;
@@ -1261,6 +1273,10 @@ extern NSString *const kG8ParamCrunchLeaveOkStrings;
 ///@brief Type double Default 3.5
 extern NSString *const kG8ParamTospIgnoreVeryBigGaps;
 
+///Write .xml ALTO output file
+///@brief Type BOOL Default false
+extern NSString *const kG8ParamTesseditCreateAlto;
+
 ///good_quality_doc gte good char limit
 ///@brief Type double Default 0.95
 extern NSString *const kG8ParamQualityCharPc;
@@ -1340,6 +1356,10 @@ extern NSString *const kG8ParamMatcherGoodThreshold;
 ///Word for which stopper debug information should be printed to stdout
 ///@brief Type STRING Default ""
 extern NSString *const kG8ParamWordToDebug;
+
+///Write WordStr format .box output file
+///@brief Type BOOL Default false
+extern NSString *const kG8ParamTesseditCreateWordstrbox;
 
 ///A suffix of user-provided words located in tessdata.
 ///@brief Type STRING Default ""
@@ -1557,6 +1577,10 @@ extern NSString *const kG8ParamTesseditFixHyphens;
 ///@brief Type INT Default 0
 extern NSString *const kG8ParamMatcherDebugLevel;
 
+///Write .box file for LSTM training
+///@brief Type BOOL Default false
+extern NSString *const kG8ParamTesseditCreateLstmbox;
+
 ///Max diacritics to apply to a word
 ///@brief Type INT Default 16
 extern NSString *const kG8ParamNoiseMaxperword;
@@ -1616,6 +1640,10 @@ extern NSString *const kG8ParamTospInitGuessXhtMult;
 ///Multiple of line_size for underline
 ///@brief Type double Default 2.0
 extern NSString *const kG8ParamTextordUnderlineWidth;
+
+///Min pile height to make xheight
+///@brief Type double Default 0.4
+extern NSString *const kG8ParamTextordXheightModeFraction;
 
 ///Max certaintly variation allowed in a word (in sigma)
 ///@brief Type double Default 3.0
@@ -1677,10 +1705,6 @@ extern NSString *const kG8ParamTesseditRejectDocPercent;
 ///@brief Type double Default 0.2
 extern NSString *const kG8ParamLanguageModelPenaltyPunc;
 
-///ycoord
-///@brief Type double Default 99999.99
-extern NSString *const kG8ParamTestPtY;
-
 ///Load dawg with special word bigrams.
 ///@brief Type BOOL Default true
 extern NSString *const kG8ParamLoadBigramDawg;
@@ -1732,6 +1756,10 @@ extern NSString *const kG8ParamCrunchEarlyConvertBadUnlvChs;
 ///Before word crunch?
 ///@brief Type BOOL Default true
 extern NSString *const kG8ParamCrunchEarlyMergeTessFails;
+
+///Add coordinates for each character to hocr output
+///@brief Type BOOL Default false
+extern NSString *const kG8ParamHocrCharBoxes;
 
 ///Interpolate across gaps
 ///@brief Type BOOL Default TRUE

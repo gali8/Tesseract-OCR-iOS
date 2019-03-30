@@ -79,7 +79,7 @@ describe(@"Tesseract initialization", ^{
     context(@"Should check common functions", ^{
 
         it(@"Should print version", ^{
-            [[[G8Tesseract version] should] equal:@"4.0.0-beta.3"];
+            [[[G8Tesseract version] should] equal:@"4.1.0-rc1"];
         });
 
         it(@"Should not raise on cache clearing", ^{
@@ -237,7 +237,6 @@ describe(@"Tesseract initialization", ^{
         it(@"Should initialize simple", ^{
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages configDictionary:nil configFileNames:nil absoluteDataPath:nil engineMode:G8OCREngineModeTesseractOnly];
             [[tesseract shouldNot] beNil];
-
             [[tesseract.absoluteDataPath should] equal:[resourcePath stringByAppendingPathComponent:tessdataFolderName]];
 
             moveTessdataToFolderIfNecessary(customDirectoryPath);
@@ -271,7 +270,6 @@ describe(@"Tesseract initialization", ^{
         });
 
         it(@"Should not initialize engine if no tessdata folder in app bundle", ^{
-
             [[NSFileManager defaultManager] stub:@selector(fileExistsAtPath:isDirectory:)
                                        andReturn:theValue(NO)];
             G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages
@@ -279,6 +277,7 @@ describe(@"Tesseract initialization", ^{
                                                            configFileNames:nil
                                                           absoluteDataPath:customDirectoryPath
                                                                 engineMode:G8OCREngineModeTesseractOnly];
+
             [[tesseract shouldNot] beNil];
             [[theValue(tesseract.isEngineConfigured) should] beNo];
         });
@@ -638,6 +637,8 @@ describe(@"Tesseract initialization", ^{
                                                                configFileNames:@[debugConfigsFilePathFromTheCaches, recognitionConfigsFilePathFromTheCaches]
                                                          cachesRelatedDataPath:tessdataPath
                                                                     engineMode:G8OCREngineModeTesseractOnly];
+
+
                 [[tesseract shouldNot] beNil];
                 [[tesseract.absoluteDataPath should] equal:cachesTessDataPath];
 

@@ -3,8 +3,8 @@
 //  Tesseract OCR iOS
 //  This code is auto-generated from Tesseract headers.
 //
-//  Created by Nikolay Volosatov on 04/08/18.
-//  Copyright (c) 2018 Daniele Galiotto - www.g8production.com.
+//  Created by Nikolay Volosatov on 27/03/19.
+//  Copyright (c) 2019 Daniele Galiotto - www.g8production.com.
 //  All rights reserved.
 //
 
@@ -12,6 +12,7 @@
 
 NSString *const kG8ParamTospTableXhtSpRatio = @"tosp_table_xht_sp_ratio";
 NSString *const kG8ParamTesseditTrainFromBoxes = @"tessedit_train_from_boxes";
+NSString *const kG8ParamJpgQuality = @"jpg_quality";
 NSString *const kG8ParamTextordMinLinesize = @"textord_min_linesize";
 NSString *const kG8ParamTospWideFraction = @"tosp_wide_fraction";
 NSString *const kG8ParamTextordFixXheightBug = @"textord_fix_xheight_bug";
@@ -22,6 +23,7 @@ NSString *const kG8ParamTesseditMakeBoxesFromBoxes = @"tessedit_make_boxes_from_
 NSString *const kG8ParamTospPassWideFuzzSpToContext = @"tosp_pass_wide_fuzz_sp_to_context";
 NSString *const kG8ParamClassifyUsePreAdaptedTemplates = @"classify_use_pre_adapted_templates";
 NSString *const kG8ParamChopOverlapKnob = @"chop_overlap_knob";
+NSString *const kG8ParamLstmChoiceMode = @"lstm_choice_mode";
 NSString *const kG8ParamRejAlphasInNumberPerm = @"rej_alphas_in_number_perm";
 NSString *const kG8ParamTessBnMatching = @"tess_bn_matching";
 NSString *const kG8ParamTesseditUnrejAnyWd = @"tessedit_unrej_any_wd";
@@ -39,7 +41,7 @@ NSString *const kG8ParamTospFlipFuzzKnToSp = @"tosp_flip_fuzz_kn_to_sp";
 NSString *const kG8ParamSegmentPenaltyDictFrequentWord = @"segment_penalty_dict_frequent_word";
 NSString *const kG8ParamLanguageModelNgramRatingFactor = @"language_model_ngram_rating_factor";
 NSString *const kG8ParamTospRepSpace = @"tosp_rep_space";
-NSString *const kG8ParamTospEnoughSpaceSamplesForMedian = @"tosp_enough_space_samples_for_median";
+NSString *const kG8ParamTesseditGoodQualityUnrej = @"tessedit_good_quality_unrej";
 NSString *const kG8ParamChopMinOutlinePoints = @"chop_min_outline_points";
 NSString *const kG8ParamSpeckleLargeMaxSize = @"speckle_large_max_size";
 NSString *const kG8ParamTesseditOcrEngineMode = @"tessedit_ocr_engine_mode";
@@ -84,6 +86,7 @@ NSString *const kG8ParamSuspectRatingPerCh = @"suspect_rating_per_ch";
 NSString *const kG8ParamWordrecDebugBlamer = @"wordrec_debug_blamer";
 NSString *const kG8ParamTesseditRejectMode = @"tessedit_reject_mode";
 NSString *const kG8ParamCrunchTerribleRating = @"crunch_terrible_rating";
+NSString *const kG8ParamMinCharactersToTry = @"min_characters_to_try";
 NSString *const kG8ParamStopperNondictCertaintyBase = @"stopper_nondict_certainty_base";
 NSString *const kG8ParamSegmentPenaltyDictCaseBad = @"segment_penalty_dict_case_bad";
 NSString *const kG8ParamTesseditRowRejGoodDocs = @"tessedit_row_rej_good_docs";
@@ -148,7 +151,6 @@ NSString *const kG8ParamUnrecognisedChar = @"unrecognised_char";
 NSString *const kG8ParamCrunchDelMinWidth = @"crunch_del_min_width";
 NSString *const kG8ParamTospTableKnSpRatio = @"tosp_table_kn_sp_ratio";
 NSString *const kG8ParamTextordAscheightModeFraction = @"textord_ascheight_mode_fraction";
-NSString *const kG8ParamGlyphConfidences = @"glyph_confidences";
 NSString *const kG8ParamSuperscriptScaledownRatio = @"superscript_scaledown_ratio";
 NSString *const kG8ParamTospWideAspectRatio = @"tosp_wide_aspect_ratio";
 NSString *const kG8ParamTospMinSaneKnSp = @"tosp_min_sane_kn_sp";
@@ -216,7 +218,7 @@ NSString *const kG8ParamTesseditZeroKelvinRejection = @"tessedit_zero_kelvin_rej
 NSString *const kG8ParamTextordMaxNoiseSize = @"textord_max_noise_size";
 NSString *const kG8ParamTospNarrowFraction = @"tosp_narrow_fraction";
 NSString *const kG8ParamTestPtX = @"test_pt_x";
-NSString *const kG8ParamTesseditGoodQualityUnrej = @"tessedit_good_quality_unrej";
+NSString *const kG8ParamTestPtY = @"test_pt_y";
 NSString *const kG8ParamClassifyLearningDebugLevel = @"classify_learning_debug_level";
 NSString *const kG8ParamTextordWidthLimit = @"textord_width_limit";
 NSString *const kG8ParamTospIgnoreBigGaps = @"tosp_ignore_big_gaps";
@@ -256,7 +258,7 @@ NSString *const kG8ParamTextordChopWidth = @"textord_chop_width";
 NSString *const kG8ParamTextordOverlapX = @"textord_overlap_x";
 NSString *const kG8ParamTesseditWordForWord = @"tessedit_word_for_word";
 NSString *const kG8ParamSegmentAdjustDebug = @"segment_adjust_debug";
-NSString *const kG8ParamTextordXheightModeFraction = @"textord_xheight_mode_fraction";
+NSString *const kG8ParamTospEnoughSpaceSamplesForMedian = @"tosp_enough_space_samples_for_median";
 NSString *const kG8ParamTesseditUsePrimaryParamsModel = @"tessedit_use_primary_params_model";
 NSString *const kG8ParamFixspNonNoiseLimit = @"fixsp_non_noise_limit";
 NSString *const kG8ParamSuperscriptMinYBottom = @"superscript_min_y_bottom";
@@ -291,6 +293,7 @@ NSString *const kG8ParamChopSharpnessKnob = @"chop_sharpness_knob";
 NSString *const kG8ParamConflictSetIL1 = @"conflict_set_I_l_1";
 NSString *const kG8ParamClassifyIntegerMatcherMultiplier = @"classify_integer_matcher_multiplier";
 NSString *const kG8ParamSuspectShortWords = @"suspect_short_words";
+NSString *const kG8ParamUserDefinedDpi = @"user_defined_dpi";
 NSString *const kG8ParamClassifyBlnNumericMode = @"classify_bln_numeric_mode";
 NSString *const kG8ParamTesseditRejectBlockPercent = @"tessedit_reject_block_percent";
 NSString *const kG8ParamClassifyNonlinearNorm = @"classify_nonlinear_norm";
@@ -322,6 +325,7 @@ NSString *const kG8ParamTextordNoiseAreaRatio = @"textord_noise_area_ratio";
 NSString *const kG8ParamTesseditCharWhitelist = @"tessedit_char_whitelist";
 NSString *const kG8ParamCrunchLeaveOkStrings = @"crunch_leave_ok_strings";
 NSString *const kG8ParamTospIgnoreVeryBigGaps = @"tosp_ignore_very_big_gaps";
+NSString *const kG8ParamTesseditCreateAlto = @"tessedit_create_alto";
 NSString *const kG8ParamQualityCharPc = @"quality_char_pc";
 NSString *const kG8ParamTesseditEnableBigramCorrection = @"tessedit_enable_bigram_correction";
 NSString *const kG8ParamSpeckleRatingPenalty = @"speckle_rating_penalty";
@@ -342,6 +346,7 @@ NSString *const kG8ParamQualityMinInitialAlphasReqd = @"quality_min_initial_alph
 NSString *const kG8ParamTospMaxSaneKnThresh = @"tosp_max_sane_kn_thresh";
 NSString *const kG8ParamMatcherGoodThreshold = @"matcher_good_threshold";
 NSString *const kG8ParamWordToDebug = @"word_to_debug";
+NSString *const kG8ParamTesseditCreateWordstrbox = @"tessedit_create_wordstrbox";
 NSString *const kG8ParamUserWordsSuffix = @"user_words_suffix";
 NSString *const kG8ParamTospRecoveryIsolatedRowStats = @"tosp_recovery_isolated_row_stats";
 NSString *const kG8ParamRejUseSensibleWd = @"rej_use_sensible_wd";
@@ -396,6 +401,7 @@ NSString *const kG8ParamTextordTestLandscape = @"textord_test_landscape";
 NSString *const kG8ParamOutlines2 = @"outlines_2";
 NSString *const kG8ParamTesseditFixHyphens = @"tessedit_fix_hyphens";
 NSString *const kG8ParamMatcherDebugLevel = @"matcher_debug_level";
+NSString *const kG8ParamTesseditCreateLstmbox = @"tessedit_create_lstmbox";
 NSString *const kG8ParamNoiseMaxperword = @"noise_maxperword";
 NSString *const kG8ParamSuspectConstrain1Il = @"suspect_constrain_1Il";
 NSString *const kG8ParamChopSameDistance = @"chop_same_distance";
@@ -411,6 +417,7 @@ NSString *const kG8ParamApplyboxExposurePattern = @"applybox_exposure_pattern";
 NSString *const kG8ParamTextordShowInitialRows = @"textord_show_initial_rows";
 NSString *const kG8ParamTospInitGuessXhtMult = @"tosp_init_guess_xht_mult";
 NSString *const kG8ParamTextordUnderlineWidth = @"textord_underline_width";
+NSString *const kG8ParamTextordXheightModeFraction = @"textord_xheight_mode_fraction";
 NSString *const kG8ParamStopperAllowableCharacterBadness = @"stopper_allowable_character_badness";
 NSString *const kG8ParamTospLargeKerning = @"tosp_large_kerning";
 NSString *const kG8ParamAssumeFixedPitchCharSegment = @"assume_fixed_pitch_char_segment";
@@ -426,7 +433,6 @@ NSString *const kG8ParamApplyboxLearnNgramsMode = @"applybox_learn_ngrams_mode";
 NSString *const kG8ParamCrunchSmallOutlinesSize = @"crunch_small_outlines_size";
 NSString *const kG8ParamTesseditRejectDocPercent = @"tessedit_reject_doc_percent";
 NSString *const kG8ParamLanguageModelPenaltyPunc = @"language_model_penalty_punc";
-NSString *const kG8ParamTestPtY = @"test_pt_y";
 NSString *const kG8ParamLoadBigramDawg = @"load_bigram_dawg";
 NSString *const kG8ParamMatcherBadMatchPad = @"matcher_bad_match_pad";
 NSString *const kG8ParamTextordLinespaceIqrlimit = @"textord_linespace_iqrlimit";
@@ -440,6 +446,7 @@ NSString *const kG8ParamXheightPenaltySubscripts = @"xheight_penalty_subscripts"
 NSString *const kG8ParamNoiseCertBasechar = @"noise_cert_basechar";
 NSString *const kG8ParamCrunchEarlyConvertBadUnlvChs = @"crunch_early_convert_bad_unlv_chs";
 NSString *const kG8ParamCrunchEarlyMergeTessFails = @"crunch_early_merge_tess_fails";
+NSString *const kG8ParamHocrCharBoxes = @"hocr_char_boxes";
 NSString *const kG8ParamTextordInterpolatingSkew = @"textord_interpolating_skew";
 NSString *const kG8ParamTesseditLowerFlipHyphen = @"tessedit_lower_flip_hyphen";
 NSString *const kG8ParamTospOnlySmallGapsForKern = @"tosp_only_small_gaps_for_kern";

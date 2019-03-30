@@ -18,7 +18,10 @@ libleptautogen = $(LEPTON_SRC)/autogen.sh
 libleptconfig = $(LEPTON_SRC)/configure
 
 XCODE_DEVELOPER_PATH="`xcode-select -p`"
-XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
+XCODE_DEVELOPER_PATH_BIN=$(XCODE_DEVELOPER_PATH)/usr/bin
+TARGET_CXX="$(XCODE_DEVELOPER_PATH_BIN)/g++"
+TARGET_CXX_FOR_BUILD="$(XCODE_DEVELOPER_PATH_BIN)/g++"
+TARGET_CC="$(XCODE_DEVELOPER_PATH_BIN)/gcc"
 
 index = $(words $(shell a="$(2)";echo $${a/$(1)*/$(1)} ))
 swap  = $(word $(call index,$(1),$(2)),$(3))
@@ -95,7 +98,7 @@ libtiff    = $(addprefix $(IMAGE_LIB_DIR), $(libtifffiles))
 
 dependant_libs = $(libpngfat) $(libjpegfat) $(libtifffat) $(libleptfat) $(libtessfat)
 
-common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -m$(PLATFORM_VERSION_MIN) -O2
+common_cflags = -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -m$(PLATFORM_VERSION_MIN) -O2
 
 ifneq (,$(filter $(platform),ios macos))
 .PHONY : all
@@ -125,13 +128,16 @@ $(TESSERACT_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(libtessconfig) $(libleptfat)
 	export CFLAGS="-I$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/ $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/ $(common_cflags) -Wno-deprecated-register"; \
-	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$(PLATFORM_PREFIX)/$*/src/.libs" ; \
+	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR) -L$(LEPTON_SRC)/$(PLATFORM_PREFIX)/$*/src/.libs" ; \
 	export LIBLEPT_HEADERSDIR=$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/ ; \
 	export PKG_CONFIG_PATH=$(LEPTON_SRC)/$(PLATFORM_PREFIX)/$*/ ; \
+	export CXX="$(TARGET_CXX) --target=$*" ; \
+	export CXX_FOR_BUILD="$(TARGET_CXX_FOR_BUILD) --target=$*" ; \
+	export CC="$(TARGET_CC) --target=$*" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 	ln -s $(LEPTON_SRC)/src/ leptonica ; \
-	../../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-graphics
+	../../configure CXX="$(TARGET_CXX) --target=$*" CC="$(TARGET_CC) --target=$*" --host=$* --prefix=`pwd` --enable-shared=no --disable-graphics
 
 $(libtessconfig) : $(libtessautogen)
 	cd $(@D) && ./autogen.sh 2> /dev/null
@@ -157,9 +163,12 @@ $(LEPTON_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
 	export PKG_CONFIG_PATH=$(PNG_SRC)/$*/:$(JPEG_SRC)/$*/:$(TIFF_SRC)/$*/ ; \
+	export CXX="$(TARGET_CXX) --target=$*" ; \
+	export CXX_FOR_BUILD="$(TARGET_CXX_FOR_BUILD) --target=$*" ; \
+	export CC="$(TARGET_CC) --target=$*" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
-	../../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
+	../../configure CXX="$(TARGET_CXX) --target=$*" CC="$(TARGET_CC) --target=$*" --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
 
 $(libleptconfig) : $(libleptautogen)
 	cd $(@D) && ./autogen.sh 2> /dev/null

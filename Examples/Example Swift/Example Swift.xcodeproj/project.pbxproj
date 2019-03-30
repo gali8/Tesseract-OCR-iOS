@@ -12,7 +12,6 @@
 		F9A489F62037776A00887BDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9A489F42037776A00887BDC /* Main.storyboard */; };
 		F9A489F82037776A00887BDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9A489F72037776A00887BDC /* Assets.xcassets */; };
 		F9A489FB2037776A00887BDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9A489F92037776A00887BDC /* LaunchScreen.storyboard */; };
-		F9A48A032037779E00887BDC /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9A48A022037779E00887BDC /* TesseractOCR.framework */; };
 		F9A48A18203781AE00887BDC /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = F9A48A17203781AD00887BDC /* tessdata */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +23,6 @@
 		F9A489F72037776A00887BDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9A489FA2037776A00887BDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F9A489FC2037776A00887BDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F9A48A022037779E00887BDC /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Tesseract-OCR-iOS-fsfgynznxutkxjedsqkamexforqf/Build/Products/Debug-iphoneos/TesseractOCR.framework"; sourceTree = "<group>"; };
 		F9A48A17203781AD00887BDC /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tessdata; path = "../../../Template Framework Project/Template Framework Project/tessdata"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,7 +31,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9A48A032037779E00887BDC /* TesseractOCR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,7 +42,6 @@
 			children = (
 				F9A489EF2037776A00887BDC /* Example Swift */,
 				F9A489EE2037776A00887BDC /* Products */,
-				F9A48A022037779E00887BDC /* TesseractOCR.framework */,
 			);
 			sourceTree = "<group>";
 		};
