@@ -4,7 +4,7 @@ sudo: false
 
 env:
   - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS XC_PROJECT=Tests-iOS/Tests-iOS.xcodeproj BUILD_DEPENDENT_LIBRARIES=true
-  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (11.2)' XC_SCHEME=Tests-iOS XC_PROJECT=Tests-iOS/Tests-iOS.xcodeproj BUILD_DEPENDENT_LIBRARIES=false
+  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS XC_PROJECT=Tests-iOS/Tests-iOS.xcodeproj BUILD_DEPENDENT_LIBRARIES=false
   - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS XC_PROJECT=Tests-macOS/Tests-macOS.xcodeproj BUILD_DEPENDENT_LIBRARIES=true
   - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS XC_PROJECT=Tests-macOS/Tests-macOS.xcodeproj BUILD_DEPENDENT_LIBRARIES=false
 
