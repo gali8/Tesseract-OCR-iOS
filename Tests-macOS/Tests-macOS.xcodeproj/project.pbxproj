@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2773913BF38EEF043834C378 /* libPods-Tests-macOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD17BFE08278A5429B2D89A /* libPods-Tests-macOSTests.a */; };
 		334A6A1520B8AA4400AAA630 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A1420B8AA4400AAA630 /* AppDelegate.m */; };
 		334A6A1820B8AA4400AAA630 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A6A1720B8AA4400AAA630 /* ViewController.m */; };
 		334A6A1A20B8AA4800AAA630 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 334A6A1920B8AA4800AAA630 /* Assets.xcassets */; };
@@ -24,7 +25,6 @@
 		33E40C9720B981790055645B /* Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E40C9520B981790055645B /* Defaults.m */; };
 		33FBE82620B982E000B5A642 /* NSImage+G8Equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FBE82420B982E000B5A642 /* NSImage+G8Equal.m */; };
 		37DEFEC722501EB800C43F4D /* TesseractOCRmacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */; };
-		DCA63C7339F680794D13C4ED /* libPods-Tests-macOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E2B99C412D8D2601F517F0 /* libPods-Tests-macOSTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1EEF9DC6C06B6F0451F2F52B /* Pods-Tests-macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-macOSTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Tests-macOSTests/Pods-Tests-macOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		334A6A1020B8AA4400AAA630 /* Tests-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tests-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		334A6A1320B8AA4400AAA630 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		334A6A1420B8AA4400AAA630 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -67,9 +68,8 @@
 		33E40C9620B981790055645B /* Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Defaults.h; path = ../../Tests/Defaults.h; sourceTree = "<group>"; };
 		33FBE82420B982E000B5A642 /* NSImage+G8Equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+G8Equal.m"; sourceTree = "<group>"; };
 		33FBE82520B982E000B5A642 /* NSImage+G8Equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+G8Equal.h"; sourceTree = "<group>"; };
-		56B74F9BEAF19339B9F32843 /* Pods-Tests-macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-macOSTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Tests-macOSTests/Pods-Tests-macOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		6C305C37EA60297EB4230D10 /* Pods-Tests-macOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-macOSTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Tests-macOSTests/Pods-Tests-macOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D3E2B99C412D8D2601F517F0 /* libPods-Tests-macOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests-macOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55458B53EC08E31441AFE45E /* Pods-Tests-macOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests-macOSTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Tests-macOSTests/Pods-Tests-macOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ABD17BFE08278A5429B2D89A /* libPods-Tests-macOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests-macOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37DEFEC722501EB800C43F4D /* TesseractOCRmacOS.framework in Frameworks */,
-				DCA63C7339F680794D13C4ED /* libPods-Tests-macOSTests.a in Frameworks */,
+				2773913BF38EEF043834C378 /* libPods-Tests-macOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				334A6A4420B8B6C800AAA630 /* TesseractOCRmacOS.framework */,
-				D3E2B99C412D8D2601F517F0 /* libPods-Tests-macOSTests.a */,
+				ABD17BFE08278A5429B2D89A /* libPods-Tests-macOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -180,8 +180,8 @@
 		A7F9CC9531F50B19AF71EBDB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6C305C37EA60297EB4230D10 /* Pods-Tests-macOSTests.debug.xcconfig */,
-				56B74F9BEAF19339B9F32843 /* Pods-Tests-macOSTests.release.xcconfig */,
+				55458B53EC08E31441AFE45E /* Pods-Tests-macOSTests.debug.xcconfig */,
+				1EEF9DC6C06B6F0451F2F52B /* Pods-Tests-macOSTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -210,7 +210,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 334A6A3220B8AAA600AAA630 /* Build configuration list for PBXNativeTarget "Tests-macOSTests" */;
 			buildPhases = (
-				953AFDDD32EFDA1619628558 /* [CP] Check Pods Manifest.lock */,
+				F3DD23C1BA009A9BD4E7B87B /* [CP] Check Pods Manifest.lock */,
 				334A6A2720B8AAA600AAA630 /* Sources */,
 				334A6A2820B8AAA600AAA630 /* Frameworks */,
 				334A6A2920B8AAA600AAA630 /* Resources */,
@@ -285,7 +285,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		953AFDDD32EFDA1619628558 /* [CP] Check Pods Manifest.lock */ = {
+		F3DD23C1BA009A9BD4E7B87B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -504,7 +504,7 @@
 		};
 		334A6A3320B8AAA600AAA630 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C305C37EA60297EB4230D10 /* Pods-Tests-macOSTests.debug.xcconfig */;
+			baseConfigurationReference = 55458B53EC08E31441AFE45E /* Pods-Tests-macOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -531,7 +531,7 @@
 		};
 		334A6A3420B8AAA600AAA630 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 56B74F9BEAF19339B9F32843 /* Pods-Tests-macOSTests.release.xcconfig */;
+			baseConfigurationReference = 1EEF9DC6C06B6F0451F2F52B /* Pods-Tests-macOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
