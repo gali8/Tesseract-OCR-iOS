@@ -26,7 +26,7 @@ script:
       brew install automake autoconf autoconf-archive libtool pkgconfig icu4c;
       cd TesseractOCR && make clean && cd ..;
       rm -rfv TesseractOCR/{ios,macos}/lib/*.a;
-      xcodebuild -scheme "$LIB_SCHEME" -destination "platform=OS X" -workspace "Tesseract-OCR-iOS.xcworkspace" BUILD_DEPENDENT_LIBRARIES=true clean build;
+      xcodebuild -scheme "$LIB_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" BUILD_DEPENDENT_LIBRARIES=true clean build;
     fi
   - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" clean build | xcpretty -tc
   - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" -enableCodeCoverage YES $ACTION | xcpretty -tc
