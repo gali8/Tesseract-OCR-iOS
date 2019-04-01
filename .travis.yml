@@ -11,6 +11,7 @@ env:
 before_install:
   - gem install cocoapods
   - gem install xcpretty --no-document
+  - brew install automake autoconf autoconf-archive libtool pkgconfig icu4c
   - SIMULATOR_ID=$(xcrun instruments -s | grep -o "$DEVICE \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
   - echo "$SIMULATOR_ID"
   - ./scripts/before_install.sh
