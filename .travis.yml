@@ -9,9 +9,7 @@ env:
   - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS LIB_SCHEME=TesseractOCRmacOS BUILD_DEPENDENT_LIBRARIES=false
 
 before_install:
-  - gem install cocoapods
   - gem install xcpretty --no-document
-  - brew install automake autoconf autoconf-archive libtool pkgconfig icu4c
   - SIMULATOR_ID=$(xcrun instruments -s | grep -o "$DEVICE \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
   - echo "$SIMULATOR_ID"
   - ./scripts/before_install.sh
@@ -25,6 +23,7 @@ script:
       open -a "simulator" --args -CurrentDeviceUDID $SIMULATOR_ID || true; sleep 20;
     fi
   - if [ "$BUILD_DEPENDENT_LIBRARIES" = "true" ]; then
+      brew install automake autoconf autoconf-archive libtool pkgconfig icu4c;
       cd TesseractOCR && make clean && cd ..;
       rm -rfv TesseractOCR/{ios,macos}/lib/*.a;
       xcodebuild -scheme "$LIB_SCHEME" -destination "platform=OS X" -workspace "Tesseract-OCR-iOS.xcworkspace" BUILD_DEPENDENT_LIBRARIES=true clean build;
