@@ -924,7 +924,7 @@
 		};
 		84E5F9C61B7A2F4D0012381C /* Build Dependent Libraries */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (

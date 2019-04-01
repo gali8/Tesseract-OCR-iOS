@@ -3,10 +3,10 @@ osx_image: xcode10.2
 sudo: false
 
 env:
-  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS BUILD_DEPENDENT_LIBRARIES=true
-  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS BUILD_DEPENDENT_LIBRARIES=false
-  - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS BUILD_DEPENDENT_LIBRARIES=true
-  - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS BUILD_DEPENDENT_LIBRARIES=false
+  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS LIB_SCHEME=TesseractOCR BUILD_DEPENDENT_LIBRARIES=true
+  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS LIB_SCHEME=TesseractOCR BUILD_DEPENDENT_LIBRARIES=false
+  - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS LIB_SCHEME=TesseractOCRmacOS BUILD_DEPENDENT_LIBRARIES=true
+  - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS LIB_SCHEME=TesseractOCRmacOS BUILD_DEPENDENT_LIBRARIES=false
 
 before_install:
   - gem install cocoapods
@@ -22,6 +22,11 @@ script:
   - if [ "$DST" != "platform=OS X" ]; then
       echo "$SIMULARTOR_ID";
       open -a "simulator" --args -CurrentDeviceUDID $SIMULATOR_ID || true; sleep 20;
+    fi
+  - if [ "$BUILD_DEPENDENT_LIBRARIES" = "true" ]; then
+      cd TesseractOCR && make clean && cd ..;
+      rm -rfv TesseractOCR/{ios,macos}/lib/*.a;
+      xcodebuild -scheme "$LIB_SCHEME" -destination "platform=OS X" -workspace "Tesseract-OCR-iOS.xcworkspace" BUILD_DEPENDENT_LIBRARIES=true clean build;
     fi
   - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" clean build | xcpretty -tc
   - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" -enableCodeCoverage YES $ACTION | xcpretty -tc
