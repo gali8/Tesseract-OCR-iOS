@@ -34,9 +34,9 @@ ifeq ($(platform), ios)
 	SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
 	SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
 	IOS_DEPLOY_TGT="10.0"
-	PLATFORM_VERSION_MIN=iphoneos-version-min=$(IOS_DEPLOY_TGT)
 
 	sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH)
+	platform_version_mins = iphoneos-version-min=$(IOS_DEPLOY_TGT) ios-simulator-version-min=$(IOS_DEPLOY_TGT)
 	archs_all = arm64 x86_64
 	arch_names_all = arm-apple-darwin64 x86_64-apple-darwin
 	arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
@@ -46,9 +46,9 @@ else ifeq ($(platform), macos)
 	PLATFORM_PREFIX=macos
 	SDK_MACOS_PATH=$(shell xcrun --sdk macosx --show-sdk-path)
 	MACOS_DEPLOY_TGT="10.13"
-	PLATFORM_VERSION_MIN=macosx-version-min=$(MACOS_DEPLOY_TGT)
 
 	sdks = $(SDK_MACOS_PATH)
+	platform_version_mins = macosx-version-min=$(MACOS_DEPLOY_TGT)
 	archs_all = x86_64
 	arch_names_all = x86_64-apple-darwin
 	arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
@@ -67,7 +67,7 @@ TIFF_SRC  = $(IMG_SRC)/$(TIFF_NAME)
 IMAGE_SRC = $(IMG_SRC)/$(PLATFORM_PREFIX)
 
 IMAGE_LIB_DIR = $(IMAGE_SRC)/dependencies/lib/
-IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/include/
+IMAGE_INC_DIR = $(IMAGE_SRC)/dependencies/include
 INCLUDE_DIR   = $(shell pwd)/$(PLATFORM_PREFIX)/include
 LEPT_INC_DIR  = $(INCLUDE_DIR)
 TESS_INC_DIR  = $(INCLUDE_DIR)
@@ -98,7 +98,7 @@ libtiff    = $(addprefix $(IMAGE_LIB_DIR), $(libtifffiles))
 
 dependant_libs = $(libpngfat) $(libjpegfat) $(libtifffat) $(libleptfat) $(libtessfat)
 
-common_cflags = -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -m$(PLATFORM_VERSION_MIN) -O2
+common_cflags = -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -m$(call swap, $*, $(arch_names_all), $(platform_version_mins)) -O2
 
 ifneq (,$(filter $(platform),ios macos))
 .PHONY : all
@@ -137,7 +137,7 @@ $(TESSERACT_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(libtessconfig) $(libleptfat)
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 	ln -s $(LEPTON_SRC)/src/ leptonica ; \
-	../../configure CXX="$(TARGET_CXX) --target=$*" CC="$(TARGET_CC) --target=$*" --host=$* --prefix=`pwd` --enable-shared=no --disable-graphics
+	../../configure LIBS="-lz -lpng -ljpeg -ltiff" CXX="$(TARGET_CXX) --target=$*" CC="$(TARGET_CC) --target=$*" --host=$* --prefix=`pwd` --enable-shared=no --disable-graphics
 
 $(libtessconfig) : $(libtessautogen)
 	cd $(@D) && ./autogen.sh 2> /dev/null
@@ -168,7 +168,7 @@ $(LEPTON_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(imagesfat) $(libleptconfig)
 	export CC="$(TARGET_CC) --target=$*" ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
-	../../configure CXX="$(TARGET_CXX) --target=$*" CC="$(TARGET_CC) --target=$*" --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
+	../../configure LIBS="-lz -lpng -ljpeg -ltiff" CXX="$(TARGET_CXX) --target=$*" CC="$(TARGET_CC) --target=$*" --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
 
 $(libleptconfig) : $(libleptautogen)
 	cd $(@D) && ./autogen.sh 2> /dev/null
