@@ -23,6 +23,7 @@ script:
       open -a "simulator" --args -CurrentDeviceUDID $SIMULATOR_ID || true; sleep 20;
     fi
   - if [ "$BUILD_DEPENDENT_LIBRARIES" = "true" ]; then
+      brew uninstall --ignore-dependencies openjpeg webp;
       brew install automake autoconf autoconf-archive libtool pkgconfig icu4c;
       cd TesseractOCR && make clean && cd ..;
       rm -rfv TesseractOCR/{ios,macos}/lib/*.a;
