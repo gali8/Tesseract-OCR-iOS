@@ -27,6 +27,29 @@
 
 SPEC_BEGIN(RecognitionTests)
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+void (^testImageWithOrientationShouldContainText)(UIImage *image, UIImageOrientation orientation, NSString *text) = ^(UIImage *image, UIImageOrientation orientation, NSString *text) {
+    UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage
+                                                scale:image.scale
+                                          orientation:orientation];
+
+    NSAssert(image.imageOrientation != rotatedImage.imageOrientation, @"Error! Image has not been rotated");
+
+    G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
+    tesseract.image = rotatedImage;
+
+    [[theBlock(^{
+        [tesseract recognize];
+    }) shouldNot] raise];
+
+    NSString *recognizedText = tesseract.recognizedText;
+    [[recognizedText should] containString:text];
+
+    UIImage *thresholdedImage = tesseract.thresholdedImage;
+    [[theValue(thresholdedImage.imageOrientation) should] equal:theValue(UIImageOrientationUp)];
+};
+#endif
+
 __block G8RecognitionTestsHelper *helper;
 
 beforeEach(^{
@@ -69,6 +92,19 @@ describe(@"Simple image", ^{
         NSString *recognizedText = helper.tesseract.recognizedText;
         [[recognizedText should] containString:@"1234567890"];
     });
+
+    #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    it(@"Should recognize regardless of orientation", ^{
+        NSString *text = @"1234567890";
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"image_sample_left.jpg"], UIImageOrientationLeft, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"image_sample_right.jpg"], UIImageOrientationRight, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"image_sample_down.jpg"], UIImageOrientationDown, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"image_sample_up_mirrored.jpg"], UIImageOrientationUpMirrored, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"image_sample_left_mirrored.jpg"], UIImageOrientationLeftMirrored, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"image_sample_right_mirrored.jpg"], UIImageOrientationRightMirrored, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"image_sample_down_mirrored.jpg"], UIImageOrientationDownMirrored, text);
+    });
+    #endif
 
     describe(@"Subimage", ^{
 
@@ -298,6 +334,18 @@ describe(@"Well scanned page", ^{
         [[[[helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
     });
 
+    #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    it(@"Should recognize regardless of orientation", ^{
+        NSString *text = kG8WellScanedFinalLongString;
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"well_scanned_page_left"], UIImageOrientationLeft, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"well_scanned_page_right"], UIImageOrientationRight, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"well_scanned_page_down"], UIImageOrientationDown, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"well_scanned_page_up_mirrored"], UIImageOrientationUpMirrored, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"well_scanned_page_left_mirrored"], UIImageOrientationLeftMirrored, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"well_scanned_page_right_mirrored"], UIImageOrientationRightMirrored, text);
+        testImageWithOrientationShouldContainText([XPlatformImage imageWithName:@"well_scanned_page_down_mirrored"], UIImageOrientationDownMirrored, text);
+    });
+    #endif
 });
 
 #pragma mark - hierarchical data
