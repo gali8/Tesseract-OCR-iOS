@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.ios.private_header_files   = 'TesseractOCR/ios/include/**/*.h'
   s.ios.frameworks             = 'UIKit', 'Foundation'
 
-  s.ios.deployment_target      = '10.0'
+  s.ios.deployment_target      = '11.0'
   s.ios.vendored_library       = 'TesseractOCR/ios/lib/*.a'
 
   s.macos.source_files         = 'TesseractOCR/*.{h,m,mm}', 'TesseractOCR/macos/include/**/*.h'
