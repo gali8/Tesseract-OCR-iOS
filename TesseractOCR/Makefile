@@ -33,7 +33,7 @@ ifeq ($(platform), ios)
 	PLATFORM_PREFIX=ios
 	SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
 	SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
-	IOS_DEPLOY_TGT="10.0"
+	IOS_DEPLOY_TGT="11.0"
 
 	sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH)
 	platform_version_mins = iphoneos-version-min=$(IOS_DEPLOY_TGT) ios-simulator-version-min=$(IOS_DEPLOY_TGT)
