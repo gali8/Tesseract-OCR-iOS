@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		37DEFECE2250232300C43F4D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DEFECD2250232300C43F4D /* TesseractOCR.framework */; };
+		379D0556234D0E8C008038A6 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DEFECD2250232300C43F4D /* TesseractOCR.framework */; };
+		379D0557234D0E8C008038A6 /* TesseractOCR.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37DEFECD2250232300C43F4D /* TesseractOCR.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F9A489F12037776A00887BDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A489F02037776A00887BDC /* AppDelegate.swift */; };
 		F9A489F32037776A00887BDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A489F22037776A00887BDC /* ViewController.swift */; };
 		F9A489F62037776A00887BDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9A489F42037776A00887BDC /* Main.storyboard */; };
@@ -15,6 +16,20 @@
 		F9A489FB2037776A00887BDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9A489F92037776A00887BDC /* LaunchScreen.storyboard */; };
 		F9A48A18203781AE00887BDC /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = F9A48A17203781AD00887BDC /* tessdata */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		379D0558234D0E8C008038A6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				379D0557234D0E8C008038A6 /* TesseractOCR.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		37DEFECD2250232300C43F4D /* TesseractOCR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37DEFECE2250232300C43F4D /* TesseractOCR.framework in Frameworks */,
+				379D0556234D0E8C008038A6 /* TesseractOCR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +104,7 @@
 				F9A489E92037776A00887BDC /* Sources */,
 				F9A489EA2037776A00887BDC /* Frameworks */,
 				F9A489EB2037776A00887BDC /* Resources */,
+				379D0558234D0E8C008038A6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
