@@ -1,25 +1,36 @@
 language: objective-c
-os: osx
-osx_image: xcode10.1
-xcode_workspace: Tesseract-OCR-iOS.xcworkspace
-# these sdks are not yet supported in xcode7 build envirenment
-xcode_sdk:
-#    - iphonesimulator7.1
-#    - iphonesimulator8.1
-#    - iphonesimulator9.0
-     - iphonesimulator12.1
-xcode_scheme:
-    #- Template Framework Project
-    #- TestsProject
+osx_image: xcode10.2
+sudo: false
+
 env:
-    - BUILD_DEPENDENT_LIBRARIES=true
-    - BUILD_DEPENDENT_LIBRARIES=false
+  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS LIB_SCHEME=TesseractOCR BUILD_DEPENDENT_LIBRARIES=true
+  - iOS= DST='platform=iOS Simulator,name=iPhone Xs' ACTION=test DEVICE='iPhone Xs (12.2)' XC_SCHEME=Tests-iOS LIB_SCHEME=TesseractOCR BUILD_DEPENDENT_LIBRARIES=false
+  - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS LIB_SCHEME=TesseractOCRmacOS BUILD_DEPENDENT_LIBRARIES=true
+  - macOS= DST='platform=OS X' ACTION=test XC_SCHEME=Tests-macOS LIB_SCHEME=TesseractOCRmacOS BUILD_DEPENDENT_LIBRARIES=false
 
 before_install:
-    - gem install cocoapods -v '1.5.3'
-    - brew uninstall xctool
-    - brew install xctool --HEAD
-    - xctool --version
-    - ./scripts/before_install.sh
+  - gem install xcpretty --no-document
+  - SIMULATOR_ID=$(xcrun instruments -s | grep -o "$DEVICE \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
+  - echo "$SIMULATOR_ID"
+  - ./scripts/before_install.sh
+
+script:
+  - set -o pipefail
+  - xcodebuild -version
+  - xcodebuild -workspace Tesseract-OCR-iOS.xcworkspace -list
+  - if [ "$DST" != "platform=OS X" ]; then
+      echo "$SIMULARTOR_ID";
+      open -a "simulator" --args -CurrentDeviceUDID $SIMULATOR_ID || true; sleep 20;
+    fi
+  - if [ "$BUILD_DEPENDENT_LIBRARIES" = "true" ]; then
+      brew uninstall --ignore-dependencies openjpeg webp;
+      brew install automake autoconf autoconf-archive libtool pkgconfig icu4c;
+      cd TesseractOCR && make clean && cd ..;
+      rm -rfv TesseractOCR/{ios,macos}/lib/*.a;
+      xcodebuild -scheme "$LIB_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" BUILD_DEPENDENT_LIBRARIES=true clean build;
+    fi
+  - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" clean build | xcpretty -tc
+  - xcodebuild -scheme "$XC_SCHEME" -destination "$DST" -workspace "Tesseract-OCR-iOS.xcworkspace" -enableCodeCoverage YES $ACTION | xcpretty -tc
+
 after_success:
-    ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include --exclude-folder TestsProject
+  ./scripts/coveralls.rb --extension m --extension mm --exclude-folder include --exclude-folder Tests --exclude-folder Tests-iOS --exclude-folder Tests-macOS

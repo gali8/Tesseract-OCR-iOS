@@ -7,7 +7,13 @@
 //  All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 #import <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <AppKit/AppKit.h>
+#endif
+
 #import "G8Constants.h"
 
 /**

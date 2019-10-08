@@ -7,17 +7,17 @@ from time import gmtime, strftime
 ### Converter settings: ###
 
 repo = "https://code.google.com/p/tesseract-ocr/"
-repoTag = "3.03-rc1"
+repoTag = "4.0.0-beta-1"
 
 baseHeadersDir = "tesseract-ocr"
 headers = [
-    "ccmain/tesseractclass.h",
-    "classify/classify.h",
-    "dict/dict.h",
-    "textord/textord.h",
-    "textord/makerow.cpp",
-    "wordrec/language_model.h",
-    "wordrec/wordrec.h",
+    "src/ccmain/tesseractclass.h",
+    "src/classify/classify.h",
+    "src/dict/dict.h",
+    "src/textord/textord.h",
+    "src/textord/makerow.cpp",
+    "src/wordrec/language_model.h",
+    "src/wordrec/wordrec.h",
 ]
 resultClassPath = "./"
 resultClassName = "G8TesseractParameters"
@@ -32,7 +32,7 @@ copyrights = '''//
 //  This code is auto-generated from Tesseract headers.
 //
 //  Created by Nikolay Volosatov on %s.
-//  Copyright (c) %s Daniele Galiotto - www.g8production.com. 
+//  Copyright (c) %s Daniele Galiotto - www.g8production.com.
 //  All rights reserved.
 //
 ''' % ("%s", strftime("%d/%m/%y", gmtime()), strftime("%Y", gmtime()))
@@ -53,14 +53,12 @@ codeTemplate = '''%s
 
 externVarTemplate = '''
 ///%s
-///@param Type %s
-///@param Default %s
+///@brief Type %s Default %s
 extern NSString *const %s;
 '''
 depricatedExternVarTemplate = '''
 ///%s
-///@param Type %s
-///@param Default %s
+///@brief Type %s Default %s
 extern NSString *const %s DEPRECATED_ATTRIBUTE;
 '''
 codeVarTemplate = 'NSString *const %s = @"%s";\n'
@@ -83,7 +81,7 @@ for header in headers:
     f = open(baseHeadersDir + "/" + header, "r")
     content = str(f.read())
     f.close()
-    # Split actual and depricated parameters
+    # Split actual and deprecated parameters
     splited = content.split('BEGIN DEPRECATED PARAMETERS')
     if not len(splited) == 2:
         splited = (splited[0], "")
