@@ -811,7 +811,7 @@ namespace tesseract {
 		block.isNumeric = iterator->WordIsNumeric();
 		block.isBold = isBold;
 		block.isItalic = isItalic;
-	} else if (iteratorLevel == G8PageIteratorLevelSymbol) {
+	} else if (iteratorLevel == G8PageIteratorLevelSymbol && block.text != nil) {
 		// get character choices
 		NSMutableArray *choices = [NSMutableArray array];
 
@@ -847,24 +847,26 @@ namespace tesseract {
     if (resultIterator != NULL) {
         do {
             G8RecognizedBlock *block = [self blockFromIterator:resultIterator iteratorLevel:G8PageIteratorLevelSymbol];
-            NSMutableArray *choices = [NSMutableArray array];
+            if(block.text != nil) {
+                NSMutableArray *choices = [NSMutableArray array];
 
-            tesseract::ChoiceIterator choiceIterator(*resultIterator);
-            do {
-                const char *choiceWord = choiceIterator.GetUTF8Text();
-                if (choiceWord != NULL) {
-                    NSString *text = [NSString stringWithUTF8String:choiceWord];
-                    CGFloat confidence = choiceIterator.Confidence();
+                tesseract::ChoiceIterator choiceIterator(*resultIterator);
+                do {
+                    const char *choiceWord = choiceIterator.GetUTF8Text();
+                    if (choiceWord != NULL) {
+                        NSString *text = [NSString stringWithUTF8String:choiceWord];
+                        CGFloat confidence = choiceIterator.Confidence();
 
-                    G8RecognizedBlock *choiceBlock = [[G8RecognizedBlock alloc] initWithText:text
-                                                                                 boundingBox:block.boundingBox
-                                                                                  confidence:confidence
-                                                                                       level:G8PageIteratorLevelSymbol];
-                    [choices addObject:choiceBlock];
-                }
-            } while (choiceIterator.Next());
+                        G8RecognizedBlock *choiceBlock = [[G8RecognizedBlock alloc] initWithText:text
+                                                                                     boundingBox:block.boundingBox
+                                                                                      confidence:confidence
+                                                                                           level:G8PageIteratorLevelSymbol];
+                        [choices addObject:choiceBlock];
+                    }
+                } while (choiceIterator.Next());
 
-            [array addObject:[choices copy]];
+                [array addObject:[choices copy]];
+            }
         } while (resultIterator->Next(tesseract::RIL_SYMBOL));
         delete resultIterator;
     }

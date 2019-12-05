@@ -229,6 +229,13 @@ describe(@"Blank image", ^{
         helper.customPreprocessingType = G8CustomPreprocessingSimpleThreshold;
     });
 
+    it(@"Should not crash when accessing character choices", ^{
+        [helper recognizeImage];
+        [[theBlock(^{
+            [helper.tesseract characterChoices];
+        }) shouldNot] raise];
+    });
+
     it(@"Should recognize nothing", ^{
         [helper recognizeImage];
 
@@ -358,6 +365,14 @@ describe(@"Hierarchical Data", ^{
         return [helper.tesseract recognizedHierarchicalBlocksByIteratorLevel:level];
     };
 
+    it(@"Should not crash with empty image", ^{
+        [[theBlock(^{
+            helper.image = [XPlatformImage imageWithName:@"image_blank.png"];
+            [helper recognizeImage];
+            [helper.tesseract recognizedHierarchicalBlocksByIteratorLevel:G8PageIteratorLevelBlock];
+        }) shouldNot] raise]; 
+    });
+    
     it(@"Should recognize structure of sample image", ^{
         NSArray *blocks = recognizedHierarchicalBlocksForImageWithName(@"image_sample.jpg", G8PageIteratorLevelBlock);
         [[[blocks should] haveAtLeast:1] items];
