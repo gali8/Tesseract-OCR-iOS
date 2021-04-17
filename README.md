@@ -1,6 +1,10 @@
 # Tesseract OCR iOS
 
-[![Build Status](https://travis-ci.org/gali8/Tesseract-OCR-iOS.svg?branch=master)](https://travis-ci.org/gali8/Tesseract-OCR-iOS) [![Coverage Status](https://img.shields.io/coveralls/gali8/Tesseract-OCR-iOS.svg)](https://coveralls.io/r/gali8/Tesseract-OCR-iOS) [![](https://img.shields.io/cocoapods/v/TesseractOCRiOS.svg)](http://cocoapods.org/?q=tesseractocrios) [![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg)](http://cocoapods.org/?q=tesseractocrios)  [![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg)](https://github.com/gali8/Tesseract-OCR-iOS/blob/master/LICENSE.md)
+[![Build Status](https://travis-ci.org/gali8/Tesseract-OCR-iOS.svg?branch=master)](https://travis-ci.org/gali8/Tesseract-OCR-iOS)
+[![Coverage Status](https://coveralls.io/repos/github/gali8/Tesseract-OCR-iOS/badge.svg?branch=master)](https://coveralls.io/github/gali8/Tesseract-OCR-iOS?branch=master)
+[![](https://img.shields.io/cocoapods/v/TesseractOCRiOS.svg)](https://cocoapods.org/pods/Tesseractocrios)
+[![](https://img.shields.io/cocoapods/p/TesseractOCRiOS.svg)](http://cocoapods.org/?q=tesseractocrios)
+[![](https://img.shields.io/cocoapods/l/TesseractOCRiOS.svg)](https://github.com/gali8/Tesseract-OCR-iOS/blob/master/LICENSE.md)
 
 **Use Tesseract OCR in iOS 9.0+ projects written in either Objective-C or Swift.
 Easy and fast.**
@@ -45,7 +49,7 @@ Buy me a beer
 =================
 #### If you like my work, please buy me a beer (tap the beer):
 <p align="left">
-<a href="http://www.g8production.com/Beer#_=_" alt="If you like my work, please buy me a beer ">
+<a href="https://g8production.tumblr.com/beer" alt="If you like my work, please buy me a beer ">
 <img style="-webkit-user-select: none;"
 src="http://68.media.tumblr.com/3243ca9030c3fa14ca3042344ae3d510/tumblr_inline_ng26w7z8SG1qmlajm.png">
 </a>
@@ -53,7 +57,7 @@ src="http://68.media.tumblr.com/3243ca9030c3fa14ca3042344ae3d510/tumblr_inline_n
 
 ## Contributors
 
-Daniele Galiotto (founder) - iOS Freelance Developer -
+Daniele Galiotto (founder) - Co-Founder at Nexor Technology srl -
 **[www.nexor.it](http://www.nexor.it)**
 
 Kevin Conley - **[www.kevintechnology.com](http://www.kevintechnology.com)**
