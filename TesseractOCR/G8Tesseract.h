@@ -170,10 +170,11 @@ extern NSInteger const kG8MaxCredibleResolution;
      *  Produces a PDF output with the pages sent to the function
      *  @param  images  An array of the input images being recognized and
      *                  included into the output PDF file.
+     *  @param  outputbase  The base directory that should be used to store the output.
      *  @return NSData  representing output PDF file or nil if error occured or
      *                  the engine is not properly configured.
      */
-- (NSData *_Nullable)recognizedPDFForImages:(NSArray*_Nonnull)images;
+- (NSData *_Nullable)recognizedPDFForImages:(NSArray*_Nonnull)images outputbase:(NSString*_Nonnull)outputbase;
 
     /**
      *  Run Tesseract's page analysis on the target image.

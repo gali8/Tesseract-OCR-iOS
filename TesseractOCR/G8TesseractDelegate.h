@@ -55,7 +55,7 @@
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (UIImage * _Nullable)preprocessedImageForTesseract:(G8Tesseract * _Nonnull)tesseract sourceImage:(UIImage * _Nonnull)sourceImage;
 #elif TARGET_OS_MAC
-- (NSImage * _NullablepreprocessedImageForTesseract:(G8Tesseract * _Nonnull)tesseract sourceImage:(NSImage * _Nonnull)sourceImage;
+- (NSImage * _Nullable)preprocessedImageForTesseract:(G8Tesseract * _Nonnull)tesseract sourceImage:(NSImage * _Nonnull)sourceImage;
 #endif
 
 @end

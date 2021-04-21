@@ -156,6 +156,8 @@
 		33A5D99420BA2E380038CE67 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33A5D98F20BA2E370038CE67 /* libjpeg.a */; };
 		33A5D99520BA2E380038CE67 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33A5D99020BA2E370038CE67 /* libpng.a */; };
 		33A5D99620BA2E380038CE67 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33A5D99120BA2E380038CE67 /* libtiff.a */; };
+		3777992F2630025800AC8364 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3777992E2630025800AC8364 /* libwebp.a */; };
+		377799332630027400AC8364 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 377799322630027400AC8364 /* libwebp.a */; };
 		73C0A7961A5932C400D823D4 /* G8Tesseract.h in Headers */ = {isa = PBXBuildFile; fileRef = 64A029D617307CD0002B12E7 /* G8Tesseract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73C0A7971A5932C800D823D4 /* G8Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64A029D717307CD0002B12E7 /* G8Tesseract.mm */; };
 		73C0A7981A5932CC00D823D4 /* G8TesseractDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -318,6 +320,8 @@
 		33A5D99020BA2E370038CE67 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = TesseractOCR/macos/lib/libpng.a; sourceTree = "<group>"; };
 		33A5D99120BA2E380038CE67 /* libtiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtiff.a; path = TesseractOCR/macos/lib/libtiff.a; sourceTree = "<group>"; };
 		33E94E74207540260005399D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		3777992E2630025800AC8364 /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = TesseractOCR/macos/lib/libwebp.a; sourceTree = "<group>"; };
+		377799322630027400AC8364 /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = TesseractOCR/ios/lib/libwebp.a; sourceTree = "<group>"; };
 		4141211F1A4C578800583ED4 /* G8TesseractDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = G8TesseractDelegate.h; sourceTree = "<group>"; };
 		418997A71A42CC8B00D6477C /* G8Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8Constants.h; sourceTree = "<group>"; };
 		41A95DE81A3AF39B0085093C /* G8TesseractParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = G8TesseractParameters.h; sourceTree = "<group>"; };
@@ -423,6 +427,7 @@
 				33A5D99620BA2E380038CE67 /* libtiff.a in Frameworks */,
 				33A5D99520BA2E380038CE67 /* libpng.a in Frameworks */,
 				33A5D99420BA2E380038CE67 /* libjpeg.a in Frameworks */,
+				3777992F2630025800AC8364 /* libwebp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +441,7 @@
 				33A5D6D720B98B730038CE67 /* libtiff.a in Frameworks */,
 				33A5D6D520B98B730038CE67 /* libpng.a in Frameworks */,
 				33A5D6D320B98B730038CE67 /* libjpeg.a in Frameworks */,
+				377799332630027400AC8364 /* libwebp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

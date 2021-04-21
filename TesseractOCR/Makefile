@@ -1,6 +1,14 @@
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+.DELETE_ON_ERROR:
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
+MAKEFLAGS += --debug
+
 PNG_NAME    = libpng-1.6.36
 JPEG_NAME   = jpeg-9c
 TIFF_NAME   = tiff-4.0.10
+WEBP_NAME   = libwebp-1.2.0
 
 TESSERACT_SRC = $(shell pwd)/tesseract-ocr
 LEPTON_SRC = $(shell pwd)/leptonica
@@ -11,6 +19,7 @@ libleptfiles = liblept.a
 libpngfiles = libpng.a
 libjpegfiles = libjpeg.a
 libtifffiles = libtiff.a
+libwebpfiles = libwebp.a
 
 libtessautogen = $(TESSERACT_SRC)/autogen.sh
 libtessconfig = $(TESSERACT_SRC)/configure
@@ -59,6 +68,7 @@ endif
 PNG_SRC   = $(IMG_SRC)/$(PNG_NAME)
 JPEG_SRC  = $(IMG_SRC)/$(JPEG_NAME)
 TIFF_SRC  = $(IMG_SRC)/$(TIFF_NAME)
+WEBP_SRC  = $(IMG_SRC)/$(WEBP_NAME)
 
 # TOOD: Rename IMAGE_SRC and maybe IMG_SRC to be more descriptive
 IMAGE_SRC = $(IMG_SRC)/$(PLATFORM_PREFIX)
@@ -81,19 +91,21 @@ imagesmakefile  = $(addprefix $(IMAGE_SRC)/, Makefile)
 
 libleptfat = $(LIB_FAT_DIR)/$(libleptfiles)
 libtessfat = $(LIB_FAT_DIR)/$(libtessfiles)
-imagesfat  = $(libpngfat) $(libjpegfat) $(libtifffat)
+imagesfat  = $(libpngfat) $(libjpegfat) $(libtifffat) $(libwebpfat)
 libpngfat  = $(LIB_FAT_DIR)/$(libpngfiles)
 libjpegfat = $(LIB_FAT_DIR)/$(libjpegfiles)
 libtifffat = $(LIB_FAT_DIR)/$(libtifffiles)
+libwebpfat = $(LIB_FAT_DIR)/$(libwebpfiles)
 
 libtess    = $(foreach folder, $(libtessfolders), $(addprefix $(folder)lib/, $(libtessfiles)) )
 liblept    = $(foreach folder, $(libleptfolders), $(addprefix $(folder)lib/, $(libleptfiles)) )
-images     = $(libpng) $(libjpeg) $(libtiff)
+images     = $(libpng) $(libjpeg) $(libtiff) $(libwebp)
 libpng     = $(addprefix $(IMAGE_LIB_DIR), $(libpngfiles))
 libjpeg    = $(addprefix $(IMAGE_LIB_DIR), $(libjpegfiles))
 libtiff    = $(addprefix $(IMAGE_LIB_DIR), $(libtifffiles))
+libwebp    = $(addprefix $(IMAGE_LIB_DIR), $(libwebpfiles))
 
-dependant_libs = $(libpngfat) $(libjpegfat) $(libtifffat) $(libleptfat) $(libtessfat)
+dependant_libs = $(libpngfat) $(libjpegfat) $(libtifffat) $(libwebpfat) $(libleptfat) $(libtessfat)
 
 common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -m$(PLATFORM_VERSION_MIN) -O2
 
@@ -120,7 +132,7 @@ $(libtess) : $(libtessmakefile)
 	cd $(abspath $(@D)/..) && $(MAKE) -sj8 && $(MAKE) install
 
 $(TESSERACT_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(libtessconfig) $(libleptfat)
-	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
+	export LIBS="-lz -lpng -ljpeg -ltiff -lwebp" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names_all), $(sdks))" ; \
 	export CFLAGS="-I$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/ $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
@@ -150,13 +162,13 @@ $(liblept) : $(libleptmakefile)
 	$(MAKE) -sj8 && $(MAKE) install
 
 $(LEPTON_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(imagesfat) $(libleptconfig)
-	export LIBS="-lz -lpng -ljpeg -ltiff" ; \
+	export LIBS="-lz -lpng -ljpeg -ltiff -lwebp" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names_all), $(sdks))" ; \
 	export CFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
 	export CXXFLAGS="-I$(INCLUDE_DIR) $(common_cflags) -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LIB_FAT_DIR)" ; \
-	export PKG_CONFIG_PATH=$(PNG_SRC)/$*/:$(JPEG_SRC)/$*/:$(TIFF_SRC)/$*/ ; \
+	export PKG_CONFIG_PATH=$(PNG_SRC)/$*/:$(JPEG_SRC)/$*/:$(TIFF_SRC)/$*/:$(WEBP_SRC)/$*/ ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 	../../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-programs --with-zlib --with-libpng --with-jpeg --without-giflib --with-libtiff
@@ -175,7 +187,7 @@ $(imagesfat) : $(images)
 
 $(images) : $(imagesmakefile) FORCE
 	cd $(IMG_SRC)/ ; \
-	until `$(MAKE) -s platform=$(platform)`; do sleep 5; done
+	$(MAKE) -s platform=$(platform)
 
 #######################
 # Download dependencies
