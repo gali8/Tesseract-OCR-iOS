@@ -173,7 +173,7 @@ extern NSInteger const kG8MaxCredibleResolution;
      *  @return NSData  representing output PDF file or nil if error occured or
      *                  the engine is not properly configured.
      */
-- (NSData *_Nullable)recognizedPDFForImages:(NSArray*_Nonnull)images;
+- (NSData *_Nullable)recognizedPDFForImages:(NSArray*_Nonnull)images outputbase:(NSString *)outputbase;
 
     /**
      *  Run Tesseract's page analysis on the target image.
@@ -324,7 +324,7 @@ extern NSInteger const kG8MaxCredibleResolution;
      *          nor any other settings specified. You can set the language later,
      *          using language property.
      */
-- (nonnull instancetype)init NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init;
 
     /**
      *  Initialize Tesseract with the provided language.
@@ -387,6 +387,7 @@ extern NSInteger const kG8MaxCredibleResolution;
 - (nullable instancetype)initWithLanguage:(nonnull NSString *)language
                            configDictionary:(nonnull NSDictionary *)configDictionary
                             configFileNames:(nonnull NSArray *)configFileNames
+                        // TODO: This should probably be named cachesRelativeDataPath
                       cachesRelatedDataPath:(nonnull NSString *)cachesRelatedDataPath
                                  engineMode:(G8OCREngineMode)engineMode;
 
@@ -431,7 +432,7 @@ extern NSInteger const kG8MaxCredibleResolution;
                           configDictionary:(nonnull NSDictionary *)configDictionary
                            configFileNames:(nonnull NSArray *)configFileNames
                           absoluteDataPath:(nonnull NSString *)absoluteDataPath
-                                engineMode:(G8OCREngineMode)engineMode;
+                                engineMode:(G8OCREngineMode)engineMode NS_DESIGNATED_INITIALIZER;
 
     /**
      *  Set a Tesseract variable. See G8TesseractParameters.h for the available

@@ -79,7 +79,7 @@ describe(@"Tesseract initialization", ^{
     context(@"Should check common functions", ^{
 
         it(@"Should print version", ^{
-            [[[G8Tesseract version] should] equal:@"4.0.0-beta.3"];
+            [[[G8Tesseract version] should] equal:@"4.0.0"];
         });
 
         it(@"Should not raise on cache clearing", ^{
@@ -129,7 +129,7 @@ describe(@"Tesseract initialization", ^{
             [[text should] beNil];
         });
 
-        it(@"Should set original image if pixForImage for preprocessed image retuens nil", ^{
+        it(@"Should set original image if pixForImage for preprocessed image returns nil", ^{
             G8RecognitionTestsHelper *helper = [[G8RecognitionTestsHelper alloc] init];
             [helper setupTesseract];
             helper.tesseract.delegate = helper;

@@ -13,7 +13,6 @@ static float const kG8MinimalSimilarity = 0.99;
 @implementation NSData (G8Equal)
 
 - (float)g8_similarityWithData:(NSData *)data {
-  
   NSUInteger numDifferences = 0;
   NSUInteger totalCompares = self.length;
   

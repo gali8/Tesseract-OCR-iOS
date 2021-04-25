@@ -98,16 +98,48 @@ namespace tesseract {
     return [NSString stringWithUTF8String:version];
 }
 
-+ (void)clearCache
-{
++ (void)clearCache {
     tesseract::TessBaseAPI::ClearPersistentCache();
 }
 
-
 - (instancetype)init {
-    self = [super init];
-    if (self != nil) {
+    return [self initWithLanguage:nil];
+}
 
+- (instancetype)initWithLanguage:(NSString*)language {
+    return [self initWithLanguage:language engineMode:G8OCREngineModeTesseractOnly];
+}
+
+- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode {
+    return [self initWithLanguage:language configDictionary:@{} configFileNames:@[] absoluteDataPath:nil engineMode:engineMode];
+}
+
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+           cachesRelatedDataPath:(NSString *)cachesRelatedPath
+                      engineMode:(G8OCREngineMode)engineMode {
+    NSString *absoluteDataPath = nil;
+
+    if (cachesRelatedPath != nil) {
+        // config Tesseract to search trainedData in tessdata folder of the Caches folder
+        NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *cachesPath = cachesPaths.firstObject;
+
+        absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
+    }
+
+    return [self initWithLanguage:language configDictionary:configDictionary configFileNames:configFileNames absoluteDataPath:absoluteDataPath engineMode:engineMode];
+}
+
+- (instancetype)initWithLanguage:(NSString *)language
+                configDictionary:(NSDictionary *)configDictionary
+                 configFileNames:(NSArray *)configFileNames
+                absoluteDataPath:(NSString *)absoluteDataPath
+                      engineMode:(G8OCREngineMode)engineMode {
+    self = [super init];
+
+    if (self != nil) {
         _pageSegmentationMode = G8PageSegmentationModeSingleBlock;
         _variables = [NSMutableDictionary dictionary];
         _sourceResolution = kG8DefaultResolution;
@@ -117,76 +149,20 @@ namespace tesseract {
         _monitor->cancel = tesseractCancelCallbackFunction;
         _monitor->cancel_this = (__bridge void*)self;
 
-        // config Tesseract to search traineddata in tessdata folder of the application bundle
-        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-        _absoluteDataPath = [NSBundle mainBundle].bundlePath;
-        #elif TARGET_OS_MAC
-        _absoluteDataPath = [[NSBundle mainBundle] resourcePath];
-        #endif
-
-        // TODO: Do we still want this?
-        setenv("TESSDATA_PREFIX", [_absoluteDataPath stringByAppendingString:@"/"].fileSystemRepresentation, 1);
-
-    }
-    return self;
-}
-
-- (instancetype)initWithLanguage:(NSString*)language
-{
-    self = [self init];
-    self.language = language.copy;
-    return self;
-}
-
-- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode {
-    self = [self initWithLanguage:language];
-    _engineMode = engineMode;
-    return self;
-}
-
-- (instancetype)initWithLanguage:(NSString *)language
-                configDictionary:(NSDictionary *)configDictionary
-                 configFileNames:(NSArray *)configFileNames
-           cachesRelatedDataPath:(NSString *)cachesRelatedPath
-                      engineMode:(G8OCREngineMode)engineMode {
-
-    // config Tesseract to search trainedData in tessdata folder of the Caches folder
-    NSArray *cachesPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachesPath = cachesPaths.firstObject;
-
-    NSString *absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
-
-
-    self = [self initWithLanguage:language engineMode:engineMode];
-
-    if (configFileNames) {
-        NSAssert([configFileNames isKindOfClass:[NSArray class]], @"Error! configFileNames should be of type NSArray");
-    }
-
-    _absoluteDataPath = absoluteDataPath.copy;
-    _configDictionary = configDictionary;
-    _configFileNames = configFileNames;
-
-    return self;
-}
-
-- (instancetype)initWithLanguage:(NSString *)language
-                configDictionary:(NSDictionary *)configDictionary
-                 configFileNames:(NSArray *)configFileNames
-                absoluteDataPath:(NSString *)absoluteDataPath
-                      engineMode:(G8OCREngineMode)engineMode {
-
-    self = [self initWithLanguage:language engineMode:engineMode];
-
-
-    if (self != nil) {
+        _configDictionary = configDictionary;
+        _configFileNames = configFileNames;
 
         if (absoluteDataPath != nil) {
             [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
+            _absoluteDataPath = absoluteDataPath.copy;
+        } else {
+            // config Tesseract to search traineddata in tessdata folder of the application bundle
+            #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+            _absoluteDataPath = [NSBundle mainBundle].bundlePath;
+            #elif TARGET_OS_MAC
+            _absoluteDataPath = [[NSBundle mainBundle] resourcePath];
+            #endif
         }
-        _absoluteDataPath = absoluteDataPath.copy;
-        _configDictionary = configDictionary;
-        _configFileNames = configFileNames;
 
         if ([[_absoluteDataPath substringFromIndex:_absoluteDataPath.length - 1] isEqual:@"/"]) {
             _absoluteDataPath = [_absoluteDataPath substringToIndex:_absoluteDataPath.length - 1];
@@ -200,11 +176,13 @@ namespace tesseract {
 
         setenv("TESSDATA_PREFIX", _absoluteDataPath.fileSystemRepresentation, 1);
     }
+
+    self.language = language == nil ? @"eng" : language.copy;
+
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     if (_monitor != nullptr) {
         delete _monitor;
         _monitor = nullptr;
@@ -213,7 +191,6 @@ namespace tesseract {
 }
 
 - (void)freeTesseract {
-
     if (_tesseract != nullptr) {
         // There is no needs to call Clear() and End() explicitly.
         // End() is sufficient to free up all memory of TessBaseAPI.
@@ -223,8 +200,7 @@ namespace tesseract {
     }
 }
 
-- (BOOL)configEngine
-{
+- (BOOL)configEngine {
     __block GenericVector<STRING> tessKeys;
     __block GenericVector<STRING> tessValues;
     [self.configDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *val, BOOL *stop) {
@@ -249,14 +225,12 @@ namespace tesseract {
     return returnCode == 0;
 }
 
-- (void)resetFlags
-{
+- (void)resetFlags {
     self.recognized = NO;
     self.layoutAnalysed = NO;
 }
 
-- (BOOL)resetEngine
-{
+- (BOOL)resetEngine {
     BOOL isInitDone = [self configEngine];
     if (isInitDone) {
         [self loadVariables];
@@ -273,7 +247,6 @@ namespace tesseract {
 }
 
 - (void)setOtherCachedValues {
-
     if (_image) {
         [self setEngineImage:_image];
     }
@@ -285,8 +258,7 @@ namespace tesseract {
                     forKey:kG8ParamTesseditPagesegMode];
 }
 
-- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath
-{
+- (BOOL)moveTessdataToDirectoryIfNecessary:(NSString *)directoryPath {
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     // Useful paths
@@ -343,8 +315,7 @@ namespace tesseract {
     return result;
 }
 
-- (void)setVariableValue:(NSString *)value forKey:(NSString *)key
-{
+- (void)setVariableValue:(NSString *)value forKey:(NSString *)key {
     /*
      * Example:
      * _tesseract->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -365,7 +336,6 @@ namespace tesseract {
 }
 
 - (NSString*)variableValueForKey:(NSString *)key {
-
     if (!self.isEngineConfigured) {
         return self.variables[key];
     } else {
@@ -375,15 +345,13 @@ namespace tesseract {
     }
 }
 
-- (void)setVariablesFromDictionary:(NSDictionary *)dictionary
-{
+- (void)setVariablesFromDictionary:(NSDictionary *)dictionary {
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
         [self setVariableValue:value forKey:key];
     }];
 }
 
-- (void)loadVariables
-{
+- (void)loadVariables {
     if (self.isEngineConfigured) {
         [self.variables enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
             self->_tesseract->SetVariable(key.UTF8String, value.UTF8String);
@@ -394,7 +362,6 @@ namespace tesseract {
 #pragma mark - Internal getters and setters
 
 - (tesseract::TessBaseAPI *)tesseract {
-
     if (!_tesseract) {
         _tesseract = new tesseract::TessBaseAPI();
     }
@@ -404,7 +371,6 @@ namespace tesseract {
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 
 - (void)setEngineImage:(UIImage *)image {
-
     if (image.size.width <= 0 || image.size.height <= 0) {
         NSLog(@"ERROR: Image has invalid size!");
         return;
@@ -663,20 +629,17 @@ namespace tesseract {
     }
 }
 
-- (NSUInteger)progress
-{
+- (NSUInteger)progress {
     return _monitor->progress;
 }
 
 - (BOOL)isEngineConfigured {
-
     return _tesseract != nullptr;
 }
 
 #pragma mark - Result fetching
 
-- (NSString *)recognizedText
-{
+- (NSString *)recognizedText {
     if (!self.isEngineConfigured) {
         NSLog(@"Error! Cannot get recognized text because the Tesseract engine is not properly configured!");
         return nil;
