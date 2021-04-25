@@ -124,9 +124,9 @@ endif
 #######################
 $(libtessfat) : $(libtess)
 	mkdir -p $(LIB_FAT_DIR)
-	xcrun lipo $(realpath $(addsuffix lib/$(@F), $(libtessfolders_all)) ) -create -output $@
+	xcrun lipo $(realpath $(addsuffix output/lib/$(@F), $(libtessfolders_all))) -create -output $@
 	mkdir -p $(TESS_INC_DIR)
-	cp -rvf $(firstword $(libtessfolders))include/tesseract $(TESS_INC_DIR)
+	cp -rvf $(firstword $(libtessfolders))output/include/tesseract $(TESS_INC_DIR)
 
 $(libtess) : $(libtessmakefile)
 	cd $(abspath $(@D)/..) && $(MAKE) -sj8 && $(MAKE) install
@@ -143,7 +143,7 @@ $(TESSERACT_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(libtessconfig) $(libleptfat)
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 	ln -s $(LEPTON_SRC)/src/ leptonica ; \
-	../../configure --host=$* --prefix=`pwd` --enable-shared=no --disable-graphics
+	../../configure --host=$* --prefix=`pwd`/output --enable-shared=no --disable-graphics
 
 $(libtessconfig) : $(libtessautogen)
 	cd $(@D) && ./autogen.sh 2> /dev/null

@@ -539,6 +539,9 @@ describe(@"PDF", ^{
 
         NSData *pdfData = recognizedPDFForImages(@[wellScannedPageImg]);
 
+        NSString *tempFilePath = [NSTemporaryDirectory() stringByAppendingString:@"test.pdf"];
+        [pdfData writeToFile:tempFilePath atomically:YES];
+
         [[theValue([pdfData g8_isEqualToData:samplePDFDataFromFile(@"well_scanned_page.pdf")]) should] beYes];
     });
 

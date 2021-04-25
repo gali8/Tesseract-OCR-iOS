@@ -29,7 +29,7 @@
 
 
 #define LIBLEPT_MAJOR_VERSION   1
-#define LIBLEPT_MINOR_VERSION   78
+#define LIBLEPT_MINOR_VERSION   80
 #define LIBLEPT_PATCH_VERSION   0
 
 #include "alltypes.h"
@@ -101,21 +101,21 @@ LEPT_DLL extern l_ok l_productMatVec ( l_float32 *mat, l_float32 *vecs, l_float3
 LEPT_DLL extern l_ok l_productMat2 ( l_float32 *mat1, l_float32 *mat2, l_float32 *matd, l_int32 size );
 LEPT_DLL extern l_ok l_productMat3 ( l_float32 *mat1, l_float32 *mat2, l_float32 *mat3, l_float32 *matd, l_int32 size );
 LEPT_DLL extern l_ok l_productMat4 ( l_float32 *mat1, l_float32 *mat2, l_float32 *mat3, l_float32 *mat4, l_float32 *matd, l_int32 size );
-LEPT_DLL extern l_int32 l_getDataBit ( void *line, l_int32 n );
+LEPT_DLL extern l_int32 l_getDataBit ( const void *line, l_int32 n );
 LEPT_DLL extern void l_setDataBit ( void *line, l_int32 n );
 LEPT_DLL extern void l_clearDataBit ( void *line, l_int32 n );
 LEPT_DLL extern void l_setDataBitVal ( void *line, l_int32 n, l_int32 val );
-LEPT_DLL extern l_int32 l_getDataDibit ( void *line, l_int32 n );
+LEPT_DLL extern l_int32 l_getDataDibit ( const void *line, l_int32 n );
 LEPT_DLL extern void l_setDataDibit ( void *line, l_int32 n, l_int32 val );
 LEPT_DLL extern void l_clearDataDibit ( void *line, l_int32 n );
-LEPT_DLL extern l_int32 l_getDataQbit ( void *line, l_int32 n );
+LEPT_DLL extern l_int32 l_getDataQbit ( const void *line, l_int32 n );
 LEPT_DLL extern void l_setDataQbit ( void *line, l_int32 n, l_int32 val );
 LEPT_DLL extern void l_clearDataQbit ( void *line, l_int32 n );
-LEPT_DLL extern l_int32 l_getDataByte ( void *line, l_int32 n );
+LEPT_DLL extern l_int32 l_getDataByte ( const void *line, l_int32 n );
 LEPT_DLL extern void l_setDataByte ( void *line, l_int32 n, l_int32 val );
-LEPT_DLL extern l_int32 l_getDataTwoBytes ( void *line, l_int32 n );
+LEPT_DLL extern l_int32 l_getDataTwoBytes ( const void *line, l_int32 n );
 LEPT_DLL extern void l_setDataTwoBytes ( void *line, l_int32 n, l_int32 val );
-LEPT_DLL extern l_int32 l_getDataFourBytes ( void *line, l_int32 n );
+LEPT_DLL extern l_int32 l_getDataFourBytes ( const void *line, l_int32 n );
 LEPT_DLL extern void l_setDataFourBytes ( void *line, l_int32 n, l_int32 val );
 LEPT_DLL extern char * barcodeDispatchDecoder ( char *barstr, l_int32 format, l_int32 debugflag );
 LEPT_DLL extern l_int32 barcodeFormatIsSupported ( l_int32 format );
@@ -155,6 +155,7 @@ LEPT_DLL extern PIX * pixMaskedThreshOnBackgroundNorm ( PIX *pixs, PIX *pixim, l
 LEPT_DLL extern l_ok pixSauvolaBinarizeTiled ( PIX *pixs, l_int32 whsize, l_float32 factor, l_int32 nx, l_int32 ny, PIX **ppixth, PIX **ppixd );
 LEPT_DLL extern l_ok pixSauvolaBinarize ( PIX *pixs, l_int32 whsize, l_float32 factor, l_int32 addborder, PIX **ppixm, PIX **ppixsd, PIX **ppixth, PIX **ppixd );
 LEPT_DLL extern l_ok pixThresholdByConnComp ( PIX *pixs, PIX *pixm, l_int32 start, l_int32 end, l_int32 incr, l_float32 thresh48, l_float32 threshdiff, l_int32 *pglobthresh, PIX **ppixd, l_int32 debugflag );
+LEPT_DLL extern l_ok pixThresholdByHisto ( PIX *pixs, l_int32 factor, l_int32 halfw, l_float32 delta, l_int32 *pthresh, PIX **ppixd, PIX **ppixhisto );
 LEPT_DLL extern PIX * pixExpandBinaryReplicate ( PIX *pixs, l_int32 xfact, l_int32 yfact );
 LEPT_DLL extern PIX * pixExpandBinaryPower2 ( PIX *pixs, l_int32 factor );
 LEPT_DLL extern PIX * pixReduceBinary2 ( PIX *pixs, l_uint8 *intab );
@@ -210,7 +211,7 @@ LEPT_DLL extern BOXA * boxaCopy ( BOXA *boxa, l_int32 copyflag );
 LEPT_DLL extern void boxaDestroy ( BOXA **pboxa );
 LEPT_DLL extern l_ok boxaAddBox ( BOXA *boxa, BOX *box, l_int32 copyflag );
 LEPT_DLL extern l_ok boxaExtendArray ( BOXA *boxa );
-LEPT_DLL extern l_ok boxaExtendArrayToSize ( BOXA *boxa, l_int32 size );
+LEPT_DLL extern l_ok boxaExtendArrayToSize ( BOXA *boxa, size_t size );
 LEPT_DLL extern l_int32 boxaGetCount ( BOXA *boxa );
 LEPT_DLL extern l_int32 boxaGetValidCount ( BOXA *boxa );
 LEPT_DLL extern BOX * boxaGetBox ( BOXA *boxa, l_int32 index, l_int32 accessflag );
@@ -254,6 +255,7 @@ LEPT_DLL extern BOXA * boxaReadMem ( const l_uint8 *data, size_t size );
 LEPT_DLL extern l_ok boxaWriteDebug ( const char *filename, BOXA *boxa );
 LEPT_DLL extern l_ok boxaWrite ( const char *filename, BOXA *boxa );
 LEPT_DLL extern l_ok boxaWriteStream ( FILE *fp, BOXA *boxa );
+LEPT_DLL extern l_ok boxaWriteStderr ( BOXA *boxa );
 LEPT_DLL extern l_ok boxaWriteMem ( l_uint8 **pdata, size_t *psize, BOXA *boxa );
 LEPT_DLL extern l_ok boxPrintStreamInfo ( FILE *fp, BOX *box );
 LEPT_DLL extern l_ok boxContains ( BOX *box1, BOX *box2, l_int32 *presult );
@@ -271,6 +273,7 @@ LEPT_DLL extern BOX * boxBoundingRegion ( BOX *box1, BOX *box2 );
 LEPT_DLL extern l_ok boxOverlapFraction ( BOX *box1, BOX *box2, l_float32 *pfract );
 LEPT_DLL extern l_ok boxOverlapArea ( BOX *box1, BOX *box2, l_int32 *parea );
 LEPT_DLL extern BOXA * boxaHandleOverlaps ( BOXA *boxas, l_int32 op, l_int32 range, l_float32 min_overlap, l_float32 max_ratio, NUMA **pnamap );
+LEPT_DLL extern l_ok boxOverlapDistance ( BOX *box1, BOX *box2, l_int32 *ph_ovl, l_int32 *pv_ovl );
 LEPT_DLL extern l_ok boxSeparationDistance ( BOX *box1, BOX *box2, l_int32 *ph_sep, l_int32 *pv_sep );
 LEPT_DLL extern l_ok boxCompareSize ( BOX *box1, BOX *box2, l_int32 type, l_int32 *prel );
 LEPT_DLL extern l_ok boxContainsPt ( BOX *box, l_float32 x, l_float32 y, l_int32 *pcontains );
@@ -284,6 +287,7 @@ LEPT_DLL extern BOX * boxClipToRectangle ( BOX *box, l_int32 wi, l_int32 hi );
 LEPT_DLL extern l_ok boxClipToRectangleParams ( BOX *box, l_int32 w, l_int32 h, l_int32 *pxstart, l_int32 *pystart, l_int32 *pxend, l_int32 *pyend, l_int32 *pbw, l_int32 *pbh );
 LEPT_DLL extern BOX * boxRelocateOneSide ( BOX *boxd, BOX *boxs, l_int32 loc, l_int32 sideflag );
 LEPT_DLL extern BOXA * boxaAdjustSides ( BOXA *boxas, l_int32 delleft, l_int32 delright, l_int32 deltop, l_int32 delbot );
+LEPT_DLL extern l_ok boxaAdjustBoxSides ( BOXA *boxa, l_int32 index, l_int32 delleft, l_int32 delright, l_int32 deltop, l_int32 delbot );
 LEPT_DLL extern BOX * boxAdjustSides ( BOX *boxd, BOX *boxs, l_int32 delleft, l_int32 delright, l_int32 deltop, l_int32 delbot );
 LEPT_DLL extern BOXA * boxaSetSide ( BOXA *boxad, BOXA *boxas, l_int32 side, l_int32 val, l_int32 thresh );
 LEPT_DLL extern l_ok boxSetSide ( BOX *boxs, l_int32 side, l_int32 val, l_int32 thresh );

@@ -36,8 +36,6 @@
 
 #import "allheaders.h"
 
-#import "genericvector.h"
-#import "strngs.h"
 #import "renderer.h"
 
 NSInteger const kG8DefaultResolution = 72;
@@ -50,7 +48,7 @@ namespace tesseract {
 
 @interface G8Tesseract () {
     tesseract::TessBaseAPI *_tesseract;
-    ETEXT_DESC *_monitor;
+    tesseract::ETEXT_DESC *_monitor;
 }
 
 @property (nonatomic, assign, readonly) tesseract::TessBaseAPI *tesseract;
@@ -145,7 +143,7 @@ namespace tesseract {
         _sourceResolution = kG8DefaultResolution;
         _rect = CGRectZero;
 
-        _monitor = new ETEXT_DESC();
+        _monitor = new tesseract::ETEXT_DESC();
         _monitor->cancel = tesseractCancelCallbackFunction;
         _monitor->cancel_this = (__bridge void*)self;
 
@@ -201,11 +199,11 @@ namespace tesseract {
 }
 
 - (BOOL)configEngine {
-    __block GenericVector<STRING> tessKeys;
-    __block GenericVector<STRING> tessValues;
+    __block std::vector<std::string> tessKeys;
+    __block std::vector<std::string> tessValues;
     [self.configDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *val, BOOL *stop) {
-        tessKeys.push_back(STRING(key.UTF8String));
-        tessValues.push_back(STRING(val.UTF8String));
+        tessKeys.push_back(std::string(key.UTF8String));
+        tessValues.push_back(std::string(val.UTF8String));
     }];
 
     int count = (int)self.configFileNames.count;
@@ -339,9 +337,9 @@ namespace tesseract {
     if (!self.isEngineConfigured) {
         return self.variables[key];
     } else {
-        STRING val;
+        std::string val;
         _tesseract->GetVariableAsString(key.UTF8String, &val);
-        return [NSString stringWithUTF8String:val.string()];
+        return [NSString stringWithUTF8String:val.c_str()];
     }
 }
 
