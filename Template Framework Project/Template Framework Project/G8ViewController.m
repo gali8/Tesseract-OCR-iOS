@@ -15,23 +15,20 @@
 
 @end
 
-
 /**
  *  For more information about using `G8Tesseract`, visit the GitHub page at:
  *  https://github.com/gali8/Tesseract-OCR-iOS
  */
 @implementation G8ViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     // Create a queue to perform recognition operations
     self.operationQueue = [[NSOperationQueue alloc] init];
 }
 
--(void)recognizeImageWithTesseract:(UIImage *)image
-{
+- (void)recognizeImageWithTesseract:(UIImage *)image {
     // Animate a progress activity indicator
     [self.activityIndicator startAnimating];
 
@@ -45,16 +42,16 @@
     // Use the original Tesseract engine mode in performing the recognition
     // (see G8Constants.h) for other engine mode options
     operation.tesseract.engineMode = G8OCREngineModeTesseractOnly;
-    
+
     // Let Tesseract automatically segment the page into blocks of text
     // based on its analysis (see G8Constants.h) for other page segmentation
     // mode options
     operation.tesseract.pageSegmentationMode = G8PageSegmentationModeAutoOnly;
-    
+
     // Optionally limit the time Tesseract should spend performing the
     // recognition
-    //operation.tesseract.maximumRecognitionTime = 1.0;
-    
+    // operation.tesseract.maximumRecognitionTime = 1.0;
+
     // Set the delegate for the recognition to be this class
     // (see `progressImageRecognitionForTesseract` and
     // `shouldCancelImageRecognitionForTesseract` methods below)
@@ -62,15 +59,15 @@
 
     // Optionally limit Tesseract's recognition to the following whitelist
     // and blacklist of characters
-    //operation.tesseract.charWhitelist = @"01234";
-    //operation.tesseract.charBlacklist = @"56789";
-    
+    // operation.tesseract.charWhitelist = @"01234";
+    // operation.tesseract.charBlacklist = @"56789";
+
     // Set the image on which Tesseract should perform recognition
     operation.tesseract.image = image;
 
     // Optionally limit the region in the image on which Tesseract should
     // perform recognition to a rectangle
-    //operation.tesseract.rect = CGRectMake(20, 20, 100, 100);
+    // operation.tesseract.rect = CGRectMake(20, 20, 100, 100);
 
     // Specify the function block that should be executed when Tesseract
     // finishes performing recognition on the image
@@ -82,18 +79,24 @@
 
         // Remove the animated progress activity indicator
         [self.activityIndicator stopAnimating];
-        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"OCR Result" message:recognizedText preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-        }];
-        
+
+        UIAlertController *alertController =
+            [UIAlertController alertControllerWithTitle:@"OCR Result"
+                                                message:recognizedText
+                                         preferredStyle:UIAlertControllerStyleAlert];
+
+        UIAlertAction *alertAction =
+            [UIAlertAction actionWithTitle:@"Ok"
+                                     style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *_Nonnull action){
+
+                                   }];
+
         [alertController addAction:alertAction];
-        
+
         [self presentViewController:alertController animated:true completion:nil];
     };
-    
+
     // Display the image to be recognized in the view
     self.imageToRecognize.image = operation.tesseract.thresholdedImage;
 
@@ -121,16 +124,14 @@
  *  @return Whether or not to cancel the recognition.
  */
 - (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract {
-    return NO;  // return YES, if you need to cancel recognition prematurely
+    return NO; // return YES, if you need to cancel recognition prematurely
 }
 
-- (IBAction)openCamera:(id)sender
-{
+- (IBAction)openCamera:(id)sender {
     UIImagePickerController *imgPicker = [UIImagePickerController new];
     imgPicker.delegate = self;
 
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:imgPicker animated:YES completion:nil];
     }
@@ -140,16 +141,14 @@
     [self recognizeImageWithTesseract:[UIImage imageNamed:@"image_sample"]];
 }
 
-- (IBAction)clearCache:(id)sender
-{
+- (IBAction)clearCache:(id)sender {
     [G8Tesseract clearCache];
 }
 
 #pragma mark - UIImagePickerController Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker
-didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+    didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     [picker dismissViewControllerAnimated:YES completion:nil];
     [self recognizeImageWithTesseract:image];

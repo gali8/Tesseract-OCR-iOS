@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#import <UIKit/UIKit.h>
 #import <TesseractOCR/TesseractOCR.h>
+#import <UIKit/UIKit.h>
 #elif TARGET_OS_MAC
 #import <AppKit/AppKit.h>
 #import <TesseractOCRmacOS/TesseractOCR.h>
@@ -22,9 +22,8 @@
 SPEC_BEGIN(RecognizedBlockTests)
 
 describe(@"RecognizedBlock Tests", ^{
-
     context(@"empty block", ^{
-        let(emptyBlock, ^id{
+        let(emptyBlock, ^id {
             G8RecognizedBlock *block = [[G8RecognizedBlock alloc] init];
             [[block shouldNot] beNil];
             return block;
@@ -66,7 +65,7 @@ describe(@"RecognizedBlock Tests", ^{
         CGFloat originalConfidence = 0.29f;
         G8PageIteratorLevel originalLevel = G8PageIteratorLevelWord;
 
-        let(notEmptyWordBlock, ^id{
+        let(notEmptyWordBlock, ^id {
             G8RecognizedBlock *block = [[G8RecognizedBlock alloc] initWithText:originalText
                                                                    boundingBox:originalRect
                                                                     confidence:originalConfidence
@@ -81,32 +80,36 @@ describe(@"RecognizedBlock Tests", ^{
         });
 
         it(@"Should not isEqual", ^{
-
             BOOL isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] init]];
             [[theValue(isEqual) should] beNo];
 
-            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:@"different text"
-                                                                             boundingBox:originalRect
-                                                                              confidence:originalConfidence
-                                                                                   level:originalLevel]];
+            isEqual = [notEmptyWordBlock
+                isEqual:[[G8RecognizedBlock alloc] initWithText:@"different text"
+                                                    boundingBox:originalRect
+                                                     confidence:originalConfidence
+                                                          level:originalLevel]];
             [[theValue(isEqual) should] beNo];
 
-            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
-                                                                             boundingBox:CGRectMake(10.00001f, 10.69999f, 134.95001f, 5.19999f)
-                                                                              confidence:originalConfidence
-                                                                                   level:originalLevel]];
+            isEqual = [notEmptyWordBlock
+                isEqual:[[G8RecognizedBlock alloc]
+                            initWithText:originalText
+                             boundingBox:CGRectMake(10.00001f, 10.69999f, 134.95001f, 5.19999f)
+                              confidence:originalConfidence
+                                   level:originalLevel]];
             [[theValue(isEqual) should] beNo];
 
-            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
-                                                                             boundingBox:originalRect
-                                                                              confidence:0.78f
-                                                                                   level:originalLevel]];
+            isEqual =
+                [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
+                                                                       boundingBox:originalRect
+                                                                        confidence:0.78f
+                                                                             level:originalLevel]];
             [[theValue(isEqual) should] beNo];
 
-            isEqual = [notEmptyWordBlock isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
-                                                                             boundingBox:originalRect
-                                                                              confidence:originalConfidence
-                                                                                   level:G8PageIteratorLevelParagraph]];
+            isEqual = [notEmptyWordBlock
+                isEqual:[[G8RecognizedBlock alloc] initWithText:originalText
+                                                    boundingBox:originalRect
+                                                     confidence:originalConfidence
+                                                          level:G8PageIteratorLevelParagraph]];
             [[theValue(isEqual) should] beNo];
         });
     });

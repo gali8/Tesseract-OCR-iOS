@@ -10,8 +10,8 @@
 #import <Foundation/Foundation.h>
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#import <UIKit/UIKit.h>
 #import <TesseractOCR/TesseractOCR.h>
+#import <UIKit/UIKit.h>
 #import "UIImage+G8Equal.h"
 #elif TARGET_OS_MAC
 #import <AppKit/AppKit.h>
@@ -20,8 +20,8 @@
 #endif
 
 #import <Kiwi/Kiwi.h>
-#import "G8RecognitionTestsHelper.h"
 #import "Defaults.h"
+#import "G8RecognitionTestsHelper.h"
 #import "NSData+G8Equal.h"
 #import "XPlatformImage.h"
 
@@ -36,7 +36,6 @@ beforeEach(^{
 #pragma mark - Test - Simple image
 
 describe(@"Simple image", ^{
-
     beforeEach(^{
         helper.image = [XPlatformImage imageWithName:@"image_sample.jpg"];
         helper.charWhitelist = @"0123456789";
@@ -71,9 +70,9 @@ describe(@"Simple image", ^{
     });
 
     describe(@"Subimage", ^{
-
         beforeEach(^{
-            helper.rect = (CGRect){CGPointZero, {helper.image.size.width * 0.6f, helper.image.size.height}};
+            helper.rect =
+                (CGRect){CGPointZero, {helper.image.size.width * 0.6f, helper.image.size.height}};
         });
 
         it(@"Should recognize subimage", ^{
@@ -93,7 +92,6 @@ describe(@"Simple image", ^{
             [[recognizedText should] containString:@"123456"];
             [[recognizedText shouldNot] containString:@"7890"];
         });
-
     });
 
     it(@"Should provide choices", ^{
@@ -109,10 +107,12 @@ describe(@"Simple image", ^{
 
                 [[block.text shouldNot] beEmpty];
 
-                [[theValue(CGRectGetWidth(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f)
-                                                                                       to:theValue(1.0f)];
-                [[theValue(CGRectGetHeight(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f)
-                                                                                        to:theValue(1.0f)];
+                [[theValue(CGRectGetWidth(block.boundingBox)) should]
+                    beInTheIntervalFrom:theValue(0.0f)
+                                     to:theValue(1.0f)];
+                [[theValue(CGRectGetHeight(block.boundingBox)) should]
+                    beInTheIntervalFrom:theValue(0.0f)
+                                     to:theValue(1.0f)];
 
                 [[theValue(block.confidence) should] beGreaterThanOrEqualTo:theValue(0.0f)];
                 [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelSymbol)];
@@ -123,7 +123,8 @@ describe(@"Simple image", ^{
     it(@"Should provide confidences", ^{
         [helper recognizeImage];
 
-        NSArray *confidences = [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord];
+        NSArray *confidences =
+            [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord];
         [[[confidences should] have:1] object];
 
         id blockObj = confidences.firstObject;
@@ -131,8 +132,10 @@ describe(@"Simple image", ^{
         G8RecognizedBlock *block = blockObj;
 
         [[block.text shouldNot] beEmpty];
-        [[theValue(CGRectGetWidth(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
-        [[theValue(CGRectGetHeight(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f) to:theValue(1.0f)];
+        [[theValue(CGRectGetWidth(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f)
+                                                                               to:theValue(1.0f)];
+        [[theValue(CGRectGetHeight(block.boundingBox)) should] beInTheIntervalFrom:theValue(0.0f)
+                                                                                to:theValue(1.0f)];
         [[theValue(block.confidence) should] beGreaterThanOrEqualTo:theValue(0.0f)];
         [[theValue(block.level) should] equal:theValue(G8PageIteratorLevelWord)];
     });
@@ -143,51 +146,54 @@ describe(@"Simple image", ^{
         [[theValue(helper.tesseract.sourceResolution) should] equal:theValue(kG8DefaultResolution)];
 
         helper.tesseract.sourceResolution = 50;
-        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(kG8MinCredibleResolution)
-                                                                               to:theValue(kG8MaxCredibleResolution)];
+        [[theValue(helper.tesseract.sourceResolution) should]
+            beInTheIntervalFrom:theValue(kG8MinCredibleResolution)
+                             to:theValue(kG8MaxCredibleResolution)];
 
         helper.tesseract.sourceResolution = 3000;
-        [[theValue(helper.tesseract.sourceResolution) should] beInTheIntervalFrom:theValue(kG8MinCredibleResolution)
-                                                                               to:theValue(kG8MaxCredibleResolution)];
+        [[theValue(helper.tesseract.sourceResolution) should]
+            beInTheIntervalFrom:theValue(kG8MinCredibleResolution)
+                             to:theValue(kG8MaxCredibleResolution)];
     });
 
     it(@"Should draw blocks on image", ^{
         [helper recognizeImage];
 
-        NSArray *blocks = [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelSymbol];
+        NSArray *blocks =
+            [helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelSymbol];
 
-        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-        UIImage *blocksImage = [helper.tesseract imageWithBlocks:blocks drawText:YES thresholded:NO];
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+        UIImage *blocksImage = [helper.tesseract imageWithBlocks:blocks
+                                                        drawText:YES
+                                                     thresholded:NO];
         UIImage *expectedBlocksImage = [UIImage imageWithName:@"image_sample_bl.png"];
-        #elif TARGET_OS_MAC
+#elif TARGET_OS_MAC
         NSImage *blocksImage = [helper.tesseract imageWithBlocks:blocks drawText:YES thresholded:NO];
         NSImage *expectedBlocksImage = [NSImage imageWithName:@"image_sample_bl_mac.png"];
-        #endif
+#endif
 
         [[theValue([blocksImage g8_isEqualToImage:expectedBlocksImage]) should] beYes];
     });
 
     it(@"Should fetch thresholded image", ^{
-        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
         UIImage *onceThresholded = [helper thresholdedImageForImage:helper.image];
         UIImage *twiceThresholded = [helper thresholdedImageForImage:onceThresholded];
         UIImage *expectedThresholdedImage = [UIImage imageWithName:@"image_sample_tr.png"];
-        #elif TARGET_OS_MAC
+#elif TARGET_OS_MAC
         NSImage *onceThresholded = [helper thresholdedImageForImage:helper.image];
         NSImage *twiceThresholded = [helper thresholdedImageForImage:onceThresholded];
         NSImage *expectedThresholdedImage = [NSImage imageWithName:@"image_sample_tr.png"];
-        #endif
+#endif
 
         [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
         [[theValue([onceThresholded g8_isEqualToImage:expectedThresholdedImage]) should] beYes];
     });
-
 });
 
 #pragma mark - Test - Blank image
 
 describe(@"Blank image", ^{
-
     beforeEach(^{
         helper.image = [XPlatformImage imageWithName:@"image_blank.png"];
         helper.customPreprocessingType = G8CustomPreprocessingSimpleThreshold;
@@ -210,23 +216,21 @@ describe(@"Blank image", ^{
     });
 
     it(@"Should be blank thresholded image", ^{
-        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
         UIImage *thresholdedImage = [helper thresholdedImageForImage:helper.image];
         UIColor *color = [UIColor blackColor];
-        #elif TARGET_OS_MAC
+#elif TARGET_OS_MAC
         NSImage *thresholdedImage = [helper thresholdedImageForImage:helper.image];
         NSColor *color = [NSColor blackColor];
-        #endif
+#endif
 
         [[theValue([thresholdedImage g8_isFilledWithColor:color]) should] beYes];
     });
-
 });
 
 #pragma mark - Test - Well scaned page
 
 describe(@"Well scanned page", ^{
-
     static NSString *const kG8WellScanedFirstTitle = @"Foreword";
     static NSString *const kG8WellScanedFinalLongString = @"recommendations sometimes get acted on";
 
@@ -249,13 +253,13 @@ describe(@"Well scanned page", ^{
     });
 
     it(@"Should fetch thresholded image", ^{
-        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
         UIImage *onceThresholded = [helper thresholdedImageForImage:helper.image];
         UIImage *twiceThresholded = [helper thresholdedImageForImage:onceThresholded];
-        #elif TARGET_OS_MAC
+#elif TARGET_OS_MAC
         NSImage *onceThresholded = [helper thresholdedImageForImage:helper.image];
         NSImage *twiceThresholded = [helper thresholdedImageForImage:onceThresholded];
-        #endif
+#endif
 
         [[theValue([onceThresholded g8_isEqualToImage:twiceThresholded]) should] beYes];
     });
@@ -279,8 +283,10 @@ describe(@"Well scanned page", ^{
         [[theValue(ABS(deskewAngle)) should] beGreaterThan:theValue(FLT_EPSILON)];
 
         [[theValue(helper.tesseract.orientation) should] equal:theValue(G8OrientationPageUp)];
-        [[theValue(helper.tesseract.writingDirection) should] equal:theValue(G8WritingDirectionLeftToRight)];
-        [[theValue(helper.tesseract.textlineOrder) should] equal:theValue(G8TextlineOrderTopToBottom)];
+        [[theValue(helper.tesseract.writingDirection) should]
+            equal:theValue(G8WritingDirectionLeftToRight)];
+        [[theValue(helper.tesseract.textlineOrder) should]
+            equal:theValue(G8TextlineOrderTopToBottom)];
     });
 
     it(@"Should break by deadline", ^{
@@ -295,40 +301,44 @@ describe(@"Well scanned page", ^{
         [[recognizedText should] containString:kG8WellScanedFirstTitle];
         [[recognizedText shouldNot] containString:kG8WellScanedFinalLongString];
 
-        [[[[helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord] should] haveAtLeast:10] items];
+        [[[[helper.tesseract recognizedBlocksByIteratorLevel:G8PageIteratorLevelWord] should]
+            haveAtLeast:10] items];
     });
-
 });
 
 #pragma mark - hierarchical data
 
 describe(@"Hierarchical Data", ^{
-
-    NSArray *(^recognizedHierarchicalBlocksForImageWithName)(NSString *imageName, G8PageIteratorLevel level) = ^NSArray*(NSString *imageName, G8PageIteratorLevel level) {
+    NSArray * (^recognizedHierarchicalBlocksForImageWithName)(NSString *imageName,
+                                                              G8PageIteratorLevel level) =
+        ^NSArray *(NSString *imageName, G8PageIteratorLevel level) {
         helper.image = [XPlatformImage imageWithName:imageName];
         [helper recognizeImage];
         return [helper.tesseract recognizedHierarchicalBlocksByIteratorLevel:level];
     };
 
     it(@"Should recognize structure of sample image", ^{
-        NSArray *blocks = recognizedHierarchicalBlocksForImageWithName(@"image_sample.jpg", G8PageIteratorLevelBlock);
+        NSArray *blocks = recognizedHierarchicalBlocksForImageWithName(@"image_sample.jpg",
+                                                                       G8PageIteratorLevelBlock);
         [[[blocks should] haveAtLeast:1] items];
 
-        NSArray *paras = ((G8HierarchicalRecognizedBlock*)[blocks objectAtIndex:0]).childBlocks;
+        NSArray *paras = ((G8HierarchicalRecognizedBlock *)[blocks objectAtIndex:0]).childBlocks;
         [[[paras should] haveAtLeast:1] items];
 
-        NSArray *lines = ((G8HierarchicalRecognizedBlock*)[paras objectAtIndex:0]).childBlocks;
+        NSArray *lines = ((G8HierarchicalRecognizedBlock *)[paras objectAtIndex:0]).childBlocks;
         [[[lines should] haveAtLeast:1] items];
 
-        NSArray *words = ((G8HierarchicalRecognizedBlock*)[lines objectAtIndex:0]).childBlocks;
+        NSArray *words = ((G8HierarchicalRecognizedBlock *)[lines objectAtIndex:0]).childBlocks;
         [[[words should] haveAtLeast:1] items];
 
-        NSArray *characters = ((G8HierarchicalRecognizedBlock*)[words objectAtIndex:0]).childBlocks;
+        NSArray *characters =
+            ((G8HierarchicalRecognizedBlock *)[words objectAtIndex:0]).childBlocks;
         [[[characters should] haveAtLeast:10] items];
     });
 
     it(@"Should recognize full structure of well scanned page", ^{
-        NSArray *blocks = recognizedHierarchicalBlocksForImageWithName(@"well_scanned_page.png", G8PageIteratorLevelBlock);
+        NSArray *blocks = recognizedHierarchicalBlocksForImageWithName(@"well_scanned_page.png",
+                                                                       G8PageIteratorLevelBlock);
         [[[blocks should] haveAtLeast:1] items];
         G8HierarchicalRecognizedBlock *block = [blocks objectAtIndex:0];
         [[block should] beKindOfClass:[G8HierarchicalRecognizedBlock class]];
@@ -370,21 +380,22 @@ describe(@"Hierarchical Data", ^{
     });
 
     it(@"Should recognize sub structure of well scanned page", ^{
-        NSArray *words = recognizedHierarchicalBlocksForImageWithName(@"well_scanned_page.png", G8PageIteratorLevelWord);
+        NSArray *words = recognizedHierarchicalBlocksForImageWithName(@"well_scanned_page.png",
+                                                                      G8PageIteratorLevelWord);
         [[[words should] haveAtLeast:1] items];
 
         G8HierarchicalRecognizedBlock *word = [words objectAtIndex:0];
         [[word should] beKindOfClass:[G8HierarchicalRecognizedBlock class]];
         [[theValue(word.level) should] equal:theValue(G8PageIteratorLevelWord)];
     });
-
 });
 
 // #pragma mark - hierarchical data
 //
 // describe(@"Hierarchical Data", ^{
 //
-//     NSArray *(^recognizedHierarchicalBlocksForImage)(UIImage*image, G8PageIteratorLevel level) = ^NSArray*(UIImage*image, G8PageIteratorLevel level) {
+//     NSArray *(^recognizedHierarchicalBlocksForImage)(UIImage*image, G8PageIteratorLevel level) =
+//     ^NSArray*(UIImage*image, G8PageIteratorLevel level) {
 //         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
 //         tesseract.image = image;
 //         [tesseract recognize];
@@ -394,7 +405,8 @@ describe(@"Hierarchical Data", ^{
 //
 //     it(@"Should recognize structure of sample image", ^{
 //
-//         NSArray *blocks = recognizedHierarchicalBlocksForImage([UIImage imageNamed:@"image_sample.jpg"], G8PageIteratorLevelBlock);
+//         NSArray *blocks = recognizedHierarchicalBlocksForImage([UIImage
+//         imageNamed:@"image_sample.jpg"], G8PageIteratorLevelBlock);
 //         [[[blocks should] haveAtLeast:1] items];
 //
 //         NSArray* paras = ((G8HierarchicalRecognizedBlock*)[blocks objectAtIndex:0]).childBlocks;
@@ -406,14 +418,16 @@ describe(@"Hierarchical Data", ^{
 //         NSArray* words = ((G8HierarchicalRecognizedBlock*)[lines objectAtIndex:0]).childBlocks;
 //         [[[words should] haveAtLeast:1] items];
 //
-//         NSArray* characters = ((G8HierarchicalRecognizedBlock*)[words objectAtIndex:0]).childBlocks;
+//         NSArray* characters = ((G8HierarchicalRecognizedBlock*)[words
+//         objectAtIndex:0]).childBlocks;
 //         [[[characters should] haveAtLeast:10] items];
 //     });
 //
 //
 //     it(@"Should recognize full structure of well scanned page", ^{
 //
-//         NSArray *blocks = recognizedHierarchicalBlocksForImage([UIImage imageNamed:@"well_scaned_page"], G8PageIteratorLevelBlock);
+//         NSArray *blocks = recognizedHierarchicalBlocksForImage([UIImage
+//         imageNamed:@"well_scaned_page"], G8PageIteratorLevelBlock);
 //         [[[blocks should] haveAtLeast:1] items];
 //         G8HierarchicalRecognizedBlock* block = [blocks objectAtIndex:0];
 //         [[block should] beKindOfClass:[G8HierarchicalRecognizedBlock class]];
@@ -457,7 +471,8 @@ describe(@"Hierarchical Data", ^{
 //
 //     it(@"Should recognize sub structure of well scanned page", ^{
 //
-//         NSArray *words = recognizedHierarchicalBlocksForImage([UIImage imageNamed:@"well_scaned_page"], G8PageIteratorLevelWord);
+//         NSArray *words = recognizedHierarchicalBlocksForImage([UIImage
+//         imageNamed:@"well_scaned_page"], G8PageIteratorLevelWord);
 //         [[[words should] haveAtLeast:1] items];
 //
 //         G8HierarchicalRecognizedBlock* word = [words objectAtIndex:0];
@@ -471,9 +486,9 @@ describe(@"Hierarchical Data", ^{
 #pragma mark - hOCR
 
 describe(@"hOCR", ^{
-
     it(@"Should sample image", ^{
-        NSString *path = [[[NSBundle.mainBundle resourcePath] stringByAppendingString:@"/images/"] stringByAppendingString:@"image_sample.hOCR"];
+        NSString *path = [[[NSBundle.mainBundle resourcePath] stringByAppendingString:@"/images/"]
+            stringByAppendingString:@"image_sample.hOCR"];
 
         helper.image = [XPlatformImage imageWithName:@"image_sample.jpg"];
         helper.charWhitelist = @"0123456789";
@@ -482,12 +497,24 @@ describe(@"hOCR", ^{
         NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
 
         NSError *error = nil;
-        [[hOCR should] equal:[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error]];
+
+        NSLog(@"111\n\n%@", hOCR);
+        NSLog(@"222\n\n%@", [NSString stringWithContentsOfFile:path
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:&error]);
+
+        NSString *tempFilePath = [NSTemporaryDirectory() stringByAppendingString:@"lol.hOCR"];
+        [hOCR writeToFile:tempFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+
+        [[hOCR should] equal:[NSString stringWithContentsOfFile:path
+                                                       encoding:NSUTF8StringEncoding
+                                                          error:&error]];
         NSAssert(error == nil, @"error loading hOCR from file %@: %@", path, error);
     });
 
     it(@"Should well scanned page", ^{
-        NSString *path = [[[NSBundle.mainBundle resourcePath] stringByAppendingString:@"/images/"] stringByAppendingString:@"well_scanned_page.hOCR"];
+        NSString *path = [[[NSBundle.mainBundle resourcePath] stringByAppendingString:@"/images/"]
+            stringByAppendingString:@"well_scanned_page.hOCR"];
 
         helper.image = [XPlatformImage imageWithName:@"well_scanned_page.png"];
 
@@ -496,7 +523,9 @@ describe(@"hOCR", ^{
         NSString *hOCR = [helper.tesseract recognizedHOCRForPageNumber:0];
 
         NSError *error = nil;
-        NSString *fileString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+        NSString *fileString = [NSString stringWithContentsOfFile:path
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:&error];
 
         NSAssert(error == nil, @"error loading hOCR from file %@: %@", path, error);
         [[hOCR should] equal:fileString];
@@ -511,51 +540,59 @@ describe(@"hOCR", ^{
 });
 
 describe(@"PDF", ^{
-
-    NSData *(^recognizedPDFForImages)(NSArray *images) = ^NSData*(NSArray *images) {
+    NSData * (^recognizedPDFForImages)(NSArray *images) = ^NSData *(NSArray *images) {
         G8Tesseract *tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
 
         NSError *error = nil;
-        NSString *tempDirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
-        [NSFileManager.defaultManager createDirectoryAtPath:tempDirPath withIntermediateDirectories:YES attributes:nil error:&error];
+        NSString *tempDirPath = [NSTemporaryDirectory()
+            stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+        [NSFileManager.defaultManager createDirectoryAtPath:tempDirPath
+                                withIntermediateDirectories:YES
+                                                 attributes:nil
+                                                      error:&error];
         NSString *outputFilePath = [tempDirPath stringByAppendingPathComponent:@"outputbase"];
 
         return [tesseract recognizedPDFForImages:images outputbase:outputFilePath];
     };
 
-    NSData * (^samplePDFDataFromFile)(NSString *fileName) = ^NSData*(NSString *fileName) {
-        NSString *PDFPath = [[[NSBundle.mainBundle resourcePath] stringByAppendingString:@"/images/"] stringByAppendingString:fileName];
+    NSData * (^samplePDFDataFromFile)(NSString *fileName) = ^NSData *(NSString *fileName) {
+        NSString *PDFPath = [[[NSBundle.mainBundle resourcePath]
+            stringByAppendingString:@"/images/"] stringByAppendingString:fileName];
         NSData *PDF = [NSData dataWithContentsOfFile:PDFPath];
         NSAssert(PDF, @"There is no PDF file at path %@ to compare with", PDFPath);
         return PDF;
     };
 
     it(@"Should generate well scanned page", ^{
-        #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
         UIImage *wellScannedPageImg = [UIImage imageWithName:@"well_scanned_page.png"];
-        #elif TARGET_OS_MAC
+#elif TARGET_OS_MAC
         NSImage *wellScannedPageImg = [NSImage imageWithName:@"well_scanned_page.png"];
-        #endif
+#endif
 
-        NSData *pdfData = recognizedPDFForImages(@[wellScannedPageImg]);
+        NSData *pdfData = recognizedPDFForImages(@[ wellScannedPageImg ]);
 
         NSString *tempFilePath = [NSTemporaryDirectory() stringByAppendingString:@"test.pdf"];
         [pdfData writeToFile:tempFilePath atomically:YES];
 
-        [[theValue([pdfData g8_isEqualToData:samplePDFDataFromFile(@"well_scanned_page.pdf")]) should] beYes];
+        [[theValue([pdfData g8_isEqualToData:samplePDFDataFromFile(@"well_scanned_page.pdf")])
+            should] beYes];
     });
 
     context(@"Should generate empty page for", ^{
         it(@"nil array", ^{
-            [[theValue([recognizedPDFForImages(nil) g8_isEqualToData:samplePDFDataFromFile(@"empty.pdf")]) should] beYes];
+            [[theValue([recognizedPDFForImages(nil)
+                g8_isEqualToData:samplePDFDataFromFile(@"empty.pdf")]) should] beYes];
         });
 
         it(@"empty array", ^{
-            [[theValue([recognizedPDFForImages(@[]) g8_isEqualToData:samplePDFDataFromFile(@"empty.pdf")]) should] beYes];
+            [[theValue([recognizedPDFForImages(@[])
+                g8_isEqualToData:samplePDFDataFromFile(@"empty.pdf")]) should] beYes];
         });
 
         it(@"array containing nonimage", ^{
-            [[theValue([recognizedPDFForImages(@[@"someStringAsImage.png"]) g8_isEqualToData:samplePDFDataFromFile(@"empty.pdf")]) should] beYes];
+            [[theValue([recognizedPDFForImages(@[ @"someStringAsImage.png" ])
+                g8_isEqualToData:samplePDFDataFromFile(@"empty.pdf")]) should] beYes];
         });
     });
 });

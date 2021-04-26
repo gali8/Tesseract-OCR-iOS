@@ -56,7 +56,6 @@
  */
 @property (nonatomic, strong) NSArray *characterChoices;
 
-
 - (instancetype)initWithBlock:(G8RecognizedBlock *)block;
 
 @end

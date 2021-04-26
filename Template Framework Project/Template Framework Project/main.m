@@ -10,9 +10,8 @@
 
 #import "G8AppDelegate.h"
 
-int main(int argc, char * argv[])
-{
-	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([G8AppDelegate class]));
-	}
+int main(int argc, char *argv[]) {
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([G8AppDelegate class]));
+    }
 }

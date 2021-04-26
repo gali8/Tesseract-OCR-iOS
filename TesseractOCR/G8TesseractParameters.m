@@ -17,7 +17,8 @@ NSString *const kG8ParamTospWideFraction = @"tosp_wide_fraction";
 NSString *const kG8ParamTextordFixXheightBug = @"textord_fix_xheight_bug";
 NSString *const kG8ParamTesseditCertaintyThreshold = @"tessedit_certainty_threshold";
 NSString *const kG8ParamLanguageModelPenaltyIncrement = @"language_model_penalty_increment";
-NSString *const kG8ParamApplyboxLearnCharsAndCharFragsMode = @"applybox_learn_chars_and_char_frags_mode";
+NSString *const kG8ParamApplyboxLearnCharsAndCharFragsMode =
+    @"applybox_learn_chars_and_char_frags_mode";
 NSString *const kG8ParamTesseditMakeBoxesFromBoxes = @"tessedit_make_boxes_from_boxes";
 NSString *const kG8ParamTospPassWideFuzzSpToContext = @"tosp_pass_wide_fuzz_sp_to_context";
 NSString *const kG8ParamClassifyUsePreAdaptedTemplates = @"classify_use_pre_adapted_templates";
@@ -71,7 +72,8 @@ NSString *const kG8ParamTextordShowBlobs = @"textord_show_blobs";
 NSString *const kG8ParamTextordXheightErrorMargin = @"textord_xheight_error_margin";
 NSString *const kG8ParamClassifySaveAdaptedTemplates = @"classify_save_adapted_templates";
 NSString *const kG8ParamOkRepeatedChNonAlphanumWds = @"ok_repeated_ch_non_alphanum_wds";
-NSString *const kG8ParamLanguageModelViterbiListMaxNumPrunable = @"language_model_viterbi_list_max_num_prunable";
+NSString *const kG8ParamLanguageModelViterbiListMaxNumPrunable =
+    @"language_model_viterbi_list_max_num_prunable";
 NSString *const kG8ParamCrunchLeaveUcStrings = @"crunch_leave_uc_strings";
 NSString *const kG8ParamLanguageModelNgramScaleFactor = @"language_model_ngram_scale_factor";
 NSString *const kG8ParamTextordNoiseSxfract = @"textord_noise_sxfract";
@@ -95,7 +97,8 @@ NSString *const kG8ParamSegsearchMaxFutileClassifications = @"segsearch_max_futi
 NSString *const kG8ParamEnableNoiseRemoval = @"enable_noise_removal";
 NSString *const kG8ParamCrunchDelLowWord = @"crunch_del_low_word";
 NSString *const kG8ParamLanguageModelPenaltyScript = @"language_model_penalty_script";
-NSString *const kG8ParamClassifyCharacterFragmentsGarbageCertaintyThreshold = @"classify_character_fragments_garbage_certainty_threshold";
+NSString *const kG8ParamClassifyCharacterFragmentsGarbageCertaintyThreshold =
+    @"classify_character_fragments_garbage_certainty_threshold";
 NSString *const kG8ParamClassifyCpCutoffStrength = @"classify_cp_cutoff_strength";
 NSString *const kG8ParamTesseditPreserveBlkRejPerfectWds = @"tessedit_preserve_blk_rej_perfect_wds";
 NSString *const kG8ParamPageSeparator = @"page_separator";
@@ -110,7 +113,8 @@ NSString *const kG8ParamTextordNoiseRowratio = @"textord_noise_rowratio";
 NSString *const kG8ParamChopXYWeight = @"chop_x_y_weight";
 NSString *const kG8ParamXHtAcceptanceTolerance = @"x_ht_acceptance_tolerance";
 NSString *const kG8ParamMaxPermuterAttempts = @"max_permuter_attempts";
-NSString *const kG8ParamLanguageModelUseSigmoidalCertainty = @"language_model_use_sigmoidal_certainty";
+NSString *const kG8ParamLanguageModelUseSigmoidalCertainty =
+    @"language_model_use_sigmoidal_certainty";
 NSString *const kG8ParamTextordStraightBaselines = @"textord_straight_baselines";
 NSString *const kG8ParamDebugXHtLevel = @"debug_x_ht_level";
 NSString *const kG8ParamCrunchLeaveAcceptStrings = @"crunch_leave_accept_strings";
@@ -161,7 +165,8 @@ NSString *const kG8ParamTesseditWriteImages = @"tessedit_write_images";
 NSString *const kG8ParamTesseditParallelize = @"tessedit_parallelize";
 NSString *const kG8ParamStopperCertaintyPerChar = @"stopper_certainty_per_char";
 NSString *const kG8ParamTestPt = @"test_pt";
-NSString *const kG8ParamLanguageModelNgramSpaceDelimitedLanguage = @"language_model_ngram_space_delimited_language";
+NSString *const kG8ParamLanguageModelNgramSpaceDelimitedLanguage =
+    @"language_model_ngram_space_delimited_language";
 NSString *const kG8ParamCrunchRatingMax = @"crunch_rating_max";
 NSString *const kG8ParamLanguageModelPenaltyCase = @"language_model_penalty_case";
 NSString *const kG8ParamTospEnoughSmallGaps = @"tosp_enough_small_gaps";
@@ -202,7 +207,8 @@ NSString *const kG8ParamClassifyEnableAdaptiveDebugger = @"classify_enable_adapt
 NSString *const kG8ParamCrunchLongRepetitions = @"crunch_long_repetitions";
 NSString *const kG8ParamLanguageModelPenaltyChartype = @"language_model_penalty_chartype";
 NSString *const kG8ParamMatcherPerfectThreshold = @"matcher_perfect_threshold";
-NSString *const kG8ParamLanguageModelPenaltyNonFreqDictWord = @"language_model_penalty_non_freq_dict_word";
+NSString *const kG8ParamLanguageModelPenaltyNonFreqDictWord =
+    @"language_model_penalty_non_freq_dict_word";
 NSString *const kG8ParamTextordHeavyNr = @"textord_heavy_nr";
 NSString *const kG8ParamTospThresholdBias2 = @"tosp_threshold_bias2";
 NSString *const kG8ParamTospThresholdBias1 = @"tosp_threshold_bias1";
@@ -384,7 +390,8 @@ NSString *const kG8ParamLoadPuncDawg = @"load_punc_dawg";
 NSString *const kG8ParamTospForceWordbreakOnPunct = @"tosp_force_wordbreak_on_punct";
 NSString *const kG8ParamTospDontFoolWithSmallKerns = @"tosp_dont_fool_with_small_kerns";
 NSString *const kG8ParamTextordInitialxIle = @"textord_initialx_ile";
-NSString *const kG8ParamLanguageModelNgramUseOnlyFirstUft8Step = @"language_model_ngram_use_only_first_uft8_step";
+NSString *const kG8ParamLanguageModelNgramUseOnlyFirstUft8Step =
+    @"language_model_ngram_use_only_first_uft8_step";
 NSString *const kG8ParamTextordLmsLineTrials = @"textord_lms_line_trials";
 NSString *const kG8ParamTesseditBigramDebug = @"tessedit_bigram_debug";
 NSString *const kG8ParamDocDictPendingThreshold = @"doc_dict_pending_threshold";
@@ -443,7 +450,8 @@ NSString *const kG8ParamCrunchEarlyMergeTessFails = @"crunch_early_merge_tess_fa
 NSString *const kG8ParamTextordInterpolatingSkew = @"textord_interpolating_skew";
 NSString *const kG8ParamTesseditLowerFlipHyphen = @"tessedit_lower_flip_hyphen";
 NSString *const kG8ParamTospOnlySmallGapsForKern = @"tosp_only_small_gaps_for_kern";
-NSString *const kG8ParamMatcherSufficientExamplesForPrototyping = @"matcher_sufficient_examples_for_prototyping";
+NSString *const kG8ParamMatcherSufficientExamplesForPrototyping =
+    @"matcher_sufficient_examples_for_prototyping";
 NSString *const kG8ParamSuperscriptBetteredCertainty = @"superscript_bettered_certainty";
 NSString *const kG8ParamChopEnable = @"chop_enable";
 NSString *const kG8ParamCrunchTerribleGarbage = @"crunch_terrible_garbage";
@@ -463,7 +471,8 @@ NSString *const kG8ParamUserPatternsFile = @"user_patterns_file";
 NSString *const kG8ParamRejWholeOfMostlyRejectWordFract = @"rej_whole_of_mostly_reject_word_fract";
 NSString *const kG8ParamTextordExcessBlobsize = @"textord_excess_blobsize";
 NSString *const kG8ParamRepairUnchoppedBlobs = @"repair_unchopped_blobs";
-NSString *const kG8ParamStopperPhase2CertaintyRejectionOffset = @"stopper_phase2_certainty_rejection_offset";
+NSString *const kG8ParamStopperPhase2CertaintyRejectionOffset =
+    @"stopper_phase2_certainty_rejection_offset";
 NSString *const kG8ParamTextordBlshiftMaxshift = @"textord_blshift_maxshift";
 NSString *const kG8ParamTextordBlobSizeBigile = @"textord_blob_size_bigile";
 NSString *const kG8ParamMinSaneXHtPixels = @"min_sane_x_ht_pixels";

@@ -13,28 +13,27 @@ static float const kG8MinimalSimilarity = 0.99;
 @implementation NSData (G8Equal)
 
 - (float)g8_similarityWithData:(NSData *)data {
-  NSUInteger numDifferences = 0;
-  NSUInteger totalCompares = MIN(self.length, data.length);
-  
-  char *selfBytes = (char*)self.bytes;
-  char *otherBytes = (char*)data.bytes;
-  for (unsigned int i = 0; i < totalCompares; i++) {
-    if (selfBytes[i] != otherBytes[i]) {
-      numDifferences++;
+    NSUInteger numDifferences = 0;
+    NSUInteger totalCompares = MIN(self.length, data.length);
+
+    char *selfBytes = (char *)self.bytes;
+    char *otherBytes = (char *)data.bytes;
+    for (unsigned int i = 0; i < totalCompares; i++) {
+        if (selfBytes[i] != otherBytes[i]) {
+            numDifferences++;
+        }
     }
-  }
-  
-  return 1.0 - (float)numDifferences / totalCompares;
+
+    return 1.0 - (float)numDifferences / totalCompares;
 }
 
 - (BOOL)g8_isEqualToData:(NSData *)data {
-  
-  if (self == data) {
-    return YES;
-  }
-  
-  float similarity = [self g8_similarityWithData:data];
-  return similarity > kG8MinimalSimilarity;
+    if (self == data) {
+        return YES;
+    }
+
+    float similarity = [self g8_similarityWithData:data];
+    return similarity > kG8MinimalSimilarity;
 }
 
 @end

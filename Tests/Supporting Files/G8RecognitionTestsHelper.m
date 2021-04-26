@@ -21,8 +21,7 @@ static NSString *const kG8Languages = @"eng";
 
 @implementation G8RecognitionTestsHelper
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self != nil) {
         _engineMode = G8OCREngineModeTesseractOnly;
@@ -39,24 +38,23 @@ static NSString *const kG8Languages = @"eng";
     return self;
 }
 
-- (void)waitTimeLmit:(NSTimeInterval)maximumWait whileTrue:(BOOL (^)(void))shouldKeepRunning
-{
+- (void)waitTimeLmit:(NSTimeInterval)maximumWait whileTrue:(BOOL (^)(void))shouldKeepRunning {
     NSDate *deadlineDate = [NSDate dateWithTimeInterval:maximumWait sinceDate:[NSDate date]];
     BOOL isDeadline = NO;
     while (shouldKeepRunning != nil && shouldKeepRunning() && isDeadline == NO) {
-        if ([[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:deadlineDate] == NO) {
+        if ([[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                     beforeDate:deadlineDate] == NO) {
             break;
         }
         isDeadline = [[NSDate date] compare:deadlineDate] == NSOrderedDescending;
     }
 };
 
-- (void)setupTesseract
-{
+- (void)setupTesseract {
     if (self.tesseract == nil) {
         self.tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     }
-    
+
     self.tesseract.language = kG8Languages;
     self.tesseract.engineMode = self.engineMode;
     self.tesseract.pageSegmentationMode = self.pageSegmentationMode;
@@ -65,8 +63,7 @@ static NSString *const kG8Languages = @"eng";
     self.tesseract.maximumRecognitionTime = self.waitDeadline;
 };
 
-- (void)setupImage
-{
+- (void)setupImage {
     self.tesseract.image = self.image;
 
     if (CGRectEqualToRect(self.rect, CGRectZero) == NO) {
@@ -78,8 +75,7 @@ static NSString *const kG8Languages = @"eng";
     }
 }
 
-- (void)recognizeImage
-{
+- (void)recognizeImage {
     self.tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     [self setupTesseract];
     self.tesseract.delegate = self;
@@ -89,19 +85,19 @@ static NSString *const kG8Languages = @"eng";
     [self.tesseract recognize];
 };
 
-- (void)recognizeImageUsingOperation
-{
-    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] initWithLanguage:kG8Languages];
+- (void)recognizeImageUsingOperation {
+    G8RecognitionOperation *operation =
+        [[G8RecognitionOperation alloc] initWithLanguage:kG8Languages];
     operation.delegate = self;
     self.tesseract = operation.tesseract;
     [self setupTesseract];
-    
+
     [self setupImage];
-    
+
     __block BOOL recognitionCompleteBlockInvoked = NO;
     __block BOOL progressCallbackBlockInvoked = NO;
     // Set up callbacks to test that it's being called
-    operation.progressCallbackBlock = ^(G8Tesseract *tesseract){
+    operation.progressCallbackBlock = ^(G8Tesseract *tesseract) {
         progressCallbackBlockInvoked = YES;
     };
 
@@ -116,32 +112,37 @@ static NSString *const kG8Languages = @"eng";
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperation:operation];
 
-    [self waitTimeLmit:self.maxExpectedRecognitionTime whileTrue:^BOOL{
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
+    [self waitTimeLmit:self.maxExpectedRecognitionTime
+             whileTrue:^BOOL {
+                 __strong __typeof(weakSelf) strongSelf = weakSelf;
 
-        return (BOOL)(strongSelf.tesseract == nil);
-    }];
-    
+                 return (BOOL)(strongSelf.tesseract == nil);
+             }];
+
     if (self.tesseract == nil) {
         [NSException raise:@"Tesseract stopped" format:@"Tesseract worked too long"];
     }
-    
-    NSAssert(recognitionCompleteBlockInvoked == YES, @"Error! recognitionCompleteBlock has not been invoked");
-    NSAssert(progressCallbackBlockInvoked == YES, @"Error! progressCallbackBlock has not been invoked");
-    
-    NSAssert(self.progressDelegateCallbackCalledByQueue == YES, @"Error! progressImageRecognitionForTesseract has not been invoked by queue");
+
+    NSAssert(recognitionCompleteBlockInvoked == YES,
+             @"Error! recognitionCompleteBlock has not been invoked");
+    NSAssert(progressCallbackBlockInvoked == YES,
+             @"Error! progressCallbackBlock has not been invoked");
+
+    NSAssert(self.progressDelegateCallbackCalledByQueue == YES,
+             @"Error! progressImageRecognitionForTesseract has not been invoked by queue");
     self.progressDelegateCallbackCalledByQueue = NO;
-    
-    NSAssert(self.cancelDelegateCallbackCalledByQueue == YES, @"Error! shouldCancelImageRecognitionForTesseract has not been invoked by queue");
+
+    NSAssert(self.cancelDelegateCallbackCalledByQueue == YES,
+             @"Error! shouldCancelImageRecognitionForTesseract has not been invoked by queue");
     self.cancelDelegateCallbackCalledByQueue = NO;
-    
-    NSAssert(self.preprocessingDelegateCallbackCalledByQueue == YES, @"Error! preprocessedImageForTesseract has not been invoked by queue");
+
+    NSAssert(self.preprocessingDelegateCallbackCalledByQueue == YES,
+             @"Error! preprocessedImageForTesseract has not been invoked by queue");
     self.preprocessingDelegateCallbackCalledByQueue = NO;
 };
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-- (UIImage *)thresholdedImageForImage:(UIImage *)sourceImage
-{
+- (UIImage *)thresholdedImageForImage:(UIImage *)sourceImage {
     self.tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     [self setupTesseract];
     self.tesseract.delegate = self;
@@ -151,8 +152,7 @@ static NSString *const kG8Languages = @"eng";
     return self.tesseract.thresholdedImage;
 };
 #elif TARGET_OS_MAC
-- (NSImage *)thresholdedImageForImage:(NSImage *)sourceImage
-{
+- (NSImage *)thresholdedImageForImage:(NSImage *)sourceImage {
     self.tesseract = [[G8Tesseract alloc] initWithLanguage:kG8Languages];
     [self setupTesseract];
     self.tesseract.delegate = self;
@@ -163,23 +163,20 @@ static NSString *const kG8Languages = @"eng";
 };
 #endif
 
-
 #pragma mark - G8TesseractDelegate methods
 
-- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract
-{
+- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract {
     self.progressDelegateCallbackCalledByQueue = YES;
 }
 
-- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract
-{
+- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract {
     self.cancelDelegateCallbackCalledByQueue = YES;
     return NO;
 }
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-- (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(UIImage *)sourceImage
-{
+- (UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract
+                               sourceImage:(UIImage *)sourceImage {
     self.preprocessingDelegateCallbackCalledByQueue = YES;
 
     switch (self.customPreprocessingType) {
@@ -197,8 +194,8 @@ static NSString *const kG8Languages = @"eng";
     }
 }
 
-+ (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize
-{
++ (UIImage *)imageWithImage:(UIImage *)sourceImage
+    scaledToSizeWithSameAspectRatio:(CGSize)targetSize {
     CGSize imageSize = sourceImage.size;
     CGFloat width = imageSize.width;
     CGFloat height = imageSize.height;
@@ -215,18 +212,17 @@ static NSString *const kG8Languages = @"eng";
 
         if (widthFactor < heightFactor) {
             scaleFactor = widthFactor;
-        }
-        else {
+        } else {
             scaleFactor = heightFactor;
         }
 
-        scaledWidth  = width * scaleFactor;
+        scaledWidth = width * scaleFactor;
         scaledHeight = height * scaleFactor;
     }
 
     UIGraphicsBeginImageContext(CGSizeMake(scaledWidth, scaledHeight));
 
-    [sourceImage drawInRect: CGRectMake(0, 0, scaledWidth, scaledHeight)];
+    [sourceImage drawInRect:CGRectMake(0, 0, scaledWidth, scaledHeight)];
     UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
 
     UIGraphicsEndImageContext();
@@ -234,8 +230,8 @@ static NSString *const kG8Languages = @"eng";
     return smallImage;
 }
 #elif TARGET_OS_MAC
-- (NSImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract sourceImage:(NSImage *)sourceImage
-{
+- (NSImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract
+                               sourceImage:(NSImage *)sourceImage {
     self.preprocessingDelegateCallbackCalledByQueue = YES;
 
     switch (self.customPreprocessingType) {
@@ -253,8 +249,7 @@ static NSString *const kG8Languages = @"eng";
     }
 }
 
-+ (NSImage *)resizedImage:(NSImage *)sourceImage toPixelDimensions:(NSSize)newSize
-{
++ (NSImage *)resizedImage:(NSImage *)sourceImage toPixelDimensions:(NSSize)newSize {
     CGImageRef cgImg = [sourceImage CGImageForProposedRect:nil context:nil hints:nil];
 
     CGFloat width = (CGFloat)CGImageGetWidth(cgImg);
@@ -275,12 +270,11 @@ static NSString *const kG8Languages = @"eng";
 
         if (widthFactor < heightFactor) {
             scaleFactor = widthFactor;
-        }
-        else {
+        } else {
             scaleFactor = heightFactor;
         }
 
-        scaledWidth  = width * scaleFactor;
+        scaledWidth = width * scaleFactor;
         scaledHeight = height * scaleFactor;
     }
 
@@ -290,22 +284,25 @@ static NSString *const kG8Languages = @"eng";
         return nil;
     }
 
-    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
-                             initWithBitmapDataPlanes:NULL
-                             pixelsWide:scaledSize.width
-                             pixelsHigh:scaledSize.height
-                             bitsPerSample:8
-                             samplesPerPixel:4
-                             hasAlpha:YES
-                             isPlanar:NO
-                             colorSpaceName:NSCalibratedRGBColorSpace
-                             bytesPerRow:0
-                             bitsPerPixel:0];
+    NSBitmapImageRep *rep =
+        [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                pixelsWide:scaledSize.width
+                                                pixelsHigh:scaledSize.height
+                                             bitsPerSample:8
+                                           samplesPerPixel:4
+                                                  hasAlpha:YES
+                                                  isPlanar:NO
+                                            colorSpaceName:NSCalibratedRGBColorSpace
+                                               bytesPerRow:0
+                                              bitsPerPixel:0];
     rep.size = scaledSize;
 
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
-    [sourceImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height) fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
+    [sourceImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height)
+                   fromRect:NSZeroRect
+                  operation:NSCompositingOperationCopy
+                   fraction:1.0];
     [NSGraphicsContext restoreGraphicsState];
 
     NSImage *newImage = [[NSImage alloc] initWithSize:scaledSize];

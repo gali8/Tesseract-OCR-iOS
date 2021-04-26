@@ -23,7 +23,7 @@
 /**
  * Possible modes for page layout analysis.
  */
-typedef NS_ENUM(NSUInteger, G8PageSegmentationMode){
+typedef NS_ENUM(NSUInteger, G8PageSegmentationMode) {
     /**
      *  Orientation and script detection only.
      */
@@ -82,7 +82,7 @@ typedef NS_ENUM(NSUInteger, G8PageSegmentationMode){
  * When Tesseract/Cube is initialized we can choose to instantiate/load/run
  * only the Tesseract part, only the Cube part or both along with the combiner.
  */
-typedef NS_ENUM(NSUInteger, G8OCREngineMode){
+typedef NS_ENUM(NSUInteger, G8OCREngineMode) {
     /**
      *  Run Tesseract only - fastest
      */
@@ -95,13 +95,13 @@ typedef NS_ENUM(NSUInteger, G8OCREngineMode){
      *  Run both and combine results - best accuracy
      */
     G8OCREngineModeTesseractCubeCombined,
-//    G8OCREngineModeDefault,
+    //    G8OCREngineModeDefault,
 };
 
 /**
  *  Result iteration level
  */
-typedef NS_ENUM(NSUInteger, G8PageIteratorLevel){
+typedef NS_ENUM(NSUInteger, G8PageIteratorLevel) {
     /**
      *  Block of text/image/separator line.
      */
@@ -132,7 +132,7 @@ typedef NS_ENUM(NSUInteger, G8PageIteratorLevel){
  * so their "up" is the top of the page (page up).  The photo credit is read
  * with one's head turned leftward ("up" is to page left).
  */
-typedef NS_ENUM(NSUInteger, G8Orientation){
+typedef NS_ENUM(NSUInteger, G8Orientation) {
     G8OrientationPageUp,
     G8OrientationPageRight,
     G8OrientationPageDown,
@@ -147,7 +147,7 @@ typedef NS_ENUM(NSUInteger, G8Orientation){
  * For English text, the writing direction is left-to-right.  For the
  * Chinese text in the above example, the writing direction is top-to-bottom.
  */
-typedef NS_ENUM(NSUInteger, G8WritingDirection){
+typedef NS_ENUM(NSUInteger, G8WritingDirection) {
     G8WritingDirectionLeftToRight,
     G8WritingDirectionRightToLeft,
     G8WritingDirectionTopToBottom,

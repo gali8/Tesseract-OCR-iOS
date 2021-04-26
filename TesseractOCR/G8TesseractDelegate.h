@@ -17,7 +17,6 @@
 @class NSImage;
 #endif
 
-
 /**
  *  `G8TesseractDelegate` provides delegate methods for Tesseract recognition.
  */
@@ -31,7 +30,7 @@
  *
  *  @param tesseract The `G8Tesseract` object performing the recognition.
  */
-- (void)progressImageRecognitionForTesseract:(G8Tesseract * _Nonnull )tesseract;
+- (void)progressImageRecognitionForTesseract:(G8Tesseract *_Nonnull)tesseract;
 
 /**
  *  An optional method to be called periodically during recognition so
@@ -41,7 +40,7 @@
  *
  *  @return Whether or not to cancel the recognition in progress.
  */
-- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract * _Nonnull)tesseract;
+- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *_Nonnull)tesseract;
 
 /**
  *  An optional method to provide image preprocessing. To perform default
@@ -53,9 +52,11 @@
  *  @return Preprocessed `UIImage` or nil to perform default preprocessing.
  */
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-- (UIImage * _Nullable)preprocessedImageForTesseract:(G8Tesseract * _Nonnull)tesseract sourceImage:(UIImage * _Nonnull)sourceImage;
+- (UIImage *_Nullable)preprocessedImageForTesseract:(G8Tesseract *_Nonnull)tesseract
+                                        sourceImage:(UIImage *_Nonnull)sourceImage;
 #elif TARGET_OS_MAC
-- (NSImage * _Nullable)preprocessedImageForTesseract:(G8Tesseract * _Nonnull)tesseract sourceImage:(NSImage * _Nonnull)sourceImage;
+- (NSImage *_Nullable)preprocessedImageForTesseract:(G8Tesseract *_Nonnull)tesseract
+                                        sourceImage:(NSImage *_Nonnull)sourceImage;
 #endif
 
 @end

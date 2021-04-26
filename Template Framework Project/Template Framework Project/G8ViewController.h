@@ -7,8 +7,8 @@
 //  All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <TesseractOCR/TesseractOCR.h>
+#import <UIKit/UIKit.h>
 
 @interface G8ViewController : UIViewController <G8TesseractDelegate,
                                                 UIImagePickerControllerDelegate,

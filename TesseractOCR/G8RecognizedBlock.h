@@ -23,7 +23,7 @@
 @interface G8RecognizedBlock : NSObject <NSCopying>
 
 /**
- *  The text that Tesseract has recognized for this block. This string could 
+ *  The text that Tesseract has recognized for this block. This string could
  *  hold a single character, one word, or multiple words, depending on the
  *  resolution level of the block.
  */

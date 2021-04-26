@@ -16,4 +16,3 @@
 + (NSImage *)imageWithName:(NSString *)name;
 
 @end
- 

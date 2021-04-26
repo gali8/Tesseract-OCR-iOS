@@ -11,12 +11,13 @@
 @implementation G8HierarchicalRecognizedBlock
 
 - (instancetype)initWithBlock:(G8RecognizedBlock *)block {
-	self = [super initWithText:block.text boundingBox:block.boundingBox confidence:block.confidence level:block.level];
-	if(self) {
-
-	}
-	return self;
+    self = [super initWithText:block.text
+                   boundingBox:block.boundingBox
+                    confidence:block.confidence
+                         level:block.level];
+    if (self) {
+    }
+    return self;
 }
-
 
 @end
