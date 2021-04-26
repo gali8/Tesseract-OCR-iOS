@@ -134,16 +134,16 @@ $(libtess) : $(libtessmakefile)
 $(TESSERACT_SRC)/$(PLATFORM_PREFIX)/%/Makefile : $(libtessconfig) $(libleptfat)
 	export LIBS="-lz -lpng -ljpeg -ltiff -lwebp" ; \
 	export SDKROOT="$(call swap, $*, $(arch_names_all), $(sdks))" ; \
-	export CFLAGS="-I$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/ $(common_cflags) -fembed-bitcode" ; \
+	export CFLAGS="-I$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/include $(common_cflags) -fembed-bitcode" ; \
 	export CPPFLAGS=$$CFLAGS ; \
-	export CXXFLAGS="-I$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/ $(common_cflags) -Wno-deprecated-register"; \
+	export CXXFLAGS="-I$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/include $(common_cflags) -Wno-deprecated-register"; \
 	export LDFLAGS="-L$$SDKROOT/usr/lib/ -L$(LEPTON_SRC)/$(PLATFORM_PREFIX)/$*/src/.libs" ; \
 	export LIBLEPT_HEADERSDIR=$(TESSERACT_SRC)/$(PLATFORM_PREFIX)/$*/ ; \
 	export PKG_CONFIG_PATH=$(LEPTON_SRC)/$(PLATFORM_PREFIX)/$*/ ; \
 	mkdir -p $(@D) ; \
 	cd $(@D) ; \
 	ln -s $(LEPTON_SRC)/src/ leptonica ; \
-	../../configure --host=$* --prefix=`pwd`/output --enable-shared=no --disable-graphics
+	../../configure --host=$* --prefix=`pwd`/output --enable-shared=no --disable-graphics --with-curl=no
 
 $(libtessconfig) : $(libtessautogen)
 	cd $(@D) && ./autogen.sh 2> /dev/null
