@@ -9,6 +9,8 @@
 #ifndef Tesseract_OCR_iOS_G8TesseractDelegate_h
 #define Tesseract_OCR_iOS_G8TesseractDelegate_h
 
+#import <Foundation/Foundation.h>
+
 @class G8Tesseract;
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
@@ -16,6 +18,8 @@
 #elif TARGET_OS_MAC
 @class NSImage;
 #endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  `G8TesseractDelegate` provides delegate methods for Tesseract recognition.
@@ -30,7 +34,7 @@
  *
  *  @param tesseract The `G8Tesseract` object performing the recognition.
  */
-- (void)progressImageRecognitionForTesseract:(G8Tesseract *_Nonnull)tesseract;
+- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract;
 
 /**
  *  An optional method to be called periodically during recognition so
@@ -40,7 +44,7 @@
  *
  *  @return Whether or not to cancel the recognition in progress.
  */
-- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *_Nonnull)tesseract;
+- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract;
 
 /**
  *  An optional method to provide image preprocessing. To perform default
@@ -52,13 +56,15 @@
  *  @return Preprocessed `UIImage` or nil to perform default preprocessing.
  */
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-- (UIImage *_Nullable)preprocessedImageForTesseract:(G8Tesseract *_Nonnull)tesseract
-                                        sourceImage:(UIImage *_Nonnull)sourceImage;
+- (nullable UIImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract
+                                        sourceImage:(UIImage *)sourceImage;
 #elif TARGET_OS_MAC
-- (NSImage *_Nullable)preprocessedImageForTesseract:(G8Tesseract *_Nonnull)tesseract
-                                        sourceImage:(NSImage *_Nonnull)sourceImage;
+- (nullable NSImage *)preprocessedImageForTesseract:(G8Tesseract *)tesseract
+                                        sourceImage:(NSImage *)sourceImage;
 #endif
 
 @end
 
 #endif
+
+NS_ASSUME_NONNULL_END

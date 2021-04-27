@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#import <TesseractOCR/TesseractOCR.h>
+#import <TesseractOCR/G8RecognizedBlock.h>
 #elif TARGET_OS_MAC
-#import <TesseractOCRmacOS/TesseractOCR.h>
+#import <TesseractOCRmacOS/G8RecognizedBlock.h>
 #endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface G8HierarchicalRecognizedBlock : G8RecognizedBlock
 
@@ -59,3 +62,5 @@
 - (instancetype)initWithBlock:(G8RecognizedBlock *)block;
 
 @end
+
+NS_ASSUME_NONNULL_END

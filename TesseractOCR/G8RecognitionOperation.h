@@ -7,12 +7,19 @@
 //  All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#import <TesseractOCR/G8Tesseract.h>
+#import <TesseractOCR/G8TesseractDelegate.h>
 #import <UIKit/UIKit.h>
 #elif TARGET_OS_MAC
 #import <AppKit/AppKit.h>
+#import <TesseractOCRmacOS/G8Tesseract.h>
+#import <TesseractOCRmacOS/G8TesseractDelegate.h>
 #endif
-#import "G8Tesseract.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The type of a block function that can be used as a callback for the
@@ -31,7 +38,7 @@ typedef void (^G8RecognitionOperationCallback)(G8Tesseract *_Nullable tesseract)
 /**
  *  The `G8Tesseract` object performing the recognition.
  */
-@property (nonatomic, strong, readonly, nonnull) G8Tesseract *tesseract;
+@property (nonatomic, strong, readonly) G8Tesseract *tesseract;
 
 /**
  *  An optional delegate for Tesseract's recognition.
@@ -63,7 +70,7 @@ typedef void (^G8RecognitionOperationCallback)(G8Tesseract *_Nullable tesseract)
 
 /// The default initializer should not be used since the language Tesseract
 /// uses needs to be explicit.
-- (instancetype _Nonnull)init __attribute__((unavailable("Use initWithLanguage:language instead")));
+- (instancetype)init __attribute__((unavailable("Use initWithLanguage:language instead")));
 
 /**
  *  Initialize a G8RecognitionOperation with the provided language.
@@ -73,12 +80,14 @@ typedef void (^G8RecognitionOperationCallback)(G8Tesseract *_Nullable tesseract)
  *  @return The initialized G8RecognitionOperation object, or `nil` if there
  *          was an error.
  */
-- (id _Nullable)initWithLanguage:(nonnull NSString *)language;
+- (id _Nullable)initWithLanguage:(NSString *)language;
 
-- (id _Nullable)initWithLanguage:(nonnull NSString *)language
+- (id _Nullable)initWithLanguage:(NSString *)language
                 configDictionary:(nullable NSDictionary *)configDictionary
                  configFileNames:(nullable NSArray *)configFileNames
                 absoluteDataPath:(nullable NSString *)absoluteDataPath
                       engineMode:(G8OCREngineMode)engineMode;
 
 @end
+
+NS_ASSUME_NONNULL_END

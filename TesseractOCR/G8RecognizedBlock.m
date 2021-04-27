@@ -15,13 +15,6 @@
 
 @implementation G8RecognizedBlock
 
-- (instancetype)init {
-    return [self initWithText:nil
-                  boundingBox:CGRectZero
-                   confidence:0.0f
-                        level:G8PageIteratorLevelBlock];
-}
-
 - (instancetype)initWithText:(NSString *)text
                  boundingBox:(CGRect)boundingBox
                   confidence:(CGFloat)confidence

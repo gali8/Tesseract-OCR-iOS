@@ -8,13 +8,16 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#import <TesseractOCR/G8Constants.h>
 #import <UIKit/UIKit.h>
 #elif TARGET_OS_MAC
 #import <AppKit/AppKit.h>
+#import <TesseractOCRmacOS/G8Constants.h>
 #endif
 
-#import "G8Constants.h"
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  `G8RecognizedBlock` is a data structure that provides information about a
@@ -78,3 +81,5 @@
 - (CGRect)boundingBoxAtImageOfSize:(CGSize)imageSize;
 
 @end
+
+NS_ASSUME_NONNULL_END

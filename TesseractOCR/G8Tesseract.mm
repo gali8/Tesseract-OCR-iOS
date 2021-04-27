@@ -7,12 +7,6 @@
 //  Under MIT License. See 'LICENCE' for more informations.
 //
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#import <UIKit/UIKit.h>
-#elif TARGET_OS_MAC
-#import <AppKit/AppKit.h>
-#endif
-
 #import "G8Tesseract.h"
 
 #import "G8Constants.h"
@@ -107,28 +101,28 @@ class TessBaseAPI;
     return [self initWithLanguage:language engineMode:G8OCREngineModeTesseractOnly];
 }
 
-- (instancetype)initWithLanguage:(NSString *)language engineMode:(G8OCREngineMode)engineMode {
+- (instancetype)initWithLanguage:(nullable NSString *)language engineMode:(G8OCREngineMode)engineMode {
     return [self initWithLanguage:language
-                 configDictionary:@{}
-                  configFileNames:@[]
+                 configDictionary:nil
+                  configFileNames:nil
                  absoluteDataPath:nil
                        engineMode:engineMode];
 }
 
-- (instancetype)initWithLanguage:(NSString *)language
-                configDictionary:(NSDictionary *)configDictionary
-                 configFileNames:(NSArray *)configFileNames
-           cachesRelatedDataPath:(NSString *)cachesRelatedPath
+- (instancetype)initWithLanguage:(nullable NSString *)language
+                configDictionary:(nullable NSDictionary *)configDictionary
+                 configFileNames:(nullable NSArray *)configFileNames
+          cachesRelativeDataPath:(nullable NSString *)cachesRelativeDataPath
                       engineMode:(G8OCREngineMode)engineMode {
     NSString *absoluteDataPath = nil;
 
-    if (cachesRelatedPath != nil) {
+    if (cachesRelativeDataPath != nil) {
         // config Tesseract to search trainedData in tessdata folder of the Caches folder
         NSArray *cachesPaths =
             NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSString *cachesPath = cachesPaths.firstObject;
 
-        absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelatedPath].copy;
+        absoluteDataPath = [cachesPath stringByAppendingPathComponent:cachesRelativeDataPath].copy;
     }
 
     return [self initWithLanguage:language
@@ -138,10 +132,10 @@ class TessBaseAPI;
                        engineMode:engineMode];
 }
 
-- (instancetype)initWithLanguage:(NSString *)language
-                configDictionary:(NSDictionary *)configDictionary
-                 configFileNames:(NSArray *)configFileNames
-                absoluteDataPath:(NSString *)absoluteDataPath
+- (instancetype)initWithLanguage:(nullable NSString *)language
+                configDictionary:(nullable NSDictionary *)configDictionary
+                 configFileNames:(nullable NSArray *)configFileNames
+                absoluteDataPath:(nullable NSString *)absoluteDataPath
                       engineMode:(G8OCREngineMode)engineMode {
     self = [super init];
 
@@ -155,8 +149,8 @@ class TessBaseAPI;
         _monitor->cancel = tesseractCancelCallbackFunction;
         _monitor->cancel_this = (__bridge void *)self;
 
-        _configDictionary = configDictionary;
-        _configFileNames = configFileNames;
+        _configDictionary = configDictionary == nil ? @{} : configDictionary;
+        _configFileNames = configFileNames == nil ? @[] : configFileNames;
 
         if (absoluteDataPath != nil) {
             [self moveTessdataToDirectoryIfNecessary:absoluteDataPath];
@@ -1496,7 +1490,7 @@ class TessBaseAPI;
     size_t bytesPerRow = CGImageGetBytesPerRow(cgImage);
 
     int bpp = MAX(1, (int)bitsPerPixel);
-    Pix *pix = pixCreate(width, height, bpp == 24 ? 32 : bpp);
+    Pix *pix = pixCreate((int)width, (int)height, bpp == 24 ? 32 : bpp);
     l_uint32 *data = pixGetData(pix);
     int wpl = pixGetWpl(pix);
 

@@ -9,7 +9,9 @@
 
 #import "G8RecognitionOperation.h"
 
-#import "TesseractOCR.h"
+#import "G8Constants.h"
+#import "G8Tesseract.h"
+#import "G8TesseractDelegate.h"
 
 @interface G8RecognitionOperation () <G8TesseractDelegate> {
     G8Tesseract *_tesseract;
