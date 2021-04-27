@@ -107,7 +107,7 @@ libwebp    = $(addprefix $(IMAGE_LIB_DIR), $(libwebpfiles))
 
 dependant_libs = $(libpngfat) $(libjpegfat) $(libtifffat) $(libwebpfat) $(libleptfat) $(libtessfat)
 
-common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -pipe -no-cpp-precomp -isysroot $$SDKROOT -m$(PLATFORM_VERSION_MIN) -O2
+common_cflags = -L$(LIB_FAT_DIR) -Qunused-arguments -arch $(call swap, $*, $(arch_names_all), $(archs_all)) -isysroot $$SDKROOT -m$(PLATFORM_VERSION_MIN) -O2
 
 ifneq (,$(filter $(platform),ios macos))
 .PHONY : all
